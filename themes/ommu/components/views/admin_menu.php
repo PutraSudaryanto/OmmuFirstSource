@@ -1,28 +1,28 @@
 <?php
+	$menuRender = 0;
 	if(($module == null && in_array($controller, array('admin','comment','reply','author'))) || ($module != null && (in_array($module, array('report')) || ($module == 'support' && (!in_array($currentAction, array('mail/setting')) && !in_array($controller, array('contact','contactcategory'))))))) {
-		$dashboard = 'class="active"';
-		$title = 'Mainmenu';
+		$menuRender = 1;
+		$title = 'Submenu';
 		
 	} elseif($module == null && in_array($controller, array('page','translate','globaltag','contentmenu','pluginmenu','anotherdetail'))) {
-		$pages = 'class="active"';
-		$title = 'Mainmenu';
+		$menuRender = 2;
+		$title = 'Submenu';
 		
 	} elseif($module != null && $module == 'users') {
-		$member = 'class="active"';
-		$title = 'Mainmenu';
+		$menuRender = 3;
+		$title = 'Submenu';
 		
 	} elseif($module == null && in_array($controller, array('module','settings','language','phrase','theme','locale','pluginphrase','meta','template')) || ($module != null && ($module == 'support' && (in_array($currentAction, array('mail/setting')) || in_array($controller, array('contact','contactcategory')))))) {
-		$settings = 'class="active"';
-		$title = 'Mainmenu';
+		$menuRender = 4;
+		$title = 'Submenu';
 	}
 ?>
 
 <?php //begin.Main Menu ?>
 <div class="mainmenu">
 	<ul class="clearfix">
-		<li <?php echo $dashboard; ?>><a class="dashboard" href="<?php echo Yii::app()->createUrl('admin/index');?>" title="<?php echo Phrase::trans(132,0);?>"><?php echo Phrase::trans(132,0);?></a></li>
-		<li <?php echo $pages; ?>><a class="content" href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Phrase::trans(136,0);?>"><?php echo Phrase::trans(136,0);?></a></li>
-		
+		<li <?php echo $menuRender == 1 ? 'class="active"' : ''; ?>><a class="dashboard" href="<?php echo Yii::app()->createUrl('admin/index');?>" title="<?php echo Phrase::trans(132,0);?>"><?php echo Phrase::trans(132,0);?></a></li>
+		<li <?php echo $menuRender == 2 ? 'class="active"' : ''; ?>><a class="content" href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Phrase::trans(136,0);?>"><?php echo Phrase::trans(136,0);?></a></li>
 		<?php 
 			$plugin = OmmuPlugins::getPlugin(1);
 			if($plugin != null) {
@@ -80,8 +80,8 @@
 				}
 			}
 		?>
-		<li <?php echo $member; ?>><a class="member" href="<?php echo ($setting->site_type == 1 || Yii::app()->user->level != 1) ? Yii::app()->createUrl('users/member/manage') : Yii::app()->createUrl('users/admin/manage') ?>" title="<?php echo Phrase::trans(16002,1);?>"><?php echo Phrase::trans(16002,1);?></a></li>
-		<li <?php echo $settings; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('module/manage') : Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(133,0);?>"><?php echo Phrase::trans(133,0);?></a></li>
+		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo ($setting->site_type == 1 || Yii::app()->user->level != 1) ? Yii::app()->createUrl('users/member/manage') : Yii::app()->createUrl('users/admin/manage') ?>" title="<?php echo Phrase::trans(16002,1);?>"><?php echo Phrase::trans(16002,1);?></a></li>
+		<li <?php echo $menuRender == 4 ? 'class="active"' : ''; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('module/manage') : Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(133,0);?>"><?php echo Phrase::trans(133,0);?></a></li>
 	</ul>
 </div>
 <?php //end.Main Menu ?>
@@ -90,8 +90,7 @@
 <div class="submenu">
 	<h3><?php echo $title;?></h3>
 	<ul>
-	<?php //Begin.Dashboard ?>
-	<?php if(($module == null && in_array($controller, array('admin','comment','reply','author'))) || ($module != null && (in_array($module, array('report')) || ($module == 'support' && (!in_array($currentAction, array('mail/setting')) && !in_array($controller, array('contact','contactcategory'))))))) {?>
+	<?php if($menuRender == 1) { //Begin.Dashboard ?>
 		<li <?php echo $currentAction == 'admin/dashboard' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('admin/dashboard');?>" title="<?php echo Phrase::trans(330,0);?>"><?php echo Phrase::trans(330,0);?></a></li>
 		<?php if(Yii::app()->user->level == 1) {
 			$core = OmmuPlugins::getPlugin(2);
@@ -144,11 +143,8 @@
 				}
 			}
 			
-		} else {?>
-			<li <?php echo $currentModule == 'support/mail' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('support/mail/manage');?>" title="<?php echo Phrase::trans(23000,1);?>"><?php echo Phrase::trans(23000,1);?></a></li>
-			<li <?php echo $currentModule == 'report/admin' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('report/admin/manage');?>" title="<?php echo Phrase::trans(12000,1);?>"><?php echo Phrase::trans(12000,1);?></a></li>
-		<?php }?>
-		<?php if($setting->site_type == 1) {?>
+		}
+		if($setting->site_type == 1) {?>
 			<li <?php echo ($module == null && in_array($controller, array('comment','reply','author'))) ? 'class="submenu-show"' : '';?>>
 				<a href="<?php echo ($module == null && in_array($controller, array('comment','reply','author'))) ? 'javascript:void(0);' : Yii::app()->createUrl('comment/manage');?>" title="<?php echo Phrase::trans(384,0);?>"><?php echo Phrase::trans(384,0);?></a>
 				<?php if($module == null && in_array($controller, array('comment','reply','author'))) {?>
@@ -163,8 +159,7 @@
 		<li><a href="<?php echo Yii::app()->createUrl('users/admin/edit')?>" title="<?php echo Phrase::trans(16222,1).': '.Yii::app()->user->displayname;?>"><?php echo Phrase::trans(16222,1);?></a></li>
 		<li><a href="<?php echo Yii::app()->createUrl('users/admin/password')?>" title="<?php echo Phrase::trans(16122,1).': '.Yii::app()->user->displayname;?>"><?php echo Phrase::trans(16122,1);?></a></li>
 
-	<?php //Begin.Content ?>
-	<?php } elseif($module == null && in_array($controller, array('page','translate','globaltag','contentmenu','pluginmenu','anotherdetail'))) {?>
+	<?php } elseif($menuRender == 2) { //Begin.Content ?>
 		<li <?php echo $controller == 'page' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Phrase::trans(134,0);?>"><?php echo Phrase::trans(134,0);?></a></li>
 		<li <?php echo $controller == 'globaltag' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('globaltag/manage');?>" title="<?php echo Phrase::trans(494,0);?>"><?php echo Phrase::trans(494,0);?></a></li>
 		<?php if(Yii::app()->user->level == 1) {
@@ -178,7 +173,6 @@
 		<?php }?>
 		<li <?php echo $controller == 'translate' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('translate/manage');?>" title="<?php echo Phrase::trans(351,0);?>"><?php echo Phrase::trans(351,0);?></a></li>
 
-	<?php //Begin.Module ?>
 	<?php } elseif($module != null && !in_array($module, array('users','report','support'))) {?>
 		<?php 
 		$menu = OmmuPluginMenu::model()->findAll(array(
@@ -284,9 +278,8 @@
 			}
 		}
 		?>
-
-	<?php //Begin.Users ?>
-	<?php } elseif($module != null && $module == 'users') {?>
+		
+	<?php } elseif($menuRender == 3) { //Begin.Member ?>
 		<?php if(Yii::app()->user->level == 1) {?>
 		<li <?php echo $controller == 'admin' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('users/admin/manage');?>" title="<?php echo Phrase::trans(16003,1);?>"><?php echo Phrase::trans(16003,1);?></a></li>
 		<?php }?>
@@ -314,9 +307,8 @@
 			*/?>
 			<?php }
 		}?>
-
-	<?php //Begin.Setting ?>
-	<?php } elseif($module == null && in_array($controller, array('module','settings','language','phrase','theme','locale','pluginphrase','meta','template')) || ($module != null && ($module == 'support' && (in_array($currentAction, array('mail/setting')) || in_array($controller, array('contact','contactcategory')))))) {?>
+		
+	<?php } elseif($menuRender == 4) { //Begin.Setting ?>
 		<?php if(Yii::app()->user->level == 1) {?>
 			<?php if($setting->site_admin == 1) {?>
 				<li <?php echo $controller == 'module' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('module/manage');?>" title="<?php echo Phrase::trans(135,0);?>"><?php echo Phrase::trans(135,0);?></a></li>
