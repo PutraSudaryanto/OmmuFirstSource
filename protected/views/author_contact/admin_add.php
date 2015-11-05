@@ -1,0 +1,18 @@
+<?php
+/**
+ * Ommu Author Contacts (ommu-author-contact)
+ * @var $this AuthorcontactController * @var $model OmmuAuthorContact *
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2014 Ommu Platform (ommu.co)
+ * @link http://company.ommu.co
+ * @contect (+62)856-299-4114
+ *
+ */
+
+	$this->breadcrumbs=array(
+		'Ommu Author Contacts'=>array('manage'),
+		'Create',
+	);
+?>
+
+<?php echo $this->renderPartial('/author_contact/_form', array('model'=>$model)); ?>
