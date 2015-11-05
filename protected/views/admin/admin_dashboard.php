@@ -18,9 +18,27 @@
 
 <div class="table">
 	<div class="wall">
-		1
+		<?php //begin.PostStatus ?>
+		<?php echo $this->renderPartial('/wall/_form_dashboard', array(
+			'model'=>$model,
+		)); ?>
+		
+		<?php //begin.Status List-View ?>
+		<div class="list-view">
+			<div class="items wall">
+				<?php echo $data;?>
+			</div>
+			<div class="paging clearfix">
+				<span><?php echo $summaryPager;?></span>
+				<?php if($pager[nextPage] != '0') {?>
+					<a class="wall" href="<?php echo $nextPager;?>" title="Readmore">Readmore</a>
+				<?php }?>
+			</div>
+		</div>
 	</div>
 	<div class="recent">
-		2
+		<?php //begin.Oauth?>
+		<div class="oauth">
+		</div>
 	</div>
 </div>
