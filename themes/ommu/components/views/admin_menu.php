@@ -4,7 +4,7 @@
 		$menuRender = 1;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('page','translate','globaltag','contentmenu','pluginmenu','anotherdetail'))) {
+	} elseif($module == null && in_array($controller, array('page','contentmenu','pluginmenu','module','globaltag','anotherdetail','translate'))) {
 		$menuRender = 2;
 		$title = 'Submenu';
 		
@@ -12,7 +12,7 @@
 		$menuRender = 3;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('module','settings','language','phrase','theme','locale','pluginphrase','meta','template')) || ($module != null && ($module == 'support' && (in_array($currentAction, array('mail/setting')) || in_array($controller, array('contact','contactcategory')))))) {
+	} elseif($module == null && in_array($controller, array('settings','language','phrase','theme','locale','pluginphrase','meta','template')) || ($module != null && ($module == 'support' && (in_array($currentAction, array('mail/setting')) || in_array($controller, array('contact','contactcategory')))))) {
 		$menuRender = 4;
 		$title = 'Submenu';
 	}
@@ -81,7 +81,7 @@
 			}
 		?>
 		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo ($setting->site_type == 1 || Yii::app()->user->level != 1) ? Yii::app()->createUrl('users/member/manage') : Yii::app()->createUrl('users/admin/manage') ?>" title="<?php echo Phrase::trans(16002,1);?>"><?php echo Phrase::trans(16002,1);?></a></li>
-		<li <?php echo $menuRender == 4 ? 'class="active"' : ''; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('module/manage') : Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(133,0);?>"><?php echo Phrase::trans(133,0);?></a></li>
+		<li <?php echo $menuRender == 4 ? 'class="active"' : ''; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('settings/general') : Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(133,0);?>"><?php echo Phrase::trans(133,0);?></a></li>
 	</ul>
 </div>
 <?php //end.Main Menu ?>
@@ -161,13 +161,12 @@
 
 	<?php } elseif($menuRender == 2) { //Begin.Content ?>
 		<li <?php echo $controller == 'page' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Phrase::trans(134,0);?>"><?php echo Phrase::trans(134,0);?></a></li>
-		<li <?php echo $controller == 'globaltag' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('globaltag/manage');?>" title="<?php echo Phrase::trans(494,0);?>"><?php echo Phrase::trans(494,0);?></a></li>
-		<?php if(Yii::app()->user->level == 1) {
-			if($setting->site_admin == 1) {?>
+		<?php if(Yii::app()->user->level == 1 && $setting->site_admin == 1) {?>
 			<li <?php echo $controller == 'contentmenu' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('contentmenu/manage');?>" title="<?php echo Phrase::trans(205,0);?>"><?php echo Phrase::trans(205,0);?></a></li>
 			<li <?php echo $controller == 'pluginmenu' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('pluginmenu/manage');?>" title="<?php echo Phrase::trans(272,0);?>"><?php echo Phrase::trans(272,0);?></a></li>
-		<?php }
-		}?>
+			<li <?php echo $controller == 'module' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('module/manage');?>" title="<?php echo Phrase::trans(135,0);?>"><?php echo Phrase::trans(135,0);?></a></li>
+		<?php }?>
+		<li <?php echo $controller == 'globaltag' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('globaltag/manage');?>" title="<?php echo Phrase::trans(494,0);?>"><?php echo Phrase::trans(494,0);?></a></li>		
 		<?php if($setting->site_type == 1) {?>
 			<li <?php echo $controller == 'anotherdetail' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('anotherdetail/manage');?>" title="<?php echo Phrase::trans(360,0);?>"><?php echo Phrase::trans(360,0);?></a></li>			
 		<?php }?>
@@ -310,9 +309,6 @@
 		
 	<?php } elseif($menuRender == 4) { //Begin.Setting ?>
 		<?php if(Yii::app()->user->level == 1) {?>
-			<?php if($setting->site_admin == 1) {?>
-				<li <?php echo $controller == 'module' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('module/manage');?>" title="<?php echo Phrase::trans(135,0);?>"><?php echo Phrase::trans(135,0);?></a></li>
-			<?php }?>
 			<li <?php echo $currentAction == 'settings/general' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/general');?>" title="<?php echo Phrase::trans(94,0);?>"><?php echo Phrase::trans(94,0);?></a></li>
 			<?php if($setting->site_type == 1) {?>
 				<li <?php echo $currentAction == 'settings/banned' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/banned');?>" title="<?php echo Phrase::trans(63,0);?>"><?php echo Phrase::trans(63,0);?></a></li>
