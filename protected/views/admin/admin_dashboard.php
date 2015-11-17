@@ -18,7 +18,9 @@
 
 <div class="table">
 	<div class="wall">
+		administrator
 		<?php //begin.PostStatus ?>
+		<?php /*
 		<?php echo $this->renderPartial('/wall/_form_dashboard', array(
 			'model'=>$model,
 		)); ?>
@@ -35,10 +37,9 @@
 				<?php }?>
 			</div>
 		</div>
+		*/?>
 	</div>
 	<div class="recent">
-		<?php //begin.Oauth?>
-		<div class="oauth">
-		</div>
+		sidebar
 	</div>
 </div>

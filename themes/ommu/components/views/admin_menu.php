@@ -1,10 +1,10 @@
 <?php
 	$menuRender = 0;
-	if(($module == null && in_array($controller, array('admin','comment','reply','author'))) || ($module != null && (in_array($module, array('report')) || ($module == 'support' && (!in_array($currentAction, array('mail/setting')) && !in_array($controller, array('contact','contactcategory'))))))) {
+	if(($module == null && in_array($controller, array('admin'))) || ($module != null && (in_array($module, array('report')) || ($module == 'support' && (!in_array($currentAction, array('mail/setting')) && !in_array($controller, array('contact','contactcategory'))))))) {
 		$menuRender = 1;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('page','contentmenu','pluginmenu','module','globaltag','anotherdetail','translate'))) {
+	} elseif($module == null && in_array($controller, array('page','contentmenu','pluginmenu','module','globaltag','anotherdetail','author','authorcontact','translate'))) {
 		$menuRender = 2;
 		$title = 'Submenu';
 		
@@ -29,10 +29,11 @@
 				foreach($plugin as $key => $val) {
 					$menu = OmmuPluginMenu::model()->findAll(array(
 						//'select' => 'name, module, url, dialog',
-						'condition' => 'module = :module AND enabled = :enabled',
+						'condition' => 'module = :module AND enabled = :enabled AND FIND_IN_SET(:userlevel,userlevel_access)',
 						'params' => array(
 							':module' => $val->folder,
 							':enabled' => 1,
+							':userlevel' => Yii::app()->user->level,
 						),
 						'order'=> 'orders ASC',
 					));
@@ -80,7 +81,7 @@
 				}
 			}
 		?>
-		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo ($setting->site_type == 1 || Yii::app()->user->level != 1) ? Yii::app()->createUrl('users/member/manage') : Yii::app()->createUrl('users/admin/manage') ?>" title="<?php echo Phrase::trans(16002,1);?>"><?php echo Phrase::trans(16002,1);?></a></li>
+		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo ($setting->site_type == 1 && Yii::app()->user->level != 1) ? Yii::app()->createUrl('users/member/manage') : Yii::app()->createUrl('users/admin/manage') ?>" title="<?php echo Phrase::trans(16002,1);?>"><?php echo Phrase::trans(16002,1);?></a></li>
 		<li <?php echo $menuRender == 4 ? 'class="active"' : ''; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('settings/general') : Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(133,0);?>"><?php echo Phrase::trans(133,0);?></a></li>
 	</ul>
 </div>
@@ -98,10 +99,11 @@
 				foreach($core as $key => $val) {
 					$menu = OmmuPluginMenu::model()->findAll(array(
 						//'select' => 'name, module, url, dialog',
-						'condition' => 'module = :module AND enabled = :enabled',
+						'condition' => 'module = :module AND enabled = :enabled AND FIND_IN_SET(:userlevel,userlevel_access)',
 						'params' => array(
 							':module' => $val->folder,
 							':enabled' => 1,
+							':userlevel' => Yii::app()->user->level,
 						),
 						'order'=> 'orders ASC',
 					));
@@ -143,19 +145,7 @@
 				}
 			}
 			
-		}
-		if($setting->site_type == 1) {?>
-			<li <?php echo ($module == null && in_array($controller, array('comment','reply','author'))) ? 'class="submenu-show"' : '';?>>
-				<a href="<?php echo ($module == null && in_array($controller, array('comment','reply','author'))) ? 'javascript:void(0);' : Yii::app()->createUrl('comment/manage');?>" title="<?php echo Phrase::trans(384,0);?>"><?php echo Phrase::trans(384,0);?></a>
-				<?php if($module == null && in_array($controller, array('comment','reply','author'))) {?>
-				<ul>
-					<li <?php echo $controller == 'comment' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('comment/manage');?>" title="<?php echo Phrase::trans(375,0);?>"><span class="icons">C</span><?php echo Phrase::trans(375,0);?></a></li>
-					<li <?php echo $controller == 'reply' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('reply/manage');?>" title="<?php echo Phrase::trans(380,0);?>"><span class="icons">C</span><?php echo Phrase::trans(380,0);?></a></li>
-					<li <?php echo $controller == 'author' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('author/manage');?>" title="<?php echo Phrase::trans(385,0);?>"><span class="icons">C</span><?php echo Phrase::trans(385,0);?></a></li>
-				</ul>
-				<?php }?>
-			</li>
-		<?php }?>
+		}?>
 		<li><a href="<?php echo Yii::app()->createUrl('users/admin/edit')?>" title="<?php echo Phrase::trans(16222,1).': '.Yii::app()->user->displayname;?>"><?php echo Phrase::trans(16222,1);?></a></li>
 		<li><a href="<?php echo Yii::app()->createUrl('users/admin/password')?>" title="<?php echo Phrase::trans(16122,1).': '.Yii::app()->user->displayname;?>"><?php echo Phrase::trans(16122,1);?></a></li>
 
@@ -168,7 +158,16 @@
 		<?php }?>
 		<li <?php echo $controller == 'globaltag' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('globaltag/manage');?>" title="<?php echo Phrase::trans(494,0);?>"><?php echo Phrase::trans(494,0);?></a></li>		
 		<?php if($setting->site_type == 1) {?>
-			<li <?php echo $controller == 'anotherdetail' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('anotherdetail/manage');?>" title="<?php echo Phrase::trans(360,0);?>"><?php echo Phrase::trans(360,0);?></a></li>			
+			<li <?php echo $controller == 'anotherdetail' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('anotherdetail/manage');?>" title="<?php echo Phrase::trans(360,0);?>"><?php echo Phrase::trans(360,0);?></a></li>
+			<li <?php echo ($module == null && in_array($controller, array('author','authorcontact'))) ? 'class="submenu-show"' : '';?>>
+				<a href="<?php echo ($module == null && in_array($controller, array('author','authorcontact'))) ? 'javascript:void(0);' : Yii::app()->createUrl('author/manage');?>" title="<?php echo Phrase::trans(385,0);?>"><?php echo Phrase::trans(385,0);?></a>
+				<?php if($module == null && in_array($controller, array('author','authorcontact'))) {?>
+				<ul>
+					<li <?php echo $controller == 'author' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('author/manage');?>" title="Author"><span class="icons">C</span>Author</a></li>
+					<li <?php echo $controller == 'authorcontact' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('authorcontact/manage');?>" title="Author Contact"><span class="icons">C</span>Author Contact</a></li>
+				</ul>
+				<?php }?>
+			</li>
 		<?php }?>
 		<li <?php echo $controller == 'translate' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('translate/manage');?>" title="<?php echo Phrase::trans(351,0);?>"><?php echo Phrase::trans(351,0);?></a></li>
 
@@ -277,36 +276,42 @@
 			}
 		}
 		?>
-		
+
 	<?php } elseif($menuRender == 3) { //Begin.Member ?>
 		<?php if(Yii::app()->user->level == 1) {?>
-		<li <?php echo $controller == 'admin' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('users/admin/manage');?>" title="<?php echo Phrase::trans(16003,1);?>"><?php echo Phrase::trans(16003,1);?></a></li>
+			<li <?php echo $controller == 'admin' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('users/admin/manage');?>" title="<?php echo Phrase::trans(16003,1);?>"><?php echo Phrase::trans(16003,1);?></a></li>
 		<?php }?>
 		<li <?php echo $controller == 'member' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('users/member/manage');?>" title="<?php echo Phrase::trans(16001,1);?>"><?php echo Phrase::trans(16001,1);?></a>
 		</li>
-		<?php if($setting->site_admin == 1) {?>
+		<?php if(Yii::app()->user->level == 1) {?>
 			<li <?php echo $controller == 'level' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('level/manage');?>" title="<?php echo Phrase::trans(16004,1);?>"><?php echo Phrase::trans(16004,1);?></a></li>
+		<?php }?>
+		<?php if($setting->site_type == 1) {?>
 			<li <?php echo $controller == 'newsletter' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('newsletter/manage');?>" title="<?php echo Phrase::trans(16242,1);?>"><?php echo Phrase::trans(16242,1);?></a></li>
-			<?php if(Yii::app()->user->level == 1) {?>
+		<?php }
+		if(Yii::app()->user->level == 1) {?>
 			<li <?php echo ($controller == 'history' && in_array($action, array('login','username','email','password','forgot','subscribe'))) ? 'class="submenu-show"' : '';?>>
 				<a href="<?php echo ($controller == 'history' && in_array($action, array('login','username','email','password','forgot','subscribe' 	))) ? 'javascript:void(0);' : Yii::app()->controller->createUrl('history/login');?>" title="<?php echo Phrase::trans(16236,1);?>"><?php echo Phrase::trans(16236,1);?></a>
 				<?php if($controller == 'history' && in_array($action, array('login','username','email','password','forgot','subscribe'))) {?>
 				<ul>
 					<li <?php echo $action == 'login' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/login');?>" title="<?php echo Phrase::trans(16192,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16192,1);?></a></li>
-					<li <?php echo $action == 'username' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/username');?>" title="<?php echo Phrase::trans(16253,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16253,1);?></a></li>
+					<?php if($setting->site_type == 1) {?>
+						<li <?php echo $action == 'username' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/username');?>" title="<?php echo Phrase::trans(16253,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16253,1);?></a></li>
+					<?php }?>
 					<li <?php echo $action == 'email' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/email');?>" title="<?php echo Phrase::trans(16251,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16251,1);?></a></li>
 					<li <?php echo $action == 'password' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/password');?>" title="<?php echo Phrase::trans(16252,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16252,1);?></a></li>
-					<li <?php echo $action == 'forgot' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/forgot');?>" title="<?php echo Phrase::trans(16246,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16246,1);?></a></li>
-					<li <?php echo $action == 'subscribe' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/subscribe');?>" title="<?php echo Phrase::trans(16242,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16242,1);?></a></li>
+					<?php if($setting->site_type == 1) {?>			
+						<li <?php echo $action == 'forgot' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/forgot');?>" title="<?php echo Phrase::trans(16246,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16246,1);?></a></li>
+						<li <?php echo $action == 'subscribe' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->controller->createUrl('history/subscribe');?>" title="<?php echo Phrase::trans(16242,1);?>"><span class="icons">C</span><?php echo Phrase::trans(16242,1);?></a></li>
+					<?php }?>
 				</ul>
 				<?php }?>
 			</li>
-			<?php /*
+		<?php }
+		if($setting->site_type == 1) {?>
 			<li <?php echo $controller == 'statistic' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('users/statistic/manage');?>" title="<?php echo Phrase::trans(16241,1);?>"><?php echo Phrase::trans(16241,1);?></a></li>
-			*/?>
-			<?php }
-		}?>
-		
+		<?php }?>
+
 	<?php } elseif($menuRender == 4) { //Begin.Setting ?>
 		<?php if(Yii::app()->user->level == 1) {?>
 			<li <?php echo $currentAction == 'settings/general' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/general');?>" title="<?php echo Phrase::trans(94,0);?>"><?php echo Phrase::trans(94,0);?></a></li>
@@ -325,8 +330,7 @@
 			<li <?php echo in_array($controller, array('contact','contactcategory')) ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(23061,1);?>"><?php echo Phrase::trans(23061,1);?></a></li>
 			<li <?php echo in_array($controller, array('language','phrase','pluginphrase')) ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('language/manage');?>" title="<?php echo Phrase::trans(137,0);?>"><?php echo Phrase::trans(137,0);?></a></li>
 			<li <?php echo $controller == 'theme' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('theme/manage');?>" title="<?php echo Phrase::trans(240,0);?>"><?php echo Phrase::trans(240,0);?></a></li>
-			<li <?php echo $currentAction == 'settings/analytic' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/analytic');?>" title="<?php echo Phrase::trans(58,0);?>"><?php echo Phrase::trans(58,0);?></a></li>
-		
+			<li <?php echo $currentAction == 'settings/analytic' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/analytic');?>" title="<?php echo Phrase::trans(58,0);?>"><?php echo Phrase::trans(58,0);?></a></li>		
 		<?php } else {?>
 			<li <?php echo in_array($controller, array('contact','contactcategory')) ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('support/contact/manage');?>" title="<?php echo Phrase::trans(23061,1);?>"><?php echo Phrase::trans(23061,1);?></a></li>
 			<li <?php echo $controller == 'template' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('template/manage');?>" title="<?php echo Phrase::trans(602,0);?>"><?php echo Phrase::trans(602,0);?></a></li>
