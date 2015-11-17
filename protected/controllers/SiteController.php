@@ -115,7 +115,6 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
-		yii::import('application.modules.users.models.*');
 		if(!Yii::app()->user->isGuest) {
 			$this->redirect(array('site/index'));
 
