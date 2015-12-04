@@ -6,7 +6,10 @@
  * @create date February 20, 2014 14:02 WIB
  * @updated date February 21, 2014 15:50 WIB
  * @version 1.0.1
- * @copyright &copy; 2014 Nirwasita Studio
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
  */
  
 class MetaTags extends CApplicationComponent

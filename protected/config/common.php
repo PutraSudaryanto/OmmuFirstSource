@@ -1,6 +1,12 @@
 <?php
 /**
- * Merge file modules and developments
+ * Merge file production, setting, database  and modules
+ *
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
  */
 return CMap::mergeArray(
 	require(dirname(__FILE__).'/production.php'),

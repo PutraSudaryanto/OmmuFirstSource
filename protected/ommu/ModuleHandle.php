@@ -1,27 +1,32 @@
 <?php
 /**
  * ModuleHandle class file
+ * Contains many function that most used
+ *
+ * Reference start
+ *
+ * TOC :
+ *	getModulesFromDb
+ *	getModuleConfig
+ *	cacheModuleConfig
+ *	deleteModuleFolder
+ *	deleteModule
+ *	getIgnoreModule
+ *	getModulesFromDir
+ *	updateModuleAddonFromDir
+ *	getIdMax
+ *	setModuleToDb
+ *	updateModuleAddon
+ *	installModule
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @create date November 27, 2013 15:02 WIB
  * @version 1.0
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2013 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
  *
- * Contains many function that most used
- *
- * getModulesFromDb
- * getModuleConfig
- * cacheModuleConfig
- * deleteModuleFolder
- * deleteModule
- * getIgnoreModule
- * getModulesFromDir
- * updateModuleAddonFromDir
- * getIdMax
- * setModuleToDb
- * updateModuleAddon
- * installModule
- *
+ *----------------------------------------------------------------------------------------------------------
  */
 
 class ModuleHandle extends CApplicationComponent

@@ -2,8 +2,8 @@
 /**
  * AuthorcontactController
  * @var $this AuthorcontactController
- * @var $model OmmuAuthorContact * @var $form CActiveForm
- * Copyright (c) 2013, Ommu Platform (ommu.co). All rights reserved.
+ * @var $model OmmuAuthorContact
+ * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
  *
@@ -18,8 +18,8 @@
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
- * @copyright Copyright (c) 2014 Ommu Platform (ommu.co)
- * @link http://company.ommu.co
+ * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
  * @contect (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------

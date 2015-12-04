@@ -1,8 +1,17 @@
 <?php
 /**
+ * OmmuPages (ommu-pages)
  * @var $this PageController
  * @var $model OmmuPages
- * @var $form CActiveForm */
+ * @var $form CActiveForm
+ *
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contact (+62)856-299-4114
+ *
+ */
+ 
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
 	$('input#OmmuPages_media_show').change(function(){

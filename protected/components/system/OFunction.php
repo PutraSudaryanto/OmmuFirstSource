@@ -5,7 +5,10 @@
  * @author Putra Sudaryanto <putra@sudaryanto.me>
  * @create date April 15, 2014 10:29 WIB
  * @version 1.0
- * @copyright &copy; 2012 Ommu Platform
+ * @copyright Copyright (c) 2014 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
  *
  * Contains many function that most used
  *

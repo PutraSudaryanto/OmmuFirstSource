@@ -2,35 +2,37 @@
 /**
  * Utility class file
  *
+ * Contains many function that most used :
+ *	getCurrentTemplate
+ *	applyCurrentTheme
+ *	getProtocol
+ *	flashSuccess
+ *	flashError
+ *	getDifferenceDay
+ *	getLocalDayName
+ *	getLocalMonthName
+ *	dateFormat
+ *	getTimThumb
+ *	replaceSpaceWithUnderscore
+ *	getUrlTitle
+ *	deleteFolder
+ *	getPublish
+ *	shortText
+ *	convert_smart_quotes
+ *	softDecode
+ *	hardDecode
+ *	cleanImageContent
+ *	chmodr
+ *	recursiveDelete
+ *	formatSizeUnits
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @create date November 27, 2013 15:02 WIB
+ * @update date April 3, 2014 15:02 WIB
  * @version 1.0
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- *
- * Contains many function that most used
- * 
- * getCurrentTemplate
- * applyCurrentTheme
- * getProtocol
- * flashSuccess
- * flashError
- * getDifferenceDay
- * getLocalDayName
- * getLocalMonthName
- * dateFormat
- * getTimThumb
- * replaceSpaceWithUnderscore
- * getUrlTitle
- * deleteFolder
- * getPublish
- * shortText
- * convert_smart_quotes
- * softDecode
- * hardDecode
- * cleanImageContent
- * chmodr
- * recursiveDelete
- * formatSizeUnits
+ * @copyright Copyright (c) 2013 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
  *
  */
 

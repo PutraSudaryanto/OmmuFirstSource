@@ -1,15 +1,25 @@
 <?php
 /**
  * Ommu class file
- *
  * Bootstrap application
  * in this class you set default controller to be executed first time
+ *
+ * Reference start
+ *
+ * TOC :
+ *	init
+ *	getDefaultTheme
+ *	getRulePos
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @create date August 6, 2012 15:02 WIB
  * @updated date February 20, 2014 15:50 WIB
  * @version 1.0.9
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
+ *----------------------------------------------------------------------------------------------------------
  */
 
 class Ommu extends CApplicationComponent

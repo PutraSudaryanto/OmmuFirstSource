@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2014 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
+ */
 class OActiveRecord extends CActiveRecord 
 {
 	private static $otherDB = null;

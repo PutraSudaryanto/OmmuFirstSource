@@ -1,9 +1,17 @@
 <?php
-
 /**
+ * ContactForm
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contact (+62)856-299-4114
+ *
  * ContactForm class.
  * ContactForm is the data structure for keeping
  * contact form data. It is used by the 'contact' action of 'SiteController'.
+ */
+
+/**
  */
 class ContactForm extends CFormModel
 {

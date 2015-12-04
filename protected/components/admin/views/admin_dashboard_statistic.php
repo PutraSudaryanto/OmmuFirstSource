@@ -1,3 +1,12 @@
+<?php
+/**
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2013 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contect (+62)856-299-4114
+ *
+ */
+?>
 <?php //begin.Statistic ?>
 <div class="boxed">
 	<h3><?php echo Phrase::trans(249,0);?></h3>
