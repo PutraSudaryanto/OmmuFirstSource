@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuLanguages (ommu-languages)
+ * Ommu Languages (ommu-languages)
  * @var $this LanguageController
  * @var $model OmmuLanguages
  * @var $form CActiveForm

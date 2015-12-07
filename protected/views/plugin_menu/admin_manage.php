@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPluginMenu (ommu-plugin-menu)
+ * Ommu Plugin Menu (ommu-plugin-menu)
  * @var $this PluginmenuController
  * @var $model OmmuPluginMenu
  *

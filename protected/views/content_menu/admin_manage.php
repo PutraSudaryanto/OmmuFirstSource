@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuContentMenu (ommu-content-menu)
+ * Ommu Content Menu (ommu-content-menu)
  * @var $this ContentmenuController
  * @var $model OmmuContentMenu
  *

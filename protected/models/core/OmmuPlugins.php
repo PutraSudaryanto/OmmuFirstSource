@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OmmuPlugins
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

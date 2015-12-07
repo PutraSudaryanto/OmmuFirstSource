@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuMeta (ommu-meta)
+ * Ommu Meta (ommu-meta)
  * @var $this MetaController
  * @var $model OmmuMeta
  * @var $form CActiveForm

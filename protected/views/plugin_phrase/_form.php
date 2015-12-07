@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPluginPhrase (ommu-plugin-phrase)
+ * Ommu Plugin Phrase (ommu-plugin-phrase)
  * @var $this PluginphraseController
  * @var $model OmmuPluginPhrase
  * @var $form CActiveForm

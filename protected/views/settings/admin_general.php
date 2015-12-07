@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuSettings (ommu-settings)
+ * Ommu Settings (ommu-settings)
  * @var $this SettingsController
  * @var $model OmmuSettings
  * @var $form CActiveForm

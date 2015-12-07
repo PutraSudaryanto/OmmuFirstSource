@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPages (ommu-pages)
+ * Ommu Pages (ommu-pages)
  * @var $this OmmuPagesController
  * @var $dataProvider CActiveDataProvider
  *

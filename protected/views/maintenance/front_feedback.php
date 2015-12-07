@@ -1,7 +1,9 @@
 <?php
 /**
+ * Support Mails (support-mails)
  * @var $this ContactController
  * @var $model SupportMails
+ * @var $form CActiveForm
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)

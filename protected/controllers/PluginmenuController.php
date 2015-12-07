@@ -1,6 +1,6 @@
 <?php
 /**
-* PluginmenuController
+ * PluginmenuController
  * @var $this PluginmenuController
  * @var $model OmmuPluginMenu
  * @var $form CActiveForm

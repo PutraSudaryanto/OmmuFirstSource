@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuLocale (ommu-locale)
+ * Ommu Locale (ommu-locale)
  * @var $this LocaleController
  * @var $model OmmuLocale
  * @var $form CActiveForm

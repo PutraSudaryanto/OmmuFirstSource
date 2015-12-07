@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPhrases (ommu-phrases)
+ * Ommu Phrases (ommu-phrases)
  * @var $this PhraseController
  * @var $model OmmuPhrases
  *

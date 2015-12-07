@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPages (ommu-pages)
+ * Ommu Pages (ommu-pages)
  * @var $this PageController
  * @var $model OmmuPages
  * @var $form CActiveForm

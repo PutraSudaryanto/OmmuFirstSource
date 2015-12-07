@@ -1,6 +1,6 @@
 <?php
 /**
-* TranslateController
+ * TranslateController
  * @var $this TranslateController
  * @var $model OmmuSystemPhrase
  * @var $form CActiveForm

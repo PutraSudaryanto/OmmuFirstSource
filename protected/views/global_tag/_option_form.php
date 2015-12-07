@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuTags (ommu-tags)
+ * Ommu Tags (ommu-tags)
  * @var $this GlobaltagController
  * @var $model OmmuTags
  * @var $form CActiveForm

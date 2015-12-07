@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuThemes (ommu-themes)
+ * Ommu Themes (ommu-themes)
  * @var $this ThemeController
  * @var $model OmmuThemes
  * @var $form CActiveForm

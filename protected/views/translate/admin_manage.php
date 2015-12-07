@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuSystemPhrase (ommu-system-phrase)
+ * Ommu System Phrase (ommu-system-phrase)
  * @var $this TranslateController
  * @var $model OmmuSystemPhrase
  *

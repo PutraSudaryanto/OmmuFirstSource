@@ -1,6 +1,6 @@
 <?php
 /**
-* ZonecityController
+ * ZonecityController
  * @var $this ZonecityController
  * @var $model OmmuZoneCity
  * @var $form CActiveForm

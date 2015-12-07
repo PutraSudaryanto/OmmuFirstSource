@@ -1,5 +1,6 @@
 <?php
 /**
+ * User Verify (user-verify)
  * @var $this VerifyController
  * @var $model UserVerify
  *

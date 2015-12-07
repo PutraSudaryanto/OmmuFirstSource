@@ -1,6 +1,6 @@
 <?php
 /**
- * OmmuPlugins (ommu-plugins)
+ * Ommu Plugins (ommu-plugins)
  * @var $this AdminController
  * @var $model OmmuPlugins
  * @var $form CActiveForm
