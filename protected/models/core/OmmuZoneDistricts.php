@@ -1,8 +1,8 @@
 <?php
 /**
- * OmmuZoneCity
+ * OmmuZoneDistricts
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)
  * @link https://github.com/oMMu/Ommu-Core
  * @contact (+62)856-299-4114
  *
@@ -17,29 +17,26 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_core_zone_city".
+ * This is the model class for table "ommu_core_zone_districts".
  *
- * The followings are the available columns in table 'ommu_core_zone_city':
- * @property string $city_id
+ * The followings are the available columns in table 'ommu_core_zone_districts':
+ * @property string $district_id
  * @property integer $publish
- * @property integer $province_id
- * @property string $city
+ * @property string $city_id
+ * @property string $district_name
  * @property string $mfdonline
  * @property integer $checked
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
- *
- * The followings are the available model relations:
- * @property OmmuCoreZoneProvince $province
  */
-class OmmuZoneCity extends CActiveRecord
+class OmmuZoneDistricts extends CActiveRecord
 {
 	public $defaultColumns = array();
 	
 	// Variable Search
-	public $province_search;
+	public $city_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -47,7 +44,7 @@ class OmmuZoneCity extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return OmmuZoneCity the static model class
+	 * @return OmmuZoneDistricts the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -59,7 +56,7 @@ class OmmuZoneCity extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_core_zone_city';
+		return 'ommu_core_zone_districts';
 	}
 
 	/**
@@ -70,16 +67,16 @@ class OmmuZoneCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('province_id, city, mfdonline', 'required'),
-			array('publish, province_id, checked', 'numerical', 'integerOnly'=>true),
-			array('city', 'length', 'max'=>64),
-			array('mfdonline', 'length', 'max'=>4),
-			array('creation_id, modified_id', 'length', 'max'=>11),
+			array('city_id, district_name, mfdonline', 'required'),
+			array('publish, checked', 'numerical', 'integerOnly'=>true),
+			array('city_id, creation_id, modified_id', 'length', 'max'=>11),
+			array('district_name', 'length', 'max'=>64),
+			array('mfdonline', 'length', 'max'=>7),
 			array('creation_id, modified_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('city_id, publish, province_id, city, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
-				province_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('district_id, publish, city_id, district_name, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
+				city_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,10 +88,9 @@ class OmmuZoneCity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'province_relation' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'province_id'),
+			'city_relation' => array(self::BELONGS_TO, 'OmmuZoneCity', 'city_id'),
 			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'district_relation' => array(self::HAS_MANY, 'OmmuZoneDistricts', 'city_id'),
 		);
 	}
 
@@ -104,17 +100,17 @@ class OmmuZoneCity extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'city_id' => Phrase::trans(424,0),
+			'district_id' => 'District',
 			'publish' => 'Publish',
-			'province_id' => Phrase::trans(421,0),
-			'city' => Phrase::trans(424,0),
+			'city_id' => 'City',
+			'district_name' => 'District Name',
 			'mfdonline' => 'Mfdonline',
 			'checked' => 'Checked',
 			'creation_date' => 'Creation Date',
 			'creation_id' => 'Creation',
 			'modified_date' => 'Modified Date',
 			'modified_id' => 'Modified',
-			'province_search' => Phrase::trans(421,0),
+			'city_search' => 'City',
 			'creation_search' => 'Creation',
 			'modified_search' => 'Modified',
 		);
@@ -138,7 +134,7 @@ class OmmuZoneCity extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.city_id',$this->city_id,true);
+		$criteria->compare('t.district_id',$this->district_id,true);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
 			$criteria->compare('t.publish',1);
 		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
@@ -149,12 +145,12 @@ class OmmuZoneCity extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		if(isset($_GET['province']))
-			$criteria->compare('t.province_id',$_GET['province']);
+		if(isset($_GET['city']))
+			$criteria->compare('t.city_id',$_GET['city']);
 		else
-			$criteria->compare('t.province_id',$this->province_id);
-		$criteria->compare('t.city',strtolower($$this->city),true);
-		$criteria->compare('t.mfdonline',strtolower($$this->mfdonline),true);
+			$criteria->compare('t.city_id',$this->city_id);
+		$criteria->compare('t.district_name',strtolower($this->district_name),true);
+		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -171,9 +167,9 @@ class OmmuZoneCity extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
-			'province_relation' => array(
-				'alias'=>'province_relation',
-				'select'=>'province',
+			'city_relation' => array(
+				'alias'=>'city_relation',
+				'select'=>'city',
 			),
 			'creation_relation' => array(
 				'alias'=>'creation_relation',
@@ -184,12 +180,12 @@ class OmmuZoneCity extends CActiveRecord
 				'select'=>'displayname',
 			),
 		);
-		$criteria->compare('province_relation.province',strtolower($this->province_search), true);
+		$criteria->compare('city_relation.city',strtolower($this->city_search), true);
 		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
-		if(!isset($_GET['OmmuZoneCity_sort']))
-			$criteria->order = 'city_id DESC';
+		if(!isset($_GET['OmmuZoneDistricts_sort']))
+			$criteria->order = 'district_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -217,10 +213,10 @@ class OmmuZoneCity extends CActiveRecord
 				$this->defaultColumns[] = $val;
 			}
 		} else {
-			//$this->defaultColumns[] = 'city_id';
+			//$this->defaultColumns[] = 'district_id';
 			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'province_id';
-			$this->defaultColumns[] = 'city';
+			$this->defaultColumns[] = 'city_id';
+			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = 'checked';
 			$this->defaultColumns[] = 'creation_date';
@@ -250,10 +246,10 @@ class OmmuZoneCity extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'province_search',
-				'value' => '$data->province_relation->province',
+				'name' => 'city_search',
+				'value' => '$data->city_relation->city',
 			);
-			$this->defaultColumns[] = 'city';
+			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
@@ -289,7 +285,7 @@ class OmmuZoneCity extends CActiveRecord
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->city_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->district_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -303,7 +299,7 @@ class OmmuZoneCity extends CActiveRecord
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'checked',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("checked",array("id"=>$data->city_id)), $data->checked, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("checked",array("id"=>$data->district_id)), $data->checked, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -313,8 +309,7 @@ class OmmuZoneCity extends CActiveRecord
 					),
 					'type' => 'raw',
 				);
-			}
-			*/
+			}*/
 		}
 		parent::afterConstruct();
 	}
@@ -339,15 +334,15 @@ class OmmuZoneCity extends CActiveRecord
 	/**
 	 * Get city
 	 */
-	public static function getCity($province=null) {
-		if($province == null || $province == '') {
+	public static function getDistrict($city=null) {
+		if($city == null || $city == '') {
 			$model = self::model()->findAll();
 		} else {
 			$model = self::model()->findAll(array(
 				//'select' => 'publish, name',
-				'condition' => 'province_id = :province',
+				'condition' => 'city_id = :city',
 				'params' => array(
-					':province' => $province,
+					':city' => $city,
 				),
 			));
 		}
@@ -355,7 +350,7 @@ class OmmuZoneCity extends CActiveRecord
 		$items = array();
 		if($model != null) {
 			foreach($model as $key => $val) {
-				$items[$val->city_id] = $val->city;
+				$items[$val->district_id] = $val->district_name;
 			}
 			return $items;
 		} else {

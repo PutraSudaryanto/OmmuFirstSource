@@ -21,8 +21,15 @@
  *
  * The followings are the available columns in table 'ommu_core_zone_province':
  * @property integer $province_id
+ * @property integer $publish
  * @property integer $country_id
  * @property string $province
+ * @property string $mfdonline
+ * @property integer $checked
+ * @property string $creation_date
+ * @property string $creation_id
+ * @property string $modified_date
+ * @property string $modified_id
  *
  * The followings are the available model relations:
  * @property OmmuCoreZoneCity[] $ommuCoreZoneCities
@@ -31,9 +38,15 @@
 class OmmuZoneProvince extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $country_search;
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
 	 * @return OmmuZoneProvince the static model class
 	 */
@@ -58,12 +71,16 @@ class OmmuZoneProvince extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country_id, province', 'required'),
-			array('country_id', 'numerical', 'integerOnly'=>true),
+			array('province, mfdonline', 'required'),
+			array('publish, country_id, checked', 'numerical', 'integerOnly'=>true),
 			array('province', 'length', 'max'=>64),
+			array('mfdonline', 'length', 'max'=>2),
+			array('creation_id, modified_id', 'length', 'max'=>11),
+			array('creation_id, modified_id', 'safe'),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('province_id, country_id, province', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('province_id, publish, country_id, province, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
+				country_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,7 +92,10 @@ class OmmuZoneProvince extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'country' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'country_id'),
+			'country_relation' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'country_id'),
+			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'city_relation' => array(self::HAS_MANY, 'OmmuZoneCity', 'province_id'),
 		);
 	}
 
@@ -86,25 +106,88 @@ class OmmuZoneProvince extends CActiveRecord
 	{
 		return array(
 			'province_id' => Phrase::trans(421,0),
+			'publish' => 'Publish',
 			'country_id' => Phrase::trans(422,0),
 			'province' => Phrase::trans(421,0),
+			'mfdonline' => 'Mfdonline',
+			'checked' => 'Checked',
+			'creation_date' => 'Creation Date',
+			'creation_id' => 'Creation',
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
+			'city_search' => Phrase::trans(422,0),
+			'creation_search' => 'Creation',
+			'modified_search' => 'Modified',
 		);
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.province_id',$this->province_id);
-		$criteria->compare('t.country_id',$this->country_id);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+			$criteria->compare('t.publish',1);
+		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+			$criteria->compare('t.publish',0);
+		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+			$criteria->compare('t.publish',2);
+		} else {
+			$criteria->addInCondition('t.publish',array(0,1));
+			$criteria->compare('t.publish',$this->publish);
+		}
+		if(isset($_GET['country']))
+			$criteria->compare('t.country_id',$_GET['country']);
+		else
+			$criteria->compare('t.country_id',$this->country_id);
 		$criteria->compare('t.province',strtolower($this->province),true);
+		$criteria->compare('t.mfdonline',$this->mfdonline,true);
+		$criteria->compare('t.checked',$this->checked);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		// Custom Search
+		$criteria->with = array(
+			'country_relation' => array(
+				'alias'=>'country_relation',
+				'select'=>'country',
+			),
+			'creation_relation' => array(
+				'alias'=>'creation_relation',
+				'select'=>'displayname',
+			),
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname',
+			),
+		);
+		$criteria->compare('country_relation.country',strtolower($this->country_search), true);
+		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneProvince_sort']))
 			$criteria->order = 'province_id DESC';
@@ -134,10 +217,17 @@ class OmmuZoneProvince extends CActiveRecord
 				*/
 				$this->defaultColumns[] = $val;
 			}
-		}else {
+		} else {
 			//$this->defaultColumns[] = 'province_id';
+			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'country_id';
 			$this->defaultColumns[] = 'province';
+			$this->defaultColumns[] = 'mfdonline';
+			$this->defaultColumns[] = 'checked';
+			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'creation_id';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -148,12 +238,102 @@ class OmmuZoneProvince extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			$this->defaultColumns[] = 'province_id';
-			$this->defaultColumns[] = 'country_id';
+			/*
+			$this->defaultColumns[] = array(
+				'class' => 'CCheckBoxColumn',
+				'name' => 'id',
+				'selectableRows' => 2,
+				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
+			);
+			*/
+			$this->defaultColumns[] = array(
+				'header' => 'No',
+				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'country_search',
+				'value' => '$data->country_relation->country',
+			);
 			$this->defaultColumns[] = 'province';
-
+			$this->defaultColumns[] = 'mfdonline';
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation_relation->displayname',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'creation_date',
+				'value' => 'Utility::dateFormat($data->creation_date)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
+					'model'=>$this,
+					'attribute'=>'creation_date',
+					'language' => 'ja',
+					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'creation_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
+			);
+			/*
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->province_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Phrase::trans(588,0),
+						0=>Phrase::trans(589,0),
+					),
+					'type' => 'raw',
+				);
+			}
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'checked',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("checked",array("id"=>$data->province_id)), $data->checked, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Phrase::trans(588,0),
+						0=>Phrase::trans(589,0),
+					),
+					'type' => 'raw',
+				);
+			}*/
 		}
 		parent::afterConstruct();
+	}
+
+	/**
+	 * User get information
+	 */
+	public static function getInfo($id, $column=null)
+	{
+		if($column != null) {
+			$model = self::model()->findByPk($id,array(
+				'select' => $column
+			));
+			return $model->$column;
+			
+		} else {
+			$model = self::model()->findByPk($id);
+			return $model;			
+		}
 	}
 
 	/**
@@ -183,4 +363,16 @@ class OmmuZoneProvince extends CActiveRecord
 		}
 	}
 
+	/**
+	 * before validate attributes
+	 */
+	protected function beforeValidate() {
+		if(parent::beforeValidate()) {		
+			if($this->isNewRecord)
+				$this->creation_id = Yii::app()->user->id;	
+			else
+				$this->modified_id = Yii::app()->user->id;
+		}
+		return true;
+	}
 }
