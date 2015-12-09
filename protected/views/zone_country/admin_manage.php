@@ -6,7 +6,7 @@
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)
- * @link http://company.ommu.co
+ * @link https://github.com/oMMu/Ommu-Core
  * @contect (+62)856-299-4114
  *
  */
@@ -34,7 +34,7 @@
 
 <?php //begin.Search ?>
 <div class="search-form">
-<?php $this->renderPartial('_search',array(
+<?php $this->renderPartial('/zone_country/_search',array(
 	'model'=>$model,
 )); ?>
 </div>
@@ -42,7 +42,7 @@
 
 <?php //begin.Grid Option ?>
 <div class="grid-form">
-<?php $this->renderPartial('_option_form',array(
+<?php $this->renderPartial('/zone_country/_option_form',array(
 	'model'=>$model,
 )); ?>
 </div>
@@ -72,10 +72,8 @@
 						'label' => 'view',
 						'options' => array(							
 							'class' => 'view',
-							'off_address' => '',
-							'target' => '_blank',
 						),
-						'url' => 'Yii::app()->controller->createUrl("site/view",array("id"=>$data->primaryKey))'),
+						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
 					'update' => array(
 						'label' => 'update',
 						'options' => array(
@@ -89,7 +87,7 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{view}|{update}|{delete}',
+				'template' => '{update}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(
