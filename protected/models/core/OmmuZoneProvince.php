@@ -115,7 +115,7 @@ class OmmuZoneProvince extends CActiveRecord
 			'creation_id' => 'Creation',
 			'modified_date' => 'Modified Date',
 			'modified_id' => 'Modified',
-			'city_search' => Phrase::trans(422,0),
+			'country_search' => Phrase::trans(422,0),
 			'creation_search' => 'Creation',
 			'modified_search' => 'Modified',
 		);
@@ -155,7 +155,7 @@ class OmmuZoneProvince extends CActiveRecord
 		else
 			$criteria->compare('t.country_id',$this->country_id);
 		$criteria->compare('t.province',strtolower($this->province),true);
-		$criteria->compare('t.mfdonline',$this->mfdonline,true);
+		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));

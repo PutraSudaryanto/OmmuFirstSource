@@ -70,7 +70,7 @@ class OmmuZoneCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('province_id, city, mfdonline', 'required'),
+			array('city, mfdonline', 'required'),
 			array('publish, province_id, checked', 'numerical', 'integerOnly'=>true),
 			array('city', 'length', 'max'=>64),
 			array('mfdonline', 'length', 'max'=>4),
@@ -153,8 +153,8 @@ class OmmuZoneCity extends CActiveRecord
 			$criteria->compare('t.province_id',$_GET['province']);
 		else
 			$criteria->compare('t.province_id',$this->province_id);
-		$criteria->compare('t.city',strtolower($$this->city),true);
-		$criteria->compare('t.mfdonline',strtolower($$this->mfdonline),true);
+		$criteria->compare('t.city',strtolower($this->city),true);
+		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -249,11 +249,11 @@ class OmmuZoneCity extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			$this->defaultColumns[] = 'city';
 			$this->defaultColumns[] = array(
 				'name' => 'province_search',
 				'value' => '$data->province_relation->province',
 			);
-			$this->defaultColumns[] = 'city';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
