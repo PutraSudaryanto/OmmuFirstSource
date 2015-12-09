@@ -250,11 +250,11 @@ class OmmuZoneProvince extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			$this->defaultColumns[] = 'province';
 			$this->defaultColumns[] = array(
 				'name' => 'country_search',
 				'value' => '$data->country_relation->country',
 			);
-			$this->defaultColumns[] = 'province';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
