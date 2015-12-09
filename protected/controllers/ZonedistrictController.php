@@ -1,8 +1,8 @@
 <?php
 /**
- * ZonecityController
- * @var $this ZonecityController
- * @var $model OmmuZoneCity
+ * ZonedistrictController
+ * @var $this ZonedistrictController
+ * @var $model OmmuZoneDistricts
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -29,7 +29,7 @@
  *----------------------------------------------------------------------------------------------------------
  */
 
-class ZonecityController extends Controller
+class ZonedistrictController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -115,7 +115,7 @@ class ZonecityController extends Controller
 		$this->layout = $arrThemes['layout'];
 		Utility::applyCurrentTheme($this->module);
 		
-		$setting = OmmuZoneCity::model()->findByPk(1,array(
+		$setting = OmmuZoneDistricts::model()->findByPk(1,array(
 			'select' => 'meta_description, meta_keyword',
 		));
 
@@ -124,17 +124,17 @@ class ZonecityController extends Controller
 		$criteria->params = array(':publish'=>1);
 		$criteria->order = 'creation_date DESC';
 
-		$dataProvider = new CActiveDataProvider('OmmuZoneCity', array(
+		$dataProvider = new CActiveDataProvider('OmmuZoneDistricts', array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>10,
 			),
 		));
 
-		$this->pageTitle = 'Ommu Zone Cities';
+		$this->pageTitle = 'Ommu Zone Districts';
 		$this->pageDescription = $setting->meta_description;
 		$this->pageMeta = $setting->meta_keyword;
-		$this->render('/zone_city/front_index',array(
+		$this->render('/zone_district/front_index',array(
 			'dataProvider'=>$dataProvider,
 		));
 		//$this->redirect(array('manage'));
@@ -157,14 +157,14 @@ class ZonecityController extends Controller
 
 		$model=$this->loadModel($id);
 
-		$this->pageTitle = 'View Ommu Zone Cities';
+		$this->pageTitle = 'View Ommu Zone Districts';
 		$this->pageDescription = '';
 		$this->pageMeta = $setting->meta_keyword;
-		$this->render('/zone_city/front_view',array(
+		$this->render('/zone_district/front_view',array(
 			'model'=>$model,
 		));
 		/*
-		$this->render('/zone_city/admin_view',array(
+		$this->render('/zone_district/admin_view',array(
 			'model'=>$model,
 		));
 		*/
@@ -175,10 +175,10 @@ class ZonecityController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new OmmuZoneCity('search');
+		$model=new OmmuZoneDistricts('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['OmmuZoneCity'])) {
-			$model->attributes=$_GET['OmmuZoneCity'];
+		if(isset($_GET['OmmuZoneDistricts'])) {
+			$model->attributes=$_GET['OmmuZoneDistricts'];
 		}
 
 		$columnTemp = array();
@@ -191,10 +191,10 @@ class ZonecityController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Ommu Zone Cities Manage';
+		$this->pageTitle = 'Ommu Zone Districts Manage';
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/zone_city/admin_manage',array(
+		$this->render('/zone_district/admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
@@ -206,13 +206,13 @@ class ZonecityController extends Controller
 	 */
 	public function actionAdd() 
 	{
-		$model=new OmmuZoneCity;
+		$model=new OmmuZoneDistricts;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['OmmuZoneCity'])) {
-			$model->attributes=$_POST['OmmuZoneCity'];
+		if(isset($_POST['OmmuZoneDistricts'])) {
+			$model->attributes=$_POST['OmmuZoneDistricts'];
 
 			/* 
 			$jsonError = CActiveForm::validate($model);
@@ -237,8 +237,8 @@ class ZonecityController extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success created.</strong></div>',
+							'id' => 'partial-ommu-zone-districts',
+							'msg' => '<div class="errorSummary success"><strong>OmmuZoneDistricts success created.</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -250,17 +250,17 @@ class ZonecityController extends Controller
 
 			if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 				if($model->save()) {
-					Yii::app()->user->setFlash('success', 'OmmuZoneCity success created.');
-					//$this->redirect(array('view','id'=>$model->city_id));
+					Yii::app()->user->setFlash('success', 'OmmuZoneDistricts success created.');
+					//$this->redirect(array('view','id'=>$model->district_id));
 					$this->redirect(array('manage'));
 				}
 			}
 		}
 
-		$this->pageTitle = 'Create Ommu Zone Cities';
+		$this->pageTitle = 'Create Ommu Zone Districts';
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/zone_city/admin_add',array(
+		$this->render('/zone_district/admin_add',array(
 			'model'=>$model,
 		));
 	}
@@ -277,8 +277,8 @@ class ZonecityController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['OmmuZoneCity'])) {
-			$model->attributes=$_POST['OmmuZoneCity'];
+		if(isset($_POST['OmmuZoneDistricts'])) {
+			$model->attributes=$_POST['OmmuZoneDistricts'];
 
 			/* 
 			$jsonError = CActiveForm::validate($model);
@@ -303,8 +303,8 @@ class ZonecityController extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success updated.</strong></div>',
+							'id' => 'partial-ommu-zone-districts',
+							'msg' => '<div class="errorSummary success"><strong>OmmuZoneDistricts success updated.</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -316,17 +316,17 @@ class ZonecityController extends Controller
 
 			if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 				if($model->save()) {
-					Yii::app()->user->setFlash('success', 'OmmuZoneCity success updated.');
-					//$this->redirect(array('view','id'=>$model->city_id));
+					Yii::app()->user->setFlash('success', 'OmmuZoneDistricts success updated.');
+					//$this->redirect(array('view','id'=>$model->district_id));
 					$this->redirect(array('manage'));
 				}
 			}
 		}
 
-		$this->pageTitle = 'Update Ommu Zone Cities';
+		$this->pageTitle = 'Update Ommu Zone Districts';
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/zone_city/admin_edit',array(
+		$this->render('/zone_district/admin_edit',array(
 			'model'=>$model,
 		));
 	}
@@ -345,19 +345,19 @@ class ZonecityController extends Controller
 			$criteria->addInCondition('id', $id);
 
 			if($actions == 'publish') {
-				OmmuZoneCity::model()->updateAll(array(
+				OmmuZoneDistricts::model()->updateAll(array(
 					'publish' => 1,
 				),$criteria);
 			} elseif($actions == 'unpublish') {
-				OmmuZoneCity::model()->updateAll(array(
+				OmmuZoneDistricts::model()->updateAll(array(
 					'publish' => 0,
 				),$criteria);
 			} elseif($actions == 'trash') {
-				OmmuZoneCity::model()->updateAll(array(
+				OmmuZoneDistricts::model()->updateAll(array(
 					'publish' => 2,
 				),$criteria);
 			} elseif($actions == 'delete') {
-				OmmuZoneCity::model()->deleteAll($criteria);
+				OmmuZoneDistricts::model()->deleteAll($criteria);
 			}
 		}
 
@@ -383,8 +383,8 @@ class ZonecityController extends Controller
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-zone-city',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success deleted.</strong></div>',
+						'id' => 'partial-ommu-zone-districts',
+						'msg' => '<div class="errorSummary success"><strong>OmmuZoneDistricts success deleted.</strong></div>',
 					));
 				}
 			}
@@ -394,10 +394,10 @@ class ZonecityController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'OmmuZoneCity Delete.';
+			$this->pageTitle = 'OmmuZoneDistricts Delete.';
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/zone_city/admin_delete');
+			$this->render('/zone_district/admin_delete');
 		}
 	}
 
@@ -440,8 +440,8 @@ class ZonecityController extends Controller
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-zone-city',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success published.</strong></div>',
+						'id' => 'partial-ommu-zone-districts',
+						'msg' => '<div class="errorSummary success"><strong>OmmuZoneDistricts success published.</strong></div>',
 					));
 				}
 			}
@@ -454,7 +454,7 @@ class ZonecityController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/zone_city/admin_publish',array(
+			$this->render('/zone_district/admin_publish',array(
 				'title'=>$title,
 				'model'=>$model,
 			));
@@ -481,8 +481,8 @@ class ZonecityController extends Controller
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-zone-city',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success updated.</strong></div>',
+						'id' => 'partial-ommu-zone-districts',
+						'msg' => '<div class="errorSummary success"><strong>OmmuZoneDistricts success updated.</strong></div>',
 					));
 				}
 			}
@@ -495,7 +495,7 @@ class ZonecityController extends Controller
 			$this->pageTitle = Phrase::trans(338,0);
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/zone_city/admin_headline');
+			$this->render('/zone_district/admin_headline');
 		}
 	}
 
@@ -506,7 +506,7 @@ class ZonecityController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = OmmuZoneCity::model()->findByPk($id);
+		$model = OmmuZoneDistricts::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Phrase::trans(193,0));
 		return $model;
@@ -518,7 +518,7 @@ class ZonecityController extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='ommu-zone-city-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='ommu-zone-districts-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
