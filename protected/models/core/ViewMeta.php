@@ -48,10 +48,13 @@ class ViewMeta extends CActiveRecord
 		return '_view_core_meta';
 	}
 
+	/**
+	 * @return string the primarykey column
+	 */
 	public function primaryKey()
 	{
 		return ['id'];
-	}	
+	}
 
 	/**
 	 * @return array validation rules for model attributes.
