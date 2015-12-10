@@ -104,12 +104,13 @@ class OmmuMeta extends CActiveRecord
 			array('twitter_card, twitter_site, twitter_creator', 'required', 'on'=>'twitter, twitter_photo'),
 			array('twitter_photo_width, twitter_photo_height', 'required', 'on'=>'twitter_photo'),
 			array('id, office_on, office_country, office_province, office_city, google_on, twitter_on, twitter_card, facebook_on, facebook_type', 'numerical', 'integerOnly'=>true),
+			array('twitter_iphone_url, twitter_ipad_url, twitter_googleplay_url, facebook_see_also', 'length', 'max'=>256),
 			array('meta_image, office_hour,
 				old_meta_image', 'length', 'max'=>64),
 			array('office_location, office_district, office_village, office_phone, office_fax, office_email, office_hotline, office_website, twitter_site, twitter_creator, twitter_iphone_id, twitter_ipad_name, twitter_googleplay_id, facebook_profile_firstname, facebook_profile_lastname, facebook_profile_username, facebook_sitename, facebook_admins', 'length', 'max'=>32),
+			array('office_city', 'length', 'max'=>11),
 			array('office_zipcode', 'length', 'max'=>6),
 			array('twitter_photo_width, twitter_photo_height', 'length', 'max'=>3),
-			array('twitter_iphone_url, twitter_ipad_url, twitter_googleplay_url, facebook_see_also', 'length', 'max'=>256),
 			//array('meta_image', 'file', 'allowEmpty' => true, 'types' => 'jpg, jpeg, png, gif'),
 			array('office_email', 'email'),
 			array('meta_image, office_name, office_province, office_district, office_village, office_phone, office_fax, twitter_photo_width, twitter_photo_height, twitter_iphone_id, twitter_iphone_url, twitter_ipad_name, twitter_ipad_url, twitter_googleplay_id, twitter_googleplay_url, facebook_sitename, facebook_see_also, facebook_admins,
@@ -129,8 +130,9 @@ class OmmuMeta extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'country' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'office_country'),			
-			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),			
+			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),
 			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'office_city'),
+			'view_relation' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
 		);
 	}
 
