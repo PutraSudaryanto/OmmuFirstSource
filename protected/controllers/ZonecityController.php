@@ -9,6 +9,7 @@
  *
  * TOC :
  *	Index
+ *	Suggest
  *	Manage
  *	Add
  *	Edit
@@ -74,7 +75,7 @@ class ZonecityController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index'),
+				'actions'=>array('index','suggest'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -104,6 +105,19 @@ class ZonecityController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
+	}
+
+	/**
+	 * Lists all models.
+	 */
+	public function actionSuggest($id) 
+	{
+		$model = OmmuZoneCity::getCity($id);
+		$message['data'] = '<option value="">'.Phrase::trans(408,1).'</option>';
+		foreach($model as $key => $val) {
+			$message['data'] .= '<option value="'.$key.'">'.$val.'</option>';
+		}
+		echo CJSON::encode($message);
 	}
 
 	/**

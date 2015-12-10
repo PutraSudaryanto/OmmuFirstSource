@@ -67,7 +67,7 @@ class OmmuZoneDistricts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('city_id, district_name, mfdonline', 'required'),
+			array('district_name, mfdonline', 'required'),
 			array('publish, checked', 'numerical', 'integerOnly'=>true),
 			array('city_id, creation_id, modified_id', 'length', 'max'=>11),
 			array('district_name', 'length', 'max'=>64),
@@ -245,11 +245,11 @@ class OmmuZoneDistricts extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = array(
 				'name' => 'city_search',
 				'value' => '$data->city_relation->city',
 			);
-			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
