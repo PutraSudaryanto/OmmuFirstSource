@@ -132,7 +132,7 @@ class OmmuMeta extends CActiveRecord
 			'country' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'office_country'),			
 			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),
 			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'office_city'),
-			'view_relation' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
+			'view_meta' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
 		);
 	}
 
