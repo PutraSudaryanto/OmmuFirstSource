@@ -59,12 +59,16 @@
  * @property string $facebook_sitename
  * @property string $facebook_see_also
  * @property string $facebook_admins
+ * @property string $modified_date
+ * @property string $modified_id
  */
 class OmmuMeta extends CActiveRecord
 {
-	public $defaultColumns = array();
-	
+	public $defaultColumns = array();	
 	public $old_meta_image;
+	
+	// Variable Search
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -117,7 +121,8 @@ class OmmuMeta extends CActiveRecord
 				old_meta_image', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, meta_image, office_on, office_name, office_location, office_place, office_country, office_province, office_city, office_district, office_village, office_zipcode, office_hour, office_phone, office_fax, office_email, office_hotline, office_website, google_on, twitter_on, twitter_card, twitter_site, twitter_creator, twitter_photo_width, twitter_photo_height, twitter_iphone_id, twitter_iphone_url, twitter_ipad_name, twitter_ipad_url, twitter_googleplay_id, twitter_googleplay_url, facebook_on, facebook_type, facebook_profile_firstname, facebook_profile_lastname, facebook_profile_username, facebook_sitename, facebook_see_also, facebook_admins', 'safe', 'on'=>'search'),
+			array('id, meta_image, office_on, office_name, office_location, office_place, office_country, office_province, office_city, office_district, office_village, office_zipcode, office_hour, office_phone, office_fax, office_email, office_hotline, office_website, google_on, twitter_on, twitter_card, twitter_site, twitter_creator, twitter_photo_width, twitter_photo_height, twitter_iphone_id, twitter_iphone_url, twitter_ipad_name, twitter_ipad_url, twitter_googleplay_id, twitter_googleplay_url, facebook_on, facebook_type, facebook_profile_firstname, facebook_profile_lastname, facebook_profile_username, facebook_sitename, facebook_see_also, facebook_admins,
+				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -133,6 +138,7 @@ class OmmuMeta extends CActiveRecord
 			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),
 			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'office_city'),
 			'view_meta' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -181,6 +187,8 @@ class OmmuMeta extends CActiveRecord
 			'facebook_sitename' => Phrase::trans(548,0),
 			'facebook_see_also' => Phrase::trans(549,0),
 			'facebook_admins' => Phrase::trans(550,0),
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
 			'old_meta_image' => Phrase::trans(587,0),
 		);
 	}
@@ -235,6 +243,18 @@ class OmmuMeta extends CActiveRecord
 		$criteria->compare('t.facebook_sitename',$this->facebook_sitename,true);
 		$criteria->compare('t.facebook_see_also',$this->facebook_see_also,true);
 		$criteria->compare('t.facebook_admins',$this->facebook_admins,true);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
+		
+		// Custom Search
+		$criteria->with = array(
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname'
+			),
+		);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuMeta_sort']))
 			$criteria->order = 'id DESC';
@@ -301,6 +321,8 @@ class OmmuMeta extends CActiveRecord
 			$this->defaultColumns[] = 'facebook_sitename';
 			$this->defaultColumns[] = 'facebook_see_also';
 			$this->defaultColumns[] = 'facebook_admins';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -350,6 +372,11 @@ class OmmuMeta extends CActiveRecord
 			$this->defaultColumns[] = 'facebook_sitename';
 			$this->defaultColumns[] = 'facebook_see_also';
 			$this->defaultColumns[] = 'facebook_admins';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = array(
+				'name' => 'modified_search',
+				'value' => '$data->modified_relation->displayname',
+			);
 		}
 		parent::afterConstruct();
 	}
@@ -369,6 +396,8 @@ class OmmuMeta extends CActiveRecord
 				if(!in_array($extension, array('bmp','gif','jpg','png')))
 					$this->addError('meta_image', 'The file "'.$meta_image->name.'" cannot be uploaded. Only files with these extensions are allowed: bmp, gif, jpg, png.');
 			}
+			
+			$this->modified_id = Yii::app()->user->id;	
 		}
 		return true;
 	}

@@ -35,11 +35,18 @@
  * @property integer $dialog
  * @property string $attr
  * @property string $creation_date
+ * @property string $creation_id
+ * @property string $modified_date
+ * @property string $modified_id
  */
 class OmmuMenu extends CActiveRecord
 {
 	public $defaultColumns = array();
 	public $title;
+	
+	// Variable Search
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,8 +86,8 @@ class OmmuMenu extends CActiveRecord
 				title', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, publish, dependency, module, controller, action, site_type, site_admin, orders, name, class, url, dialog, attr, creation_date,
-				title', 'safe', 'on'=>'search'),
+			array('id, publish, dependency, module, controller, action, site_type, site_admin, orders, name, class, url, dialog, attr, creation_date, creation_id, modified_date, modified_id,
+				title, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -92,7 +99,9 @@ class OmmuMenu extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
+			'view_menu' => array(self::BELONGS_TO, 'ViewMenu', 'id'),
+			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -117,7 +126,12 @@ class OmmuMenu extends CActiveRecord
 			'dialog' => Phrase::trans(198,0),
 			'attr' => Phrase::trans(203,0),
 			'creation_date' => Phrase::trans(365,0),
+			'creation_id' => 'Creation',
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
 			'title' => Phrase::trans(194,0),
+			'creation_search' => 'Creation',
+			'modified_search' => 'Modified',
 		);
 	}
 	
@@ -157,15 +171,29 @@ class OmmuMenu extends CActiveRecord
 		$criteria->compare('t.attr',$this->attr,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		$criteria->compare('t.creation_id',$this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
 		
 		// Custom Search
 		$criteria->with = array(
-			'title' => array(
-				'alias'=>'title',
-				'select'=>'en'
+			'view_menu' => array(
+				'alias'=>'view_menu',
+				'select'=>'title'
+			),
+			'creation_relation' => array(
+				'alias'=>'creation_relation',
+				'select'=>'displayname'
+			),
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('title.en',strtolower($this->title), true);
+		$criteria->compare('view_menu.title',strtolower($this->title), true);
+		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuMenu_sort']))
 			$criteria->order = 'id DESC';
@@ -208,6 +236,9 @@ class OmmuMenu extends CActiveRecord
 			$this->defaultColumns[] = 'dialog';
 			$this->defaultColumns[] = 'attr';
 			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'creation_id';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -242,6 +273,10 @@ class OmmuMenu extends CActiveRecord
 			$this->defaultColumns[] = 'url';
 			$this->defaultColumns[] = 'dialog';
 			$this->defaultColumns[] = 'attr';
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation_relation->displayname',
+			);
 			$this->defaultColumns[] = 'creation_date';
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
@@ -260,6 +295,19 @@ class OmmuMenu extends CActiveRecord
 
 		}
 		parent::afterConstruct();
+	}
+
+	/**
+	 * before validate attributes
+	 */
+	protected function beforeValidate() {
+		if(parent::beforeValidate()) {
+			if($this->isNewRecord)
+				$this->creation_id = Yii::app()->user->id;	
+			else
+				$this->modified_id = Yii::app()->user->id;				
+		}
+		return true;
 	}
 	
 	/**

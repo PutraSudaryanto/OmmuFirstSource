@@ -33,6 +33,9 @@
  * @property string $version
  * @property string $icon
  * @property string $creation_date
+ * @property string $creation_id
+ * @property string $modified_date
+ * @property string $modified_id
  *
  * The followings are the available model relations:
  * @property OmmuCoreComment[] $ommuCoreComments
@@ -41,6 +44,10 @@
 class OmmuPlugins extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -78,7 +85,8 @@ class OmmuPlugins extends CActiveRecord
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('plugin_id, defaults, install, actived, orders, folder, code, model, name, desc, version, icon, creation_date', 'safe', 'on'=>'search'),
+			array('plugin_id, defaults, install, actived, orders, folder, code, model, name, desc, version, icon, creation_date, creation_id, modified_date, modified_id,
+				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,6 +98,8 @@ class OmmuPlugins extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -112,6 +122,11 @@ class OmmuPlugins extends CActiveRecord
 			'version' =>  Phrase::trans(237,0),
 			'icon' => Phrase::trans(239,0),
 			'creation_date' => Phrase::trans(443,0),
+			'creation_id' => 'Creation',
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
+			'creation_search' => 'Creation',
+			'modified_search' => 'Modified',
 		);
 	}
 	
@@ -145,6 +160,24 @@ class OmmuPlugins extends CActiveRecord
 		$criteria->compare('t.icon',$this->icon,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		$criteria->compare('t.creation_id',$this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
+		
+		// Custom Search
+		$criteria->with = array(
+			'creation_relation' => array(
+				'alias'=>'creation_relation',
+				'select'=>'displayname'
+			),
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname'
+			),
+		);
+		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['OmmuPlugins_sort']))
 			$criteria->order = 'plugin_id DESC';
@@ -188,6 +221,9 @@ class OmmuPlugins extends CActiveRecord
 			$this->defaultColumns[] = 'version';
 			$this->defaultColumns[] = 'icon';
 			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'creation_id';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -217,6 +253,10 @@ class OmmuPlugins extends CActiveRecord
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation_relation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
@@ -352,7 +392,10 @@ class OmmuPlugins extends CActiveRecord
 					$this->orders = 0;
 				}
 				$this->version = '1.0';
-			}		
+				
+				$this->creation_id = Yii::app()->user->id;	
+			} else
+				$this->modified_id = Yii::app()->user->id;	
 		}
 		return true;
 	}

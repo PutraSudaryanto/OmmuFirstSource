@@ -67,10 +67,15 @@
  * @property string $license_email
  * @property string $license_key
  * @property string $ommu_version
+ * @property string $modified_date
+ * @property string $modified_id
  */
 class OmmuSettings extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -111,7 +116,8 @@ class OmmuSettings extends CActiveRecord
 			array('site_creation, construction_date, construction_text, construction_twitter, general_include, banned_ips, banned_emails, banned_usernames, banned_words', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, online, site_type, site_admin, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version', 'safe', 'on'=>'search'),
+			array('id, online, site_type, site_admin, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version, modified_date, modified_id, 
+				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,6 +129,7 @@ class OmmuSettings extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -183,6 +190,9 @@ class OmmuSettings extends CActiveRecord
 			'license_email' => Phrase::trans(433,0),
 			'license_key' => Phrase::trans(432,0),
 			'ommu_version' => Phrase::trans(431,0),
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
+			'modified_search' => 'Modified',
 		);
 	}
 	
@@ -244,6 +254,18 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.license_email',$this->license_email,true);
 		$criteria->compare('t.license_key',$this->license_key,true);
 		$criteria->compare('t.ommu_version',$this->ommu_version,true);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
+		
+		// Custom Search
+		$criteria->with = array(
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname'
+			),
+		);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -315,6 +337,8 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'license_email';
 			$this->defaultColumns[] = 'license_key';
 			$this->defaultColumns[] = 'ommu_version';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -372,6 +396,11 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'license_email';
 			$this->defaultColumns[] = 'license_key';
 			$this->defaultColumns[] = 'ommu_version';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = array(
+				'name' => 'modified_search',
+				'value' => '$data->modified_relation->displayname',
+			);
 		}
 		parent::afterConstruct();
 	}
@@ -403,6 +432,8 @@ class OmmuSettings extends CActiveRecord
 					$this->addError('construction_twitter', Phrase::trans(320,0));
 				}
 			}
+			
+			$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}

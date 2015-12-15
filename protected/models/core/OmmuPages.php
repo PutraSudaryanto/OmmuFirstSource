@@ -29,7 +29,9 @@
  * @property integer $media_show
  * @property integer $media_type
  * @property string $creation_date
+ * @property string $creation_id
  * @property string $modified_date
+ * @property string $modified_id
  */
 class OmmuPages extends CActiveRecord
 {
@@ -40,6 +42,8 @@ class OmmuPages extends CActiveRecord
 	
 	// Variable Search
 	public $user_search;
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,8 +83,8 @@ class OmmuPages extends CActiveRecord
 				old_media', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('page_id, publish, user_id, name, desc, media, media_show, media_type, creation_date, modified_date,
-				title, description, user_search', 'safe', 'on'=>'search'),
+			array('page_id, publish, user_id, name, desc, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
+				title, description, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -92,10 +96,10 @@ class OmmuPages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view_page' => array(self::BELONGS_TO, 'ViewPages', 'page_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
-			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'desc'),
-			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -116,8 +120,12 @@ class OmmuPages extends CActiveRecord
 			'media_type' => Phrase::trans(343,0),
 			'description' => Phrase::trans(190,0),
 			'creation_date' => Phrase::trans(365,0),
+			'creation_id' => 'Creation',
 			'modified_date' => Phrase::trans(446,0),
+			'modified_id' => 'Modified',
 			'user_search' => Phrase::trans(191,0),
+			'creation_search' => 'Creation',
+			'modified_search' => 'Modified',
 		);
 	}
 	
@@ -151,29 +159,37 @@ class OmmuPages extends CActiveRecord
 		$criteria->compare('t.media_type',$this->media_type);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
 		
 		// Custom Search
 		$criteria->with = array(
+			'view_page' => array(
+				'alias'=>'view_page',
+				'select'=>'title, description'
+			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'displayname'
 			),
-			'title' => array(
-				'alias'=>'title',
-				'select'=>'en'
+			'creation_relation' => array(
+				'alias'=>'creation_relation',
+				'select'=>'displayname'
 			),
-			'description' => array(
-				'alias'=>'description',
-				'select'=>'en'
+			'modified_relation' => array(
+				'alias'=>'modified_relation',
+				'select'=>'displayname'
 			),
 		);
+		$criteria->compare('view_page.title',strtolower($this->title), true);
+		$criteria->compare('view_page.description',strtolower($this->description), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('title.en',strtolower($this->title), true);
-		$criteria->compare('description.en',strtolower($this->description), true);
+		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 		
-		if(!isset($_GET['OmmuPages_sort']))
+		if(isset($_GET['OmmuPages_sort']))
 			$criteria->order = 'page_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -211,7 +227,9 @@ class OmmuPages extends CActiveRecord
 			$this->defaultColumns[] = 'media_show';
 			$this->defaultColumns[] = 'media_type';
 			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -243,8 +261,8 @@ class OmmuPages extends CActiveRecord
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user->displayname',
+				'name' => 'creation_search',
+				'value' => '$data->creation_relation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
@@ -295,11 +313,10 @@ class OmmuPages extends CActiveRecord
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
-			if($this->isNewRecord) {
+			if($this->isNewRecord)
 				$this->user_id = Yii::app()->user->id;
-			} else {
-				$this->modified_id = Yii::app()->user->id;	
-			}
+			else
+				$this->modified_id = Yii::app()->user->id;
 			
 			$media = CUploadedFile::getInstance($this, 'media');		
 			if($media->name != '') {
