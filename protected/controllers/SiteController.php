@@ -186,7 +186,7 @@ class SiteController extends Controller
 									));
 									
 									echo CJSON::encode(array(
-										'redirect' => Yii::app()->user->level == 1 ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
+										'redirect' => in_array(Yii::app()->user->level, array(1,2)) ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
 									));
 								} else {
 									print_r($model->getErrors());
@@ -207,7 +207,7 @@ class SiteController extends Controller
 									));
 								} else {
 									echo CJSON::encode(array(
-										'redirect' => Yii::app()->user->level == 1 ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
+										'redirect' => in_array(Yii::app()->user->level, array(1,2)) ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
 									));
 								}
 								//$this->redirect(Yii::app()->user->returnUrl);
