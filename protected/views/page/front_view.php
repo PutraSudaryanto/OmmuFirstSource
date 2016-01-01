@@ -33,4 +33,5 @@
 		}		
 	}
 }?>
+
 <?php echo Phrase::trans($model->name, 2) != Utility::hardDecode(Phrase::trans($model->desc, 2)) ? Utility::cleanImageContent(Phrase::trans($model->desc, 2)) : '';?>
