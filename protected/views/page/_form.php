@@ -61,14 +61,20 @@ EOP;
 							'model'=>$model,
 							'attribute'=>description,
 							// Redactor options
-							/* ''options'=>array(
+							'options'=>array(
 								//'lang'=>'fi',
-								buttons'=>array(
-									'formatting', '|', 'bold', 'italic', 'deleted', '|',
+								'buttons'=>array(
+									'html', 'formatting', '|', 
+									'bold', 'italic', 'deleted', '|',
 									'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
-									'image', 'video', 'link', '|', 'html',
+									'link', '|',
 								),
-							), */
+							),
+							'plugins' => array(
+								'fontcolor' => array('js' => array('fontcolor.js')),
+								'table' => array('js' => array('table.js')),
+								'fullscreen' => array('js' => array('fullscreen.js')),
+							),
 						)); ?>
 						<?php echo $form->error($model,'description'); ?>
 					</div>
