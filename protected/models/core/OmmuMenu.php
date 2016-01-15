@@ -22,6 +22,7 @@
  * The followings are the available columns in table 'ommu_core_menu':
  * @property string $id
  * @property integer $publish
+ * @property integer $cat_id
  * @property integer $dependency
  * @property string $module
  * @property string $controller
@@ -38,6 +39,9 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ *
+ * The followings are the available model relations:
+ * @property OmmuCoreMenuCategory $cat
  */
 class OmmuMenu extends CActiveRecord
 {
@@ -74,9 +78,9 @@ class OmmuMenu extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('module, controller, orders, name, url,
+			array('cat_id, module, controller, orders, name, url,
 				title', 'required'),
-			array('publish, dependency, site_type, site_admin, orders, dialog', 'numerical', 'integerOnly'=>true),
+			array('publish, cat_id, dependency, site_type, site_admin, orders, dialog', 'numerical', 'integerOnly'=>true),
 			array('module, controller, action,
 				title', 'length', 'max'=>32),
 			array('name', 'length', 'max'=>10),
@@ -86,7 +90,7 @@ class OmmuMenu extends CActiveRecord
 				title', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, publish, dependency, module, controller, action, site_type, site_admin, orders, name, class, url, dialog, attr, creation_date, creation_id, modified_date, modified_id,
+			array('id, publish, cat_id, dependency, module, controller, action, site_type, site_admin, orders, name, class, url, dialog, attr, creation_date, creation_id, modified_date, modified_id,
 				title, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -100,6 +104,7 @@ class OmmuMenu extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'view_menu' => array(self::BELONGS_TO, 'ViewMenu', 'id'),
+			'cat_relation' => array(self::BELONGS_TO, 'OmmuMenuCategory', 'cat_id'),
 			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -113,6 +118,7 @@ class OmmuMenu extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'publish' => 'Publish',
+			'cat_id' => 'Cat',
 			'dependency' => 'Dependency',
 			'module' => Phrase::trans(199,0),
 			'controller' => Phrase::trans(200,0),
@@ -157,6 +163,10 @@ class OmmuMenu extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
+		if(isset($_GET['category']))
+			$criteria->compare('t.cat_id',$_GET['category']);
+		else
+			$criteria->compare('t.cat_id',$this->cat_id);
 		$criteria->compare('t.dependency',$this->dependency);
 		$criteria->compare('t.module',$this->module,true);
 		$criteria->compare('t.controller',$this->controller,true);
@@ -223,6 +233,7 @@ class OmmuMenu extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'publish';
+			$this->defaultColumns[] = 'cat_id';
 			$this->defaultColumns[] = 'dependency';
 			$this->defaultColumns[] = 'module';
 			$this->defaultColumns[] = 'controller';
@@ -261,6 +272,14 @@ class OmmuMenu extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			if(!isset($_GET['category'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'cat_id',
+					'value' => 'Phrase::trans($data->cat->name, 2)',
+					'filter'=> OmmuMenuCategory::getCategory(),
+					'type' => 'raw',
+				);
+			}
 			$this->defaultColumns[] = 'dependency';
 			$this->defaultColumns[] = 'module';
 			$this->defaultColumns[] = 'controller';
