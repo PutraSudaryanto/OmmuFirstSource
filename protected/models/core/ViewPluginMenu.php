@@ -51,7 +51,7 @@ class ViewPluginMenu extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['menu_id'];
+		return 'menu_id';
 	}
 
 	/**

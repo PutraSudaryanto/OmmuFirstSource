@@ -53,7 +53,7 @@ class ViewMeta extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['id'];
+		return 'id';
 	}
 
 	/**

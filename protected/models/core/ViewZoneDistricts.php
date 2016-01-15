@@ -53,7 +53,7 @@ class ViewZoneDistricts extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['district_id'];
+		return 'district_id';
 	}
 
 	/**

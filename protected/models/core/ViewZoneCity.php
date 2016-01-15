@@ -52,7 +52,7 @@ class ViewZoneCity extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['city_id'];
+		return 'city_id';
 	}
 
 	/**

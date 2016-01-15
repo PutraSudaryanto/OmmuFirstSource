@@ -52,7 +52,7 @@ class ViewPages extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['page_id'];
+		return 'page_id';
 	}
 
 	/**

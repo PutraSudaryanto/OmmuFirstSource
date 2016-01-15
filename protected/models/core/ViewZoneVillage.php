@@ -54,7 +54,7 @@ class ViewZoneVillage extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return ['village_id'];
+		return 'village_id';
 	}
 
 	/**
