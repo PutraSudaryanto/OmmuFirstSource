@@ -20,17 +20,15 @@
 <?php if($model->media_show == 1) {
 	$images = Yii::app()->request->baseUrl.'/public/page/'.$model->media;
 	if($this->adsSidebar == true) {
-		if($model->media_type == 1) {
+		if($model->media_type == 1)
 			echo '<img class="largemag" src="'.Utility::getTimThumb($images, 600, 900, 3).'" alt="">';
-		} else {
+		else
 			echo '<img class="mediummag" src="'.Utility::getTimThumb($images, 270, 500, 3).'" alt="">';
-		}
 	} else {
-		if($model->media_type == 1) {
+		if($model->media_type == 1)
 			echo '<img class="largemag" src="'.Utility::getTimThumb($images, 1280, 1024, 3).'" alt="">';
-		} else {
+		else
 			echo '<img class="mediummag" src="'.Utility::getTimThumb($images, 270, 500, 3).'" alt="">';
-		}		
 	}
 }?>
 

@@ -50,6 +50,33 @@ EOP;
 						<?php echo $form->error($model,'title'); ?>
 					</div>
 				</div>
+				
+				<div class="clearfix">
+					<?php echo $form->labelEx($model,'quotes'); ?>
+					<div class="desc">
+						<?php 
+						$model->quotes = Phrase::trans($model->quote, 2);
+						//echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 small'));
+						$this->widget('application.extensions.imperavi.ImperaviRedactorWidget', array(
+							'model'=>$model,
+							'attribute'=>quotes,
+							// Redactor options
+							'options'=>array(
+								//'lang'=>'fi',
+								'buttons'=>array(
+									'html', '|', 
+									'bold', 'italic', 'deleted', '|',
+								),
+							),
+							'plugins' => array(
+								'fontcolor' => array('js' => array('fontcolor.js')),
+								'fullscreen' => array('js' => array('fullscreen.js')),
+							),
+						)); ?>
+						<span class="small-px">Note : add {$quote} in description static pages</span>
+						<?php echo $form->error($model,'quotes'); ?>
+					</div>
+				</div>
 
 				<div class="clearfix">
 					<?php echo $form->labelEx($model,'description'); ?>
