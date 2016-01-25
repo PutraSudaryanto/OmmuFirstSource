@@ -142,7 +142,7 @@ class AdminController extends Controller
 		$this->pageTitle = Phrase::trans(248,0).', '.Yii::app()->user->displayname.'!';
 		$this->pageDescription = Phrase::trans(247,0);
 		$this->pageMeta = '';
-		$this->render('admin_dashboard', array(
+		$this->render('application.webs.admin.admin_dashboard', array(
 			'model'=>$model,			
 			'data'=>$data,
 			'pager'=>$pager,

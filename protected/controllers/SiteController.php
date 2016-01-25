@@ -103,9 +103,10 @@ class SiteController extends Controller
 			$this->pageTitle = 'Home';
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('front_index', array(
+			$this->render('application.webs.site.front_index', array(
 				'setting'=>$setting,
 			));
+			
 		}
 	}
 
