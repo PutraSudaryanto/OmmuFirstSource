@@ -401,7 +401,7 @@ class OmmuPages extends CActiveRecord
 							$this->media_type = 1;
 						}
 						
-						if(!$this->isNewRecord && $this->old_media != '')
+						if(!$this->isNewRecord && $this->old_media != '' && file_exists($page_path.'/'.$this->old_media))
 							rename($page_path.'/'.$this->old_media, 'public/page/verwijderen/'.$this->page_id.'_'.$this->old_media);
 						$this->media = $fileName;
 					}
@@ -422,7 +422,7 @@ class OmmuPages extends CActiveRecord
 		parent::afterDelete();
 		//delete page image
 		$page_path = "public/page";
-		if($this->media != '') {
+		if($this->media != '' && file_exists($page_path.'/'.$this->media)) {
 			rename($page_path.'/'.$this->media, 'public/page/verwijderen/'.$this->page_id.'_'.$this->media);
 		}
 	}
