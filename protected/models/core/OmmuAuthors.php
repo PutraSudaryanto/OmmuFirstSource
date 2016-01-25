@@ -260,7 +260,6 @@ class OmmuAuthors extends CActiveRecord
 	 */
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
-			$this->name = strtolower($this->name);
 			$this->email = strtolower($this->email);
 		}
 		return true;	
