@@ -34,6 +34,9 @@
  * @property string $site_timeformat
  * @property string $construction_date
  * @property string $construction_text
+ * @property string $event_startdate
+ * @property string $event_finishdate
+ * @property string $event_tag
  * @property integer $signup_username
  * @property integer $signup_approve
  * @property integer $signup_verifyemail
@@ -72,6 +75,7 @@
 class OmmuSettings extends CActiveRecord
 {
 	public $defaultColumns = array();
+	public $event;
 	
 	// Variable Search
 	public $modified_search;
@@ -102,7 +106,8 @@ class OmmuSettings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('site_url, site_title, site_keywords, site_description, site_dateformat, site_timeformat', 'required', 'on'=>'general'),
+			array('site_url, site_title, site_keywords, site_description, site_dateformat, site_timeformat,
+				event', 'required', 'on'=>'general'),
 			array('general_commenthtml, spam_failedcount', 'required', 'on'=>'banned'),
 			array('signup_numgiven', 'required', 'on'=>'signup'),
 			//array('analytic_id', 'required', 'on'=>'analytic'),
@@ -112,7 +117,8 @@ class OmmuSettings extends CActiveRecord
 			array('site_url, analytic_id, license_email, license_key', 'length', 'max'=>32),
 			array('site_title, site_keywords, site_description, general_commenthtml', 'length', 'max'=>256),
 			array('license_email', 'email'),
-			array('site_creation, construction_date, construction_text, general_include, banned_ips, banned_emails, banned_usernames, banned_words', 'safe'),
+			array('site_creation, construction_date, construction_text, event_startdate, event_finishdate, event_tag, general_include, banned_ips, banned_emails, banned_usernames, banned_words,
+				event', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, online, site_type, site_admin, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version, modified_date, modified_id, 
@@ -152,6 +158,9 @@ class OmmuSettings extends CActiveRecord
 			'site_timeformat' => Phrase::trans(513,0),
 			'construction_date' => Phrase::trans(315,0),
 			'construction_text' => Phrase::trans(316,0),
+			'event_startdate' => 'Event Start Date',
+			'event_finishdate' => 'Event Finish Date',
+			'event_tag' => 'Event Tag',
 			'signup_username' => Phrase::trans(46,0),
 			'signup_approve' => Phrase::trans(11,0),
 			'signup_verifyemail' => Phrase::trans(34,0),
@@ -190,6 +199,7 @@ class OmmuSettings extends CActiveRecord
 			'ommu_version' => Phrase::trans(431,0),
 			'modified_date' => 'Modified Date',
 			'modified_id' => 'Modified',
+			'event' => 'Event',
 			'modified_search' => 'Modified',
 		);
 	}
@@ -219,6 +229,11 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.site_timeformat',$this->site_timeformat,true);
 		$criteria->compare('t.construction_date',$this->construction_date);
 		$criteria->compare('t.construction_text',$this->construction_text,true);
+		if($this->event_startdate != null && !in_array($this->event_startdate, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.event_startdate)',date('Y-m-d', strtotime($this->event_startdate)));
+		if($this->event_finishdate != null && !in_array($this->event_finishdate, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.event_finishdate)',date('Y-m-d', strtotime($this->event_finishdate)));
+		$criteria->compare('t.event_tag',$this->event_tag);
 		$criteria->compare('t.signup_username',$this->signup_username);
 		$criteria->compare('t.signup_approve',$this->signup_approve);
 		$criteria->compare('t.signup_verifyemail',$this->signup_verifyemail);
@@ -301,6 +316,9 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'site_timeformat';
 			$this->defaultColumns[] = 'construction_date';
 			$this->defaultColumns[] = 'construction_text';
+			$this->defaultColumns[] = 'event_startdate';
+			$this->defaultColumns[] = 'event_finishdate';
+			$this->defaultColumns[] = 'event_tag';
 			$this->defaultColumns[] = 'signup_username';
 			$this->defaultColumns[] = 'signup_approve';
 			$this->defaultColumns[] = 'signup_verifyemail';
@@ -359,6 +377,9 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'site_timeformat';
 			$this->defaultColumns[] = 'construction_date';
 			$this->defaultColumns[] = 'construction_text';
+			$this->defaultColumns[] = 'event_startdate';
+			$this->defaultColumns[] = 'event_finishdate';
+			$this->defaultColumns[] = 'event_tag';
 			$this->defaultColumns[] = 'signup_username';
 			$this->defaultColumns[] = 'signup_approve';
 			$this->defaultColumns[] = 'signup_verifyemail';
@@ -416,6 +437,8 @@ class OmmuSettings extends CActiveRecord
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
+			$action = strtolower(Yii::app()->controller->action->id);
+			$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
 			if($this->online == 0) {
 				if($this->construction_date == '') {
 					$this->addError('construction_date', Phrase::trans(317,0));
@@ -423,6 +446,19 @@ class OmmuSettings extends CActiveRecord
 				if($this->construction_text == '') {
 					$this->addError('construction_text', Phrase::trans(318,0));
 				}
+			}
+			
+			if($currentAction == 'settings/general') {			
+				if(in_array(date('Y-m-d', strtotime($this->event_startdate)), array('0000-00-00','1970-01-01')) && in_array(date('Y-m-d', strtotime($this->event_finishdate)), array('0000-00-00','1970-01-01')))
+					$this->event = 0;
+			
+				if($this->event == 0) {
+					$this->event_startdate = '00-00-0000';	
+					$this->event_finishdate = '00-00-0000';	
+				}
+			
+				if($this->event != 0 && ($this->event_startdate != '' && $this->event_finishdate != '') && ($this->event_startdate >= $this->event_finishdate))
+					$this->addError('event_finishdate', Phrase::trans(28034,1));
 			}
 			
 			$this->modified_id = Yii::app()->user->id;
@@ -436,6 +472,8 @@ class OmmuSettings extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			$this->construction_date = date('Y-m-d', strtotime($this->construction_date));
+			$this->event_startdate = date('Y-m-d', strtotime($this->event_startdate));
+			$this->event_finishdate = date('Y-m-d', strtotime($this->event_finishdate));
 		}
 		return true;
 	}

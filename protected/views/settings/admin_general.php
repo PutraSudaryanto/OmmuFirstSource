@@ -26,6 +26,14 @@ $js=<<<EOP
 			$('div#construction').slideUp();
 		}
 	});
+	$('#OmmuSettings_event input[name="OmmuSettings[event]"]').live('change', function() {
+		var id = $(this).val();
+		if(id == '0') {
+			$('div#events').slideUp();
+		} else {
+			$('div#events').slideDown();
+		}
+	});
 EOP;
 	$cs->registerScript('smtp', $js, CClientScript::POS_END);
 ?>
@@ -62,7 +70,7 @@ EOP;
 				<label><?php echo $model->getAttributeLabel('construction_date');?> <span class="required">*</span></label>
 				<div class="desc">
 					<?php 
-					$model->construction_date = date('Y-m-d', strtotime($model->construction_date));
+					$model->construction_date = date('d-m-Y', strtotime($model->construction_date));
 					//echo $form->textField($model,'construction_date',array('maxlength'=>10, 'class'=>'span-3'));
 					$this->widget('zii.widgets.jui.CJuiDatePicker',array(
 						'model'=>$model, 
@@ -71,7 +79,7 @@ EOP;
 							'dateFormat' => 'dd-mm-yy',
 						),
 						'htmlOptions'=>array(
-							'class' => 'span-3',
+							'class' => 'span-4',
 						 ),
 					));	?>
 					<?php echo $form->error($model,'construction_date'); ?>
@@ -86,6 +94,72 @@ EOP;
 				</div>
 			</div>
 
+		</div>
+
+		<?php 
+		$model->event = 0;
+		if($model->isNewRecord || (!$model->isNewRecord && !in_array(date('Y-m-d', strtotime($model->event_startdate)), array('0000-00-00','1970-01-01')) && !in_array(date('Y-m-d', strtotime($model->event_finishdate)), array('0000-00-00','1970-01-01'))))
+			$model->event = 1;
+		?>
+		<div class="clearfix">
+			<label><?php echo $model->getAttributeLabel('event')?> <span class="required">*</span></label>
+			<div class="desc">
+				<?php echo $form->radioButtonList($model,'event', array(
+					1 => 'Enable',
+					0 => 'Disable',
+				)); ?>
+				<?php echo $form->error($model,'event'); ?>
+			</div>
+		</div>
+		
+		<div id="events" <?php echo $model->event == '0' ? 'class="hide"' : ''; ?>>
+			<div class="clearfix">
+				<label><?php echo $model->getAttributeLabel('event_startdate');?> <span class="required">*</span></label>
+				<div class="desc">
+					<?php 
+					$model->event_startdate = date('d-m-Y', strtotime($model->event_startdate));
+					//echo $form->textField($model,'event_startdate',array('maxlength'=>10, 'class'=>'span-3'));
+					$this->widget('zii.widgets.jui.CJuiDatePicker',array(
+						'model'=>$model, 
+						'attribute'=>'event_startdate',
+						'options'=>array(
+							'dateFormat' => 'dd-mm-yy',
+						),
+						'htmlOptions'=>array(
+							'class' => 'span-4',
+						 ),
+					));	?>
+					<?php echo $form->error($model,'event_startdate'); ?>
+				</div>
+			</div>
+			
+			<div class="clearfix">
+				<label><?php echo $model->getAttributeLabel('event_finishdate');?> <span class="required">*</span></label>
+				<div class="desc">
+					<?php 
+					$model->event_finishdate = date('d-m-Y', strtotime($model->event_finishdate));
+					//echo $form->textField($model,'event_finishdate',array('maxlength'=>10, 'class'=>'span-3'));
+					$this->widget('zii.widgets.jui.CJuiDatePicker',array(
+						'model'=>$model, 
+						'attribute'=>'event_finishdate',
+						'options'=>array(
+							'dateFormat' => 'dd-mm-yy',
+						),
+						'htmlOptions'=>array(
+							'class' => 'span-4',
+						 ),
+					));	?>
+					<?php echo $form->error($model,'event_finishdate'); ?>
+				</div>
+			</div>
+
+			<div class="clearfix">
+				<label><?php echo $model->getAttributeLabel('event_tag')?> <span class="required">*</span></label>
+				<div class="desc">
+					<?php echo $form->textField($model,'event_tag',array('class'=>'span-9')); ?>
+					<?php echo $form->error($model,'event_tag'); ?>
+				</div>
+			</div>
 		</div>
 
 		<div class="clearfix">
