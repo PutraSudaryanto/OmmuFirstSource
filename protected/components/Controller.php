@@ -105,10 +105,7 @@ class Controller extends CController
 			if($this->dialogFixed == true) {
 				$this->pageGuest = true;
 			}
-			// replace timthumb url
-			if(!isset(Yii::app()->session['timthumb_url_replace']) && Yii::app()->params['timthumb_url_replace'] == 1) {
-				Yii::app()->session['timthumb_url_replace'] = Yii::app()->params['timthumb_url_replace_website'];
-			}
+			
 			// registers all meta tags
 			if(!Yii::app()->request->isAjaxRequest) {
 				$meta = OmmuMeta::model()->findByPk(1,array(

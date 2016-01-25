@@ -202,10 +202,11 @@ class Utility
 	/**
 	 * getTimThumb function
 	 */
-	public static function getTimThumb($src, $width, $height, $zoom, $crop='c') {
-		if(isset(Yii::app()->session['timthumb_url_replace'])) {
-			$src = str_replace(Yii::app()->request->baseUrl, Yii::app()->session['timthumb_url_replace'], $src);		
-		}
+	public static function getTimThumb($src, $width, $height, $zoom, $crop='c') 
+	{
+		if(Yii::app()->params['timthumb_url_replace'] == 1)
+			$src = str_replace(Yii::app()->request->baseUrl, Yii::app()->params['timthumb_url_replace_website'], $src);
+		
 		$image = self::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/timthumb.php?src='.$src.'&h='.$height.'&w='.$width.'&zc='.$zoom.'&a='.$crop;
         return $image;
     }
