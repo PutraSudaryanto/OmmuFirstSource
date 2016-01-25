@@ -34,7 +34,6 @@
  * @property string $site_timeformat
  * @property string $construction_date
  * @property string $construction_text
- * @property string $construction_twitter
  * @property integer $signup_username
  * @property integer $signup_approve
  * @property integer $signup_verifyemail
@@ -113,7 +112,7 @@ class OmmuSettings extends CActiveRecord
 			array('site_url, analytic_id, license_email, license_key', 'length', 'max'=>32),
 			array('site_title, site_keywords, site_description, general_commenthtml', 'length', 'max'=>256),
 			array('license_email', 'email'),
-			array('site_creation, construction_date, construction_text, construction_twitter, general_include, banned_ips, banned_emails, banned_usernames, banned_words', 'safe'),
+			array('site_creation, construction_date, construction_text, general_include, banned_ips, banned_emails, banned_usernames, banned_words', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, online, site_type, site_admin, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version, modified_date, modified_id, 
@@ -153,7 +152,6 @@ class OmmuSettings extends CActiveRecord
 			'site_timeformat' => Phrase::trans(513,0),
 			'construction_date' => Phrase::trans(315,0),
 			'construction_text' => Phrase::trans(316,0),
-			'construction_twitter' => Phrase::trans(319,0),
 			'signup_username' => Phrase::trans(46,0),
 			'signup_approve' => Phrase::trans(11,0),
 			'signup_verifyemail' => Phrase::trans(34,0),
@@ -221,7 +219,6 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.site_timeformat',$this->site_timeformat,true);
 		$criteria->compare('t.construction_date',$this->construction_date);
 		$criteria->compare('t.construction_text',$this->construction_text,true);
-		$criteria->compare('t.construction_twitter',$this->construction_twitter,true);
 		$criteria->compare('t.signup_username',$this->signup_username);
 		$criteria->compare('t.signup_approve',$this->signup_approve);
 		$criteria->compare('t.signup_verifyemail',$this->signup_verifyemail);
@@ -304,7 +301,6 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'site_timeformat';
 			$this->defaultColumns[] = 'construction_date';
 			$this->defaultColumns[] = 'construction_text';
-			$this->defaultColumns[] = 'construction_twitter';
 			$this->defaultColumns[] = 'signup_username';
 			$this->defaultColumns[] = 'signup_approve';
 			$this->defaultColumns[] = 'signup_verifyemail';
@@ -363,7 +359,6 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'site_timeformat';
 			$this->defaultColumns[] = 'construction_date';
 			$this->defaultColumns[] = 'construction_text';
-			$this->defaultColumns[] = 'construction_twitter';
 			$this->defaultColumns[] = 'signup_username';
 			$this->defaultColumns[] = 'signup_approve';
 			$this->defaultColumns[] = 'signup_verifyemail';
@@ -427,9 +422,6 @@ class OmmuSettings extends CActiveRecord
 				}
 				if($this->construction_text == '') {
 					$this->addError('construction_text', Phrase::trans(318,0));
-				}
-				if($this->construction_twitter == '') {
-					$this->addError('construction_twitter', Phrase::trans(320,0));
 				}
 			}
 			

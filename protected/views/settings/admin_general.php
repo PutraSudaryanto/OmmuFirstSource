@@ -89,14 +89,6 @@ EOP;
 		</div>
 
 		<div class="clearfix">
-			<label><?php echo $model->getAttributeLabel('construction_twitter')?> <span class="required">*</span></label>
-			<div class="desc">
-				<?php echo $form->textField($model,'construction_twitter',array('maxlength'=>32, 'class'=>'span-4')); ?>
-				<?php echo $form->error($model,'construction_twitter'); ?>
-			</div>
-		</div>
-
-		<div class="clearfix">
 			<label>
 				<?php echo $model->getAttributeLabel('site_title');?> <span class="required">*</span><br/>
 				<span><?php echo Phrase::trans(106,0);?></span>
