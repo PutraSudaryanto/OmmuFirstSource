@@ -25,6 +25,8 @@
  * @property integer $type
  * @property string $contact
  * @property string $creation_date
+ * @property string $modified_date
+ * @property string $modified_id
  *
  * The followings are the available model relations:
  * @property OmmuCoreAuthors $author
@@ -35,6 +37,7 @@ class OmmuAuthorContact extends CActiveRecord
 	
 	// Variable Search
 	public $author_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -67,11 +70,11 @@ class OmmuAuthorContact extends CActiveRecord
 			array('type', 'numerical', 'integerOnly'=>true),
 			array('author_id', 'length', 'max'=>11),
 			array('contact', 'length', 'max'=>64),
-			array('author_id', 'safe'),
+			array('author_id, creation_date, modified_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, author_id, type, contact, creation_date,
-				author_search', 'safe', 'on'=>'search'),
+			array('id, author_id, type, contact, creation_date, modified_date, modified_id,
+				author_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,7 +86,8 @@ class OmmuAuthorContact extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'author_relation' => array(self::BELONGS_TO, 'OmmuAuthors', 'author_id'),
+			'author_TO' => array(self::BELONGS_TO, 'OmmuAuthors', 'author_id'),
+			'modified_TO' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -98,7 +102,10 @@ class OmmuAuthorContact extends CActiveRecord
 			'type' => 'Type',
 			'contact' => 'Contact',
 			'creation_date' => 'Creation Date',
+			'modified_date' => 'Modified Date',
+			'modified_id' => 'Modified',
 			'author_search' => 'Author',
+			'modified_search' => 'Modified',
 		);
 	}
 
@@ -130,15 +137,23 @@ class OmmuAuthorContact extends CActiveRecord
 		$criteria->compare('t.contact',$this->contact,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
 		
 		// Custom Search
 		$criteria->with = array(
-			'author_relation' => array(
-				'alias'=>'author_relation',
+			'author_TO' => array(
+				'alias'=>'author_TO',
 				'select'=>'name'
 			),
+			'modified_TO' => array(
+				'alias'=>'modified_TO',
+				'select'=>'displayname'
+			),
 		);
-		$criteria->compare('author_relation.name',strtolower($this->author_search), true);
+		$criteria->compare('author_TO.name',strtolower($this->author_search), true);
+		$criteria->compare('modified_TO.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuAuthorContact_sort']))
 			$criteria->order = 'id DESC';
@@ -174,6 +189,8 @@ class OmmuAuthorContact extends CActiveRecord
 			$this->defaultColumns[] = 'type';
 			$this->defaultColumns[] = 'contact';
 			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -190,7 +207,7 @@ class OmmuAuthorContact extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'author_search',
-				'value' => '$data->author_relation->name',
+				'value' => '$data->author_TO->name',
 			);
 			$this->defaultColumns[] = 'type';
 			$this->defaultColumns[] = 'contact';
