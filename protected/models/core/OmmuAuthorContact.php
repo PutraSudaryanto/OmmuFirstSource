@@ -257,6 +257,17 @@ class OmmuAuthorContact extends CActiveRecord
 			return $model;			
 		}
 	}
+
+	/**
+	 * before validate attributes
+	 */
+	protected function beforeValidate() {
+		if(parent::beforeValidate()) {
+			if(!$this->isNewRecord)
+				$this->modified_id = Yii::app()->user->id;				
+		}
+		return true;
+	}
 	
 	/**
 	 * before save attributes
