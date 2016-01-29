@@ -32,6 +32,7 @@
 class OmmuAuthors extends CActiveRecord
 {
 	public $defaultColumns = array();
+	public $author_phone;
 	
 	// Variable Search
 	public $modified_search;
@@ -64,9 +65,11 @@ class OmmuAuthors extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, email', 'required'),
+			array('author_phone', 'required', 'on'=>'phone'),
 			array('publish', 'numerical', 'integerOnly'=>true),
 			array('name, email, password', 'length', 'max'=>32),
-			array('password, creation_date, modified_date', 'safe'),
+			array('password, creation_date, modified_date,
+				author_phone', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('author_id, publish, name, email, password, creation_date, modified_date, modified_id,
@@ -83,6 +86,7 @@ class OmmuAuthors extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'modified_TO' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'contact_MANY' => array(self::HAS_MANY, 'OmmuAuthorContact', 'author_id'),
 		);
 	}
 
@@ -100,6 +104,7 @@ class OmmuAuthors extends CActiveRecord
 			'creation_date' => 'Creation Date',
 			'modified_date' => 'Modified Date',
 			'modified_id' => 'Modified',
+			'author_phone' => 'Author Phone',
 			'modified_search' => 'Modified',
 		);
 	}
@@ -293,6 +298,23 @@ class OmmuAuthors extends CActiveRecord
 			$this->email = strtolower($this->email);
 		}
 		return true;	
+	}
+	
+	/**
+	 * After save attributes
+	 */
+	protected function afterSave() {
+		parent::afterSave();
+		
+		if($this->isNewRecord) {
+			if($this->author_phone != '') {
+				$contact = new OmmuAuthorContact;
+				$contact->author_id = $this->author_id;
+				$contact->type = 1;
+				$contact->contact = $this->author_phone;
+				$contact->save();
+			}
+		}
 	}
 
 }

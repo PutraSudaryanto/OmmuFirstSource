@@ -125,6 +125,7 @@ class OmmuPages extends CActiveRecord
 			'title' => Phrase::trans(189,0),
 			'description' => Phrase::trans(190,0),
 			'quotes' => 'Quotes',
+			'old_media' => 'Old Media',
 			'user_search' => Phrase::trans(191,0),
 			'creation_search' => 'Creation',
 			'modified_search' => 'Modified',
@@ -386,7 +387,7 @@ class OmmuPages extends CActiveRecord
 			}
 				
 			//upload new photo
-			if($action != 'publish') {
+			if(in_array($action, array('add','edit'))) {
 				$page_path = "public/page";
 				$this->media = CUploadedFile::getInstance($this, 'media');
 				if($this->media instanceOf CUploadedFile) {

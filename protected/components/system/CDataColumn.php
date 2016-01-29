@@ -101,14 +101,18 @@ class CDataColumn extends CGridColumn
 		if(is_string($this->filter))
 		{
 			//echo $this->filter;
-			echo CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>$this->name, 'on_datepicker'=>''));
+			//echo '<pre>';
+			//print_r($this->grid);
+			//echo '</pre>';
+			//exit();
+			echo CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>$this->name."_filter", 'on_datepicker'=>'on', 'placeholder'=>'filter'));
 		}
 		elseif($this->filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false)
 		{
 			if(is_array($this->filter))
-				return CHtml::activeDropDownList($this->grid->filter, $this->name, $this->filter, array('id'=>false,'prompt'=>''));
+				return CHtml::activeDropDownList($this->grid->filter, $this->name, $this->filter, array('id'=>false, 'prompt'=>''));
 			elseif($this->filter===null)
-				return CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>false));
+				return CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>false, 'placeholder'=>'filter'));
 		}
 		else
 			return parent::getFilterCellContent();

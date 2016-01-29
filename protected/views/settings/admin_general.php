@@ -35,7 +35,7 @@ $js=<<<EOP
 		}
 	});
 EOP;
-	$cs->registerScript('smtp', $js, CClientScript::POS_END);
+	$cs->registerScript('setting', $js, CClientScript::POS_END);
 ?>
 
 <div class="form" name="post-on">
