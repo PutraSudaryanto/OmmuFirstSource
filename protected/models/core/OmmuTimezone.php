@@ -106,7 +106,7 @@ class OmmuTimezone extends CActiveRecord
 		$criteria->compare('t.title',strtolower($this->title),true);
 
 		if(!isset($_GET['OmmuTimezone_sort']))
-			$criteria->order = 'timezone_id DESC';
+			$criteria->order = 't.timezone_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

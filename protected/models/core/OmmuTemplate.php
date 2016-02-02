@@ -175,7 +175,7 @@ class OmmuTemplate extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuTemplate_sort']))
-			$criteria->order = 'template_key DESC';
+			$criteria->order = 't.template_key DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

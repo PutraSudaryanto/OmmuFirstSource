@@ -147,7 +147,7 @@ class OmmuSystemPhrase extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['OmmuSystemPhrase_sort']))
-			$criteria->order = 'phrase_id DESC';
+			$criteria->order = 't.phrase_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

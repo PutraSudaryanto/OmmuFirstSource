@@ -151,7 +151,7 @@ class OmmuMenuCategory extends CActiveRecord
 			$criteria->compare('t.modified_id',$this->modified_id);
 
 		if(!isset($_GET['OmmuMenuCategory_sort']))
-			$criteria->order = 'cat_id DESC';
+			$criteria->order = 't.cat_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

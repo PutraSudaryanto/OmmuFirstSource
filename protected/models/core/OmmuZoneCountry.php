@@ -158,7 +158,7 @@ class OmmuZoneCountry extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneCountry_sort']))
-			$criteria->order = 'country_id DESC';
+			$criteria->order = 't.country_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

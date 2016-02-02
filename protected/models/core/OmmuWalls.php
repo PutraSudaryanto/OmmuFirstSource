@@ -170,7 +170,7 @@ class OmmuWalls extends CActiveRecord
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 
 		if(!isset($_GET['OmmuWalls_sort']))
-			$criteria->order = 'wall_id DESC';
+			$criteria->order = 't.wall_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

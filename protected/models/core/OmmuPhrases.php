@@ -105,7 +105,7 @@ class OmmuPhrases extends CActiveRecord
 		$criteria->compare('t.en',strtolower($this->en),true);
 		
 		if(!isset($_GET['OmmuPhrases_sort']))
-			$criteria->order = 'phrase_id DESC';
+			$criteria->order = 't.phrase_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -121,7 +121,7 @@ class ViewMeta extends CActiveRecord
 		$criteria->compare('t.country',strtolower($this->country),true);
 
 		if(!isset($_GET['ViewMeta_sort']))
-			$criteria->order = 'id DESC';
+			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

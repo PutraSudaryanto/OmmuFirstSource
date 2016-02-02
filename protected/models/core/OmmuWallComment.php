@@ -173,7 +173,7 @@ class OmmuWallComment extends CActiveRecord
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 
 		if(!isset($_GET['OmmuWallComment_sort']))
-			$criteria->order = 'comment_id DESC';
+			$criteria->order = 't.comment_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

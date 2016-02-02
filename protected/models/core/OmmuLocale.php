@@ -116,7 +116,7 @@ class OmmuLocale extends CActiveRecord
 		$criteria->compare('t.title',strtolower($this->title),true);
 
 		if(!isset($_GET['OmmuLocale_sort']))
-			$criteria->order = 'locale_id DESC';
+			$criteria->order = 't.locale_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -180,7 +180,7 @@ class OmmuPlugins extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['OmmuPlugins_sort']))
-			$criteria->order = 'plugin_id DESC';
+			$criteria->order = 't.plugin_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

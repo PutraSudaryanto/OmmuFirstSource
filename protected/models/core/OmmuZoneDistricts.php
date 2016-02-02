@@ -185,7 +185,7 @@ class OmmuZoneDistricts extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneDistricts_sort']))
-			$criteria->order = 'district_id DESC';
+			$criteria->order = 't.district_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

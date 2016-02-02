@@ -189,7 +189,7 @@ class OmmuZoneCity extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneCity_sort']))
-			$criteria->order = 'city_id DESC';
+			$criteria->order = 't.city_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

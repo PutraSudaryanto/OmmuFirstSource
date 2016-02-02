@@ -270,6 +270,9 @@ class OmmuSettings extends CActiveRecord
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
 		
+		if(!isset($_GET['OmmuSettings_sort']))
+			$criteria->order = 't.id DESC';
+		
 		// Custom Search
 		$criteria->with = array(
 			'modified_relation' => array(

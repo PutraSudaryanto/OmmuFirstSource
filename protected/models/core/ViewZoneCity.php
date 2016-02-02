@@ -118,7 +118,7 @@ class ViewZoneCity extends CActiveRecord
 		$criteria->compare('t.province',strtolower($this->province),true);
 
 		if(!isset($_GET['ViewZoneCity_sort']))
-			$criteria->order = 'city_id DESC';
+			$criteria->order = 't.city_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

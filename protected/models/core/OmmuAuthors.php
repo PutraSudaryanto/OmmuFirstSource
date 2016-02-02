@@ -157,7 +157,7 @@ class OmmuAuthors extends CActiveRecord
 		$criteria->compare('modified_TO.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuAuthors_sort']))
-			$criteria->order = 'author_id DESC';
+			$criteria->order = 't.author_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

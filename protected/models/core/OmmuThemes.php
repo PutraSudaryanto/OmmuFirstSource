@@ -152,7 +152,7 @@ class OmmuThemes extends CActiveRecord
 		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['OmmuThemes_sort']))
-			$criteria->order = 'theme_id DESC';
+			$criteria->order = 't.theme_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
