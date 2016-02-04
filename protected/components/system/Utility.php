@@ -83,39 +83,40 @@ class Utility
 	/**
 	* Return setting template with typePage: public, admin_sweeto or back_office
 	*/
-	public static function getContentMenu($modules = null) {		
-		if($modules != null) {				
-			Yii::import('application.components.plugin.Spyc');
-			define('DS', DIRECTORY_SEPARATOR);
+	public static function getContentMenu() {		
+		$module = strtolower(Yii::app()->controller->module->id);
+		
+		Yii::import('application.components.plugin.Spyc');
+		define('DS', DIRECTORY_SEPARATOR);
+		
+		if($module != null)
+			$contentMenuPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';			
+		else
+			$contentMenuPath = Yii::getPathOfAlias('application.ommu').DS.'ommu.yaml';
 			
-			if($module != null) {
-				$data = $modules->getModule();
-				$contentMenuPath = Yii::getPathOfAlias('application.modules.'.$data->id).DS.$data->id.'.yaml';
-				
-			} else {
-				$contentMenuPath = Yii::getPathOfAlias('application.ommu').DS.'ommu.yaml';
-			}
-			//print_r($modules);
+		if(file_exists($contentMenuPath)) {
+			$arraySpyc = Spyc::YAMLLoad($contentMenuPath);
+			//print_r($arraySpyc[content_menu]);
 			
-			if(file_exists($contentMenuPath)) {
-				$arraySpyc = Spyc::YAMLLoad($contentMenuPath);
-				//print_r($arraySpyc[content_menu]);
+			$contentMenuData = array_filter($arraySpyc[content_menu], function($a){
+				$module = strtolower(Yii::app()->controller->module->id);
+				$controller = strtolower(Yii::app()->controller->id);
+				$action = strtolower(Yii::app()->controller->action->id);
+				//echo $module.'/'.$controller.'/'.$action;
 				
-				$contentMenuData = array_filter($arraySpyc[content_menu], function($a){
-					$module = strtolower(Yii::app()->controller->module->id);
-					$controller = strtolower(Yii::app()->controller->id);
-					$action = strtolower(Yii::app()->controller->action->id);
-					//echo $module.'/'.$controller.'/'.$action;
-					
+				$siteType = explode(',', $a[urlRules][siteType]);
+				$userLevel = explode(',', $a[urlRules][userLevel]);
+				
+				if(count($a[urlRules]) == 3) {
 					$actionArray = explode(',', $a[urlRules][2]);
-					$siteType = explode(',', $a[urlRules][siteType]);
-					$userLevel = explode(',', $a[urlRules][userLevel]);
-					
-					return $a[urlRules][0] == $module && $a[urlRules][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
-				});
-				return $contentMenuData;
-			}
-				
+					return $a[urlRules][0] == $module && $a[urlRules][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
+				} else {
+					$actionArray = explode(',', $a[urlRules][1]);
+					return $a[urlRules][0] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
+				}
+			});
+			return $contentMenuData;
+			
 		} else
 			return false;
 	}
