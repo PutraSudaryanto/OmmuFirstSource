@@ -1,0 +1,17 @@
+content_menu	:
+	- urlTitle: Add Banner
+		urlRules: {banner, o/admin, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
+		
+	- urlTitle: Back to Manage
+		urlRules: {banner, o/admin, add,edit, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: manage, attr: -, icon: -}
+		
+	- urlTitle: Add Category
+		urlRules: {banner, o/setting, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/category/add, attr: -, icon: -}
+		
+	- urlTitle: Add Category
+		urlRules: {banner, o/category, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
+		
