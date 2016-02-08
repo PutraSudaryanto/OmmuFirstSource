@@ -10,7 +10,6 @@
  *	Index
  *	Login
  *	Logout
- *	Contact
  *	SendEmail
  *
  *	LoadModel
@@ -57,6 +56,41 @@ class SiteController extends Controller
 	}
 
 	/**
+	 * @return array action filters
+	 */
+	public function filters() 
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+			//'postOnly + delete', // we only allow deletion via POST request
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules() 
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','error','login','logout','sendemail'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array(),
+				'users'=>array('@'),
+				'expression'=>'isset(Yii::app()->user->level)',
+				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
+	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError()
@@ -68,9 +102,9 @@ class SiteController extends Controller
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
 			else
-				$this->render('front_error', $error);
+				$this->render('application.webs.site.front_error', $error);
 		} else {
-			$this->render('front_error', $error);
+			$this->render('application.webs.site.front_error', $error);
 		}
 	}
 
@@ -96,7 +130,7 @@ class SiteController extends Controller
 			/* if(!Yii::app()->user->isGuest) {
 				$this->redirect(Yii::app()->createUrl('pose/site/index'));
 			} else {
-				$render = 'front_index';
+				$render = 'application.webs.site.front_index';
 			} */
 			
 			$this->adsSidebar = false;
@@ -129,7 +163,7 @@ class SiteController extends Controller
 				$modelForm = 'LoginForm';
 				$title = Phrase::trans(411,0);
 				$desc = '';
-				$render = 'front_login';
+				$render = 'application.webs.site.front_login';
 			} else {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];

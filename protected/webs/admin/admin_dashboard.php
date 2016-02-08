@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this LanguageController
+ * @var $this AdminController
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
