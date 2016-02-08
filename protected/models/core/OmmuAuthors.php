@@ -98,13 +98,15 @@ class OmmuAuthors extends CActiveRecord
 		return array(
 			'author_id' => 'Author',
 			'publish' => 'Publish',
-			'name' => 'Name',
-			'email' => 'Email',
+			//'name' => 'Name',
+			//'email' => 'Email',
+			'name' => 'Nama',
 			'password' => 'Password',
 			'creation_date' => 'Creation Date',
 			'modified_date' => 'Modified Date',
 			'modified_id' => 'Modified',
-			'author_phone' => 'Author Phone',
+			//'author_phone' => 'Author Phone',
+			'author_phone' => 'Telepon',
 			'modified_search' => 'Modified',
 		);
 	}
