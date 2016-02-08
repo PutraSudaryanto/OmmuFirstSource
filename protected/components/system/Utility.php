@@ -98,24 +98,28 @@ class Utility
 			$arraySpyc = Spyc::YAMLLoad($contentMenuPath);
 			//print_r($arraySpyc[content_menu]);
 			
-			$contentMenuData = array_filter($arraySpyc[content_menu], function($a){
-				$module = strtolower(Yii::app()->controller->module->id);
-				$controller = strtolower(Yii::app()->controller->id);
-				$action = strtolower(Yii::app()->controller->action->id);
-				//echo $module.'/'.$controller.'/'.$action;
+			if($arraySpyc[content_menu] != null) {
+				$contentMenuData = array_filter($arraySpyc[content_menu], function($a){
+					$module = strtolower(Yii::app()->controller->module->id);
+					$controller = strtolower(Yii::app()->controller->id);
+					$action = strtolower(Yii::app()->controller->action->id);
+					//echo $module.'/'.$controller.'/'.$action;
+					
+					$siteType = explode(',', $a[urlRules][siteType]);
+					$userLevel = explode(',', $a[urlRules][userLevel]);
+					
+					if(count($a[urlRules]) == 5) {
+						$actionArray = explode(',', $a[urlRules][2]);
+						return $a[urlRules][0] == $module && $a[urlRules][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
+					} else {
+						$actionArray = explode(',', $a[urlRules][1]);
+						return $a[urlRules][0] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
+					}
+				});
+				return $contentMenuData;
 				
-				$siteType = explode(',', $a[urlRules][siteType]);
-				$userLevel = explode(',', $a[urlRules][userLevel]);
-				
-				if(count($a[urlRules]) == 3) {
-					$actionArray = explode(',', $a[urlRules][2]);
-					return $a[urlRules][0] == $module && $a[urlRules][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
-				} else {
-					$actionArray = explode(',', $a[urlRules][1]);
-					return $a[urlRules][0] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);					
-				}
-			});
-			return $contentMenuData;
+			} else
+				return false;
 			
 		} else
 			return false;
