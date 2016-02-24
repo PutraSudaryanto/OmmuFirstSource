@@ -149,141 +149,15 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
-		if(!Yii::app()->user->isGuest) {
+		if(!Yii::app()->user->isGuest)
 			$this->redirect(array('site/index'));
 
-		} else {
+		else {
 			$setting = OmmuSettings::getInfo('site_type');
-			if($setting == 1) {
-				$arrThemes = Utility::getCurrentTemplate('public');
-				Yii::app()->theme = $arrThemes['folder'];
-				$this->layout = $arrThemes['layout'];
-				
-				$model=new LoginForm;
-				$modelForm = 'LoginForm';
-				$title = Phrase::trans(411,0);
-				$desc = '';
-				$render = 'application.webs.site.front_login';
-			} else {
-				$arrThemes = Utility::getCurrentTemplate('admin');
-				Yii::app()->theme = $arrThemes['folder'];
-				$this->layout = $arrThemes['layout'];
-				
-				$model=new LoginFormAdmin;
-				$modelForm = 'LoginFormAdmin';
-				$title = Phrase::trans(411,0);
-				$desc = '';
-				$render = 'admin_login';
-			}
-
-			// if it is ajax validation request
-			if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
-				echo CActiveForm::validate($model);
-				Yii::app()->end();
-			}
-
-			// collect user input data
-			if(isset($_POST[$modelForm]))
-			{
-				$model->attributes=$_POST[$modelForm];
-				
-				if($setting == 1) {
-					if(!isset($_GET['email'])) {
-						$model->scenario = 'loginemail';
-					} else {
-						$model->scenario = 'loginpassword';
-					}
-				}
-
-				$jsonError = CActiveForm::validate($model);
-				if(strlen($jsonError) > 2) {
-					echo $jsonError;
-
-				} else {
-					if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-						if($setting == 1) {
-							if(!isset($_GET['email'])) {
-								if($model->validate()) {
-									echo CJSON::encode(array(
-										'type' => 5,
-										'get' => Yii::app()->createUrl('site/login', array('email'=>$model->email)),
-									));
-								} else {
-									print_r($model->getErrors());
-								}
-							} else {
-								// validate user input and redirect to the previous page if valid
-								if($model->validate() && $model->login()) {
-									Users::model()->updateByPk(Yii::app()->user->id, array(
-										'lastlogin_date'=>date('Y-m-d H:i:s'), 
-										'lastlogin_ip'=>$_SERVER['REMOTE_ADDR'],
-										'lastlogin_from'=>Yii::app()->params['product_access_system'],
-									));
-									
-									echo CJSON::encode(array(
-										'redirect' => in_array(Yii::app()->user->level, array(1,2)) ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
-									));
-								} else {
-									print_r($model->getErrors());
-								}
-							}
-						
-						} else {
-							// validate user input and redirect to the previous page if valid
-							if($model->validate() && $model->login()) {
-								Users::model()->updateByPk(Yii::app()->user->id, array(
-									'lastlogin_date'=>date('Y-m-d H:i:s'), 
-									'lastlogin_ip'=>$_SERVER['REMOTE_ADDR'],
-									'lastlogin_from'=>Yii::app()->params['product_access_system'],
-								));
-								if(isset($_GET['type'])) {
-									echo CJSON::encode(array(
-										'type' => 6,
-									));
-								} else {
-									echo CJSON::encode(array(
-										'redirect' => in_array(Yii::app()->user->level, array(1,2)) ? Yii::app()->createUrl('admin/index') : Yii::app()->user->returnUrl,
-									));
-								}
-								//$this->redirect(Yii::app()->user->returnUrl);
-							} else {
-								print_r($model->getErrors());
-							}
-						}
-					}
-				}
-				Yii::app()->end();
-				
-			}
-			
-			if($setting == 1) {
-				// display the login form
-				$this->dialogDetail = true;
-				$this->dialogGroundUrl = Yii::app()->createUrl('site/index');
-
-				$this->dialogFixed = true;
-				if(!isset($_GET['email'])) {
-					$this->dialogFixedClosed=array(
-						Phrase::trans(596,0)=>Yii::app()->createUrl('users/signup/index'),
-					);
-				} else {
-					$this->dialogFixedClosed=array(
-						Phrase::trans(597,0)=>Yii::app()->createUrl('users/forgot/get'),
-					);
-				}		
-				
-			} else {
-				// display the login form
-				$this->dialogDetail = true;
-				$this->dialogWidth = 600;
-			}
-			
-			$this->pageTitle = $title;
-			$this->pageDescription = $desc;
-			$this->pageMeta = '';
-			$this->render($render,array(
-				'model'=>$model,
-			));
+			if($setting == 1)
+				$this->redirect(Yii::app()->createUrl('users/account'));
+			else
+				$this->redirect(Yii::app()->createUrl('users/admin'));
 		}
 	}
 
