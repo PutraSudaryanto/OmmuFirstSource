@@ -96,10 +96,14 @@ class Utility
 			
 		if(file_exists($contentMenuPath)) {
 			$arraySpyc = Spyc::YAMLLoad($contentMenuPath);
-			//print_r($arraySpyc[content_menu]);
+			$contentMenu = $arraySpyc[content_menu];
+			/* echo '<pre>';
+			print_r($contentMenu);
+			echo '</pre>';
+			exit(); */
 			
-			if($arraySpyc[content_menu] != null) {
-				$contentMenuData = array_filter($arraySpyc[content_menu], function($a){
+			if($contentMenu != null) {
+				$contentMenuData = array_filter($contentMenu, function($a){
 					$module = strtolower(Yii::app()->controller->module->id);
 					$controller = strtolower(Yii::app()->controller->id);
 					$action = strtolower(Yii::app()->controller->action->id);
@@ -117,6 +121,44 @@ class Utility
 					}
 				});
 				return $contentMenuData;
+				
+			} else
+				return false;
+			
+		} else
+			return false;
+	}
+	
+	/**
+	* Return setting template with typePage: public, admin_sweeto or back_office
+	*/
+	public static function getPluginMenu($module=null) 
+	{		
+		Yii::import('application.components.plugin.Spyc');
+		define('DS', DIRECTORY_SEPARATOR);
+		
+		if($module == null)
+			return false;
+		else
+			$pluginMenuPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';
+			
+			
+		if(file_exists($pluginMenuPath)) {
+			$arraySpyc = Spyc::YAMLLoad($pluginMenuPath);
+			$pluginMenu = $arraySpyc[plugin_menu];
+			/* echo '<pre>';
+			print_r($pluginMenu);
+			echo '</pre>';
+			exit(); */
+			
+			if($pluginMenu != null) {
+				$pluginMenuData = array_filter($pluginMenu, function($a){					
+					$siteType = explode(',', $a[urlRules][siteType]);
+					$userLevel = explode(',', $a[urlRules][userLevel]);
+					
+					return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);	
+				});
+				return $pluginMenuData;
 				
 			} else
 				return false;
