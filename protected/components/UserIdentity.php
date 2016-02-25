@@ -10,7 +10,7 @@
  * @contect (+62)856-299-4114
  *
  */
-class UserIdentity extends OUserIdentity
+class UserIdentity extends CUserIdentity
 {
 	public $email;
 	private $_id;
@@ -25,9 +25,6 @@ class UserIdentity extends OUserIdentity
 	 */
 	public function authenticate()
 	{
-        if($this->token != null)
-            $userToken = Users::model()->findByAttributes(array('salt'=>$this->token));   
-			
 		if(preg_match('/@/',$this->username)) //$this->username can filled by username or email
 			$record = Users::model()->findByAttributes(array('email' => $this->username));
 		else 
@@ -35,29 +32,25 @@ class UserIdentity extends OUserIdentity
 			
 		if($record === null) {
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
-		} else if($this->token == null && $record->password !== Users::hashPassword($record->salt,$this->password)) {
+		} else if($record->password !== Users::hashPassword($record->salt,$this->password)) {
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
 		} else {
-			if($this->token !== null && $userToken == null) {
-				$this->errorCode = self::ERROR_PASSWORD_INVALID;
-			} else {
-				$this->_id = $record->user_id;
-				$this->setState('level', $record->level_id);
-				$this->setState('profile', $record->profile_id);
-				$this->setState('language', $record->language_id);
-				$this->email = $record->email;
-				$this->setState('fname', $record->first_name);
-				$this->setState('lname', $record->last_name);
-				$this->setState('displayname', $record->displayname);
-				$this->setState('username', $record->username);
-				$this->setState('photo', $record->photo_id != 0 ? $record->photo->photo : 0);
-				$this->setState('status', $record->status_id);
-				$this->setState('enabled', $record->enabled);
-				$this->setState('verified', $record->verified);
-				$this->setState('creation_date', $record->creation_date);
-				$this->setState('lastlogin_date', $record->lastlogin_date);
-				$this->errorCode = self::ERROR_NONE;
-			}
+			$this->_id = $record->user_id;
+			$this->setState('level', $record->level_id);
+			$this->setState('profile', $record->profile_id);
+			$this->setState('language', $record->language_id);
+			$this->email = $record->email;
+			$this->setState('fname', $record->first_name);
+			$this->setState('lname', $record->last_name);
+			$this->setState('displayname', $record->displayname);
+			$this->setState('username', $record->username);
+			$this->setState('photo', $record->photo_id != 0 ? $record->photo->photo : 0);
+			$this->setState('status', $record->status_id);
+			$this->setState('enabled', $record->enabled);
+			$this->setState('verified', $record->verified);
+			$this->setState('creation_date', $record->creation_date);
+			$this->setState('lastlogin_date', $record->lastlogin_date);
+			$this->errorCode = self::ERROR_NONE;
 		}
 		return !$this->errorCode;
 
