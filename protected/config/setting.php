@@ -28,7 +28,7 @@ return array(
 		'timthumb_url_replace' => 0,		
 		'timthumb_url_replace_website' => 'http://nirwasita.com',	//default http
 		// access system *from product
-		'product_access_system' => 'ommu.opensource',
+		'product_access_system' => 'ommu.co.core',
 	),
 );
 ?>

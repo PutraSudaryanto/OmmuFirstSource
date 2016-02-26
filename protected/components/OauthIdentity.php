@@ -20,46 +20,126 @@ class OauthIdentity extends OUserIdentity
 	 */
 	public function authenticate()
 	{
-        if($this->token != null)
-            $userToken = Users::model()->findByAttributes(array('salt'=>$this->token));   
-			
-		if(preg_match('/@/',$this->username)) //$this->username can filled by username or email
-			$record = Users::model()->findByAttributes(array('email' => $this->username));
-		else 
-			$record = Users::model()->findByAttributes(array('username' => $this->username));
-			
-		if($record === null) {
+		$oauthConnected = self::getOauthServerConnected();
+		$url = $oauthConnected.'/users/api/oauth/login';
+		
+		$item = array(
+			'email' => $this->username,
+			'password' => $this->password,
+			'access' => Yii::app()->params['product_access_system'],
+			'ipaddress' => $_SERVER['REMOTE_ADDR'],
+		);
+		$items = http_build_query($item);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		//curl_setopt($ch,CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $items);
+		$output=curl_exec($ch);
+		
+		if($output === false) {
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
-		} else if($this->token == null && $record->password !== Users::hashPassword($record->salt,$this->password)) {
-			$this->errorCode = self::ERROR_PASSWORD_INVALID;
+			
 		} else {
-			if($this->token !== null && $userToken == null) {
-				$this->errorCode = self::ERROR_PASSWORD_INVALID;
-			} else {
-				$this->_id = $record->user_id;
-				$this->setState('level', $record->level_id);
-				$this->setState('profile', $record->profile_id);
-				$this->setState('language', $record->language_id);
-				$this->email = $record->email;
-				$this->setState('fname', $record->first_name);
-				$this->setState('lname', $record->last_name);
-				$this->setState('displayname', $record->displayname);
-				$this->setState('username', $record->username);
-				$this->setState('photo', $record->photo_id != 0 ? $record->photo->photo : 0);
-				$this->setState('status', $record->status_id);
-				$this->setState('enabled', $record->enabled);
-				$this->setState('verified', $record->verified);
-				$this->setState('creation_date', $record->creation_date);
-				$this->setState('lastlogin_date', $record->lastlogin_date);
+			$object = json_decode($output);
+			if($object->success == 1) {
+				$user = Users::model()->findByAttributes(array('email'=>$object->email));
+				if($user != null) {
+					$this->setUserSession($user);
+					
+				} else {
+					$model=new Users;
+					$model->source_id = $object->id;
+					$model->email = $object->email;
+					$model->displayname = $object->displayname;
+					$model->photos = $object->photo;
+					if($model->save()) {
+						$user = Users::model()->findByAttributes(array('email'=>$model->email));
+						$this->setUserSession($user);
+					}
+				}
 				$this->errorCode = self::ERROR_NONE;
+				
+			} else {
+				if($object->error == 'email')
+					$this->errorCode = self::ERROR_USERNAME_INVALID;
+				else if($object->error == 'password')
+					$this->errorCode = self::ERROR_PASSWORD_INVALID;
+				else if($object->error == 'token')
+					$this->errorCode = self::ERROR_TOKEN_INVALID;
 			}
 		}
 		return !$this->errorCode;
-
 	}
 
 	public function getId() {
 		return $this->_id;
+	}
+
+	//returns true, if domain is availible, false if not
+	public function setUserSession($user) 
+	{
+		$this->_id = $user->user_id;
+		$this->setState('level', $user->level_id);
+		$this->setState('profile', $user->profile_id);
+		$this->setState('language', $user->language_id);
+		$this->email = $user->email;
+		$this->setState('displayname', $user->displayname);
+		$this->setState('photo', $user->photos);
+		$this->setState('enabled', $user->enabled);
+		$this->setState('verified', $user->verified);
+		$this->setState('creation_date', $user->creation_date);
+		$this->setState('lastlogin_date', date('Y-m-d H:i:s'));
+		
+		return true;
+	}
+
+	/**
+	 * get alternatif connected domain for ommu.oauth
+	 * @param type $operator not yet using
+	 * @return type
+	 */
+	public static function getOauthServerConnected() {
+		//todo with operator
+		$oauthServerOptions = Yii::app()->params['oauth_server_options'];
+		$connectedUrl = 'neither-connected';
+		
+		foreach ($oauthServerOptions as $val)
+		{
+			if (self::getServerAvailible($val))
+			{
+				$connectedUrl = $val;
+				break;
+			}
+		}
+		file_put_contents('assets/oauth_server_is_active.txt', $connectedUrl);
+
+		return $connectedUrl;
+	}
+
+	//returns true, if domain is availible, false if not
+	public static function getServerAvailible($domain) 
+	{
+		//check, if a valid url is provided
+		if (!filter_var($domain, FILTER_VALIDATE_URL))
+			return false;
+
+		//initialize curl
+		$curlInit = curl_init($domain);
+		curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,10);
+		curl_setopt($curlInit,CURLOPT_HEADER,true);
+		curl_setopt($curlInit,CURLOPT_NOBODY,true);
+		curl_setopt($curlInit,CURLOPT_RETURNTRANSFER,true);
+
+		//get answer
+		$response = curl_exec($curlInit);
+		curl_close($curlInit);
+		if($response)
+			return true;
+
+		return false;
 	}
 
 }

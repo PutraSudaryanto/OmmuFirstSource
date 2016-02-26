@@ -35,6 +35,7 @@ return array(
 		'application.components.admin.*',
 		'application.components.public.*',
 		'application.components.system.*',
+		'application.modules.users.components.*',
 	),
 
 	// application components
