@@ -46,18 +46,17 @@ class OauthIdentity extends OUserIdentity
 			$object = json_decode($output);
 			if($object->success == 1) {
 				$user = Users::model()->findByAttributes(array('email'=>$object->email));
-				if($user != null) {
+				if($user != null)
 					$this->setUserSession($user);
-					
-				} else {
+				
+				else {
 					$model=new Users;
 					$model->source_id = $object->id;
 					$model->email = $object->email;
 					$model->displayname = $object->displayname;
-					$model->photos = $object->photo;
 					if($model->save()) {
-						$user = Users::model()->findByAttributes(array('email'=>$model->email));
-						$this->setUserSession($user);
+						$user = Users::model()->findByAttributes(array('email'=>$object->email));
+						$this->setUserSession($user);				
 					}
 				}
 				$this->errorCode = self::ERROR_NONE;
@@ -67,8 +66,6 @@ class OauthIdentity extends OUserIdentity
 					$this->errorCode = self::ERROR_USERNAME_INVALID;
 				else if($object->error == 'password')
 					$this->errorCode = self::ERROR_PASSWORD_INVALID;
-				else if($object->error == 'token')
-					$this->errorCode = self::ERROR_TOKEN_INVALID;
 			}
 		}
 		return !$this->errorCode;
