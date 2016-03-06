@@ -33,6 +33,7 @@
 	<?php //begin.Messages ?>
 
 	<fieldset>
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_username'); ?>
 			<div class="desc">
@@ -44,7 +45,9 @@
 				<?php echo $form->error($model,'signup_username'); ?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_photo'); ?>
 			<div class="desc">
@@ -56,7 +59,9 @@
 				<?php echo $form->error($model,'signup_photo'); ?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_approve'); ?>
 			<div class="desc">
@@ -68,7 +73,9 @@
 				<?php echo $form->error($model,'signup_approve'); ?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_welcome'); ?>
 			<div class="desc">
@@ -80,7 +87,9 @@
 				<?php echo $form->error($model,'signup_welcome'); ?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<label><?php echo $model->getAttributeLabel('signup_inviteonly');?> <span class="required">*</span></label>
 			<div class="desc">
@@ -91,20 +100,22 @@
 					0 => Phrase::trans(23,0),
 				)); ?>
 				<?php echo $form->error($model,'signup_inviteonly'); ?>
-
+				
 				<span class="small-px"><?php echo Phrase::trans(24,0);?></span>
 				<?php echo $form->radioButtonList($model, 'signup_checkemail', array(
 					1 => Phrase::trans(25,0),
 					0 => Phrase::trans(26,0),
 				)); ?>
 				<?php echo $form->error($model,'signup_checkemail'); ?>
-
+				
 				<span class="small-px"><?php echo Phrase::trans(27,0);?></span>
 				<?php echo $form->textField($model,'signup_numgiven'); ?>&nbsp;&nbsp;<?php echo Phrase::trans(28,0);?>
-				<?php echo $form->error($model,'signup_numgiven'); ?>
+				<?php echo $form->error($model,'signup_numgiven'); ?>				
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_invitepage'); ?>
 			<div class="desc">
@@ -116,6 +127,7 @@
 				<?php echo $form->error($model,'signup_invitepage'); ?>
 			</div>
 		</div>
+		<?php }?>
 
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_verifyemail'); ?>
@@ -129,6 +141,7 @@
 			</div>
 		</div>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'spam_signup'); ?>
 			<div class="desc">
@@ -140,6 +153,7 @@
 				<?php echo $form->error($model,'spam_signup'); ?>
 			</div>
 		</div>
+		<?php }?>
 
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_random'); ?>
@@ -153,6 +167,7 @@
 			</div>
 		</div>
 
+		<?php if($model->site_type == 1) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_terms'); ?>
 			<div class="desc">
@@ -164,6 +179,7 @@
 				<?php echo $form->error($model,'signup_terms'); ?>
 			</div>
 		</div>
+		<?php }?>
 
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'signup_adminemail'); ?>
