@@ -51,7 +51,6 @@ class OauthIdentity extends OUserIdentity
 				
 				else {
 					$model=new Users;
-					$model->source_id = $object->id;
 					$model->email = $object->email;
 					$model->displayname = $object->displayname;
 					if($model->save()) {
@@ -83,10 +82,9 @@ class OauthIdentity extends OUserIdentity
 		$this->setState('profile', $user->profile_id);
 		$this->setState('language', $user->language_id);
 		$this->email = $user->email;
+		$this->setState('username', $record->username);
 		$this->setState('displayname', $user->displayname);
 		$this->setState('photo', $user->photos);
-		$this->setState('enabled', $user->enabled);
-		$this->setState('verified', $user->verified);
 		$this->setState('creation_date', $user->creation_date);
 		$this->setState('lastlogin_date', date('Y-m-d H:i:s'));
 		
