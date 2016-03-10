@@ -221,49 +221,48 @@ class Utility
 	Mengembalikan nama hari dalam bahasa indonesia.
 	@params short=true, tampilkan dalam 3 huruf, JUM, SAB
 	*/
-	public static function getLocalDayName($dayName, $short=true) {
+	public static function getLocalDayName($date, $short=true) {
+		$dayName = date('N', strtotime($date));
 		switch($dayName) {
-			case 0:
-				return ($short ? Phrase::trans(478,0) : Phrase::trans(471,0));
-				break;
+            case 0:
+                return ($short ? 'Min' : 'Minggu');
+            break;
 
-			case 1:
-				return ($short ? Phrase::trans(479,0) : Phrase::trans(472,0));
-				break;
+            case 1:
+                return ($short ? 'Sen' : 'Senin');
+            break;
 
-			case 2:
-				return ($short ? Phrase::trans(480,0): Phrase::trans(473,0));
-				break;
+            case 2:
+                return ($short ? 'Sel' : 'Selasa');
+            break;
 
-			case 3:
-				return ($short ? Phrase::trans(481,0) : Phrase::trans(474,0));
-				break;
+            case 3:
+                return ($short ? 'Rab' : 'Rabu');
+            break;
 
-			case 4:
-				return ($short ? Phrase::trans(482,0) : Phrase::trans(475,0));
-				break;
+            case 4:
+                return ($short ? 'Kam' : 'Kamis');
+            break;
 
-			case 5:
-				return ($short ? Phrase::trans(483,0) : Phrase::trans(476,0));
-				break;
+            case 5:
+                return ($short ? 'Jum' : 'Jumat');
+            break;
 
-			case 6:
-				return ($short ? Phrase::trans(484,0) : Phrase::trans(477,0));
-				break;
+            case 6:
+                return ($short ? 'Sab' : 'Sabtu');
+            break;
 		}
 	}
 
 	/* Ubah bulan angka ke nama bulan */
-	public static function getLocalMonthName($month, $short=false) {
-		if(empty($month))
+	public static function getLocalMonthName($date, $short=false) {
+		if(empty($date))
 			return false;
+		
+		$month = date('m', strtotime($date));
 
-		$bulan = array(
-			Phrase::trans(447,0), Phrase::trans(448,0), Phrase::trans(449,0), Phrase::trans(450,0), Phrase::trans(451,0), Phrase::trans(452,0), Phrase::trans(453,0), Phrase::trans(454,0), Phrase::trans(455,0), Phrase::trans(456,0), Phrase::trans(457,0), Phrase::trans(458,0)
-		);
-		$shortBulan = array(
-			Phrase::trans(459,0), Phrase::trans(460,0), Phrase::trans(461,0), Phrase::trans(462,0), Phrase::trans(463,0), Phrase::trans(464,0), Phrase::trans(465,0), Phrase::trans(466,0), Phrase::trans(467,0), Phrase::trans(468,0), Phrase::trans(469,0), Phrase::trans(470,0)
-		);
+		$bulan = array('Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+		$shortBulan = array('Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des');
 
 		if($short == true)
 			return $shortBulan[$month-1];

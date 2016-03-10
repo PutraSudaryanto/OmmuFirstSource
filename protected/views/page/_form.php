@@ -136,7 +136,7 @@ EOP;
 					<div class="clearfix">
 						<?php echo $form->labelEx($model,'media'); ?>
 						<div class="desc">
-							<?php echo $form->fileField($model,'media',array('maxlength'=>64)); ?>
+							<?php echo $form->fileField($model,'media'); ?>
 							<?php echo $form->error($model,'media'); ?>
 						</div>
 					</div>

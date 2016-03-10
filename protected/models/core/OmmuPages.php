@@ -408,9 +408,8 @@ class OmmuPages extends CActiveRecord
 					}
 				}
 				
-				if(!$this->isNewRecord && $this->media == '') {
+				if(!$this->isNewRecord && $this->media == '')
 					$this->media = $this->old_media;
-				}
 			}
 		}
 		return true;
