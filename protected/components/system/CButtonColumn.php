@@ -12,7 +12,7 @@
  *
  */
 
-Yii::import('zii.widgets.grid.CGridColumn');
+Yii::import('application.components.system.CGridColumn');
 
 /**
  * CButtonColumn represents a grid view column that renders one or several buttons.

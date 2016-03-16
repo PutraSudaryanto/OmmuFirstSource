@@ -626,8 +626,12 @@ class OGridView extends CBaseListView
 		}
 
 		echo CHtml::openTag('tr', $htmlOptions)."\n";
-		foreach($this->columns as $column)
+		foreach($this->columns as $column) {
+			//echo '<pre>';
+			//print_r($column);
+			//echo '</pre>';
 			$this->renderDataCell($column, $row);
+		}	
 		echo "</tr>\n";
 	}
 
