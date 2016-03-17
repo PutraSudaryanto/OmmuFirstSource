@@ -1,0 +1,2 @@
+mklink /H "D:\htdocs\_project_ommu_platform\protected\LICENSE" "D:\htdocs\_project_ommu_platform\LICENSE"
+mklink /H "D:\htdocs\_project_ommu_platform\protected\ommu\LICENSE" "D:\htdocs\_project_ommu_platform\LICENSE"
