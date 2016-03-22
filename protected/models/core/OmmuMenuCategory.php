@@ -93,15 +93,15 @@ class OmmuMenuCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => 'Cat',
-			'publish' => 'Publish',
-			'orders' => 'Orders',
-			'name' => 'Name',
-			'desc' => 'Desc',
-			'creation_date' => 'Creation Date',
-			'creation_id' => 'Creation',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
+			'cat_id' => Yii::t('attribute', 'cat_id'),
+			'publish' => Yii::t('attribute', 'publish'),
+			'orders' => Yii::t('attribute', 'orders'),
+			'name' => Yii::t('attribute', 'name'),
+			'desc' => Yii::t('attribute', 'desc'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 

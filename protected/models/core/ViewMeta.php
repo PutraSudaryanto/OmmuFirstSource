@@ -90,10 +90,10 @@ class ViewMeta extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'city' => 'City',
-			'province' => 'Province',
-			'country' => 'Country',
+            'id' => Yii::t('attribute', 'id'),
+            'city' => Yii::t('attribute', 'city'),
+            'province' => Yii::t('attribute', 'province'),
+            'country' => Yii::t('attribute', 'country'),
 		);
 	}
 

@@ -100,18 +100,18 @@ class OmmuTemplate extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'template_key' => 'Template Key',
-			'plugin_id' => Phrase::trans(161,0),
-			'user_id' => Phrase::trans(191,0),
-			'template' => 'Template',
-			'variable' => 'Variable',
-			'creation_date' => Phrase::trans(365,0),
-			'creation_id' => 'Creation',
-			'modified_date' => Phrase::trans(446,0),
-			'modified_id' => 'Modified',
-			'user_search' => Phrase::trans(191,0),
-			'creation_search' => 'Creation',
-			'modified_search' => 'Modified',
+			'template_key' => Yii::t('attribute', 'template_key'),
+			'plugin_id' => Yii::t('attribute', 'plugin_id'),
+			'user_id' => Yii::t('attribute', 'user_id'),
+			'template' => Yii::t('attribute', 'template'),
+			'variable' => Yii::t('attribute', 'variable'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'user_search' => Yii::t('attribute', 'user_id'),
+			'creation_search' => Yii::t('attribute', 'creation_id'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 

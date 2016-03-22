@@ -93,13 +93,13 @@ class OmmuWallUser extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'status' => 'Status',
-			'wall_id' => 'Wall',
-			'user_id' => Phrase::trans(191,0),
-			'creation_date' => Phrase::trans(365,0),
-			'wall_search' => 'Wall',
-			'user_search' => Phrase::trans(191,0),
+			'id' => Yii::t('attribute', 'id'),
+			'status' => Yii::t('attribute', 'status'),
+			'wall_id' => Yii::t('attribute', 'wall_id'),
+			'user_id' => Yii::t('attribute', 'user_id'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'wall_search' => Yii::t('attribute', 'wall_id'),
+			'user_search' => Yii::t('attribute', 'user_id'),
 		);
 	}
 

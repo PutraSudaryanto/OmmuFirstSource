@@ -96,19 +96,19 @@ class OmmuThemes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'theme_id' => Phrase::trans(428,0),
-			'group_page' => Phrase::trans(234,0),
-			'default_theme' => Phrase::trans(156,0),
-			'folder' => Phrase::trans(429,0),
-			'layout' => Phrase::trans(430,0),
-			'name' => Phrase::trans(232,0),
-			'thumbnail' => Phrase::trans(233,0),
-			'creation_date' => 'Creation Date',
-			'creation_id' => 'Creation',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			'creation_search' => 'Creation',
-			'modified_search' => 'Modified',
+			'theme_id' => Yii::t('attribute', 'theme_id'),
+			'group_page' => Yii::t('attribute', 'group_page'),
+			'default_theme' => Yii::t('attribute', 'default_theme'),
+			'folder' => Yii::t('attribute', 'folder'),
+			'layout' => Yii::t('attribute', 'layout'),
+			'name' => Yii::t('attribute', 'theme_name'),
+			'thumbnail' => Yii::t('attribute', 'thumbnail'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'creation_search' => Yii::t('attribute', 'creation_id'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 	

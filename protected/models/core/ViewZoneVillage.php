@@ -91,11 +91,11 @@ class ViewZoneVillage extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'village_id' => 'Village',
-			'village_name' => 'Village Name',
-			'district_name' => 'District Name',
-			'city' => 'City',
-			'province' => 'Province',
+            'village_id' => Yii::t('attribute', 'village_id'),
+            'village_name' => Yii::t('attribute', 'village_name'),
+            'district_name' => Yii::t('attribute', 'district_name'),
+            'city' => Yii::t('attribute', 'city'),
+            'province' => Yii::t('attribute', 'province'),
 		);
 	}
 

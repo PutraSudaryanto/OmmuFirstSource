@@ -97,15 +97,15 @@ class OmmuZoneCountry extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'country_id' => Phrase::trans(422,0),
-			'country' => Phrase::trans(422,0),
-			'code' => Phrase::trans(423,0),
-			'creation_date' => 'Creation Date',
-			'creation_id' => 'Creation',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			'creation_search' => 'Creation',
-			'modified_search' => 'Modified',
+			'country_id' => Yii::t('attribute', 'country_id'),
+			'country' => Yii::t('attribute', 'country'),
+			'code' => Yii::t('attribute', 'code'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'creation_search' => Yii::t('attribute', 'creation_id'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 

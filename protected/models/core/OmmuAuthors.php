@@ -96,18 +96,16 @@ class OmmuAuthors extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'author_id' => 'Author',
-			'publish' => 'Publish',
-			//'name' => 'Name',
-			//'email' => 'Email',
-			'name' => 'Nama',
-			'password' => 'Password',
-			'creation_date' => 'Creation Date',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			//'author_phone' => 'Author Phone',
-			'author_phone' => 'Telepon',
-			'modified_search' => 'Modified',
+			'author_id' => Yii::t('attribute', 'author_id'),
+			'publish' => Yii::t('attribute', 'publish'),
+			'name' => Yii::t('attribute', 'name'),
+			'email' => Yii::t('attribute', 'email'),
+			'password' => Yii::t('attribute', 'password'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'author_phone' => Yii::t('attribute', 'author_phone'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 

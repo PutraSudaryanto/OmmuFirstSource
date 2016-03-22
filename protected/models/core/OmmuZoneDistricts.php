@@ -100,19 +100,19 @@ class OmmuZoneDistricts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'district_id' => 'District',
-			'publish' => 'Publish',
-			'city_id' => 'City',
-			'district_name' => 'District Name',
-			'mfdonline' => 'Mfdonline',
-			'checked' => 'Checked',
-			'creation_date' => 'Creation Date',
-			'creation_id' => 'Creation',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			'city_search' => 'City',
-			'creation_search' => 'Creation',
-			'modified_search' => 'Modified',
+			'district_id' => Yii::t('attribute', 'district_id'),
+			'publish' => Yii::t('attribute', 'publish'),
+			'city_id' => Yii::t('attribute', 'city_id'),
+			'district_name' => Yii::t('attribute', 'district_name'),
+			'mfdonline' => Yii::t('attribute', 'mfdonline'),
+			'checked' => Yii::t('attribute', 'checked'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'city_search' => Yii::t('attribute', 'city_id'),
+			'creation_search' => Yii::t('attribute', 'creation_id'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 

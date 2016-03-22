@@ -93,15 +93,15 @@ class OmmuTags extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'tag_id' => Phrase::trans(486,0),
-			'publish' => Phrase::trans(192,0),
-			'body' => Phrase::trans(486,0),
-			'creation_date' => Phrase::trans(365,0),
-			'creation_id' => 'Creation',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			'creation_search' => 'Creation',
-			'modified_search' => 'Modified',
+			'tag_id' => Yii::t('attribute', 'tag_id'),
+			'publish' => Yii::t('attribute', 'publish'),
+			'body' => Yii::t('attribute', 'body'),
+			'creation_date' => Yii::t('attribute', 'creation_date'),
+			'creation_id' => Yii::t('attribute', 'creation_id'),
+			'modified_date' => Yii::t('attribute', 'modified_date'),
+			'modified_id' => Yii::t('attribute', 'modified_id'),
+			'creation_search' => Yii::t('attribute', 'creation_id'),
+			'modified_search' => Yii::t('attribute', 'modified_id'),
 		);
 	}
 	
