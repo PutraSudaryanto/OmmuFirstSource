@@ -41,5 +41,5 @@ if(Yii::app()->user->hasFlash('success'))
 <div class="dialog-content">
 </div>
 <div class="dialog-submit">
-	<?php echo CHtml::button(Phrase::trans(4,0), array('id'=>'closed')); ?>
+	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
 </div>

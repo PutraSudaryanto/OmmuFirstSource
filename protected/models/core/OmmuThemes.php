@@ -214,10 +214,10 @@ class OmmuThemes extends CActiveRecord
 					//'class' => 'center',
 				),
 				'filter'=>array(
-					'admin'=>Phrase::trans(590,0),
-					'public'=>Phrase::trans(229,0),
-					'underconstruction'=>Phrase::trans(591,0),
-					'maintenance'=>Phrase::trans(592,0),
+					'admin'=>Yii::t('phrase', 'Admin'),
+					'public'=>Yii::t('phrase', 'Public'),
+					'underconstruction'=>Yii::t('phrase', 'Underconstruction'),
+					'maintenance'=>Yii::t('phrase', 'Maintenance'),
 				),
 				'type' => 'raw',
 			);
@@ -258,8 +258,8 @@ class OmmuThemes extends CActiveRecord
 					'class' => 'center',
 				),
 				'filter'=>array(
-					1=>Phrase::trans(588,0),
-					0=>Phrase::trans(589,0),
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
 				),
 				'type' => 'raw',
 			);

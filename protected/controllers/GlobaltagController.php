@@ -47,7 +47,7 @@ class GlobaltagController extends Controller
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
 			} else {
-				throw new CHttpException(404, Phrase::trans(193,0));
+				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 			}
 		} else {
 			$this->redirect(Yii::app()->createUrl('site/login'));
@@ -154,7 +154,7 @@ class GlobaltagController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Phrase::trans(487,0);
+		$this->pageTitle = Yii::t('phrase', 'Tags Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('/global_tag/admin_manage',array(
@@ -188,7 +188,7 @@ class GlobaltagController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-tags',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(489,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -202,7 +202,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Phrase::trans(488,0);
+			$this->pageTitle = Yii::t('phrase', 'Create Tag');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_add',array(
@@ -237,7 +237,7 @@ class GlobaltagController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-tags',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(491,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -251,7 +251,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Phrase::trans(490,0);
+			$this->pageTitle = Yii::t('phrase', 'Update Tag');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_edit',array(
@@ -337,10 +337,10 @@ class GlobaltagController extends Controller
 	{
 		$model=$this->loadModel($id);
 		if($model->publish == 1) {
-			$title = Phrase::trans(276,0);
+			$title = Yii::t('phrase', 'Unpublish');
 			$replace = 0;
 		} else {
-			$title = Phrase::trans(275,0);
+			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
 
@@ -384,7 +384,7 @@ class GlobaltagController extends Controller
 	{
 		$model = OmmuTags::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404, Phrase::trans(193,0));
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
 	}
 

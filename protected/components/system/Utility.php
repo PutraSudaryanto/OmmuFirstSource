@@ -403,8 +403,8 @@ class Utility
 			$min = $arrType[1];
 		} else {
 			if($type == '1') {
-				$plus = Phrase::trans(275,0);
-				$min = Phrase::trans(276,0);
+				$plus = Yii::t('phrase', 'Publish');
+				$min = Yii::t('phrase', 'Unpublish');
 			} else if($type == '2') {
 				$plus = Phrase::trans(277,0);
 				$min = Phrase::trans(278,0);

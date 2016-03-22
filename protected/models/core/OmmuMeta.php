@@ -391,7 +391,7 @@ class OmmuMeta extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if($this->office_place == '' && $this->office_district == '' && $this->office_village == '') {
-				$this->addError('office_place', Phrase::trans(594,0));
+				$this->addError('office_place', Yii::t('phrase', 'Office Address cannot be blank.'));
 			}
 			
 			$meta_image = CUploadedFile::getInstance($this, 'meta_image');	

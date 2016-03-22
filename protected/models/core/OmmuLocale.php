@@ -193,7 +193,7 @@ class OmmuLocale extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if($this->dateformat == '' || $this->timeformat == '') {
-				$this->addError('dateformat', Phrase::trans(514,0));
+				$this->addError('dateformat', Yii::t('phrase', 'Date Format cannot be blank.'));
 			}
 		}
 		return true;

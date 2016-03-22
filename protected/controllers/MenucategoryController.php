@@ -415,13 +415,13 @@ class MenucategoryController extends Controller
 		//if($model->actived == 1) {
 		//if($model->enabled == 1) {
 		//if($model->status == 1) {
-			$title = Phrase::trans(276,0);
+			$title = Yii::t('phrase', 'Unpublish');
 			//$title = Phrase::trans(278,0);
 			//$title = Phrase::trans(284,0);
 			//$title = Phrase::trans(292,0);
 			$replace = 0;
 		} else {
-			$title = Phrase::trans(275,0);
+			$title = Yii::t('phrase', 'Publish');
 			//$title = Phrase::trans(277,0);
 			//$title = Phrase::trans(283,0);
 			//$title = Phrase::trans(291,0);
@@ -509,7 +509,7 @@ class MenucategoryController extends Controller
 	{
 		$model = OmmuMenuCategory::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404, Phrase::trans(193,0));
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
 	}
 
