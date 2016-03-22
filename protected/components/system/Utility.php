@@ -190,6 +190,22 @@ class Utility
 		}
 		return $result;
 	}
+	
+	/**
+	 * get Language
+	 *
+	 */
+    public static function getLanguage(){
+		if(Yii::app()->session['language'] != null)
+            $lang = Yii::app()->session['language'];
+			
+        else {
+            $lang = isset($_GET['lang']) && $_GET['lang'] != '' ? $_GET['lang'] : null;
+            if($lang == null) //find default language 
+                $lang = Yii::app()->params['primaryLang'];
+        }
+        return $lang;
+    }
 
 	/**
 	 * Difference day

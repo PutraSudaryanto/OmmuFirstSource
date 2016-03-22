@@ -16,6 +16,16 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Ommu Platform',
 
+	// Language setting
+	'sourceLanguage' => '00',
+	'language'       => 'id',
+	'behaviors' => array('AppConfigBehavior'),
+
+	// Language setting
+	'sourceLanguage' => '00',
+	'language'       => 'id',
+	'behaviors' => array('AppConfigBehavior'),
+
 	// preloading 'log' component
 	'preload'=>array('log', 'ommu'),
 
@@ -48,6 +58,11 @@ return array(
 		//Ommu module/plugin handle
 		'moduleHandle' => array(
 			'class' => 'application.ommu.ModuleHandle'
+		),
+
+		//move core message yii to protected
+		'coreMessages' => array(
+			'basePath' => null,
 		),
 
 		'clientScript' => array(
