@@ -238,11 +238,11 @@ class OmmuLanguages extends CActiveRecord
 	/**
 	 * Get Language
 	 */
-	public static function getLanguage($publish=null, $type=null) 
+	public static function getLanguage($actived=null, $type=null) 
 	{
 		$criteria=new CDbCriteria;
-		if($publish != null)
-			$criteria->compare('t.actived',$publish);
+		if($actived != null)
+			$criteria->compare('t.actived',$actived);
 		$criteria->order = 't.orders ASC';
 		
 		$model = self::model()->findAll($criteria);
@@ -275,9 +275,8 @@ class OmmuLanguages extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord) {
-				if ($this->defaults == 1) {
+				if ($this->defaults == 1)
 					$this->actived = 1;
-				}
 				$this->orders = 1;
 				$this->creation_id = Yii::app()->user->id;	
 			} else
@@ -310,8 +309,6 @@ class OmmuLanguages extends CActiveRecord
 		if($this->isNewRecord) {
 			// Add column in mysql
 			$conn = Yii::app()->db;
-			$sql = "ALTER TABLE ommu_core_language_phrase ADD COLUMN `$this->code` text NOT NULL default '';";
-			$sql .= "ALTER TABLE ommu_core_plugin_phrase ADD COLUMN `$this->code` text NOT NULL default '';";
 			$sql .= "ALTER TABLE ommu_core_system_phrase ADD COLUMN `$this->code` text NOT NULL default ''";
 			$conn->createCommand($sql)->execute();
 		}
@@ -322,8 +319,6 @@ class OmmuLanguages extends CActiveRecord
 
 		// Delete column in mysql
 		$conn = Yii::app()->db;
-		$sql = "ALTER TABLE ommu_core_language_phrase DROP COLUMN `$this->code`;";
-		$sql .= "ALTER TABLE ommu_core_plugin_phrase DROP COLUMN `$this->code`;";
 		$sql .= "ALTER TABLE ommu_core_system_phrase DROP COLUMN `$this->code`";
 		$conn->createCommand($sql)->execute();
 

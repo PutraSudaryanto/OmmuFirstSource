@@ -37,12 +37,6 @@
 				'header' => Yii::t('phrase', 'Options'),
 				'class'=>'CButtonColumn',
 				'buttons' => array(
-					'phrase' => array(
-						'label' => 'phrase',
-						'options' => array(
-							'class' => 'view'
-						),
-						'url' => 'Yii::app()->createUrl("phrase/manage",array("id"=>$data->primaryKey))'),
 					'view' => array(
 						'label' => 'view',
 						'options' => array(
@@ -62,7 +56,7 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{phrase}|{update}|{delete}',
+				'template' => '{update}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(

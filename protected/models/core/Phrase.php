@@ -19,9 +19,7 @@ class Phrase
 	} */
 	
 	public static function trans($id, $type, $other=null) {
-		if($type == 0) {
-			$model = OmmuPhrases::model()->findByPk($id);
-		} else if($type == 1) {
+		if($type == 1) {
 			$model = OmmuPluginPhrase::model()->findByPk($id);
 		} else if($type == 2) {
 			$model = OmmuSystemPhrase::model()->findByPk($id);
