@@ -31,19 +31,19 @@ EOP;
 	<ul class="clearfix">
 		<li>
 			<span id="days">0</span>
-			<?php echo Phrase::trans(334,0);?>
+			<?php echo Yii::t('phrase', 'Days');?>
 		</li>
 		<li>
 			<span id="hours">0</span>
-			<?php echo Phrase::trans(335,0);?>
+			<?php echo Yii::t('phrase', 'Hours');?>
 		</li>
 		<li>
 			<span id="minutes">0</span>
-			<?php echo Phrase::trans(336,0);?>
+			<?php echo Yii::t('phrase', 'Minutes');?>
 		</li>
 		<li>
 			<span id="seconds">0</span>
-			<?php echo Phrase::trans(337,0);?>
+			<?php echo Yii::t('phrase', 'Seconds');?>
 		</li>
 	</ul>
 </div>

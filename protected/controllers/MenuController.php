@@ -412,19 +412,10 @@ class MenuController extends Controller
 		$model=$this->loadModel($id);
 		
 		if($model->publish == 1) {
-		//if($model->actived == 1) {
-		//if($model->enabled == 1) {
-		//if($model->status == 1) {
 			$title = Yii::t('phrase', 'Unpublish');
-			//$title = Phrase::trans(278,0);
-			//$title = Phrase::trans(284,0);
-			//$title = Phrase::trans(292,0);
 			$replace = 0;
 		} else {
 			$title = Yii::t('phrase', 'Publish');
-			//$title = Phrase::trans(277,0);
-			//$title = Phrase::trans(283,0);
-			//$title = Phrase::trans(291,0);
 			$replace = 1;
 		}
 
@@ -433,9 +424,6 @@ class MenuController extends Controller
 			if(isset($id)) {
 				//change value active or publish
 				$model->publish = $replace;
-				//$model->actived = $replace;
-				//$model->enabled = $replace;
-				//$model->status = $replace;
 
 				if($model->update()) {
 					echo CJSON::encode(array(
@@ -493,7 +481,7 @@ class MenuController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(338,0);
+			$this->pageTitle = Yii::t('phrase', 'Headline');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_headline');

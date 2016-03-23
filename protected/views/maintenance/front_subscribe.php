@@ -30,7 +30,7 @@ if(!isset($_GET['name']) && !isset($_GET['email'])) {?>
 					echo $form->hiddenField($model,'unsubscribe');
 					?>
 					<div class="table">
-						<?php echo $form->textField($model,'email',array('maxlength'=>32, 'placeholder'=>$model->getAttributeLabel('email'))); ?><?php echo CHtml::submitButton($launch != 0 ? Phrase::trans(23109,1) : Phrase::trans(23057,1), array('onclick' => 'setEnableSave()')); ?>
+						<?php echo $form->textField($model,'email',array('maxlength'=>32, 'placeholder'=>$model->getAttributeLabel('email'))); ?><?php echo CHtml::submitButton($launch != 0 ? Yii::t('phrase', 'Notify Me!') : Yii::t('phrase', 'Subscribe'), array('onclick' => 'setEnableSave()')); ?>
 					</div>
 					<?php echo $form->error($model,'email'); ?>
 				</div>

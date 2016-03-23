@@ -30,9 +30,9 @@
 			<?php echo $form->labelEx($model,'group_page'); ?>
 			<div class="desc">
 				<?php echo $form->dropDownList($model, 'group_page', array(
-					'public' => Phrase::trans(229,0),
-					'admin' => Phrase::trans(230,0),
-					'underconstruction' => Phrase::trans(298,0),
+					'public' => Yii::t('phrase', 'Public'),
+					'admin' => Yii::t('phrase', 'Administrator'),
+					'underconstruction' => Yii::t('phrase', 'Undercontruction'),
 				)); ?>
 				<?php echo $form->error($model,'group_page'); ?>
 			</div>

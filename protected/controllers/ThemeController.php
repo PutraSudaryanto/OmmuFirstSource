@@ -125,8 +125,8 @@ class ThemeController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Phrase::trans(223,0);
-		$this->pageDescription = Phrase::trans(228,0);
+		$this->pageTitle = Yii::t('phrase', 'Manage Themes');
+		$this->pageDescription = Yii::t('phrase', 'You have complete control over the look and feel of your social network. The PHP code that powers your social network is completely separate from the HTML code used for presentation. Your HTML code is stored in the templates listed below, which can be edited directly on this page. To edit a template, simply click it\'s name.');
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
 			'model'=>$model,
@@ -159,7 +159,7 @@ class ThemeController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-themes',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(225,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -173,7 +173,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Phrase::trans(224,0);
+			$this->pageTitle = Yii::t('phrase', 'Add Theme');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_add',array(
@@ -207,7 +207,7 @@ class ThemeController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-themes',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(227,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -221,7 +221,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Phrase::trans(226,0).': '.$model->name;
+			$this->pageTitle = Yii::t('phrase', 'Update Theme: {theme}', array('{theme}'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -246,7 +246,7 @@ class ThemeController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-ommu-themes',
-					'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(222,0).'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success deleted.').'</strong></div>',
 				));
 			}
 
@@ -255,7 +255,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(221,0);
+			$this->pageTitle = Yii::t('phrase', 'Delete Theme');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -282,7 +282,7 @@ class ThemeController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-themes',
-						'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(227,0).'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -292,7 +292,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(156,0);
+			$this->pageTitle = Yii::t('phrase', 'Defaults');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_default',array(

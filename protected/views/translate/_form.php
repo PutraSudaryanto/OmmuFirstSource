@@ -63,7 +63,7 @@
 			<div class="desc">
 				<?php echo $form->textArea($model,'location',array('class'=>'span-11 smaller')); ?>
 				<?php echo $form->error($model,'location'); ?>
-				<span class="small-px"><?php echo Phrase::trans(299,0);?></span>
+				<span class="small-px"><?php echo Yii::t('phrase', 'We recommend you to use location field. It helps you to know where this phrase is used. Example: you can use "event.create" location for "Create" button\'s label on create a new event page');?></span>
 			</div>
 		</div>
 

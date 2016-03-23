@@ -124,8 +124,8 @@ class PhraseController extends /*SBaseController*/ Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Phrase::trans(157,0);
-		$this->pageDescription = Phrase::trans(175,0);
+		$this->pageTitle = Yii::t('phrase', 'Phrase Settings');
+		$this->pageDescription = Yii::t('phrase', 'Use this page to edit phrases of text within this language pack. Note that you can use the search box to find a specific phrase you may be looking for. If you cannot find the phrase, try just using one or two words from the phrase in the search box. When you edit a phrase, a small window will appear with a box for each language pack (if you have more than one) - you can enter all the different translations for this phrase into each respective box. After you close this popup window, the "edit" link for the next phrase will be automatically highlighted. If you want to edit the next phrase, you can press the "Enter" key on your keyboard to open the next phrase quickly. Note that if you change admin panel phrases, you may need to refresh the page to see the changes.');
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
 			'model'=>$model,
@@ -178,7 +178,7 @@ class PhraseController extends /*SBaseController*/ Controller
 								'type' => 5,
 								'get' => $url,
 								'id' => 'partial-phrase',
-								'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(178,0, array($phrase->phrase_id)).'</strong></div>',
+								'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '{phrase} Phrase success created.', array('{phrase}'=>$phrase->phrase_id)).'</strong></div>',
 							));
 						}
 					} else {
@@ -193,7 +193,7 @@ class PhraseController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = Phrase::trans(158,0);
+			$this->pageTitle = Yii::t('phrase', 'Add Phrase');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_add',array(
@@ -230,7 +230,7 @@ class PhraseController extends /*SBaseController*/ Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-phrase',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(179,0, array($model->phrase_id)).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '{phrase} Phrase success updated.', array('{phrase}'=>$model->phrase_id)).'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -244,7 +244,7 @@ class PhraseController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = Phrase::trans(159,0);
+			$this->pageTitle = Yii::t('phrase', 'Update Phrase');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -270,7 +270,7 @@ class PhraseController extends /*SBaseController*/ Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-phrase',
-					'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(180,0).'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Phrase success deleted.').'</strong></div>',
 				));
 			}
 
@@ -279,7 +279,7 @@ class PhraseController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(177,0);
+			$this->pageTitle = Yii::t('phrase', 'Delete Phrase');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');

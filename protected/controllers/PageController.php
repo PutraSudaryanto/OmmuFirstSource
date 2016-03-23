@@ -176,7 +176,7 @@ class PageController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Phrase::trans(188,0);
+		$this->pageTitle = Yii::t('phrase', 'Manage Pages');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -200,12 +200,12 @@ class PageController extends Controller
 		if(isset($_POST['OmmuPages'])) {
 			$model->attributes=$_POST['OmmuPages'];
 			if($model->save()) {
-				Yii::app()->user->setFlash('success', Phrase::trans(181,0));
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Pages success created.'));
 				$this->redirect(array('manage'));
 			}
 		}
 
-		$this->pageTitle = Phrase::trans(184,0);
+		$this->pageTitle = Yii::t('phrase', 'Add Pages');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -228,12 +228,12 @@ class PageController extends Controller
 		if(isset($_POST['OmmuPages'])) {
 			$model->attributes=$_POST['OmmuPages'];
 			if($model->save()) {
-				Yii::app()->user->setFlash('success', Phrase::trans(182,0));
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Pages success updated.'));
 				$this->redirect(array('manage'));
 			}
 		}
 
-		$this->pageTitle = Phrase::trans(185,0);
+		$this->pageTitle = Yii::t('phrase', 'Update Pages');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -293,7 +293,7 @@ class PageController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-pages',
-					'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(183,0).'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success deleted.').'</strong></div>',
 				));
 			}
 
@@ -302,7 +302,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(186,0);
+			$this->pageTitle = Yii::t('phrase', 'Delete Pages');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -336,7 +336,7 @@ class PageController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-pages',
-						'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(182,0).'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success updated.').'</strong></div>',
 					));
 				}
 			}

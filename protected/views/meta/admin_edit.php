@@ -66,8 +66,8 @@
 			<?php echo $form->labelEx($model,'office_on'); ?>
 			<div class="desc">
 				<?php echo $form->radioButtonList($model,'office_on', array(
-					1 => Phrase::trans(283,0),
-					0 => Phrase::trans(284,0),
+					1 => Yii::t('phrase', 'Enabled'),
+					0 => Yii::t('phrase', 'Disabled'),
 				)); ?>
 				<?php echo $form->error($model,'office_on'); ?>
 			</div>
@@ -77,8 +77,8 @@
 			<?php echo $form->labelEx($model,'google_on'); ?>
 			<div class="desc">
 				<?php echo $form->radioButtonList($model,'google_on', array(
-					1 => Phrase::trans(283,0),
-					0 => Phrase::trans(284,0),
+					1 => Yii::t('phrase', 'Enabled'),
+					0 => Yii::t('phrase', 'Disabled'),
 				)); ?>
 				<?php echo $form->error($model,'google_on'); ?>
 			</div>
@@ -88,8 +88,8 @@
 			<?php echo $form->labelEx($model,'twitter_on'); ?>
 			<div class="desc">
 				<?php echo $form->radioButtonList($model,'twitter_on', array(
-					1 => Phrase::trans(283,0),
-					0 => Phrase::trans(284,0),
+					1 => Yii::t('phrase', 'Enabled'),
+					0 => Yii::t('phrase', 'Disabled'),
 				)); ?>
 				<?php echo $form->error($model,'twitter_on'); ?>
 			</div>
@@ -99,8 +99,8 @@
 			<?php echo $form->labelEx($model,'facebook_on'); ?>
 			<div class="desc">
 				<?php echo $form->radioButtonList($model,'facebook_on', array(
-					1 => Phrase::trans(283,0),
-					0 => Phrase::trans(284,0),
+					1 => Yii::t('phrase', 'Enabled'),
+					0 => Yii::t('phrase', 'Disabled'),
 				)); ?>
 				<?php echo $form->error($model,'facebook_on'); ?>
 			</div>

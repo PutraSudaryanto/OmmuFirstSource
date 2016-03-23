@@ -239,7 +239,7 @@ class MenucategoryController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-menu-category',
-							'msg' => '<div class="errorSummary success"><strong>OmmuMenuCategory success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenuCategory success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -305,7 +305,7 @@ class MenucategoryController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-menu-category',
-							'msg' => '<div class="errorSummary success"><strong>OmmuMenuCategory success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenuCategory success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -385,7 +385,7 @@ class MenucategoryController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-menu-category',
-						'msg' => '<div class="errorSummary success"><strong>OmmuMenuCategory success deleted.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenuCategory success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -412,19 +412,10 @@ class MenucategoryController extends Controller
 		$model=$this->loadModel($id);
 		
 		if($model->publish == 1) {
-		//if($model->actived == 1) {
-		//if($model->enabled == 1) {
-		//if($model->status == 1) {
 			$title = Yii::t('phrase', 'Unpublish');
-			//$title = Phrase::trans(278,0);
-			//$title = Phrase::trans(284,0);
-			//$title = Phrase::trans(292,0);
 			$replace = 0;
 		} else {
 			$title = Yii::t('phrase', 'Publish');
-			//$title = Phrase::trans(277,0);
-			//$title = Phrase::trans(283,0);
-			//$title = Phrase::trans(291,0);
 			$replace = 1;
 		}
 
@@ -433,16 +424,13 @@ class MenucategoryController extends Controller
 			if(isset($id)) {
 				//change value active or publish
 				$model->publish = $replace;
-				//$model->actived = $replace;
-				//$model->enabled = $replace;
-				//$model->status = $replace;
 
 				if($model->update()) {
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-menu-category',
-						'msg' => '<div class="errorSummary success"><strong>OmmuMenuCategory success published.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenuCategory success published.').'</strong></div>',
 					));
 				}
 			}
@@ -483,7 +471,7 @@ class MenucategoryController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-menu-category',
-						'msg' => '<div class="errorSummary success"><strong>OmmuMenuCategory success updated.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenuCategory success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -493,7 +481,7 @@ class MenucategoryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(338,0);
+			$this->pageTitle = Yii::t('phrase', 'Headline');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/menu_category/admin_headline');

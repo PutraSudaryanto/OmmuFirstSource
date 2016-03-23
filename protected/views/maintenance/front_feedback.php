@@ -76,7 +76,7 @@
 				</div>
 
 				<div class="submit clearfix">
-					<?php echo CHtml::submitButton($model->isNewRecord ? Phrase::trans(328,0) : Phrase::trans(328,0), array('onclick' => 'setEnableSave()')); ?>
+					<?php echo CHtml::submitButton(Yii::t('phrase', 'Send Message'), array('onclick' => 'setEnableSave()')); ?>
 				</div>
 
 			</fieldset>

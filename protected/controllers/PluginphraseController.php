@@ -124,8 +124,8 @@ class PluginphraseController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Phrase::trans(444,0);
-		$this->pageDescription = Phrase::trans(175,0);
+		$this->pageTitle = Yii::t('phrase', 'View Plugin Phrase');
+		$this->pageDescription = Yii::t('phrase', 'Use this page to edit phrases of text within this language pack. Note that you can use the search box to find a specific phrase you may be looking for. If you cannot find the phrase, try just using one or two words from the phrase in the search box. When you edit a phrase, a small window will appear with a box for each language pack (if you have more than one) - you can enter all the different translations for this phrase into each respective box. After you close this popup window, the "edit" link for the next phrase will be automatically highlighted. If you want to edit the next phrase, you can press the "Enter" key on your keyboard to open the next phrase quickly. Note that if you change admin panel phrases, you may need to refresh the page to see the changes. ');
 		$this->pageMeta = '';
 		$this->render('/plugin_phrase/admin_manage',array(
 			'model'=>$model,
@@ -160,7 +160,7 @@ class PluginphraseController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-phrase',
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(496,0, array($model->phrase_id)).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '{plugin} Plugin Phrase success updated.', array('{plugin}'=>$model->phrase_id)).'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -174,7 +174,7 @@ class PluginphraseController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = Phrase::trans(497,0);
+			$this->pageTitle = Yii::t('phrase', 'Update Plugin Phrase');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/plugin_phrase/admin_edit',array(
@@ -200,7 +200,7 @@ class PluginphraseController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-phrase',
-					'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(511,0).'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Plugin Phrase success deleted.').'</strong></div>',
 				));
 			}
 
@@ -209,7 +209,7 @@ class PluginphraseController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(510,0);
+			$this->pageTitle = Yii::t('phrase', 'Delete Plugin Phrase');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/plugin_phrase/admin_delete');

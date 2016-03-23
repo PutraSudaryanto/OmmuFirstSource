@@ -312,7 +312,7 @@ class GlobaltagController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-ommu-tags',
-					'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(493,0).'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success deleted.').'</strong></div>',
 				));
 			}
 
@@ -321,7 +321,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Phrase::trans(492,0);
+			$this->pageTitle = Yii::t('phrase', 'Delete Tag');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_delete');
@@ -355,7 +355,7 @@ class GlobaltagController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-tags',
-						'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(491,0).'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success updated.').'</strong></div>',
 					));
 				}
 			}

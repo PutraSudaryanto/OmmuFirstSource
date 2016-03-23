@@ -406,32 +406,32 @@ class Utility
 				$plus = Yii::t('phrase', 'Publish');
 				$min = Yii::t('phrase', 'Unpublish');
 			} else if($type == '2') {
-				$plus = Phrase::trans(277,0);
-				$min = Phrase::trans(278,0);
+				$plus = Yii::t('phrase', 'Actived');
+				$min = Yii::t('phrase', 'Deactived');
 			} else if($type == '3') {
-				$plus = Phrase::trans(283,0);
-				$min = Phrase::trans(284,0);
+				$plus = Yii::t('phrase', 'Enabled');
+				$min = Yii::t('phrase', 'Disabled');
 			} else if($type == '4') {
-				$plus = Phrase::trans(287,0);
-				$min = Phrase::trans(288,0);
+				$plus = Yii::t('phrase', 'Enabled Dialog');
+				$min = Yii::t('phrase', 'Disable Dialog');
 			} else if($type == '5') {
-				$plus = Phrase::trans(292,0);
-				$min = Phrase::trans(291,0);
+				$plus = Yii::t('phrase', 'Unresolved');
+				$min = Yii::t('phrase', 'Resolved');
 			} else if($type == '6') {
-				$plus = Phrase::trans(156,0);
-				$min = Phrase::trans(156,0);
+				$plus = Yii::t('phrase', 'Defaults');
+				$min = Yii::t('phrase', 'Defaults');
 			} else if($type == '7') {
-				$plus = Phrase::trans(303,0);
-				$min = Phrase::trans(304,0);
+				$plus = Yii::t('phrase', 'Verified');
+				$min = Yii::t('phrase', 'Unverified');
 			} else if($type == '8') {
-				$plus = Phrase::trans(310,0);
-				$min = Phrase::trans(309,0);
+				$plus = Yii::t('phrase', 'Subcribe');
+				$min = Yii::t('phrase', 'Unsubcribe');
 			} else if($type == '9') {
-				$plus = Phrase::trans(338,0);
-				$min = Phrase::trans(338,0);
+				$plus = Yii::t('phrase', 'Headline');
+				$min = Yii::t('phrase', 'Headline');
 			} else if($type == '9') {
-				$plus = Phrase::trans(506,0);
-				$min = Phrase::trans(506,0);
+				$plus = Yii::t('phrase', 'Install Module');
+				$min = Yii::t('phrase', 'Install Module');
 			}
 		}
 		if(!empty(Yii::app()->theme->name))

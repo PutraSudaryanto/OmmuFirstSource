@@ -88,9 +88,9 @@ class OmmuPluginPhrase extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'phrase_id' => Phrase::trans(176,0),
-			'plugin_id' => Phrase::trans(161,0),
-			'location' => Phrase::trans(359,0),
+			'phrase_id' => Yii::t('phrase', 'Phrase'),
+			'plugin_id' => Yii::t('phrase', 'Plugins'),
+			'location' => Yii::t('phrase', 'Location'),
 			'en' => 'En',
 		);
 	}

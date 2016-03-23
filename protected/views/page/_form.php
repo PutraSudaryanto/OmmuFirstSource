@@ -174,9 +174,9 @@ EOP;
 							<?php echo $form->labelEx($model,'media_type'); ?>
 							<div class="desc">
 								<?php echo $form->dropDownList($model,'media_type', array(
-									1 => Phrase::trans(344,0),
-									2 => Phrase::trans(345,0),
-								), array('prompt'=>Phrase::trans(346,0))); ?>
+									1 => Yii::t('phrase', 'Large'),
+									2 => Yii::t('phrase', 'Medium'),
+								), array('prompt'=>Yii::t('phrase', 'Select type'))); ?>
 								<?php echo $form->error($model,'media_type'); ?>
 							</div>
 						</div>

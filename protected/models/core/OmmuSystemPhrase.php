@@ -91,8 +91,8 @@ class OmmuSystemPhrase extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'phrase_id' => Phrase::trans(176,0),
-			'location' => Phrase::trans(359,0),
+			'phrase_id' => Yii::t('phrase', 'Phrase'),
+			'location' => Yii::t('phrase', 'Location'),
 			'en' => Yii::t('attribute', 'English'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),

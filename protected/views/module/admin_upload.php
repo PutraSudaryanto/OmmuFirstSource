@@ -31,7 +31,7 @@
 	<fieldset>
 
 		<div class="clearfix">
-			<label><?php echo Phrase::trans(505,0);?></label>
+			<label><?php echo Yii::t('phrase', 'Module File');?></label>
 			<div class="desc">
 				<?php echo CHtml::fileField('module_file', '',array('maxlength'=>128)); ?>
 				<?php echo Yii::app()->user->hasFlash('error') ? '<div class="errorMessage">'.Yii::app()->user->getFlash('error').'</div>' : ''?>
@@ -41,7 +41,7 @@
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo CHtml::submitButton(Phrase::trans(500,0), array('onclick' => 'setEnableSave()')); ?>
+	<?php echo CHtml::submitButton(Yii::t('phrase', 'Upload'), array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
 </div>
 <?php $this->endWidget(); ?>

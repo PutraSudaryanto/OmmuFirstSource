@@ -121,7 +121,7 @@ class SettingsController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>".Phrase::trans(163,0)."</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -138,7 +138,7 @@ class SettingsController extends Controller
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(164,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'General settings success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -148,8 +148,8 @@ class SettingsController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Phrase::trans(94,0);
-			$this->pageDescription = Phrase::trans(100,0);
+			$this->pageTitle = Yii::t('phrase', 'General Settings');
+			$this->pageDescription = Yii::t('phrase', 'This page contains general settings that affect your entire social network.');
 			$this->pageMeta = '';
 			$this->render('admin_general',array(
 				'model'=>$model,
@@ -175,7 +175,7 @@ class SettingsController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>".Phrase::trans(163,0)."</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -192,7 +192,7 @@ class SettingsController extends Controller
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(165,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Spam and banning tools success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -202,9 +202,9 @@ class SettingsController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Phrase::trans(63,0);
-			$this->pageDescription = Phrase::trans(64,0, array(
-				Phrase::trans(5,0)=>Yii::app()->createUrl('settings/signup'),
+			$this->pageTitle = Yii::t('phrase', 'Spam & Banning Tools');
+			$this->pageDescription = Yii::t('phrase', 'Social networks are often the target of aggressive spam tactics. This most often comes in the form of fake user accounts and spam in comments. On this page, you can manage various anti-spam and censorship features. Note: To turn on the signup image verification feature (a popular anti-spam tool), see the {setting} page.', array(
+				'{setting}' => CHtml::link(Yii::t('phrase', 'Signup Settings'), Yii::app()->createUrl('settings/signup')),
 			));
 			$this->pageMeta = '';
 			$this->render('admin_banned',array(
@@ -231,7 +231,7 @@ class SettingsController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>".Phrase::trans(163,0)."</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -248,7 +248,7 @@ class SettingsController extends Controller
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(166,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Signup setting success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -258,8 +258,8 @@ class SettingsController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Phrase::trans(5,0);
-			$this->pageDescription = Phrase::trans(6,0);
+			$this->pageTitle = Yii::t('phrase', 'Signup Settings');
+			$this->pageDescription = Yii::t('phrase', 'The user signup process is a crucial element of your social network. You need to design a signup process that is user friendly but also gets the initial information you need from new users. On this page, you can configure your signup process.');
 			$this->pageMeta = '';
 			$this->render('admin_signup',array(
 				'model'=>$model,
@@ -284,7 +284,7 @@ class SettingsController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>".Phrase::trans(163,0)."</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -301,7 +301,7 @@ class SettingsController extends Controller
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Phrase::trans(167,0).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Google analytics setting success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -311,8 +311,8 @@ class SettingsController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Phrase::trans(58,0);
-			$this->pageDescription = Phrase::trans(59,0);
+			$this->pageTitle = Yii::t('phrase', 'Google Analytics Settings');
+			$this->pageDescription = Yii::t('phrase', 'Want to use Google Analytics to keep track of your site\'s traffic data? Setup is super easy. Just enter your Google Analytics Tracking ID and *bam*... you\'re tracking your site\'s traffic stats! If you need help finding your ID, check here.');
 			$this->pageMeta = '';
 			$this->render('admin_analytic',array(
 				'model'=>$model,
