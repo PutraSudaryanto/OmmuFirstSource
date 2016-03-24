@@ -27,12 +27,12 @@ class Phrase
 		
 		if(isset(Yii::app()->session['language'])) {
 			$language = Yii::app()->session['language'];
-			$language = 'en';
+			$language = 'en_us';
 			if($model->$language == '') {
-				$language = 'en';
+				$language = 'en_us';
 			}
 		} else {
-			$language = 'en';
+			$language = 'en_us';
 		}
 		
 		if(!empty($other)) {

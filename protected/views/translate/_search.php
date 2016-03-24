@@ -29,8 +29,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('en'); ?><br/>
-			<?php echo $form->textArea($model,'en',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $model->getAttributeLabel('en_us'); ?><br/>
+			<?php echo $form->textArea($model,'en_us',array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li class="submit">

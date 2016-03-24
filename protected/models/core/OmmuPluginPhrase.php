@@ -23,7 +23,7 @@
  * @property string $phrase_id
  * @property integer $plugin_id
  * @property string $location
- * @property string $en
+ * @property string $en_us
  *
  * The followings are the available model relations:
  * @property OmmuCorePlugins $plugin
@@ -58,7 +58,7 @@ class OmmuPluginPhrase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('en', 'required'),
+			array('en_us', 'required'),
 			array('plugin_id', 'numerical', 'integerOnly'=>true),
 			array('phrase_id', 'length', 'max'=>11),
 			array('location', 'length', 'max'=>32),
@@ -66,7 +66,7 @@ class OmmuPluginPhrase extends CActiveRecord
 				id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('phrase_id, plugin_id, location, en', 'safe', 'on'=>'search'),
+			array('phrase_id, plugin_id, location, en_us', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,7 +91,7 @@ class OmmuPluginPhrase extends CActiveRecord
 			'phrase_id' => Yii::t('phrase', 'Phrase'),
 			'plugin_id' => Yii::t('phrase', 'Plugins'),
 			'location' => Yii::t('phrase', 'Location'),
-			'en' => 'En',
+			'en_us' => 'En',
 		);
 	}
 	
@@ -113,7 +113,7 @@ class OmmuPluginPhrase extends CActiveRecord
 			$criteria->compare('t.plugin_id',$this->plugin_id);
 		}
 		$criteria->compare('t.location',strtolower($this->location),true);
-		$criteria->compare('t.en',strtolower($this->en),true);
+		$criteria->compare('t.en_us',strtolower($this->en_us),true);
 
 		if(!isset($_GET['OmmuPluginPhrase_sort']))
 			$criteria->order = 't.phrase_id DESC';
@@ -147,7 +147,7 @@ class OmmuPluginPhrase extends CActiveRecord
 			//$this->defaultColumns[] = 'phrase_id';
 			$this->defaultColumns[] = 'plugin_id';
 			$this->defaultColumns[] = 'location';
-			$this->defaultColumns[] = 'en';
+			$this->defaultColumns[] = 'en_us';
 		}
 
 		return $this->defaultColumns;
@@ -175,7 +175,7 @@ class OmmuPluginPhrase extends CActiveRecord
 				'filter'=>OmmuPlugins::getPluginArray('id', 0),
 				'type' => 'raw',
 			);
-			$this->defaultColumns[] = 'en';
+			$this->defaultColumns[] = 'en_us';
 			$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'location';
 		}

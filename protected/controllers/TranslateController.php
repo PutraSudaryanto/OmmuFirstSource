@@ -156,7 +156,6 @@ class TranslateController extends Controller
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($model->validate()) {
-						$model->phrase_id = 1000 + (count(OmmuSystemPhrase::getPublicPhrase('phrase_id')) + 1);
 						if($model->save()) {
 							echo CJSON::encode(array(
 								'type' => 5,

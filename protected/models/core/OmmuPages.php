@@ -338,51 +338,47 @@ class OmmuPages extends CActiveRecord
 	 */
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
-			$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
 			$action = strtolower(Yii::app()->controller->action->id);
+			$location = strtolower(Yii::app()->controller->id);
 			if($this->isNewRecord) {
 				$title=new OmmuSystemPhrase;
-				$title->location = $currentAction;
+				$title->location = $location.'_title';
 				$title->en = $this->title;
-				if($title->save()) {
+				if($title->save())
 					$this->name = $title->phrase_id;
-				}
 
 				$desc=new OmmuSystemPhrase;
-				$desc->location = $currentAction;
+				$desc->location = $location.'_description';
 				$desc->en = $this->description;
-				if($desc->save()) {
+				if($desc->save())
 					$this->desc = $desc->phrase_id;
-				}
 
 				$quote=new OmmuSystemPhrase;
-				$quote->location = $currentAction;
+				$quote->location = $location.'_quotes';
 				$quote->en = $this->quotes;
-				if($quote->save()) {
+				if($quote->save())
 					$this->quote = $quote->phrase_id;
-				}
+				
 			} else {
-				if($action == 'edit') {
-					$title = OmmuSystemPhrase::model()->findByPk($this->name);
-					$title->en = $this->title;
-					$title->save();
+				$title = OmmuSystemPhrase::model()->findByPk($this->name);
+				$title->en = $this->title;
+				$title->save();
 
-					$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
-					$desc->en = $this->description;
-					$desc->save();
-					
-					if($this->quote != 0) {
-						$quote = OmmuSystemPhrase::model()->findByPk($this->quote);
-						$quote->en = $this->quotes;
-						$quote->save();						
-					} else {
-						$quote=new OmmuSystemPhrase;
-						$quote->location = $currentAction;
-						$quote->en = $this->quotes;
-						if($quote->save()) {
-							$this->quote = $quote->phrase_id;
-						}						
-					}
+				$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
+				$desc->en = $this->description;
+				$desc->save();
+				
+				if($this->quote != 0) {
+					$quote = OmmuSystemPhrase::model()->findByPk($this->quote);
+					$quote->en = $this->quotes;
+					$quote->save();						
+				} else {
+					$quote=new OmmuSystemPhrase;
+					$quote->location = $location.'_quotes';
+					$quote->en = $this->quotes;
+					if($quote->save()) {
+						$this->quote = $quote->phrase_id;
+					}						
 				}
 			}
 				

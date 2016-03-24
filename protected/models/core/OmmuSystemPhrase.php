@@ -22,7 +22,7 @@
  * The followings are the available columns in table 'ommu_core_system_phrase':
  * @property string $phrase_id
  * @property string $location
- * @property string $en
+ * @property string $en_us
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -62,12 +62,12 @@ class OmmuSystemPhrase extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('en', 'required'),
+			array('en_us', 'required'),
 			array('location', 'length', 'max'=>32),
 			array('location, id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('phrase_id, location, en, creation_date, creation_id, modified_date, modified_id,
+			array('phrase_id, location, en_us, creation_date, creation_id, modified_date, modified_id,
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -93,7 +93,7 @@ class OmmuSystemPhrase extends CActiveRecord
 		return array(
 			'phrase_id' => Yii::t('phrase', 'Phrase'),
 			'location' => Yii::t('phrase', 'Location'),
-			'en' => Yii::t('attribute', 'English'),
+			'en_us' => Yii::t('attribute', 'English'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
@@ -124,7 +124,7 @@ class OmmuSystemPhrase extends CActiveRecord
 			$criteria->compare('t.phrase_id',$this->phrase_id);
 		}
 		$criteria->compare('t.location',strtolower($this->location),true);
-		$criteria->compare('t.en',strtolower($this->en),true);
+		$criteria->compare('t.en_us',strtolower($this->en_us),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		$criteria->compare('t.creation_id',$this->creation_id);
@@ -177,7 +177,7 @@ class OmmuSystemPhrase extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'phrase_id';
 			$this->defaultColumns[] = 'location';
-			$this->defaultColumns[] = 'en';
+			$this->defaultColumns[] = 'en_us';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -193,7 +193,7 @@ class OmmuSystemPhrase extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'phrase_id';
-			$this->defaultColumns[] = 'en';
+			$this->defaultColumns[] = 'en_us';
 			$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'location';
 			$this->defaultColumns[] = array(
