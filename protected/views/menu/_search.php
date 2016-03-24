@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 15 January 2016, 16:57 WIB
+ * @created date 24 March 2016, 10:20 WIB
  * @link http://company.ommu.co
  * @contect (+62)856-299-4114
  *
@@ -40,31 +40,6 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('module'); ?><br/>
-			<?php echo $form->textField($model,'module',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('controller'); ?><br/>
-			<?php echo $form->textField($model,'controller',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('action'); ?><br/>
-			<?php echo $form->textField($model,'action',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('site_type'); ?><br/>
-			<?php echo $form->textField($model,'site_type'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('site_admin'); ?><br/>
-			<?php echo $form->textField($model,'site_admin'); ?>
-		</li>
-
-		<li>
 			<?php echo $model->getAttributeLabel('orders'); ?><br/>
 			<?php echo $form->textField($model,'orders'); ?>
 		</li>
@@ -75,23 +50,23 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('class'); ?><br/>
-			<?php echo $form->textField($model,'class',array('size'=>16,'maxlength'=>16)); ?>
-		</li>
-
-		<li>
 			<?php echo $model->getAttributeLabel('url'); ?><br/>
 			<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>128)); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('dialog'); ?><br/>
-			<?php echo $form->textField($model,'dialog'); ?>
+			<?php echo $model->getAttributeLabel('attr'); ?><br/>
+			<?php echo $form->textField($model,'attr',array('size'=>60,'maxlength'=>128)); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('attr'); ?><br/>
-			<?php echo $form->textField($model,'attr',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $model->getAttributeLabel('sitetype_access'); ?><br/>
+			<?php echo $form->textField($model,'sitetype_access',array('size'=>32,'maxlength'=>32)); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('userlevel_access'); ?><br/>
+			<?php echo $form->textField($model,'userlevel_access',array('size'=>32,'maxlength'=>32)); ?>
 		</li>
 
 		<li>
