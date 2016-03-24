@@ -1,19 +1,19 @@
 content_menu	:
 # controller meta
 	- urlTitle: Global Meta
-		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 1,2}
+		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 2}
 		urlPath: {url: edit, attr: -, icon: -}
 		
 	- urlTitle: Facebook Meta
-		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 1,2}
+		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 2}
 		urlPath: {url: facebook, attr: -, icon: -}
 		
 	- urlTitle: Google Owner Meta
-		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 1,2}
+		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 2}
 		urlPath: {url: google, attr: -, icon: -}
 		
 	- urlTitle: Twitter Meta
-		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 1,2}
+		urlRules: {meta, edit,google,facebook,twitter, siteType: 0,1, userLevel: 2}
 		urlPath: {url: twitter, attr: -, icon: -}
 		
 # controller page
@@ -43,7 +43,7 @@ content_menu	:
 # controller language
 
 	- urlTitle: Create New Language Pack
-		urlRules: {language, manage, siteType: 0,1, userLevel: 1,2}
+		urlRules: {language, manage, siteType: 0,1, userLevel: 2}
 		urlPath: {url: add, attr: -, icon: -}
 		
 # controller translate
@@ -75,17 +75,23 @@ content_menu	:
 # controller module
 
 	- urlTitle: Upload Module
-		urlRules: {module, manage, siteType: 0,1, userLevel: 1,2}
+		urlRules: {module, manage, siteType: 0,1, userLevel: 2}
 		urlPath: {url: module/upload, attr: -, icon: -}
 
 	- urlTitle: View All Module
-		urlRules: {module, manage, siteType: 0,1, userLevel: 1,2}
+		urlRules: {module, manage, siteType: 0,1, userLevel: 2}
 		urlPath: {url: module/manage, attr: type=all, icon: -}
 		
-# controller pluginmenu
+# controller menu
 
-	- urlTitle: Add Plugin Menu
-		urlRules: {pluginmenu, manage, siteType: 0,1, userLevel: 1,2}
+	- urlTitle: Add Menu
+		urlRules: {menu, manage, siteType: 0,1, userLevel: 1}
 		urlPath: {url: add, attr: -, icon: -}
 		
-#minus menu, menu_category, theme, template
+# controller menucategory
+
+	- urlTitle: Add Menu Category
+		urlRules: {menucategory, manage, siteType: 0,1, userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
+		
+#minus theme, template

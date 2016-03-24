@@ -20,6 +20,4 @@
 	);
 ?>
 
-<div class="form">
-	<?php echo $this->renderPartial('/menu_category/_form', array('model'=>$model)); ?>
-</div>
+<?php echo $this->renderPartial('/menu_category/_form', array('model'=>$model)); ?>
