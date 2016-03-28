@@ -3,7 +3,7 @@
 * MetaController
 * Handle MetaController
 * Copyright (c) 2012, Ommu Platform (ommu.co). All rights reserved.
-* version: 0.0.1
+* version: 1.1.0
 * Reference start
 *
 * TOC :

@@ -3,6 +3,7 @@
  * Ommu Walls (ommu-walls)
  * @var $this WallController
  * @var $model OmmuWalls
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)

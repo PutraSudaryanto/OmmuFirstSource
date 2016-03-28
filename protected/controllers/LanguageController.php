@@ -1,30 +1,29 @@
 <?php
 /**
-* LanguageController
-* Handle LanguageController
-* Copyright (c) 2014, Ommu Platform (ommu.co). All rights reserved.
-* version: 2.0.0
-* Reference start
-*
-* TOC :
-*	Index
-*	Manage
-*	Add
-*	Edit
-*	Delete
-*	Actived
-*	Settings
-*
-*	LoadModel
-*	performAjaxValidation
-*
-* @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
-* @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
-* @link https://github.com/oMMu/Ommu-Core
-* @contact (+62)856-299-4114
-*
-*----------------------------------------------------------------------------------------------------------
-*/
+ * LanguageController
+ * Handle LanguageController
+ * version: 1.1.0
+ * Reference start
+ *
+ * TOC :
+ *	Index
+ *	Manage
+ *	Add
+ *	Edit
+ *	Delete
+ *	Actived
+ *	Settings
+ *
+ *	LoadModel
+ *	performAjaxValidation
+ *
+ * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/oMMu/Ommu-Core
+ * @contact (+62)856-299-4114
+ *
+ *----------------------------------------------------------------------------------------------------------
+ */
 
 class LanguageController extends /*SBaseController*/ Controller
 {

@@ -3,6 +3,7 @@
  * Ommu Authors (ommu-authors)
  * @var $this AuthorController
  * @var $model OmmuAuthors
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)

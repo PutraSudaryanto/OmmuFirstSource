@@ -3,6 +3,7 @@
  * Ommu Pages (ommu-pages)
  * @var $this PageController
  * @var $model OmmuPages
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)

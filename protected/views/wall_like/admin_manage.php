@@ -3,6 +3,7 @@
  * Ommu Wall Likes (ommu-wall-likes)
  * @var $this WalllikeController
  * @var $model OmmuWallLikes
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)

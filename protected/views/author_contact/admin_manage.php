@@ -3,6 +3,7 @@
  * Ommu Author Contacts (ommu-author-contact)
  * @var $this AuthorcontactController
  * @var $model OmmuAuthorContact
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)

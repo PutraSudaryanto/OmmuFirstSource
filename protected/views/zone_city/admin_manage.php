@@ -3,6 +3,7 @@
  * Ommu Zone Cities (ommu-zone-city)
  * @var $this ZonecityController
  * @var $model OmmuZoneCity
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)

@@ -3,11 +3,12 @@
  * Ommu Menu Categories (ommu-menu-category)
  * @var $this MenucategoryController
  * @var $model OmmuMenuCategory
+ * version: 1.1.0
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
  * @created date 15 January 2016, 16:57 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/oMMu/Ommu-Core
  * @contect (+62)856-299-4114
  *
  */

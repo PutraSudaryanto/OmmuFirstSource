@@ -4,7 +4,7 @@
  * @var $this ZonecountryController
  * @var $model OmmuZoneCountry
  * @var $form CActiveForm
- * version: 0.0.1
+ * version: 1.1.0
  * Reference start
  *
  * TOC :
