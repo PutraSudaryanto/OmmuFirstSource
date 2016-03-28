@@ -172,7 +172,7 @@ class OmmuPluginPhrase extends CActiveRecord
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
-				'filter'=>OmmuPlugins::getPluginArray('id', 0),
+				'filter'=>OmmuPlugins::getPlugin(0, 'id'),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = 'en_us';

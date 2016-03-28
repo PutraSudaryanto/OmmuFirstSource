@@ -44,21 +44,21 @@ class ModuleHandle extends CApplicationComponent
 	public function getModulesFromDb($actived=null) {
 		$criteria = new CDbCriteria;
 		if($actived == null) {
-			$criteria->condition = 'code != :code';
+			$criteria->condition = 'folder != :folder';
 			$criteria->params = array(
-				':code'=>10000,
+				':folder'=>'-',
 			);		
 		} else if($actived == 'enabled') {
-			$criteria->condition = 'actived != :actived AND code != :code';
+			$criteria->condition = 'actived != :actived AND folder != :folder';
 			$criteria->params = array(
 				':actived'=>0,
-				':code'=>10000,
+				':folder'=>'-',
 			);
 		} else {
-			$criteria->condition = 'actived == :actived AND code != :code';
+			$criteria->condition = 'actived == :actived AND folder != :folder';
 			$criteria->params = array(
 				':actived'=>$actived,
-				':code'=>10000,
+				':folder'=>'-',
 			);
 		}
 		$criteria->order = 'folder ASC';

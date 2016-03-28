@@ -39,7 +39,7 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'plugin_id'); ?>
 			<div class="desc">
-				<?php echo $form->dropDownList($model,'plugin_id', OmmuPlugins::getPluginArray('id')); ?>
+				<?php echo $form->dropDownList($model,'plugin_id', OmmuPlugins::getPlugin(null, 'id')); ?>
 				<?php echo $form->error($model,'plugin_id'); ?>
 			</div>
 		</div>
