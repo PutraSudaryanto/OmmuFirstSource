@@ -1,6 +1,8 @@
 <?php
 /**
  * OmmuMenuCategory
+ * version: 1.1.0
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co) 
  * @created date 15 January 2016, 16:53 WIB

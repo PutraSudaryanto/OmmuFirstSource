@@ -1,10 +1,12 @@
 <?php
 /**
  * ViewMenuCategory
+ * version: 1.1.0
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
  * @created date 24 March 2016, 09:28 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/oMMu/Ommu-Core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
