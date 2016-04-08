@@ -27,7 +27,7 @@ class OFunction
 			$data = $dataProvider;
 		
 		$pageCount = $data->itemCount >= $data->pageSize ? ($data->itemCount % $data->pageSize === 0 ? (int)($data->itemCount/$data->pageSize) : (int)($data->itemCount/$data->pageSize)+1) : 1;
-		$currentPage = $data->itemCount != 0 ? $data->currentPage+1 : 0;
+		$currentPage = $data->itemCount != 0 ? $data->currentPage+1 : 1;
 		$nextPage = (($pageCount != $currentPage) && ($pageCount > $currentPage)) ? $currentPage+1 : 0;
 		$return = array(
 			'pageVar'=>$data->pageVar,

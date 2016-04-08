@@ -26,6 +26,7 @@
  * @property integer $defaults
  * @property integer $install
  * @property integer $actived
+ * @property integer $search
  * @property integer $orders
  * @property string $folder
  * @property string $name
@@ -75,14 +76,14 @@ class OmmuPlugins extends CActiveRecord
 		return array(
 			array('folder', 'required'),
 			array('name, desc', 'required', 'on'=>'adminadd'),
-			array('defaults, install, actived, orders', 'numerical', 'integerOnly'=>true),
+			array('defaults, install, actived, search, orders', 'numerical', 'integerOnly'=>true),
 			array('folder', 'length', 'max'=>32),
 			array('name', 'length', 'max'=>128),
 			array('desc', 'length', 'max'=>255),
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('plugin_id, defaults, install, actived, orders, folder, name, desc, creation_date, creation_id, modified_date, modified_id,
+			array('plugin_id, defaults, install, actived, search, orders, folder, name, desc, creation_date, creation_id, modified_date, modified_id,
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -110,6 +111,7 @@ class OmmuPlugins extends CActiveRecord
 			'defaults' => Yii::t('attribute', 'defaults'),
 			'install' => Yii::t('attribute', 'install'),
 			'actived' => Yii::t('attribute', 'actived'),
+			'search' => Yii::t('attribute', 'search'),
 			'orders' => Yii::t('attribute', 'orders'),
 			'folder' => Yii::t('attribute', 'folder'),
 			'name' => Yii::t('attribute', 'module_name'),
@@ -143,6 +145,7 @@ class OmmuPlugins extends CActiveRecord
 			$criteria->addInCondition('t.actived',array(1,2));
 			$criteria->compare('t.actived',$this->actived);
 		}
+		$criteria->compare('t.search',$this->search);
 		$criteria->compare('t.orders',$this->orders);
 		$criteria->compare('t.folder',strtolower($this->folder),true);
 		$criteria->compare('t.name',strtolower($this->name),true);
@@ -201,6 +204,7 @@ class OmmuPlugins extends CActiveRecord
 			$this->defaultColumns[] = 'defaults';
 			$this->defaultColumns[] = 'install';
 			$this->defaultColumns[] = 'actived';
+			$this->defaultColumns[] = 'search';
 			$this->defaultColumns[] = 'orders';
 			$this->defaultColumns[] = 'folder';
 			$this->defaultColumns[] = 'name';
@@ -277,6 +281,18 @@ class OmmuPlugins extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'actived',
 				'value' => '$data->install == 1 ? ($data->actived == 2 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("active",array("id"=>$data->plugin_id)), $data->actived, 2)) : "-"',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'search',
+				'value' => '$data->search == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

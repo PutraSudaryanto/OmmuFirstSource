@@ -63,6 +63,15 @@
 		<?php }?>
 
 		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'search'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'search'); ?>
+				<?php echo $form->labelEx($model,'search'); ?>
+				<?php echo $form->error($model,'search'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix publish">
 			<?php echo $form->labelEx($model,'defaults'); ?>
 			<div class="desc">
 				<?php echo $form->checkBox($model,'defaults'); ?>
