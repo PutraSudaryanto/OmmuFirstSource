@@ -76,7 +76,7 @@ class TranslateController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
+				'actions'=>array('suggest'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
@@ -102,6 +102,32 @@ class TranslateController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
+	}
+	
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionSuggest($limit=10) {
+		if(isset($_GET['term'])) {
+			if($language == null || $language != null && $language == '')
+				$body = 'en_us';
+			$criteria = new CDbCriteria;
+			$criteria->condition = $body.' LIKE :body';
+			$criteria->params = array(':body' => '%' . strtolower($_GET['term']) . '%');
+			$criteria->limit = $limit;
+			$criteria->order = "phrase_id ASC";
+			$model = OmmuSystemPhrase::model()->findAll($criteria);
+
+			if($model) {
+				foreach($model as $items) {
+					$result[] = array('id' => $items->phrase_id, 'value' => $items->$body);
+				}
+			}
+		}
+		echo CJSON::encode($result);
+		Yii::app()->end();
 	}
 
 	/**
