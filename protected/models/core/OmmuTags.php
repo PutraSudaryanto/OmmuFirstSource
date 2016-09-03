@@ -271,4 +271,14 @@ class OmmuTags extends CActiveRecord
 		}
 		return true;
 	}
+	
+	/**
+	 * before save attributes
+	 */
+	protected function beforeSave() {
+		if(parent::beforeSave()) {
+			$this->body = strtolower(trim($this->body));
+		}
+		return true;	
+	}
 }

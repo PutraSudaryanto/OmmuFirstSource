@@ -49,10 +49,10 @@ class Ommu extends CApplicationComponent
 			
 			//a standard rule mapping '/login' to 'site/login', and so on
 			'<action:(login|logout)>' 											=> 'site/<action>',
+			'<id:\d+>-<t:[\w\-]+>-<a:[\w\-]+>'									=> 'page/view',
 			'<id:\d+>-<t:[\w\-]+>'												=> 'page/view',
 			//'<id:\d+>-<t:[\w\-]+>'											=> 'maintenance/page',
 			
-			/* 
 			// Article
 			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>-<category:\d+>'		=> '<module>/<controller>/index',			
 			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<category:\d+>'				=> '<module>/<controller>/index',
@@ -60,8 +60,8 @@ class Ommu extends CApplicationComponent
 			'<module:\w+>/<controller:\w+>/<id:\d+>'								=> '<module>/<controller>/index',
 			'<module:\w+>/<controller:\w+>'											=> '<module>/<controller>/index',
 			
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>-<photo:\d+>'		=> '<module>/<controller>/view',
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>'					=> '<module>/<controller>/view',
+			'<module:\w+>/<controller:\w+>/view/<t:[\w\-]+>-<id:\d+>-<photo:\d+>'		=> '<module>/<controller>/view',
+			'<module:\w+>/<controller:\w+>/view/<t:[\w\-]+>-<id:\d+>'					=> '<module>/<controller>/view',
 			
 			'<module:\w+>/<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'		=> '<module>/<controller>/<action>',
 			'<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'					=> '<module>/<controller>/<action>',
@@ -69,17 +69,20 @@ class Ommu extends CApplicationComponent
 			'<module:\w+>/<controller:\w+>'											=> '<module>/<controller>',
 			
 			//controller condition
-			'<controller:\w+>'													=> '<controller>/index',
+			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>-<category:\d+>'					=> '<controller>/index',			
+			'<controller:\w+>/<t:[\w\-]+>-<category:\d+>'							=> '<controller>/index',
+			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>'									=> '<controller>/index',
+			'<controller:\w+>/<id:\d+>'												=> '<controller>/index',
+			'<controller:\w+>'														=> '<controller>/index',
 			
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>-<photo:\d+>'					=> '<controller>/view',
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>'								=> '<controller>/view',
+			'<controller:\w+>/view/<t:[\w\-]+>-<id:\d+>-<photo:\d+>'					=> '<controller>/view',
+			'<controller:\w+>/view/<t:[\w\-]+>-<id:\d+>'								=> '<controller>/view',
 			
 			'<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'				=> '<controller>/<action>',
 			'<controller:\w+>/<action:\w+>/<id:\d+>'							=> '<controller>/<action>',
 			'<controller:\w+>/<action:\w+>'										=> '<controller>/<action>',
 			//'<controller:\w+>/<action:\w+>'									=> '<controller>/<action>',
 			'<controller:\w+>'													=> '<controller>', 
-			*/
 		);
 
 		/**

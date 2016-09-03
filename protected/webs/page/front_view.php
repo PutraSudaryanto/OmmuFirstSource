@@ -18,19 +18,26 @@
 	);
 ?>
 
-<?php if($model->media_show == 1) {
-	$images = Yii::app()->request->baseUrl.'/public/page/'.$model->media;
+<?php if(($a == null && $model->media_show == 1) || ($a != null && $model->media_show == 'show')) {
+	if($a == null)
+		$images = Yii::app()->request->baseUrl.'/public/page/'.$model->media;
+	else
+		$images = $model->media_image;
+		
 	if($this->adsSidebar == true) {
-		if($model->media_type == 1)
+		if(($a == null && $model->media_type == 1) || ($a != null && $model->media_type == 'large'))
 			echo '<img class="largemag" src="'.Utility::getTimThumb($images, 600, 900, 3).'" alt="">';
 		else
 			echo '<img class="mediummag" src="'.Utility::getTimThumb($images, 270, 500, 3).'" alt="">';
 	} else {
-		if($model->media_type == 1)
+		if(($a == null && $model->media_type == 1) || ($a != null && $model->media_type == 'large'))
 			echo '<img class="largemag" src="'.Utility::getTimThumb($images, 1280, 1024, 3).'" alt="">';
 		else
 			echo '<img class="mediummag" src="'.Utility::getTimThumb($images, 270, 500, 3).'" alt="">';
 	}
 }?>
 
-<?php echo Phrase::trans($model->name, 2) != Utility::hardDecode(Phrase::trans($model->desc, 2)) ? Utility::cleanImageContent(Phrase::trans($model->desc, 2)) : '';?>
+<?php if($a == null)
+	echo Phrase::trans($model->name, 2) != Utility::hardDecode(Phrase::trans($model->desc, 2)) ? Utility::cleanImageContent(Phrase::trans($model->desc, 2)) : '';
+else 
+	echo $model->description;?>
