@@ -21,6 +21,8 @@
  *
  *----------------------------------------------------------------------------------------------------------
  */
+Yii::import('application.components.plugin.Spyc');
+define('DS', DIRECTORY_SEPARATOR);
 
 class Ommu extends CApplicationComponent
 {
@@ -39,6 +41,18 @@ class Ommu extends CApplicationComponent
 			$theme = trim($_GET['theme']);
 		}
 		Yii::app()->theme = $theme;
+		
+		/**
+		 * controllerMap
+		 */
+		$themePath = Yii::getPathOfAlias('webroot.themes.'.$theme).DS.$theme.'.yaml';
+		$arrayThemeSpyc = Spyc::YAMLLoad($themePath);
+		$controllerSpyc = $arrayThemeSpyc['controller'];
+		if(!empty($controllerSpyc)) {
+			foreach($controllerSpyc as $key => $val)
+				$controllerMap[$key] = 'webroot.themes.'.$theme.'.controllers.'.$val;
+			Yii::app()->controllerMap = $controllerMap;
+		}
 
 		/**
 		 * set url manager
