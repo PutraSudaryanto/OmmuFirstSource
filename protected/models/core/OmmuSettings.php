@@ -25,7 +25,6 @@
  * @property integer $id
  * @property integer $online
  * @property integer $site_type
- * @property integer $site_admin
  * @property integer $site_email
  * @property string $site_url
  * @property string $site_title
@@ -113,7 +112,7 @@ class OmmuSettings extends CActiveRecord
 			array('general_commenthtml, spam_failedcount', 'required', 'on'=>'banned'),
 			array('signup_numgiven', 'required', 'on'=>'signup'),
 			//array('analytic_id', 'required', 'on'=>'analytic'),
-			array('id, online, site_type, site_admin, site_email, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_numgiven, signup_adminemail, general_profile, general_invite, general_search, general_portal, lang_allow, lang_autodetect, lang_anonymous, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic', 'numerical', 'integerOnly'=>true),
+			array('id, online, site_type, site_email, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_numgiven, signup_adminemail, general_profile, general_invite, general_search, general_portal, lang_allow, lang_autodetect, lang_anonymous, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic', 'numerical', 'integerOnly'=>true),
 			array('signup_numgiven', 'length', 'max'=>3),
 			array('ommu_version', 'length', 'max'=>8),
 			array('site_url, analytic_id, license_email, license_key', 'length', 'max'=>32),
@@ -123,7 +122,7 @@ class OmmuSettings extends CActiveRecord
 				event', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, online, site_type, site_admin, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version, modified_date, modified_id, 
+			array('id, online, site_type, site_email, site_url, site_title, site_keywords, site_description, construction_date, construction_text, construction_twitter, site_creation, site_dateformat, site_timeformat, signup_username, signup_approve, signup_verifyemail, signup_photo, signup_welcome, signup_random, signup_terms, signup_invitepage, signup_inviteonly, signup_checkemail, signup_adminemail, general_profile, general_invite, general_search, general_portal, general_include, general_commenthtml, banned_ips, banned_emails, banned_usernames, banned_words, spam_comment, spam_contact, spam_invite, spam_login, spam_failedcount, spam_signup, analytic, analytic_id, license_email, license_key, ommu_version, modified_date, modified_id, 
 				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -149,7 +148,6 @@ class OmmuSettings extends CActiveRecord
 			'id' => Yii::t('attribute', 'ID'),
 			'online' => Yii::t('attribute', 'Online'),
 			'site_type' => Yii::t('attribute', 'Site Type'),
-			'site_admin' => Yii::t('attribute', 'Site Admin'),
 			'site_email' => Yii::t('attribute', 'Site Email'),
 			'site_headline' => Yii::t('attribute', 'Site Headline'),
 			'site_url' => Yii::t('attribute', 'Site Url'),
@@ -221,7 +219,6 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.online',$this->online);
 		$criteria->compare('t.site_type',$this->site_type);
-		$criteria->compare('t.site_admin',$this->site_admin);
 		$criteria->compare('t.site_email',$this->site_email);
 		$criteria->compare('t.site_url',$this->site_url,true);
 		$criteria->compare('t.site_title',$this->site_title,true);
@@ -311,7 +308,6 @@ class OmmuSettings extends CActiveRecord
 			//$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'online';
 			$this->defaultColumns[] = 'site_type';
-			$this->defaultColumns[] = 'site_admin';
 			$this->defaultColumns[] = 'site_email';
 			$this->defaultColumns[] = 'site_url';
 			$this->defaultColumns[] = 'site_title';
@@ -372,7 +368,6 @@ class OmmuSettings extends CActiveRecord
 			$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'online';
 			$this->defaultColumns[] = 'site_type';
-			$this->defaultColumns[] = 'site_admin';
 			$this->defaultColumns[] = 'site_email';
 			$this->defaultColumns[] = 'site_url';
 			$this->defaultColumns[] = 'site_title';
