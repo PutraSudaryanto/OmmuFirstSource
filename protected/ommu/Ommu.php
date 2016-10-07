@@ -165,10 +165,14 @@ class Ommu extends CApplicationComponent
 			'og:title'=>'MY_WEBSITE_NAME',
 			'og:description'=>'MY_WEBSITE_DESCRIPTION',
 			'og:image'=>$metaImages,
-			'og:site_name'=>$meta->facebook_sitename,
-			'og:see_also'=>$meta->facebook_see_also,
-			'fb:admins'=>$meta->facebook_admins,
 		);
+		if($meta->facebook_sitename != '')
+			$arrayFacebookGlobal['og:site_name'] = $meta->facebook_sitename;
+		if($meta->facebook_see_also != '')
+			$arrayFacebookGlobal['og:see_also'] = $meta->facebook_see_also;
+		if($meta->facebook_admins != '')
+			$arrayFacebookGlobal['fb:admins'] = $meta->facebook_admins;
+		
 		if($meta->facebook_type == 1) {
 			$arrayFacebook = array(
 				'profile:first_name'=>$meta->facebook_profile_firstname,
@@ -194,23 +198,40 @@ class Ommu extends CApplicationComponent
 			);
 		} else {
 			$cardType = 'app';
-			$arrayTwitter = array(
-				'twitter:app:id:iphone'=>$meta->twitter_iphone_id,
-				'twitter:app:url:iphone'=>$meta->twitter_iphone_url,
-				'twitter:app:name:ipad'=>$meta->twitter_ipad_name,
-				'twitter:app:url:ipad'=>$meta->twitter_ipad_url,
-				'twitter:app:id:googleplay'=>$meta->twitter_googleplay_id,
-				'twitter:app:url:googleplay'=>$meta->twitter_googleplay_url,
-			);
+			//if($meta->country != '')
+			//	$arrayTwitter['twitter:app:country'] = $meta->country;
+			//if($meta->twitter_iphone_name != '')
+			//	$arrayTwitter['twitter:app:name:iphone'] = $meta->twitter_iphone_name;
+			if($meta->twitter_iphone_id != '')
+				$arrayTwitter['twitter:app:id:iphone'] = $meta->twitter_iphone_id;
+			if($meta->twitter_iphone_url != '')
+				$arrayTwitter['twitter:app:url:iphone'] = $meta->twitter_iphone_url;
+			if($meta->twitter_ipad_name != '')
+				$arrayTwitter['twitter:app:name:ipad'] = $meta->twitter_ipad_name;
+			//if($meta->twitter_ipad_id != '')
+			//	$arrayTwitter['twitter:app:id:ipad'] = $meta->twitter_ipad_id;
+			if($meta->twitter_ipad_url != '')
+				$arrayTwitter['twitter:app:url:ipad'] = $meta->twitter_ipad_url;
+			//if($meta->twitter_googleplay_name != '')
+			//	$arrayTwitter['twitter:app:name:googleplay'] = $meta->twitter_googleplay_name;
+			if($meta->twitter_googleplay_id != '')
+				$arrayTwitter['twitter:app:id:googleplay'] = $meta->twitter_googleplay_id;
+			if($meta->twitter_googleplay_url != '')
+				$arrayTwitter['twitter:app:url:googleplay'] = $meta->twitter_googleplay_url;
+			
+			if(empty($arrayTwitter))
+				$arrayTwitter = array();
 		}
 		$arrayTwitterGlobal = array(
 			'twitter:card'=>$cardType,
-			'twitter:site'=>$meta->twitter_card != 4 ? $meta->twitter_site : '',
-			'twitter:creator'=>$meta->twitter_card != 4 ? $meta->twitter_creator : '',
+			'twitter:site'=>$meta->twitter_site,
 			'twitter:title'=>'MY_WEBSITE_NAME',
 			'twitter:description'=>'MY_WEBSITE_DESCRIPTION',
-			'twitter:image:src'=>$metaImages,
+			'twitter:image'=>$metaImages,
 		);
+		if(in_array($meta->twitter_card, array(2)))
+			$arrayTwitterGlobal['twitter:creator'] = $meta->twitter_creator;
+		//$arrayTwitterGlobal['twitter:image:alt'] = '';
 		
 		/**
 		 * Registe Meta Tags

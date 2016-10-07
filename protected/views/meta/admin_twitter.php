@@ -51,7 +51,7 @@ EOP;
 	<fieldset>
 	
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'twitter_on'); ?>
+			<label><?php echo $model->getAttributeLabel('twitter_on');?> <span class="required">*</span></label>
 			<div class="desc">
 				<?php echo $form->radioButtonList($model,'twitter_on', array(
 					1 => Yii::t('phrase', 'Enabled'),
@@ -62,7 +62,7 @@ EOP;
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'twitter_card'); ?>
+			<label><?php echo $model->getAttributeLabel('twitter_card');?> <span class="required">*</span></label>
 			<div class="desc">
 				<?php echo $form->dropDownList($model,'twitter_card', array(
 					1 => Yii::t('phrase', 'Summary'),
@@ -75,7 +75,7 @@ EOP;
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'twitter_site'); ?>
+			<label><?php echo $model->getAttributeLabel('twitter_site');?> <span class="required">*</span></label>
 			<div class="desc">
 				<?php echo $form->textField($model,'twitter_site',array('maxlength'=>32,'class'=>'span-5')); ?>
 				<?php echo $form->error($model,'twitter_site'); ?>
@@ -84,7 +84,7 @@ EOP;
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'twitter_creator'); ?>
+			<label><?php echo $model->getAttributeLabel('twitter_creator');?> <span class="required">*</span></label>
 			<div class="desc">
 				<?php echo $form->textField($model,'twitter_creator',array('maxlength'=>32,'class'=>'span-5')); ?>
 				<?php echo $form->error($model,'twitter_creator'); ?>
@@ -94,7 +94,7 @@ EOP;
 
 		<div id="photo" class="filter <?php echo $model->twitter_card != 3 ? 'hide' : '';?>">
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_photo_width'); ?>
+				<label><?php echo $model->getAttributeLabel('twitter_photo_width');?> <span class="required">*</span></label>
 				<div class="desc">
 					<?php echo $form->textField($model,'twitter_photo_width',array('maxlength'=>3,'class'=>'span-3')); ?>
 					<?php echo $form->error($model,'twitter_photo_width'); ?>
@@ -103,7 +103,7 @@ EOP;
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_photo_height'); ?>
+				<label><?php echo $model->getAttributeLabel('twitter_photo_height');?> <span class="required">*</span></label>
 				<div class="desc">
 					<?php echo $form->textField($model,'twitter_photo_height',array('maxlength'=>3,'class'=>'span-3')); ?>
 					<?php echo $form->error($model,'twitter_photo_height'); ?>
