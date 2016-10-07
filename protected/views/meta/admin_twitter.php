@@ -65,10 +65,14 @@ EOP;
 			<label><?php echo $model->getAttributeLabel('twitter_card');?> <span class="required">*</span></label>
 			<div class="desc">
 				<?php echo $form->dropDownList($model,'twitter_card', array(
-					1 => Yii::t('phrase', 'Summary'),
-					2 => Yii::t('phrase', 'Summary Large Image'),
-					3 => Yii::t('phrase', 'Photo'),
-					4 => Yii::t('phrase', 'Application'),
+					1 => Yii::t('phrase', 'Summary Card'),
+					2 => Yii::t('phrase', 'Summary Card with Large Image'),
+					3 => Yii::t('phrase', 'Photo Card'),
+					4 => Yii::t('phrase', 'App Card'),
+					//5 => Yii::t('phrase', 'Gallery Card'),
+					//6 => Yii::t('phrase', 'Player Card'),
+					//7 => Yii::t('phrase', 'Player Card: Approval Guide'),
+					//8 => Yii::t('phrase', 'Product Card'),
 				)); ?>
 				<?php echo $form->error($model,'twitter_card'); ?>
 			</div>
