@@ -198,22 +198,22 @@ class Ommu extends CApplicationComponent
 			);
 		} else {
 			$cardType = 'app';
-			//if($meta->country != '')
-			//	$arrayTwitter['twitter:app:country'] = $meta->country;
-			//if($meta->twitter_iphone_name != '')
-			//	$arrayTwitter['twitter:app:name:iphone'] = $meta->twitter_iphone_name;
+			if($meta->twitter_country != '')
+				$arrayTwitter['twitter:app:country'] = $meta->twitter_country;
+			if($meta->twitter_iphone_name != '')
+				$arrayTwitter['twitter:app:name:iphone'] = $meta->twitter_iphone_name;
 			if($meta->twitter_iphone_id != '')
 				$arrayTwitter['twitter:app:id:iphone'] = $meta->twitter_iphone_id;
 			if($meta->twitter_iphone_url != '')
 				$arrayTwitter['twitter:app:url:iphone'] = $meta->twitter_iphone_url;
 			if($meta->twitter_ipad_name != '')
 				$arrayTwitter['twitter:app:name:ipad'] = $meta->twitter_ipad_name;
-			//if($meta->twitter_ipad_id != '')
-			//	$arrayTwitter['twitter:app:id:ipad'] = $meta->twitter_ipad_id;
+			if($meta->twitter_ipad_id != '')
+				$arrayTwitter['twitter:app:id:ipad'] = $meta->twitter_ipad_id;
 			if($meta->twitter_ipad_url != '')
 				$arrayTwitter['twitter:app:url:ipad'] = $meta->twitter_ipad_url;
-			//if($meta->twitter_googleplay_name != '')
-			//	$arrayTwitter['twitter:app:name:googleplay'] = $meta->twitter_googleplay_name;
+			if($meta->twitter_googleplay_name != '')
+				$arrayTwitter['twitter:app:name:googleplay'] = $meta->twitter_googleplay_name;
 			if($meta->twitter_googleplay_id != '')
 				$arrayTwitter['twitter:app:id:googleplay'] = $meta->twitter_googleplay_id;
 			if($meta->twitter_googleplay_url != '')
@@ -231,7 +231,8 @@ class Ommu extends CApplicationComponent
 		);
 		if(in_array($meta->twitter_card, array(2)))
 			$arrayTwitterGlobal['twitter:creator'] = $meta->twitter_creator;
-		//$arrayTwitterGlobal['twitter:image:alt'] = '';
+		if($meta->meta_image_alt != '' && in_array($meta->meta_image_alt, array(1,2)))
+			$arrayTwitterGlobal['twitter:image:alt'] = $meta->meta_image_alt;
 		
 		/**
 		 * Registe Meta Tags
