@@ -395,7 +395,8 @@ class OmmuPages extends CActiveRecord
 					// Add file in directory (index.php)
 					$newFile = $page_path.'/index.php';
 					$FileHandle = fopen($newFile, 'w');
-				}
+				} else
+					@chmod($page_path, 0755, true);
 				
 				$this->media = CUploadedFile::getInstance($this, 'media');
 				if($this->media instanceOf CUploadedFile) {

@@ -650,12 +650,12 @@ class Utility
 	 * Explode Implode Type File
 	 * $type = true (explode), false (implode)
 	 */
-	public static function formatFileType($data, $type=true) 
+	public static function formatFileType($data, $type=true, $separator=',') 
 	{
 		if($type == true) {
-			$result = array_map("trim", explode(",", $data));
+			$result = array_map("trim", explode($separator, $data));
 		} else {
-			$result = implode(", ", $data);
+			$result = implode($separator.' ', $data);
 		}
 		return $result;	
 	}
