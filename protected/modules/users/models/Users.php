@@ -631,7 +631,7 @@ class Users extends CActiveRecord
 				$welcome_title = 'Welcome to '.$setting->site_title;
 				$welcome_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$welcome_template.'.php');
 				$welcome_ireplace = str_ireplace($welcome_search, $welcome_replace, $welcome_message);
-				SupportMailSetting::sendEmail($this->email, $this->displayname, $welcome_title, $welcome_ireplace, 1);
+				SupportMailSetting::sendEmail($this->email, $this->displayname, $welcome_title, $welcome_ireplace);
 			}
 
 			// Send Account Information
@@ -647,11 +647,11 @@ class Users extends CActiveRecord
 			$account_title = $setting->site_title.' Account ('.$this->displayname.')';
 			$account_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$account_template.'.php');
 			$account_ireplace = str_ireplace($account_search, $account_replace, $account_message);
-			SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace, 1);
+			SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace);
 
 			// Send New Account to Email Administrator
 			if($setting->signup_adminemail == 1)
-				SupportMailSetting::sendEmail($this->email, $this->displayname, 'New Member', 'informasi member terbaru', 0);
+				SupportMailSetting::sendEmail(null, null, 'New Member', 'informasi member terbaru', 0);
 			
 		} else {
 			// Send Account Information
@@ -669,11 +669,11 @@ class Users extends CActiveRecord
 				$account_title = 'Your password changed';
 				$account_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$account_template.'.php');
 				$account_ireplace = str_ireplace($account_search, $account_replace, $account_message);
-				SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace, 1);
+				SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace);
 			}
 			
 			if($controller == 'verify') {
-				SupportMailSetting::sendEmail($this->email, $this->displayname, 'Verify Email Success', 'Verify Email Success', 1);						
+				SupportMailSetting::sendEmail($this->email, $this->displayname, 'Verify Email Success', 'Verify Email Success');						
 			}
 		}	
 	}

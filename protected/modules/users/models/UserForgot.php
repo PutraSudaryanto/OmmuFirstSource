@@ -266,7 +266,7 @@ class UserForgot extends CActiveRecord
 			$forgot_title = $setting->site_title.' Password Assistance';
 			$forgot_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$forgot_template.'.php');
 			$forgot_ireplace = str_ireplace($forgot_search, $forgot_replace, $forgot_message);
-			SupportMailSetting::sendEmail($this->user->email, $this->user->displayname, $forgot_title, $forgot_ireplace, 1);
+			SupportMailSetting::sendEmail($this->user->email, $this->user->displayname, $forgot_title, $forgot_ireplace);
 		}
 	}
 

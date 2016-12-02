@@ -340,10 +340,10 @@ class UserInvites extends CActiveRecord
 				'select' => 'signup_checkemail',
 			));
 			if($setting->signup_checkemail == 1)
-				SupportMailSetting::sendEmail($this->queue->email, $this->queue->email, 'User Invite', 'Silahkan bergabung dan masukkan code invite', 1);
+				SupportMailSetting::sendEmail($this->queue->email, $this->queue->email, 'User Invite', 'Silahkan bergabung dan masukkan code invite');
 			
 			else
-				SupportMailSetting::sendEmail($this->queue->email, $this->queue->email, 'User Invite', 'Silahkan bergabung', 1);
+				SupportMailSetting::sendEmail($this->queue->email, $this->queue->email, 'User Invite', 'Silahkan bergabung');
 		}
 	}
 

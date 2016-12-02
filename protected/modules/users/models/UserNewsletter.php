@@ -284,11 +284,11 @@ class UserNewsletter extends CActiveRecord
 					));
 					if($newsletter == null) {
 						if($this->unsubscribe != 0) {
-							$this->addError('email', Yii::t('phrase', '23101,1));
+							$this->addError('email', 'Anda belum terdaftar dalam newsletter.');
 						}
 					} else {
 						if($this->unsubscribe == 0) {
-							$this->addError('email', Yii::t('phrase', '23094'));
+							$this->addError('email', Yii::t('phrase', 'Anda Sudah terdaftar dalam newsletter.'));
 						}
 					}
 					
@@ -314,7 +314,7 @@ class UserNewsletter extends CActiveRecord
 					$ticket = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('support/newsletter/unsubscribe', array('email'=>$email,'secret'=>md5($email.$this->subscribe_date)));
 				}
 				// Send Email to Member
-				SupportMailSetting::sendEmail($email, $displayname, 'Unsubscribe Ticket', $ticket, 1);
+				SupportMailSetting::sendEmail($email, $displayname, 'Unsubscribe Ticket', $ticket);
 			}
 		}
 		return true;
@@ -345,16 +345,16 @@ class UserNewsletter extends CActiveRecord
 				$message = OmmuTemplate::getMessage('user_subscribe_launching', array(
 					CHtml::encode($this->email),
 				));
-				SupportMailSetting::sendEmail($this->email, $this->email, 'Subscribe Success', $message, 1);
+				SupportMailSetting::sendEmail($this->email, $this->email, 'Subscribe Success', $message);
 			}
 		} else {
 			if($this->subscribe == 0) {
 				// Guest Unsubscribe
 				if($this->user_id == 0) {
-					SupportMailSetting::sendEmail($this->email, $this->email, 'Unsubscribe Success', 'Unsubscribe Success', 1);
+					SupportMailSetting::sendEmail($this->email, $this->email, 'Unsubscribe Success', 'Unsubscribe Success');
 				// Member Unsubscribe
 				} else {
-					SupportMailSetting::sendEmail($this->user->email, $this->user->displayname, 'Unsubscribe Success', 'Unsubscribe Success', 1);
+					SupportMailSetting::sendEmail($this->user->email, $this->user->displayname, 'Unsubscribe Success', 'Unsubscribe Success');
 				}
 			}
 		}
