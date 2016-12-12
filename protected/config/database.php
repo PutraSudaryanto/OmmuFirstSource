@@ -12,10 +12,10 @@ return array(
 	'components'=>array(
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=waikijogja.com;dbname=u7780952_ommu_productions',
+			'connectionString' => 'mysql:host=localhost;dbname=db.name',
 			//'emulatePrepare' => true,
-			'username' => '7780952_github',
-			'password' => 'TFJ)on?4xIow',
+			'username' => 'db.username',
+			'password' => 'db.password',
 			'charset' => 'utf8',
 		),
 	),
