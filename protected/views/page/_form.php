@@ -46,7 +46,7 @@ EOP;
 					<?php echo $form->labelEx($model,'title'); ?>
 					<div class="desc">
 						<?php
-						$model->title = Phrase::trans($model->name, 2);
+						$model->title = Phrase::trans($model->name);
 						echo $form->textField($model,'title',array('maxlength'=>256,'class'=>'span-6')); ?>
 						<?php echo $form->error($model,'title'); ?>
 					</div>
@@ -56,7 +56,7 @@ EOP;
 					<?php echo $form->labelEx($model,'quotes'); ?>
 					<div class="desc">
 						<?php 
-						$model->quotes = Phrase::trans($model->quote, 2);
+						$model->quotes = Phrase::trans($model->quote);
 						//echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 small'));
 						$this->widget('application.extensions.imperavi.ImperaviRedactorWidget', array(
 							'model'=>$model,
@@ -83,7 +83,7 @@ EOP;
 					<?php echo $form->labelEx($model,'description'); ?>
 					<div class="desc">
 						<?php
-						$model->description = Phrase::trans($model->desc, 2);
+						$model->description = Phrase::trans($model->desc);
 						//echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50));
 						$this->widget('application.extensions.imperavi.ImperaviRedactorWidget', array(
 							'model'=>$model,
@@ -112,7 +112,7 @@ EOP;
 					<?php echo $form->labelEx($model,'description'); ?>
 					<div class="desc">
 						<?php
-						$model->description = Phrase::trans($model->desc, 2);
+						$model->description = Phrase::trans($model->desc);
 						//echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50));
 						$options = array(
 							'lang' => 'en',

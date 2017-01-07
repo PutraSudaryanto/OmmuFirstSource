@@ -82,7 +82,7 @@
 							'off_address' => '',
 							'target' => '_blank',
 						),
-						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey,"t"=>Utility::getUrlTitle(Phrase::trans($data->name,2))))'),
+						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey,"t"=>Utility::getUrlTitle(Phrase::trans($data->name))))'),
 					'update' => array(
 						'label' => 'update',
 						'options' => array(

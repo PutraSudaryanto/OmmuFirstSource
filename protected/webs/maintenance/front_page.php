@@ -19,7 +19,7 @@
 ?>
 
 <div class="boxed">
-	<?php echo Phrase::trans($model->desc,2)?>
+	<?php echo Phrase::trans($model->desc)?>
 	<div class="date">
 		<?php if($model->modified_date != '0000-00-00 00:00:00') {
 			echo 'Edited: '.Utility::dateFormat($model->modified_date, true).' by '.$model->modified->displayname;

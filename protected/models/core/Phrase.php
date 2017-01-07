@@ -18,6 +18,43 @@ class Phrase
 		return $this->encodeLabel;
 	} */
 	
+	public static function trans($id, $other=null) 
+	{
+		$model = OmmuSystemPhrase::model()->findByPk($id);
+		
+		$defaultLang = OmmuLanguages::getDefault('code');
+		if(isset(Yii::app()->session['language'])) {
+			$language = Yii::app()->session['language'];
+			if($model->$language == '')
+				$language = $defaultLang;
+		} else
+			$language = $defaultLang;
+		
+		if(!empty($other)) {
+			$replace = array();
+			$search = array();
+			$i = 0;
+			foreach($other as $label=>$url) {
+				$i++;
+				if(is_string($label) || is_array($url))
+					//$replace[] = CHtml::link($this->getEncodeLabel() ? CHtml::encode($label) : $label, $url, array('title'=>$label));
+					$replace[] = CHtml::link($label, $url, array('title'=>$label));
+				else
+					//$replace[] = $this->getEncodeLabel() ? CHtml::encode($url) : $url;
+					$replace[] = $url;
+				$search[] = '$'.$i.'';
+			}
+			$phrase = str_replace($search, $replace, $model->$language);
+			
+		} else
+			$phrase = $model->$language;
+		
+		return $phrase;
+	}
+	
+	/**
+	 * backup old function
+	 * 
 	public static function trans($id, $type, $other=null) {
 		if($type == 1) {
 			$model = OmmuPluginPhrase::model()->findByPk($id);
@@ -56,6 +93,7 @@ class Phrase
 		
 		return $phrase;
 	}
+	*/
 
 
 }

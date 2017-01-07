@@ -270,9 +270,14 @@ class OmmuLanguages extends CActiveRecord
 	/**
 	 * Get Default
 	 */
-	public static function getDefault(){
+	public static function getDefault($select=null) {
 		$model = self::model()->findByAttributes(array('defaults' => 1));
-		return $model->language_id;
+		if($select == null)
+			$return = $model->language_id;
+		else
+			$return = $model->$select;
+			
+		return $return;
 	}
 
 	/**

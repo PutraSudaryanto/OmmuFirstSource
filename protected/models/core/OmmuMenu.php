@@ -270,14 +270,14 @@ class OmmuMenu extends CActiveRecord
 			if(!isset($_GET['category'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'cat_id',
-					'value' => 'Phrase::trans($data->cat_relation->name, 2)',
+					'value' => 'Phrase::trans($data->cat_relation->name)',
 					'filter'=> OmmuMenuCategory::getCategory(),
 					'type' => 'raw',
 				);
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'title',
-				'value' => 'Phrase::trans($data->name, 2)',
+				'value' => 'Phrase::trans($data->name)',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'dependency',
@@ -367,7 +367,7 @@ class OmmuMenu extends CActiveRecord
 			$items = array();
 			if($model != null) {
 				foreach($model as $key => $val) {
-					$items[$val->id] = Phrase::trans($val->name, 2);
+					$items[$val->id] = Phrase::trans($val->name);
 				}
 				return $items;
 			} else {
