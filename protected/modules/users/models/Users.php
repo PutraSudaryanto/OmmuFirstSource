@@ -307,7 +307,7 @@ class Users extends CActiveRecord
 			if(!in_array($controller, array('o/admin'))) {
 				$this->defaultColumns[] = array(
 					'name' => 'level_id',
-					'value' => 'Phrase::trans($data->level_TO->name,2)',
+					'value' => 'Phrase::trans($data->level_TO->name)',
 					'htmlOptions' => array(
 						//'class' => 'center',
 					),
