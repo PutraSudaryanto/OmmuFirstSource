@@ -217,7 +217,7 @@ class SupportContacts extends CActiveRecord
 			if(!isset($_GET['category'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'cat_id',
-					'value' => 'Phrase::trans($data->cat->name, 2)',
+					'value' => 'Phrase::trans($data->cat->name)',
 					'filter'=> SupportContactCategory::getCategory(),
 					'type' => 'raw',
 				);
@@ -272,7 +272,7 @@ class SupportContacts extends CActiveRecord
 		if(parent::beforeValidate()) {
 			if(!$this->isNewRecord) {
 				if($this->publish == 2 && $this->value == '') {
-					$this->addError('value', Phrase::trans($this->cat->name, 2).' '.Yii::t('phrase', 'cannot be blank.'));
+					$this->addError('value', Phrase::trans($this->cat->name).' '.Yii::t('phrase', 'cannot be blank.'));
 				}
 				$this->modified_id = Yii::app()->user->id;
 			} else
