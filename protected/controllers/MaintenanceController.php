@@ -74,8 +74,8 @@ class MaintenanceController extends Controller
 		$model = OmmuPages::model()->findByPk($id,array(
 			//'select' => '',
 		));
-		$this->pageTitle = Phrase::trans($model->name,2);
-		$this->pageDescription = Utility::shortText(Utility::hardDecode(Phrase::trans($model->desc,2)),300);
+		$this->pageTitle = Phrase::trans($model->name);
+		$this->pageDescription = Utility::shortText(Utility::hardDecode(Phrase::trans($model->desc)),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
 		$this->render('application.webs.maintenance.front_page',array(

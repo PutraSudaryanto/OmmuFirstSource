@@ -117,9 +117,9 @@ class PageController extends ControllerApi
 					
 					$data[] = array(
 						'id'=>$item->page_id,
-						'title'=>ucwords(strtolower(Phrase::trans($item->name, 2))),
-						'description'=>$item->desc != 0 ? Utility::shortText(Utility::hardDecode(Phrase::trans($item->desc, 2)),200) : '-',
-						'quote'=>$item->quote != 0 ? Phrase::trans($item->quote, 2) : '-',
+						'title'=>ucwords(strtolower(Phrase::trans($item->name))),
+						'description'=>$item->desc != 0 ? Utility::shortText(Utility::hardDecode(Phrase::trans($item->desc)),200) : '-',
+						'quote'=>$item->quote != 0 ? Phrase::trans($item->quote) : '-',
 						'media_image'=>$item->media != '' ? $media_image : '-',
 						'media_show'=>$item->media_show == 0 ? 'hide' : 'show',
 						'media_type'=>$item->media_show != 0 ? (($item->media_type == 0 || $item->media_type == 1) ? 'large' : 'medium') : '-',
@@ -168,9 +168,9 @@ class PageController extends ControllerApi
 				$return = array(
 					'success'=>'1',
 					'id'=>$model->page_id,
-					'title'=>ucwords(strtolower(Phrase::trans($model->name, 2))),
-					'description'=>$model->desc != 0 ? Utility::softDecode(Phrase::trans($model->desc, 2)) : '-',
-					'quote'=>$model->quote != 0 ? Phrase::trans($model->quote, 2) : '-',
+					'title'=>ucwords(strtolower(Phrase::trans($model->name))),
+					'description'=>$model->desc != 0 ? Utility::softDecode(Phrase::trans($model->desc)) : '-',
+					'quote'=>$model->quote != 0 ? Phrase::trans($model->quote) : '-',
 					'media_image'=>$model->media != '' ? $media_image : '-',
 					'media_show'=>$model->media_show == 0 ? 'hide' : 'show',
 					'media_type'=>$model->media_show != 0 ? (($model->media_type == 0 || $model->media_type == 1) ? 'large' : 'medium') : '-',

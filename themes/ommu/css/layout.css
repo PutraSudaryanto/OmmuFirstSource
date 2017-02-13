@@ -585,6 +585,7 @@ div.body .sidebar .table {
 	color: #666;
 	text-decoration: none;
 }
+.body .sidebar .menu .submenu li.submenu-show > a,
 .body .sidebar .menu .submenu li.selected a,
 .body .sidebar .menu .submenu li a.active {
 	font-weight: bold;

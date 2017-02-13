@@ -261,7 +261,7 @@ class OmmuPages extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'title',
-				'value' => 'Phrase::trans($data->name, 2)."<br/><span>".Utility::shortText(Utility::hardDecode(Phrase::trans($data->desc, 2)),150)."</span>"',
+				'value' => 'Phrase::trans($data->name)."<br/><span>".Utility::shortText(Utility::hardDecode(Phrase::trans($data->desc)),150)."</span>"',
 				'htmlOptions' => array(
 					'class' => 'bold',
 				),
@@ -400,7 +400,7 @@ class OmmuPages extends CActiveRecord
 				
 				$this->media = CUploadedFile::getInstance($this, 'media');
 				if($this->media instanceOf CUploadedFile) {
-					$fileName = time().'_'.Utility::getUrlTitle(Phrase::trans($this->name, 2)).'.'.strtolower($this->media->extensionName);
+					$fileName = time().'_'.Utility::getUrlTitle(Phrase::trans($this->name)).'.'.strtolower($this->media->extensionName);
 					if($this->media->saveAs($page_path.'/'.$fileName)) {
 						//create thumb image
 						Yii::import('ext.phpthumb.PhpThumbFactory');

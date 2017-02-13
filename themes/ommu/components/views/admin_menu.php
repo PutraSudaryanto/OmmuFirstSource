@@ -1,6 +1,6 @@
 <?php
 	$menuRender = 0;
-	if(($module == null && in_array($controller, array('admin'))) || ($module != null && ($module == 'report' && !in_array($controller, array('o/category')) || ($module == 'support' && (!in_array($currentAction, array('o/mail/setting')) && !in_array($controller, array('o/contact','o/contactcategory','o/widget'))))))) {
+	if(($module == null && in_array($controller, array('admin'))) || ($module != null && (($module == 'report' && !in_array($controller, array('o/category'))) || ($module == 'support' && (!in_array($currentAction, array('o/mail/setting')) && !in_array($controller, array('o/contact','o/contactcategory','o/widget')))) || ($module == 'telegrambot')))) {
 		$menuRender = 1;
 		$title = 'Submenu';
 		
@@ -88,6 +88,7 @@
 		if($core != null) {
 			foreach($core as $key => $val) {
 				$menu = Utility::getPluginMenu($val->folder);
+				//print_r($menu);
 				if($menu != null) {
 					if(count($menu) == 1) {
 						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0][urlPath][url]);

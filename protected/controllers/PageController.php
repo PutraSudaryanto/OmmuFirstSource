@@ -143,8 +143,8 @@ class PageController extends Controller
 			if($static == null) {
 				$model=$this->loadModel($id);
 				
-				$title = Phrase::trans($model->name,2);
-				$description = Phrase::trans($model->desc,2);				
+				$title = Phrase::trans($model->name);
+				$description = Phrase::trans($model->desc);				
 				$image = ($model->media != '' && $model->media_show == 1) ? Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
 				
 			} else {
