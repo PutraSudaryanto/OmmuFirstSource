@@ -22,7 +22,7 @@
  * The followings are the available columns in table 'ommu_support_mails':
  * @property string $mail_id
  * @property string $user_id
- * @property string $reply
+ * @property string $reply_id
  * @property string $email
  * @property string $displayname
  * @property string $phone
@@ -30,6 +30,9 @@
  * @property string $message
  * @property string $message_reply
  * @property string $creation_date
+ * @property string $modified_date
+ * @property string $modified_id
+ * @property string $replied_date
  */
 class SupportMails extends CActiveRecord
 {
@@ -38,6 +41,7 @@ class SupportMails extends CActiveRecord
 	// Variable Search
 	public $user_search;
 	public $reply_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -66,9 +70,10 @@ class SupportMails extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email, displayname, subject, message', 'required'),
+			array('message_reply', 'required', 'on'=>'formReply'),
 			//array('displayname, phone', 'required', 'on'=>'contactus'),
-			array('', 'numerical', 'integerOnly'=>true),
-			array('user_id, reply', 'length', 'max'=>11),
+			array('modified_id', 'numerical', 'integerOnly'=>true),
+			array('user_id, reply_id', 'length', 'max'=>11),
 			array('phone', 'length', 'max'=>15),
 			array('email, displayname', 'length', 'max'=>32),
 			array('subject', 'length', 'max'=>64),
@@ -76,8 +81,8 @@ class SupportMails extends CActiveRecord
 			array('user_id, displayname, phone, message_reply, creation_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('mail_id, reply, user_id, email, displayname, phone, subject, message, message_reply, creation_date, reply_date,
-				user_search, reply_search', 'safe', 'on'=>'search'),
+			array('mail_id, reply_id, user_id, email, displayname, phone, subject, message, message_reply, creation_date, modified_date, modified_id, replied_date,
+				user_search, reply_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,7 +95,8 @@ class SupportMails extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'user_reply' => array(self::BELONGS_TO, 'Users', 'reply'),
+			'user_reply' => array(self::BELONGS_TO, 'Users', 'reply_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -102,7 +108,7 @@ class SupportMails extends CActiveRecord
 		return array(
 			'mail_id' => Yii::t('attribute', 'Mail'),
 			'user_id' => Yii::t('attribute', 'User'),
-			'reply' => Yii::t('attribute', 'Reply'),
+			'reply_id' => Yii::t('attribute', 'Reply'),
 			'email' => Yii::t('attribute', 'Email Address'),
 			'displayname' => Yii::t('attribute', 'Name'),
 			'phone' => Yii::t('attribute', 'Phone'),
@@ -110,7 +116,9 @@ class SupportMails extends CActiveRecord
 			'message' => Yii::t('attribute', 'Message'),
 			'message_reply' => Yii::t('attribute', 'Reply Message'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
-			'reply_date' => Yii::t('attribute', 'Reply Date'),
+			'modified_date' => Yii::t('attribute', 'Modified Date'),
+			'modified_id' => Yii::t('attribute', 'Modified'),
+			'replied_date' => Yii::t('attribute', 'Replied Date'),
 		);
 	}
 	
@@ -124,20 +132,6 @@ class SupportMails extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.mail_id',$this->mail_id);
-		$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.reply',$this->reply);
-		$criteria->compare('t.email',$this->email,true);
-		$criteria->compare('t.displayname',$this->displayname,true);
-		$criteria->compare('t.phone',$this->phone,true);
-		$criteria->compare('t.subject',$this->subject,true);
-		$criteria->compare('t.message',$this->message,true);
-		$criteria->compare('t.message_reply',$this->message,true);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		if($this->reply_date != null && !in_array($this->reply_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.reply_date)',date('Y-m-d', strtotime($this->reply_date)));
 		
 		// Custom Search
 		$criteria->with = array(
@@ -149,9 +143,32 @@ class SupportMails extends CActiveRecord
 				'alias'=>'user_reply',
 				'select'=>'displayname',
 			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
 		);
+
+		$criteria->compare('t.mail_id',$this->mail_id);
+		$criteria->compare('t.user_id',$this->user_id);
+		$criteria->compare('t.reply_id',$this->reply_id);
+		$criteria->compare('t.email',$this->email,true);
+		$criteria->compare('t.displayname',$this->displayname,true);
+		$criteria->compare('t.phone',$this->phone,true);
+		$criteria->compare('t.subject',$this->subject,true);
+		$criteria->compare('t.message',$this->message,true);
+		$criteria->compare('t.message_reply',$this->message,true);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->replied_date != null && !in_array($this->replied_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.replied_date)',date('Y-m-d', strtotime($this->replied_date)));
+		
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('user_reply.displayname',strtolower($this->reply_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 			
 		if(!isset($_GET['SupportMails_sort']))
 			$criteria->order = 't.mail_id DESC';
@@ -184,7 +201,7 @@ class SupportMails extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'mail_id';
 			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'reply';
+			$this->defaultColumns[] = 'reply_id';
 			$this->defaultColumns[] = 'email';
 			$this->defaultColumns[] = 'displayname';
 			$this->defaultColumns[] = 'phone';
@@ -192,6 +209,9 @@ class SupportMails extends CActiveRecord
 			$this->defaultColumns[] = 'message';
 			$this->defaultColumns[] = 'message_reply';
 			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'replied_date';
 		}
 
 		return $this->defaultColumns;
@@ -221,7 +241,7 @@ class SupportMails extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date, true)',
+				'value' => 'Utility::dateFormat($data->creation_date)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -246,8 +266,8 @@ class SupportMails extends CActiveRecord
 				), true),
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'reply',
-				'value' => '$data->reply != 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') ',
+				'name' => 'reply_id',
+				'value' => '$data->reply_id != 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') ',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -266,33 +286,25 @@ class SupportMails extends CActiveRecord
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
+		$action = strtolower(Yii::app()->controller->action->id);
+		
 		if(parent::beforeValidate()) {
 			if(!$this->isNewRecord) {
-				if($this->message_reply == '') {
-					$this->addError('message_reply', Yii::t('attribute', 'Reply Message cannot be blank.'));
-				}
+				if($action == 'reply')
+					$this->reply_id = Yii::app()->user->id;
+				if($action == 'edit')
+					$this->modified_id = Yii::app()->user->id;
 			}	
 		}
 		return true;
-	}
-	
-	/**
-	 * before save attributes
-	 */
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			if(!$this->isNewRecord)
-				$this->reply = Yii::app()->user->id;
-		}
-		return true;
-	}
-	
+	}	
 	
 	/**
 	 * After save attributes
 	 */
 	protected function afterSave() 
 	{
+		$action = strtolower(Yii::app()->controller->action->id);
 		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'site_title',
 		));
@@ -313,19 +325,21 @@ class SupportMails extends CActiveRecord
 			SupportMailSetting::sendEmail(null, null, $feedback_title, $feedback_ireplace);
 			
 		} else {
-			$reply_search = array(
-				'{$displayname}','{$email}','{$creation_date}','{$subject}','{$message}','{$reply}',
-				'{$reply_displayname}','{$reply_email}',
-			);
-			$reply_replace = array(
-				$this->displayname, $this->email, Utility::dateFormat($this->creation_date, true), $this->subject, $this->message, $this->message_reply,
-				$this->user_reply->displayname, $this->user_reply->email,
-			);
-			$reply_template = 'support_feedback_reply';
-			$reply_title = Yii::t('attribute', '[Reply]').' '.$this->subject.' | '.$setting->site_title;
-			$reply_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$reply_template.'.php');			
-			$reply_ireplace = str_ireplace($reply_search, $reply_replace, $reply_message);
-			SupportMailSetting::sendEmail($this->email, $this->displayname, $reply_title, $reply_ireplace);
+			if($action == 'reply') {
+				$reply_search = array(
+					'{$displayname}','{$email}','{$creation_date}','{$subject}','{$message}','{$reply}',
+					'{$reply_displayname}','{$reply_email}',
+				);
+				$reply_replace = array(
+					$this->displayname, $this->email, Utility::dateFormat($this->creation_date, true), $this->subject, $this->message, $this->message_reply,
+					$this->user_reply->displayname, $this->user_reply->email,
+				);
+				$reply_template = 'support_feedback_reply';
+				$reply_title = Yii::t('attribute', '[Reply]').' '.$this->subject.' | '.$setting->site_title;
+				$reply_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$reply_template.'.php');			
+				$reply_ireplace = str_ireplace($reply_search, $reply_replace, $reply_message);
+				SupportMailSetting::sendEmail($this->email, $this->displayname, $reply_title, $reply_ireplace);
+			}
 		}
 	}
 

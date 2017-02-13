@@ -74,18 +74,24 @@
 				'header' => Yii::t('phrase', 'Options'),
 				'class'=>'CButtonColumn',
 				'buttons' => array(
-					'view' => array(
-						'label' => 'view',
-						'options' => array(
-							'class' => 'view'
-						),
-						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
 					'reply' => array(
 						'label' => 'reply',
 						'options' => array(
 							'class' => 'reply'
 						),
 						'url' => 'Yii::app()->controller->createUrl("reply",array("id"=>$data->primaryKey))'),
+					'view' => array(
+						'label' => 'view',
+						'options' => array(
+							'class' => 'view'
+						),
+						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
+					'edit' => array(
+						'label' => 'edit',
+						'options' => array(
+							'class' => 'edit'
+						),
+						'url' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'),
 					'delete' => array(
 						'label' => 'delete',
 						'options' => array(
@@ -93,7 +99,7 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{reply}|{delete}',
+				'template' => '{reply}|{edit}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(

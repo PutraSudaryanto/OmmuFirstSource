@@ -47,13 +47,13 @@
 
 		<div class="clearfix">
 			<?php if($model->cat->publish != '2') {?>
-				<label><?php echo $model->getAttributeLabel('value');?> <span class="required">*</span></label>
+				<label><?php echo $model->getAttributeLabel('contact_name');?> <span class="required">*</span></label>
 			<?php } else {?>
 				<label><?php echo Phrase::trans($model->cat->name);?> <span class="required">*</span></label>
 			<?php }?>
 			<div class="desc">
-				<?php echo $form->textArea($model,'value',array('rows'=>6, 'cols'=>50, 'class'=>'span-11 smaller')); ?>
-				<?php echo $form->error($model,'value'); ?>
+				<?php echo $form->textArea($model,'contact_name',array('rows'=>6, 'cols'=>50, 'class'=>'span-11 smaller')); ?>
+				<?php echo $form->error($model,'contact_name'); ?>
 			</div>
 		</div>
 

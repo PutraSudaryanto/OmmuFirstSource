@@ -21,36 +21,74 @@
 <div class="dialog-content">
 
 	<fieldset>
-
 		<div id="ajax-message">
 			<?php echo $form->errorSummary($model); ?>
 		</div>
 
 		<div class="clearfix info">
-			<label><?php echo $model->getAttributeLabel('message')?></label>
-			<div class="desc">				
-				<?php echo $model->message;?><br/>
-				<span class="small-px"><strong><?php echo $model->displayname;?></strong><br/><?php echo $model->email;?><br/>Date: <?php echo $model->creation_date;?></span>
+			<?php echo $form->labelEx($model,'displayname'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'displayname',array('maxlength'=>32,'class'=>'span-7'));?>
+				<?php echo $form->error($model,'displayname');?>
 			</div>
 		</div>
 
-		<div class="clearfix <?php echo $model->reply != 0 ? 'info' : ''?>">
-			<?php echo $form->labelEx($model,'message_reply'); ?>
+		<div class="clearfix info">
+			<?php echo $form->labelEx($model,'email'); ?>
 			<div class="desc">
-				<?php if($model->reply == 0) {
-					echo $form->textArea($model,'message_reply',array('rows'=>6, 'cols'=>50, 'class'=>'span-11 smaller'));
-					echo $form->error($model,'message_reply');
-				} else {?>
-				<?php echo $model->message_reply;?><br/>
-				<span class="small-px">Date: <?php echo $model->reply_date;?></span>
-				<?php }?>
+				<?php echo $form->textField($model,'email',array('maxlength'=>32,'class'=>'span-7'));?>
+				<?php echo $form->error($model,'email');?>
+			</div>
+		</div>
+
+		<div class="clearfix info">
+			<?php echo $form->labelEx($model,'phone'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'phone',array('maxlength'=>15,'class'=>'span-5'));?>
+				<?php echo $form->error($model,'phone');?>
+			</div>
+		</div>
+
+		<div class="clearfix info">
+			<?php echo $form->labelEx($model,'subject'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'subject',array('maxlength'=>64,'class'=>'span-10'));?>
+				<?php echo $form->error($model,'subject');?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'message'); ?>
+			<div class="desc">
+				<?php 
+				//echo $form->textArea($model,'message',array('rows'=>6, 'cols'=>50, 'class'=>'span-11 smaller'));
+				$this->widget('application.extensions.imperavi.ImperaviRedactorWidget', array(
+					'model'=>$model,
+					'attribute'=>message,
+					// Redactor options
+					'options'=>array(
+						//'lang'=>'fi',
+						'buttons'=>array(
+							'html', 'formatting', '|', 
+							'bold', 'italic', 'deleted', '|',
+							'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
+							'link', '|',
+						),
+					),
+					'plugins' => array(
+						'fontcolor' => array('js' => array('fontcolor.js')),
+						'table' => array('js' => array('table.js')),
+						'fullscreen' => array('js' => array('fullscreen.js')),
+					),
+				)); ?>
+				<?php echo $form->error($model,'message'); ?>
 			</div>
 		</div>
 
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo $model->reply == 0 ? CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')) : ''; ?>
+	<?php echo $model->reply_id == 0 ? CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')) : ''; ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
 </div>
 

@@ -22,7 +22,6 @@
  * The followings are the available columns in table 'ommu_support_contact_category':
  * @property integer $cat_id
  * @property integer $publish
- * @property integer $orders
  * @property integer $name
  * @property string $creation_date
  * @property string $creation_id
@@ -67,12 +66,14 @@ class SupportContactCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title', 'required'),
-			array('publish, orders, name, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>32),
+			array('
+				title', 'required'),
+			array('publish, name, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
+			array('
+				title', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('cat_id, publish, orders, name, creation_date, creation_id, modified_date, modified_id,
+			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
 				title, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -86,9 +87,10 @@ class SupportContactCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'view' => array(self::BELONGS_TO, 'ViewSupportContactCategory', 'cat_id'),
-			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'contact' => array(self::HAS_MANY, 'SupportContacts', 'cat_id'),
+			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'contacts' => array(self::HAS_MANY, 'SupportContacts', 'cat_id'),
 		);
 	}
 
@@ -100,7 +102,6 @@ class SupportContactCategory extends CActiveRecord
 		return array(
 			'cat_id' => Yii::t('attribute', 'Category'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'orders' => Yii::t('attribute', 'Orders'),
 			'name' => Yii::t('attribute', 'Category'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
@@ -124,17 +125,27 @@ class SupportContactCategory extends CActiveRecord
 		$criteria=new CDbCriteria;
 		
 		// Custom Search
+		$defaultLang = OmmuLanguages::getDefault('code');
+		if(isset(Yii::app()->session['language']))
+			$language = Yii::app()->session['language'];
+		else 
+			$language = $defaultLang;
+		
+		// Custom Search
 		$criteria->with = array(
 			'view' => array(
 				'alias'=>'view',
-				'select'=>'category_name'
 			),
-			'creation_relation' => array(
-				'alias'=>'creation_relation',
+			'title' => array(
+				'alias'=>'title',
+				'select'=>$language,
+			),
+			'creation' => array(
+				'alias'=>'creation',
 				'select'=>'displayname',
 			),
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
+			'modified' => array(
+				'alias'=>'modified',
 				'select'=>'displayname',
 			),
 		);
@@ -150,7 +161,6 @@ class SupportContactCategory extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1,2));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.orders',$this->orders);
 		$criteria->compare('t.name',$this->name);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -159,9 +169,9 @@ class SupportContactCategory extends CActiveRecord
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('view.category_name',strtolower($this->title), true);
-		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['SupportContactCategory_sort']))
 			$criteria->order = 't.cat_id DESC';
@@ -194,7 +204,6 @@ class SupportContactCategory extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'cat_id';
 			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'orders';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
@@ -220,7 +229,7 @@ class SupportContactCategory extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation_relation->displayname',
+				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',

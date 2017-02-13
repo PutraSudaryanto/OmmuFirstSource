@@ -374,8 +374,8 @@ class ContactController extends Controller
 				$errors = $model->getErrors();
 				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
-				foreach($errors as $key => $value) {
-					$summary['msg'] .= "<li>{$value[0]}</li>";
+				foreach($errors as $key => $val) {
+					$summary['msg'] .= "<li>{$val[0]}</li>";
 				}
 				$summary['msg'] .= "</ul></div>";
 

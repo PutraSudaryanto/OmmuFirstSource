@@ -24,8 +24,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('reply'); ?><br/>
-			<?php echo $form->textField($model,'reply'); ?>
+			<?php echo $model->getAttributeLabel('reply_id'); ?><br/>
+			<?php echo $form->textField($model,'reply_id'); ?>
 		</li>
 
 		<li>

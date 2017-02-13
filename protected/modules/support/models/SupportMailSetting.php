@@ -88,7 +88,7 @@ class SupportMailSetting extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -147,12 +147,12 @@ class SupportMailSetting extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
+			'modified' => array(
+				'alias'=>'modified',
 				'select'=>'displayname',
 			),
 		);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 			
 		if(!isset($_GET['SupportMailSetting_sort']))
 			$criteria->order = 't.id DESC';
@@ -225,7 +225,7 @@ class SupportMailSetting extends CActiveRecord
 			$this->defaultColumns[] = 'modified_id';
 			$this->defaultColumns[] = array(
 				'name' => 'modified_search',
-				'value' => '$data->modified_relation->displayname',
+				'value' => '$data->modified->displayname',
 			);
 
 		}
@@ -324,19 +324,17 @@ class SupportMailSetting extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if($this->mail_smtp == '1') {
-				if($this->smtp_address == '') {
+				if($this->smtp_address == '')
 					$this->addError('smtp_address', Yii::t('attribute', 'SMTP Server Address cannot be blank.'));
-				}
-				if($this->smtp_port == '') {
+				
+				if($this->smtp_port == '')
 					$this->addError('smtp_port', Yii::t('attribute', 'SMTP Server Port cannot be blank.'));
-				}
+				
 				if($this->smtp_authentication == '1') {
-					if($this->smtp_username == '') {
+					if($this->smtp_username == '')
 						$this->addError('smtp_username', Yii::t('attribute', 'SMTP Username cannot be blank.'));
-					}
-					if($this->smtp_password == '') {
+					if($this->smtp_password == '')
 						$this->addError('smtp_password', Yii::t('attribute', 'SMTP Password cannot be blank.'));
-					}
 				}
 			}
 
