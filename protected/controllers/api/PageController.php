@@ -4,7 +4,7 @@
  * @var $this PageController
  * @var $model Articles
  * @var $form CActiveForm
- * version: 0.0.1
+ * version: 1.2.0
  * Reference start
  *
  * TOC :
@@ -19,8 +19,8 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
  * @created date 23 Juni 2016, 14:46 WIB
- * @link https://github.com/oMMu/Ommu-Articles
- * @contect (+62)856-299-4114
+ * @link https://github.com/ommu/Core
+ * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */

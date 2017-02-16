@@ -23,8 +23,8 @@
  * @create date November 27, 2013 15:02 WIB
  * @version 1.0
  * @copyright Copyright (c) 2013 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Core
- * @contect (+62)856-299-4114
+ * @link https://github.com/ommu/Core
+ * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */

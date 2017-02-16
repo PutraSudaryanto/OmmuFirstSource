@@ -4,6 +4,13 @@
  * OauthIdentity represents the data needed to identity a user.
  * It contains the authentication method that checks if the provided
  * data can identity the user.
+ * version: 1.2.0
+ * 
+ * @author Putra Sudaryanto <putra@sudaryanto.id>
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @link https://github.com/ommu/Core
+ * @contact (+62)856-299-4114
+ *
  */
 class OauthIdentity extends OUserIdentity
 {
