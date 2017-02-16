@@ -1,6 +1,7 @@
 <?php
 /**
  * CMenu class file.
+ * version: 1.2.0
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -9,7 +10,7 @@
  * @license http://www.yiiframework.com/license/
  * 
  * @modify Putra Sudaryanto <putra@sudaryanto.id>
- * @contect (+62)856-299-4114
+ * @contact (+62)856-299-4114
  *
  */
 

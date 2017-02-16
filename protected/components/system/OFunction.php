@@ -1,14 +1,13 @@
 <?php
 /**
  * OFunction class file
+ * version: 1.2.0
  *
- * @author Putra Sudaryanto <putra@sudaryanto.me>
+ * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @create date April 15, 2014 10:29 WIB
- * @version 1.0
  * @copyright Copyright (c) 2014 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Core
- * @contect (+62)856-299-4114
- *
+ * @link https://github.com/ommu/Core
+ * @contact (+62)856-299-4114
  *
  * Contains many function that most used
  *
