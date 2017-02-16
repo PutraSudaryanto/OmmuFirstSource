@@ -1,18 +1,20 @@
 <?php
 /**
- * Support Mails (support-mails)
- * @var $this ContactController
- * @var $model SupportMails
+ * Support Feedback Replies (support-feedback-reply)
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
+ * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Support
- * @contact (+62)856-299-4114
+ * @copyright Copyright (c) 2017 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
+ * @link https://github.com/ommu/Support
+ * @contect (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Support Mails'=>array('manage'),
+		'Support Feedback Replies'=>array('manage'),
 		'Manage',
 	);
 	$this->menu=array(
@@ -20,19 +22,13 @@
 			'label' => Yii::t('phrase', 'Filter'), 
 			'url' => array('javascript:void(0);'),
 			'itemOptions' => array('class' => 'search-button'),
-			'linkOptions' => array(
-				'title' => Yii::t('phrase', 'Filter'),
-				'off_address' => '',
-			),
+			'linkOptions' => array('title' => Yii::t('phrase', 'Filter')),
 		),
 		array(
 			'label' => Yii::t('phrase', 'Grid Options'), 
 			'url' => array('javascript:void(0);'),
 			'itemOptions' => array('class' => 'grid-button'),
-			'linkOptions' => array(
-				'title' => Yii::t('phrase', 'Grid Options'),
-				'off_address' => '',
-			),
+			'linkOptions' => array('title' => Yii::t('phrase', 'Grid Options')),
 		),
 	);
 
@@ -54,14 +50,14 @@
 </div>
 <?php //end.Grid Option ?>
 
-<div id="partial-support-mails">
+<div id="partial-support-feedback-reply">
 	<?php //begin.Messages ?>
 	<div id="ajax-message">
 	<?php
-		if(Yii::app()->user->hasFlash('error'))
-			echo Utility::flashError(Yii::app()->user->getFlash('error'));
-		if(Yii::app()->user->hasFlash('success'))
-			echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
+	if(Yii::app()->user->hasFlash('error'))
+		echo Utility::flashError(Yii::app()->user->getFlash('error'));
+	if(Yii::app()->user->hasFlash('success'))
+		echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
 	?>
 	</div>
 	<?php //begin.Messages ?>
@@ -74,22 +70,16 @@
 				'header' => Yii::t('phrase', 'Options'),
 				'class'=>'CButtonColumn',
 				'buttons' => array(
-					'reply' => array(
-						'label' => 'reply',
-						'options' => array(
-							'class' => 'reply'
-						),
-						'url' => 'Yii::app()->controller->createUrl("reply",array("id"=>$data->primaryKey))'),
 					'view' => array(
 						'label' => 'view',
-						'options' => array(
-							'class' => 'view'
+						'options' => array(							
+							'class' => 'view',
 						),
 						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
-					'edit' => array(
-						'label' => 'edit',
+					'update' => array(
+						'label' => 'update',
 						'options' => array(
-							'class' => 'edit'
+							'class' => 'update'
 						),
 						'url' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'),
 					'delete' => array(
@@ -99,11 +89,11 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{reply}|{edit}|{delete}',
+				'template' => '{update}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(
-				'id'=>'support-mails-grid',
+				'id'=>'support-feedback-reply-grid',
 				'dataProvider'=>$model->search(),
 				'filter'=>$model,
 				'columns' => $columnData,

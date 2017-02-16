@@ -1,20 +1,21 @@
 <?php
 /**
- * Support Mails (support-mails)
- * @var $this ContactController
- * @var $model SupportMails
+ * Support Feedbacks (support-feedbacks)
+ * @var $this FeedbackController
+ * @var $model SupportFeedbacks
  * @var $form CActiveForm
+ * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Support
+ * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
  */
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'support-mails-form',
+	'id'=>'support-feedbacks-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
@@ -88,7 +89,7 @@
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo $model->reply_id == 0 ? CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')) : ''; ?>
+	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
 </div>
 

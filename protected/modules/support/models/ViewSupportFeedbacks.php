@@ -1,10 +1,11 @@
 <?php
 /**
- * ViewSupportContactCategory
+ * ViewSupportFeedbacks
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2015 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 18:03 WIB
  * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
@@ -19,14 +20,14 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "_view_support_contact_category".
+ * This is the model class for table "_view_support_feedbacks".
  *
- * The followings are the available columns in table '_view_support_contact_category':
- * @property integer $cat_id
- * @property string $contact
- * @property string $widget
+ * The followings are the available columns in table '_view_support_feedbacks':
+ * @property string $feedback_id
+ * @property string $feedbacks
+ * @property string $feedback_all
  */
-class ViewSupportContactCategory extends CActiveRecord
+class ViewSupportFeedbacks extends CActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -34,7 +35,7 @@ class ViewSupportContactCategory extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ViewSupportContactCategory the static model class
+	 * @return ViewSupportFeedbacks the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -42,19 +43,19 @@ class ViewSupportContactCategory extends CActiveRecord
 	}
 
 	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return '_view_support_contact_category';
-	}
-
-	/**
 	 * @return string the primarykey column
 	 */
 	public function primaryKey()
 	{
-		return 'cat_id';
+		return 'feedback_id';
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return '_view_support_feedbacks';
 	}
 
 	/**
@@ -65,11 +66,12 @@ class ViewSupportContactCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('cat_id', 'numerical', 'integerOnly'=>true),
-			array('contact, widget', 'safe'),
+			array('feedback_id', 'length', 'max'=>11),
+			array('feedbacks', 'length', 'max'=>23),
+			array('feedback_all', 'length', 'max'=>21),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('cat_id, contact, widget', 'safe', 'on'=>'search'),
+			array('feedback_id, feedbacks, feedback_all', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,10 +92,16 @@ class ViewSupportContactCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => Yii::t('attribute','Cat'),
-			'contact' => Yii::t('attribute','Contact'),
-			'widget' => Yii::t('attribute','Widget'),
+			'feedback_id' => Yii::t('attribute', 'Feedback'),
+			'feedbacks' => Yii::t('attribute', 'Feedbacks'),
+			'feedback_all' => Yii::t('attribute', 'Feedback All'),
 		);
+		/*
+			'Feedback' => 'Feedback',
+			'Feedbacks' => 'Feedbacks',
+			'Feedback All' => 'Feedback All',
+		
+		*/
 	}
 
 	/**
@@ -114,12 +122,12 @@ class ViewSupportContactCategory extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.cat_id',$this->cat_id);
-		$criteria->compare('t.contact',$this->contact);
-		$criteria->compare('t.widget',$this->widget);
+		$criteria->compare('t.feedback_id',strtolower($this->feedback_id),true);
+		$criteria->compare('t.feedbacks',strtolower($this->feedbacks),true);
+		$criteria->compare('t.feedback_all',strtolower($this->feedback_all),true);
 
-		if(!isset($_GET['ViewSupportContactCategory_sort']))
-			$criteria->order = 't.cat_id DESC';
+		if(!isset($_GET['ViewSupportFeedbacks_sort']))
+			$criteria->order = 't.feedback_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -147,9 +155,9 @@ class ViewSupportContactCategory extends CActiveRecord
 				$this->defaultColumns[] = $val;
 			}
 		} else {
-			$this->defaultColumns[] = 'cat_id';
-			$this->defaultColumns[] = 'contact';
-			$this->defaultColumns[] = 'widget';
+			$this->defaultColumns[] = 'feedback_id';
+			$this->defaultColumns[] = 'feedbacks';
+			$this->defaultColumns[] = 'feedback_all';
 		}
 
 		return $this->defaultColumns;
@@ -164,9 +172,9 @@ class ViewSupportContactCategory extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'cat_id';
-			$this->defaultColumns[] = 'contact';
-			$this->defaultColumns[] = 'widget';
+			//$this->defaultColumns[] = 'feedback_id';
+			$this->defaultColumns[] = 'feedbacks';
+			$this->defaultColumns[] = 'feedback_all';
 		}
 		parent::afterConstruct();
 	}

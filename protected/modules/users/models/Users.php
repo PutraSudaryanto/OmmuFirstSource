@@ -18,9 +18,9 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_user_oauth".
+ * This is the model class for table "ommu_users".
  *
- * The followings are the available columns in table 'ommu_user_oauth':
+ * The followings are the available columns in table 'ommu_users':
  * @property string $user_id
  * @property integer $level_id
  * @property integer $profile_id
@@ -74,7 +74,7 @@ class Users extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_user_oauth';
+		return 'ommu_users';
 	}
 
 	/**

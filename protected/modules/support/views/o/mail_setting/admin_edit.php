@@ -1,8 +1,8 @@
 <?php
 /**
- * Support Contacts (support-contacts)
- * @var $this ContactsController
- * @var $model SupportContacts
+ * SupportMailSetting (support-mail-setting)
+ * @var $this MailsettingController
+ * @var $model SupportMailSetting
  * @var $form CActiveForm
  * version: 0.2.1
  *
@@ -14,10 +14,12 @@
  */
 
 	$this->breadcrumbs=array(
-		'Support Contacts'=>array('manage'),
+		'Support Mail Settings'=>array('manage'),
 		$model->id=>array('view','id'=>$model->id),
 		'Update',
 	);
 ?>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<div class="form" name="post-on">
+	<?php echo $this->renderPartial('/o/mail_setting/_form', array('model'=>$model)); ?>
+</div>

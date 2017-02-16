@@ -1,10 +1,11 @@
 <?php
 /**
- * SupportContactCategory
+ * SupportFeedbackReply
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
  * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
@@ -19,33 +20,35 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_support_contact_category".
+ * This is the model class for table "ommu_support_feedback_reply".
  *
- * The followings are the available columns in table 'ommu_support_contact_category':
- * @property integer $cat_id
+ * The followings are the available columns in table 'ommu_support_feedback_reply':
+ * @property string $reply_id
  * @property integer $publish
- * @property integer $name
+ * @property string $feedback_id
+ * @property string $reply_message
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuSupportContacts[] $ommuSupportContacts
+ * @property OmmuSupportFeedbacks $mail
  */
-class SupportContactCategory extends CActiveRecord
+class SupportFeedbackReply extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $title;
 	
 	// Variable Search
+	public $feedback_search;
 	public $creation_search;
 	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SupportContactCategory the static model class
+	 * @return SupportFeedbackReply the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -57,7 +60,7 @@ class SupportContactCategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_support_contact_category';
+		return 'ommu_support_feedback_reply';
 	}
 
 	/**
@@ -68,15 +71,14 @@ class SupportContactCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('
-				title', 'required'),
-			array('publish, name, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
-			array('
-				title', 'length', 'max'=>32),
+			array('feedback_id, reply_message', 'required'),
+			array('publish', 'numerical', 'integerOnly'=>true),
+			array('feedback_id, creation_id, modified_id', 'length', 'max'=>11),
+			array('', 'safe'),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
-				title, creation_search, modified_search', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('reply_id, publish, feedback_id, reply_message, creation_date, creation_id, modified_date, modified_id,
+				feedback_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -88,11 +90,9 @@ class SupportContactCategory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'view' => array(self::BELONGS_TO, 'ViewSupportContactCategory', 'cat_id'),
-			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
+			'feedback' => array(self::BELONGS_TO, 'SupportFeedbacks', 'feedback_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'contacts' => array(self::HAS_MANY, 'SupportContacts', 'cat_id'),
 		);
 	}
 
@@ -102,45 +102,54 @@ class SupportContactCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => Yii::t('attribute', 'Category'),
+			'reply_id' => Yii::t('attribute', 'Reply'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'name' => Yii::t('attribute', 'Category'),
+			'feedback_id' => Yii::t('attribute', 'Feedback'),
+			'reply_message' => Yii::t('attribute', 'Reply Message'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title' => Yii::t('attribute', 'Category'),
+			'feedback_search' => Yii::t('attribute', 'Feedback'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
+		/*
+			'Reply' => 'Reply',
+			'Publish' => 'Publish',
+			'Mail' => 'Mail',
+			'Reply Message' => 'Reply Message',
+			'Creation Date' => 'Creation Date',
+			'Creation' => 'Creation',
+			'Modified Date' => 'Modified Date',
+			'Modified' => 'Modified',
+		
+		*/
 	}
-	
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 		
 		// Custom Search
-		$defaultLang = OmmuLanguages::getDefault('code');
-		if(isset(Yii::app()->session['language']))
-			$language = Yii::app()->session['language'];
-		else 
-			$language = $defaultLang;
-		
-		// Custom Search
 		$criteria->with = array(
-			'view' => array(
-				'alias'=>'view',
-			),
-			'title' => array(
-				'alias'=>'title',
-				'select'=>$language,
+			'feedback' => array(
+				'alias'=>'feedback',
+				'select'=>'subject',
 			),
 			'creation' => array(
 				'alias'=>'creation',
@@ -152,36 +161,46 @@ class SupportContactCategory extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.cat_id',$this->cat_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		$criteria->compare('t.reply_id',strtolower($this->reply_id),true);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'nopublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
-			$criteria->addInCondition('t.publish',array(0,1,2));
+		else {
+			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.name',$this->name);
+		if(isset($_GET['feedback']))
+			$criteria->compare('t.feedback_id',$_GET['feedback']);
+		else
+			$criteria->compare('t.feedback_id',$this->feedback_id);
+		$criteria->compare('t.reply_message',strtolower($this->reply_message),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title), true);
+		$criteria->compare('feedback.subject',strtolower($this->feedback_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
-		
-		if(!isset($_GET['SupportContactCategory_sort']))
-			$criteria->order = 't.cat_id DESC';
+
+		if(!isset($_GET['SupportFeedbackReply_sort']))
+			$criteria->order = 't.reply_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-				'pageSize'=>20,
+				'pageSize'=>30,
 			),
 		));
 	}
@@ -203,10 +222,11 @@ class SupportContactCategory extends CActiveRecord
 				*/
 				$this->defaultColumns[] = $val;
 			}
-		}else {
-			//$this->defaultColumns[] = 'cat_id';
+		} else {
+			//$this->defaultColumns[] = 'reply_id';
 			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'name';
+			$this->defaultColumns[] = 'feedback_id';
+			$this->defaultColumns[] = 'reply_message';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -221,13 +241,28 @@ class SupportContactCategory extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
+			/*
+			$this->defaultColumns[] = array(
+				'class' => 'CCheckBoxColumn',
+				'name' => 'id',
+				'selectableRows' => 2,
+				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
+			);
+			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			if(!isset($_GET['feedback'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'feedback_search',
+					'value' => '$data->feedback->subject',
+				);
+			}
 			$this->defaultColumns[] = array(
-				'name' => 'title',
-				'value' => 'Phrase::trans($data->name)',
+				'name' => 'reply_message',
+				'value' => '$data->reply_message',
+				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
@@ -259,15 +294,20 @@ class SupportContactCategory extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'publish',
-				'value' => '$data->publish == 2 ? "-" : Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->cat_id)), $data->publish, 1) ',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'type' => 'raw',
-			);
-
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->reply_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
 	}
@@ -290,74 +330,16 @@ class SupportContactCategory extends CActiveRecord
 	}
 
 	/**
-	 * Get category
-	 * 0 = unpublish
-	 * 1 = publish
-	 */
-	public static function getCategory($publish=null, $type=null) 
-	{
-		$criteria=new CDbCriteria;
-		$criteria->with = array(
-			'view' => array(
-				'alias'=>'view',
-			),
-		);
-		if($publish != null)
-			$criteria->compare('t.publish', $publish);
-		if($type != null) {
-			if($type == 'contact')
-				$criteria->compare('view.contact', 0);
-			else if($type == 'widget')
-				$criteria->compare('view.widget', 0);
-		}
-		
-		$model = self::model()->findAll($criteria);
-
-		$items = array();
-		if($model != null) {
-			foreach($model as $key => $val) {
-				$items[$val->cat_id] = Phrase::trans($val->name);
-			}
-			return $items;
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if($this->isNewRecord)
-				$this->creation_id = Yii::app()->user->id;
+				$this->creation_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : ($this->feedback->user_id != 0 ? $this->feedback->user_id : 0);
 			else
 				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	
-	/**
-	 * before save attributes
-	 */
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			$action = strtolower(Yii::app()->controller->action->id);
-			
-			if($this->isNewRecord) {
-				$location = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
-				$title=new OmmuSystemPhrase;
-				$title->location = $location.'_title';
-				$title->en_us = $this->title;
-				if($title->save())
-					$this->name = $title->phrase_id;
-			
-			} else {
-				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title;
-				$title->save();
-			}
-		}
-		return true;
-	}
+
 }

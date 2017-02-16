@@ -1,16 +1,15 @@
 <?php
 /**
- * Support Widgets (support-widget)
- * @var $this WidgetController
- * @var $model SupportWidget
+ * Support Feedbacks (support-feedbacks)
+ * @var $this FeedbackController
+ * @var $model SupportFeedbacks
  * @var $form CActiveForm
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 3 February 2016, 12:26 WIB
+ * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
  * @link https://github.com/ommu/Support
- * @contect (+62)856-299-4114
+ * @contact (+62)856-299-4114
  *
  */
 ?>
@@ -27,11 +26,10 @@ foreach($model->metaData->columns as $key => $val) {
 }
 ?>
 <ul>
-	<?php foreach($columns as $val): ?>
-	<li>
+	<?php foreach($columns as $val): ?>	<li>
 		<?php echo CHtml::checkBox('GridColumn['.$val.']'); ?>
 		<?php echo CHtml::label($val, 'GridColumn_'.$val); ?>
 	</li>
-	<?php endforeach; ?>
-</ul>
+	<?php endforeach; ?></ul>
+<div class="clear"></div>
 <?php echo CHtml::endForm(); ?>

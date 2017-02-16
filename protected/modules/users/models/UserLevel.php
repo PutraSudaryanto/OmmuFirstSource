@@ -18,9 +18,9 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_user_oauth_level".
+ * This is the model class for table "ommu_user_level".
  *
- * The followings are the available columns in table 'ommu_user_oauth_level':
+ * The followings are the available columns in table 'ommu_user_level':
  * @property integer $level_id
  * @property string $name
  * @property string $desc
@@ -59,7 +59,7 @@ class UserLevel extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_user_oauth_level';
+		return 'ommu_user_level';
 	}
 
 	/**

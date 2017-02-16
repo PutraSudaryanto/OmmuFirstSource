@@ -1,14 +1,16 @@
 <?php
 /**
- * Support Mails (support-mails)
- * @var $this ContactController
- * @var $model SupportMails
+ * Support Feedback Replies (support-feedback-reply)
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
  * @var $form CActiveForm
+ * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Support
- * @contact (+62)856-299-4114
+ * @copyright Copyright (c) 2017 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
+ * @link https://github.com/ommu/Support
+ * @contect (+62)856-299-4114
  *
  */
 ?>
@@ -25,10 +27,11 @@ foreach($model->metaData->columns as $key => $val) {
 }
 ?>
 <ul>
-	<?php foreach($columns as $val): ?>	<li>
+	<?php foreach($columns as $val): ?>
+	<li>
 		<?php echo CHtml::checkBox('GridColumn['.$val.']'); ?>
 		<?php echo CHtml::label($val, 'GridColumn_'.$val); ?>
 	</li>
-	<?php endforeach; ?></ul>
-<div class="clear"></div>
+	<?php endforeach; ?>
+</ul>
 <?php echo CHtml::endForm(); ?>

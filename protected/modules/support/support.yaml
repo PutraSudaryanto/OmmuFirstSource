@@ -16,9 +16,12 @@ db_table_name	:
 db_sql_filename	: 
 
 plugin_menu		:
-	- urlTitle: Contact Us
+	- urlTitle: Feedbacks
 		urlRules: {siteType: 0,1, userLevel: 1,2}
-		urlPath: {url: o/mail/manage, attr: -, icon: -}
+		urlPath: {url: o/feedback/manage, attr: -, icon: -}
+	- urlTitle: Replies
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/reply/manage, attr: -, icon: -}
 		
 	# urlTitle: Manage Contact
 	#	urlRules: {siteType: 0,1, userLevel: 1,2}
@@ -66,6 +69,11 @@ content_menu	:
 	- urlTitle: Add Contact Category
 		urlRules: {support, o/contactcategory, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
+		
+# controller o/widget
+	- urlTitle: Back to Feedback
+		urlRules: {support, o/reply, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/feedback/setting, attr: -, icon: -}
 		
 # controller o/widget
 	- urlTitle: Add Widget

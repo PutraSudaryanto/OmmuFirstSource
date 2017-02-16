@@ -2,9 +2,9 @@
 /**
  * ContactController
  * @var $this ContactController
- * @var $model SupportMails
+ * @var $model SupportContacts
  * @var $form CActiveForm
- * version: 0.0.1
+ * version: 0.2.1
  * Reference start
  *
  * TOC :
@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Support
+ * @link https://github.com/ommu/Support
  * @contect (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------

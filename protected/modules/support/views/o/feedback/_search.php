@@ -1,13 +1,14 @@
 <?php
 /**
- * Support Mails (support-mails)
- * @var $this ContactController
- * @var $model SupportMails
+ * Support Feedbacks (support-feedbacks)
+ * @var $this FeedbackController
+ * @var $model SupportFeedbacks
  * @var $form CActiveForm
+ * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Support
+ * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
  */
@@ -19,15 +20,10 @@
 )); ?>
 	<ul>
 		<li>
-			<?php echo $model->getAttributeLabel('mail_id'); ?><br/>
-			<?php echo $form->textField($model,'mail_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('feedback_id'); ?><br/>
+			<?php echo $form->textField($model,'feedback_id',array('size'=>11,'maxlength'=>11)); ?>
 		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('reply_id'); ?><br/>
-			<?php echo $form->textField($model,'reply_id'); ?>
-		</li>
-
+		
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
 			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>

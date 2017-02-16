@@ -1,14 +1,14 @@
 <?php
 /**
- * Support Widgets (support-widget)
- * @var $this WidgetController
- * @var $model SupportWidget
+ * Support Feedback Replies (support-feedback-reply)
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
  * @var $form CActiveForm
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 3 February 2016, 12:26 WIB
+ * @copyright Copyright (c) 2017 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
  * @link https://github.com/ommu/Support
  * @contect (+62)856-299-4114
  *
@@ -21,8 +21,8 @@
 )); ?>
 	<ul>
 		<li>
-			<?php echo $model->getAttributeLabel('widget_id'); ?><br/>
-			<?php echo $form->textField($model,'widget_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('reply_id'); ?><br/>
+			<?php echo $form->textField($model,'reply_id',array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -31,13 +31,13 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('cat_id'); ?><br/>
-			<?php echo $form->textField($model,'cat_id'); ?>
+			<?php echo $model->getAttributeLabel('feedback_id'); ?><br/>
+			<?php echo $form->textField($model,'feedback_id',array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('widget_source'); ?><br/>
-			<?php echo $form->textArea($model,'widget_source',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $model->getAttributeLabel('reply_message'); ?><br/>
+			<?php echo $form->textArea($model,'reply_message',array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>

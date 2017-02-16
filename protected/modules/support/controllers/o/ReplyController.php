@@ -1,8 +1,8 @@
 <?php
 /**
- * ContactcategoryController
- * @var $this ContactcategoryController
- * @var $model SupportContactCategory
+ * ReplyController
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
  * @var $form CActiveForm
  * version: 0.2.1
  * Reference start
@@ -12,6 +12,7 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
  *	RunAction
  *	Delete
  *	Publish
@@ -20,14 +21,15 @@
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
  * @link https://github.com/ommu/Support
  * @contect (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */
 
-class ContactcategoryController extends Controller
+class ReplyController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -82,14 +84,9 @@ class ContactcategoryController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','edit'),
+				'actions'=>array('manage','add','edit','view','runaction','delete','publish'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('add','runaction','delete','publish'),
-				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(),
@@ -113,11 +110,11 @@ class ContactcategoryController extends Controller
 	 * Manages all models.
 	 */
 	public function actionManage() 
-	{
-		$model=new SupportContactCategory('search');
+	{	
+		$model=new SupportFeedbackReply('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SupportContactCategory'])) {
-			$model->attributes=$_GET['SupportContactCategory'];
+		if(isset($_GET['SupportFeedbackReply'])) {
+			$model->attributes=$_GET['SupportFeedbackReply'];
 		}
 
 		$columnTemp = array();
@@ -130,10 +127,10 @@ class ContactcategoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Contact Settings');
+		$this->pageTitle = Yii::t('phrase', 'Support Feedback Replies Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/contact_category/admin_manage',array(
+		$this->render('admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
@@ -143,32 +140,60 @@ class ContactcategoryController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionAdd() 
+	public function actionAdd($feedback) 
 	{
-		$model=new SupportContactCategory;
+		$feedbackFind = SupportFeedbacks::model()->findByPk($feedback);
+		$model=new SupportFeedbackReply;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['SupportContactCategory'])) {
-			$model->attributes=$_POST['SupportContactCategory'];
+		if(isset($_POST['SupportFeedbackReply'])) {
+			$model->attributes=$_POST['SupportFeedbackReply'];			
+			$model->feedback_id = $feedbackFind->feedback_id;
 			
-			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Contact category success created.'));
-				$this->redirect(array('manage'));
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						if(isset($_GET['hook']) && $_GET['hook'] == 'feedback')
+							$dialogGroundUrl = Yii::app()->controller->createUrl('o/feedback/manage');
+						else {
+							unset($_GET['enablesave']);	
+							$dialogGroundUrl = Yii::app()->controller->createUrl('manage', $_GET);
+						}
+						echo CJSON::encode(array(
+							'type' => 5,
+							'get' => $dialogGroundUrl,
+							'id' => 'partial-support-feedback-reply',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackReply success created.').'</strong></div>',
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
 			}
+			Yii::app()->end();
 		}
+		if(isset($_GET['hook']) && $_GET['hook'] == 'feedback')
+			$dialogGroundUrl = Yii::app()->controller->createUrl('o/feedback/manage');
+		else 
+			$dialogGroundUrl = Yii::app()->controller->createUrl('manage', $_GET);
 		
 		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogGroundUrl = $dialogGroundUrl;
 		$this->dialogWidth = 600;
-		
-		$this->pageTitle = 'Create Contact Category';
+
+		$this->pageTitle = Yii::t('phrase', 'Create Support Feedback Replies');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/contact_category/admin_add',array(
+		$this->render('admin_add',array(
 			'model'=>$model,
-		));	
+			'feedback'=>$feedbackFind,
+		));
 	}
 
 	/**
@@ -183,26 +208,61 @@ class ContactcategoryController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['SupportContactCategory'])) {
-			$model->attributes=$_POST['SupportContactCategory'];
+		if(isset($_POST['SupportFeedbackReply'])) {
+			$model->attributes=$_POST['SupportFeedbackReply'];
 			
-			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Contact category success created.'));
-				$this->redirect(array('manage'));
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						echo CJSON::encode(array(
+							'type' => 5,
+							'get' => Yii::app()->controller->createUrl('manage'),
+							'id' => 'partial-support-feedback-reply',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackReply success updated.').'</strong></div>',
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
 			}
+			Yii::app()->end();
 		}
 		
 		$this->dialogDetail = true;
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
-		
-		$this->pageTitle = Yii::t('phrase', 'Edit Contact Category');
+
+		$this->pageTitle = Yii::t('phrase', 'Update Support Feedback Replies');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/contact_category/admin_edit',array(
+		$this->render('admin_edit',array(
 			'model'=>$model,
 		));
 	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'View Support Feedback Replies');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}	
 
 	/**
 	 * Displays a particular model.
@@ -218,19 +278,19 @@ class ContactcategoryController extends Controller
 			$criteria->addInCondition('id', $id);
 
 			if($actions == 'publish') {
-				SupportContactCategory::model()->updateAll(array(
-					'published' => 1,
+				SupportFeedbackReply::model()->updateAll(array(
+					'publish' => 1,
 				),$criteria);
 			} elseif($actions == 'unpublish') {
-				SupportContactCategory::model()->updateAll(array(
-					'published' => 0,
+				SupportFeedbackReply::model()->updateAll(array(
+					'publish' => 0,
 				),$criteria);
 			} elseif($actions == 'trash') {
-				SupportContactCategory::model()->updateAll(array(
-					'published' => 2,
+				SupportFeedbackReply::model()->updateAll(array(
+					'publish' => 2,
 				),$criteria);
 			} elseif($actions == 'delete') {
-				SupportContactCategory::model()->deleteAll($criteria);
+				SupportFeedbackReply::model()->deleteAll($criteria);
 			}
 		}
 
@@ -239,7 +299,7 @@ class ContactcategoryController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 	}
-	
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -247,17 +307,19 @@ class ContactcategoryController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
-				echo CJSON::encode(array(
-					'type' => 5,
-					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-support-contact-category',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Contact category success deleted.').'</strong></div>',
-				));
+				if($model->delete()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-support-feedback-reply',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackReply success deleted.').'</strong></div>',
+					));
+				}
 			}
 
 		} else {
@@ -265,10 +327,10 @@ class ContactcategoryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Contact Category');
+			$this->pageTitle = Yii::t('phrase', 'SupportFeedbackReply Delete.');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/o/contact_category/admin_delete');
+			$this->render('admin_delete');
 		}
 	}
 
@@ -280,6 +342,7 @@ class ContactcategoryController extends Controller
 	public function actionPublish($id) 
 	{
 		$model=$this->loadModel($id);
+		
 		if($model->publish == 1) {
 			$title = Yii::t('phrase', 'Unpublish');
 			$replace = 0;
@@ -298,8 +361,8 @@ class ContactcategoryController extends Controller
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-support-contact-category',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Contact category success updated.').'</strong></div>',
+						'id' => 'partial-support-feedback-reply',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackReply success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -312,7 +375,7 @@ class ContactcategoryController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/o/contact_category/admin_publish',array(
+			$this->render('admin_publish',array(
 				'title'=>$title,
 				'model'=>$model,
 			));
@@ -326,7 +389,7 @@ class ContactcategoryController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = SupportContactCategory::model()->findByPk($id);
+		$model = SupportFeedbackReply::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
@@ -338,7 +401,7 @@ class ContactcategoryController extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='support-contact-category-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='support-feedback-reply-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

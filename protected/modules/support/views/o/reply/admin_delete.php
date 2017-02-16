@@ -1,34 +1,37 @@
 <?php
 /**
- * Support Contact Category (support-contact-category)
- * @var $this ContactcategoryController
- * @var $model SupportContactCategory
+ * Support Feedback Replies (support-feedback-reply)
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
  * @var $form CActiveForm
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (ommu.co)
+ * @created date 16 February 2017, 16:00 WIB
  * @link https://github.com/ommu/Support
- * @contact (+62)856-299-4114
+ * @contect (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Support Contact Categories'=>array('manage'),
+		'Support Feedback Replies'=>array('manage'),
 		'Delete',
 	);
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'ommu-pages-form',
+	'id'=>'support-feedback-reply-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
+
 	<div class="dialog-content">
 		<?php echo Yii::t('phrase', 'Are you sure you want to delete this item?');?>
 	</div>
-<div class="dialog-submit">
+	<div class="dialog-submit">
 		<?php echo CHtml::submitButton(Yii::t('phrase', 'Delete'), array('onclick' => 'setEnableSave()')); ?>
 		<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 	</div>
+	
 <?php $this->endWidget(); ?>
