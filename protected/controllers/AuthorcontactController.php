@@ -48,7 +48,7 @@ class AuthorcontactController extends Controller
 				$this->layout = $arrThemes['layout'];
 			} else
 				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
-		else
+		} else
 			$this->redirect(Yii::app()->createUrl('site/login'));
 	}
 
