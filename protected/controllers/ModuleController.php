@@ -45,15 +45,12 @@ class ModuleController extends Controller
 			if(Yii::app()->user->level == 1) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
-				$this->layout = $arrThemes['layout'];
-				
+				$this->layout = $arrThemes['layout'];				
 				$this->moduleHandle = Yii::app()->moduleHandle;
-			} else {
+			} else
 				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
-			}
-		} else {
+		else
 			$this->redirect(Yii::app()->createUrl('site/login'));
-		}
 	}
 
 	/**
