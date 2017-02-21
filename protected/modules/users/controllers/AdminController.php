@@ -133,13 +133,11 @@ class AdminController extends /*SBaseController*/ Controller
 								));
 							}
 							//$this->redirect(Yii::app()->user->returnUrl);
-						} else {
+						} else
 							print_r($model->getErrors());
-						}
 					}
 				}
-				Yii::app()->end();
-				
+				Yii::app()->end();				
 			}
 			
 			// display the login form

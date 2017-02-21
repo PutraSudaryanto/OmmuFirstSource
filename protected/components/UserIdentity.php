@@ -31,11 +31,11 @@ class UserIdentity extends CUserIdentity
 		else 
 			$record = Users::model()->findByAttributes(array('username' => $this->username));
 			
-		if($record === null) {
+		if($record === null)
 			$this->errorCode = self::ERROR_USERNAME_INVALID;
-		} else if($record->password !== Users::hashPassword($record->salt,$this->password)) {
+		else if($record->password !== Users::hashPassword($record->salt,$this->password))
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
-		} else {
+		else {
 			$this->_id = $record->user_id;
 			$this->setState('level', $record->level_id);
 			$this->setState('profile', $record->profile_id);

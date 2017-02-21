@@ -17,9 +17,9 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "_view_user_oauth".
+ * This is the model class for table "_view_users".
  *
- * The followings are the available columns in table '_view_user_oauth':
+ * The followings are the available columns in table '_view_users':
  * @property string $user_id
  * @property string $level_name
  * @property string $token_key
@@ -46,7 +46,7 @@ class ViewUsers extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '_view_user_oauth';
+		return '_view_users';
 	}
 
 	/**
