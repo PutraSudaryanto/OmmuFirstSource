@@ -137,6 +137,18 @@ class OmmuPlugins extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.plugin_id',$this->plugin_id);
 		$criteria->compare('t.defaults',$this->defaults);
@@ -160,17 +172,6 @@ class OmmuPlugins extends CActiveRecord
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
 		
-		// Custom Search
-		$criteria->with = array(
-			'creation' => array(
-				'alias'=>'creation',
-				'select'=>'displayname'
-			),
-			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname'
-			),
-		);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 		
