@@ -95,8 +95,8 @@ class OmmuZoneProvince extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'country_relation' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'country_id'),
-			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 			'city_relation' => array(self::HAS_MANY, 'OmmuZoneCity', 'province_id'),
 		);
 	}
@@ -178,18 +178,18 @@ class OmmuZoneProvince extends CActiveRecord
 				'alias'=>'country_relation',
 				'select'=>'country',
 			),
-			'creation_relation' => array(
-				'alias'=>'creation_relation',
+			'creation' => array(
+				'alias'=>'creation',
 				'select'=>'displayname',
 			),
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
+			'modified' => array(
+				'alias'=>'modified',
 				'select'=>'displayname',
 			),
 		);
 		$criteria->compare('country_relation.country',strtolower($this->country_search), true);
-		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneProvince_sort']))
 			$criteria->order = 't.province_id DESC';
@@ -260,7 +260,7 @@ class OmmuZoneProvince extends CActiveRecord
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation_relation->displayname',
+				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',

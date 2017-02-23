@@ -146,7 +146,7 @@ class OmmuMeta extends CActiveRecord
 			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),
 			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'office_city'),
 			'view_meta' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -270,12 +270,12 @@ class OmmuMeta extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
+			'modified' => array(
+				'alias'=>'modified',
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuMeta_sort']))
 			$criteria->order = 't.id DESC';
@@ -406,7 +406,7 @@ class OmmuMeta extends CActiveRecord
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = array(
 				'name' => 'modified_search',
-				'value' => '$data->modified_relation->displayname',
+				'value' => '$data->modified->displayname',
 			);
 		}
 		parent::afterConstruct();

@@ -100,8 +100,8 @@ class OmmuPages extends CActiveRecord
 		return array(
 			'view_page' => array(self::BELONGS_TO, 'ViewPages', 'page_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -180,20 +180,20 @@ class OmmuPages extends CActiveRecord
 				'alias'=>'user',
 				'select'=>'displayname'
 			),
-			'creation_relation' => array(
-				'alias'=>'creation_relation',
+			'creation' => array(
+				'alias'=>'creation',
 				'select'=>'displayname'
 			),
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
+			'modified' => array(
+				'alias'=>'modified',
 				'select'=>'displayname'
 			),
 		);
 		$criteria->compare('view_page.title',strtolower($this->title), true);
 		$criteria->compare('view_page.description',strtolower($this->description), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 		
 		if(!isset($_GET['OmmuPages_sort']))
 			$criteria->order = 't.page_id DESC';
@@ -269,7 +269,7 @@ class OmmuPages extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation_relation->displayname',
+				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
