@@ -38,10 +38,10 @@
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'province'); ?>
+			<?php echo $form->labelEx($model,'province_name'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'province',array('maxlength'=>64)); ?>
-				<?php echo $form->error($model,'province'); ?>
+				<?php echo $form->textField($model,'province_name',array('maxlength'=>64)); ?>
+				<?php echo $form->error($model,'province_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
