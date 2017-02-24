@@ -89,7 +89,7 @@ class OmmuZoneCountry extends CActiveRecord
 		return array(
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'province_relation' => array(self::HAS_MANY, 'OmmuZoneProvince', 'country_id'),
+			'provinces' => array(self::HAS_MANY, 'OmmuZoneProvince', 'country_id'),
 		);
 	}
 

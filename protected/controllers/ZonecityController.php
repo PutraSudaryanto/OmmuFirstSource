@@ -121,7 +121,7 @@ class ZonecityController extends Controller
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->city_id, 'value' => $items->city);
+						$result[] = array('id' => $items->city_id, 'value' => $items->city_name);
 					}
 				}
 			}

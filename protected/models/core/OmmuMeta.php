@@ -142,10 +142,10 @@ class OmmuMeta extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
 			'country' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'office_country'),			
 			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'office_province'),
 			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'office_city'),
-			'view_meta' => array(self::BELONGS_TO, 'ViewMeta', 'id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}

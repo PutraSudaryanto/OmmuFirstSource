@@ -119,7 +119,7 @@ class ZonecountryController extends Controller
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->country_id, 'value' => $items->country);
+						$result[] = array('id' => $items->country_id, 'value' => $items->country_name);
 					}
 				}
 			}

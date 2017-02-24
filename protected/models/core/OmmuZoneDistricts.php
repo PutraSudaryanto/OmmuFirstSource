@@ -90,7 +90,7 @@ class OmmuZoneDistricts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'city_relation' => array(self::BELONGS_TO, 'OmmuZoneCity', 'city_id'),
+			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'city_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -138,9 +138,9 @@ class OmmuZoneDistricts extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
-			'city_relation' => array(
-				'alias'=>'city_relation',
-				'select'=>'city',
+			'city' => array(
+				'alias'=>'city',
+				'select'=>'city_name',
 			),
 			'creation' => array(
 				'alias'=>'creation',
@@ -183,7 +183,7 @@ class OmmuZoneDistricts extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('city_relation.city',strtolower($this->city_search), true);
+		$criteria->compare('city.city_name',strtolower($this->city_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -251,7 +251,7 @@ class OmmuZoneDistricts extends CActiveRecord
 			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = array(
 				'name' => 'city_search',
-				'value' => '$data->city_relation->city',
+				'value' => '$data->city->city_name',
 			);
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(

@@ -121,7 +121,7 @@ class ZoneprovinceController extends Controller
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->province_id, 'value' => $items->province);
+						$result[] = array('id' => $items->province_id, 'value' => $items->province_name);
 					}
 				}
 			}
