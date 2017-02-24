@@ -25,7 +25,7 @@
  * @property string $city_id
  * @property integer $publish
  * @property integer $province_id
- * @property string $city
+ * @property string $city_name
  * @property string $mfdonline
  * @property integer $checked
  * @property string $creation_date
@@ -72,15 +72,15 @@ class OmmuZoneCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('city, mfdonline', 'required'),
+			array('city_name, mfdonline', 'required'),
 			array('publish, province_id, checked', 'numerical', 'integerOnly'=>true),
-			array('city', 'length', 'max'=>64),
+			array('city_name', 'length', 'max'=>64),
 			array('mfdonline', 'length', 'max'=>4),
 			array('creation_id, modified_id', 'length', 'max'=>11),
 			array('creation_id, modified_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('city_id, publish, province_id, city, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
+			array('city_id, publish, province_id, city_name, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
 				province_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -109,7 +109,7 @@ class OmmuZoneCity extends CActiveRecord
 			'city_id' => Yii::t('attribute', 'City'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'province_id' => Yii::t('attribute', 'Province'),
-			'city' => Yii::t('attribute', 'City'),
+			'city_name' => Yii::t('attribute', 'City'),
 			'mfdonline' => Yii::t('attribute', 'Mfdonline'),
 			'checked' => Yii::t('attribute', 'Checked'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
@@ -139,37 +139,6 @@ class OmmuZoneCity extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.city_id',$this->city_id,true);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
-			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
-			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
-			$criteria->compare('t.publish',2);
-		} else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
-		}
-		if(isset($_GET['province']))
-			$criteria->compare('t.province_id',$_GET['province']);
-		else
-			$criteria->compare('t.province_id',$this->province_id);
-		$criteria->compare('t.city',strtolower($this->city),true);
-		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
-		$criteria->compare('t.checked',$this->checked);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		if(isset($_GET['creation']))
-			$criteria->compare('t.creation_id',$_GET['creation']);
-		else
-			$criteria->compare('t.creation_id',$this->creation_id);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		if(isset($_GET['modified']))
-			$criteria->compare('t.modified_id',$_GET['modified']);
-		else
-			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		// Custom Search
 		$criteria->with = array(
@@ -186,6 +155,38 @@ class OmmuZoneCity extends CActiveRecord
 				'select'=>'displayname',
 			),
 		);
+
+		$criteria->compare('t.city_id',$this->city_id,true);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+			$criteria->compare('t.publish',1);
+		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+			$criteria->compare('t.publish',0);
+		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+			$criteria->compare('t.publish',2);
+		} else {
+			$criteria->addInCondition('t.publish',array(0,1));
+			$criteria->compare('t.publish',$this->publish);
+		}
+		if(isset($_GET['province']))
+			$criteria->compare('t.province_id',$_GET['province']);
+		else
+			$criteria->compare('t.province_id',$this->province_id);
+		$criteria->compare('t.city_name',strtolower($this->city_name),true);
+		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
+		$criteria->compare('t.checked',$this->checked);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
+		
 		$criteria->compare('province_relation.province',strtolower($this->province_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
@@ -222,7 +223,7 @@ class OmmuZoneCity extends CActiveRecord
 			//$this->defaultColumns[] = 'city_id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'province_id';
-			$this->defaultColumns[] = 'city';
+			$this->defaultColumns[] = 'city_name';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = 'checked';
 			$this->defaultColumns[] = 'creation_date';
@@ -251,7 +252,7 @@ class OmmuZoneCity extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'city';
+			$this->defaultColumns[] = 'city_name';
 			$this->defaultColumns[] = array(
 				'name' => 'province_search',
 				'value' => '$data->province_relation->province',
@@ -357,7 +358,7 @@ class OmmuZoneCity extends CActiveRecord
 		$items = array();
 		if($model != null) {
 			foreach($model as $key => $val) {
-				$items[$val->city_id] = $val->city;
+				$items[$val->city_id] = $val->city_name;
 			}
 			return $items;
 		} else {
