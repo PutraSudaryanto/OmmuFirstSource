@@ -86,7 +86,6 @@ class OauthIdentity extends OUserIdentity
 	{
 		$this->_id = $user->user_id;
 		$this->setState('level', $user->level_id);
-		$this->setState('profile', $user->profile_id);
 		$this->setState('language', $user->language_id);
 		$this->email = $user->email;
 		$this->setState('username', $record->username);

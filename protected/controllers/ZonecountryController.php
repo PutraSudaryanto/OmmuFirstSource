@@ -111,8 +111,8 @@ class ZonecountryController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->condition = 'country LIKE :country';
-				$criteria->select	= "country_id, country";
+				$criteria->condition = 'country_name LIKE :country';
+				$criteria->select	= "country_id, country_name";
 				$criteria->order = "country_id ASC";
 				$criteria->params = array(':country' => '%' . strtolower($_GET['term']) . '%');
 				$model = OmmuZoneCountry::model()->findAll($criteria);
