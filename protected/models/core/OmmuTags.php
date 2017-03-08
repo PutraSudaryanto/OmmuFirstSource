@@ -278,7 +278,7 @@ class OmmuTags extends CActiveRecord
 	 */
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
-			$this->body = strtolower(trim($this->body));
+			$this->body = Utility::getUrlTitle(strtolower(trim($this->body)));
 		}
 		return true;	
 	}
