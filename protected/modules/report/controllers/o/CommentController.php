@@ -1,8 +1,8 @@
 <?php
 /**
- * CategoryController
- * @var $this CategoryController
- * @var $model ReportCategory
+ * CommentController
+ * @var $this CommentController
+ * @var $model ReportComment
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -12,6 +12,8 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
+ *	RunAction
  *	Delete
  *	Publish
  *
@@ -19,14 +21,15 @@
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2014 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 22 February 2017, 12:25 WIB
  * @link https://github.com/ommu/Report
  * @contect (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */
 
-class CategoryController extends Controller
+class CommentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -41,7 +44,7 @@ class CategoryController extends Controller
 	public function init() 
 	{
 		if(!Yii::app()->user->isGuest) {
-			if(Yii::app()->user->level == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
@@ -78,9 +81,10 @@ class CategoryController extends Controller
 				'actions'=>array(),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
+				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','delete','publish'),
+				'actions'=>array('manage','add','edit','view','runaction','delete','publish'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
@@ -107,10 +111,10 @@ class CategoryController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new ReportCategory('search');
+		$model=new ReportComment('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ReportCategory'])) {
-			$model->attributes=$_GET['ReportCategory'];
+		if(isset($_GET['ReportComment'])) {
+			$model->attributes=$_GET['ReportComment'];
 		}
 
 		$columnTemp = array();
@@ -123,14 +127,13 @@ class CategoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Report Categories');
+		$this->pageTitle = Yii::t('phrase', 'Report Comments Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
-
 	}	
 	
 	/**
@@ -139,25 +142,26 @@ class CategoryController extends Controller
 	 */
 	public function actionAdd() 
 	{
-		$model=new ReportCategory;
+		$model=new ReportComment;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['ReportCategory'])) {
-			$model->attributes=$_POST['ReportCategory'];
-
+		if(isset($_POST['ReportComment'])) {
+			$model->attributes=$_POST['ReportComment'];
+			
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				echo $jsonError;
+
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-report-category',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report category success created.').'</strong></div>',
+							'id' => 'partial-report-comment',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportComment success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -165,19 +169,18 @@ class CategoryController extends Controller
 				}
 			}
 			Yii::app()->end();
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 500;
-			
-			$this->pageTitle = Yii::t('phrase', 'Create Report Category');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_add',array(
-				'model'=>$model,
-			));
 		}
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'Create Report Comments');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_add',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -192,20 +195,21 @@ class CategoryController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['ReportCategory'])) {
-			$model->attributes=$_POST['ReportCategory'];
-
+		if(isset($_POST['ReportComment'])) {
+			$model->attributes=$_POST['ReportComment'];
+			
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				echo $jsonError;
+
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($model->save()) {
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-report-category',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report category success updated.').'</strong></div>',
+							'id' => 'partial-report-comment',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportComment success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -213,21 +217,76 @@ class CategoryController extends Controller
 				}
 			}
 			Yii::app()->end();
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 500;
-			
-			$this->pageTitle = Yii::t('phrase', 'Update Report Category').': '.Phrase::trans($model->name);
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_edit',array(
-				'model'=>$model,
-			));
 		}
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'Update Report Comments');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_edit',array(
+			'model'=>$model,
+		));
 	}
 	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'View Report Comments');
+		$this->pageDescription = '';
+		$this->pageMeta = $setting->meta_keyword;
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}	
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionRunAction() {
+		$id       = $_POST['trash_id'];
+		$criteria = null;
+		$actions  = $_GET['action'];
+
+		if(count($id) > 0) {
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('id', $id);
+
+			if($actions == 'publish') {
+				ReportComment::model()->updateAll(array(
+					'publish' => 1,
+				),$criteria);
+			} elseif($actions == 'unpublish') {
+				ReportComment::model()->updateAll(array(
+					'publish' => 0,
+				),$criteria);
+			} elseif($actions == 'trash') {
+				ReportComment::model()->updateAll(array(
+					'publish' => 2,
+				),$criteria);
+			} elseif($actions == 'delete') {
+				ReportComment::model()->deleteAll($criteria);
+			}
+		}
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax'])) {
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
+		}
+	}
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -235,17 +294,19 @@ class CategoryController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
-				echo CJSON::encode(array(
-					'type' => 5,
-					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-report-category',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report category success deleted.').'</strong></div>',
-				));
+				if($model->delete()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-report-comment',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportComment success deleted.').'</strong></div>',
+					));
+				}
 			}
 
 		} else {
@@ -253,7 +314,7 @@ class CategoryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Report Category');
+			$this->pageTitle = Yii::t('phrase', 'ReportComment Delete.');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -268,6 +329,7 @@ class CategoryController extends Controller
 	public function actionPublish($id) 
 	{
 		$model=$this->loadModel($id);
+		
 		if($model->publish == 1) {
 			$title = Yii::t('phrase', 'Unpublish');
 			$replace = 0;
@@ -286,8 +348,8 @@ class CategoryController extends Controller
 					echo CJSON::encode(array(
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-report-category',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report category success updated.').'</strong></div>',
+						'id' => 'partial-report-comment',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportComment success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -314,7 +376,7 @@ class CategoryController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = ReportCategory::model()->findByPk($id);
+		$model = ReportComment::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
@@ -326,7 +388,7 @@ class CategoryController extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='report-category-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='report-comment-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

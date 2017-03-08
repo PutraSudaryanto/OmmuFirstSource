@@ -1,15 +1,16 @@
 <?php
 /**
- * Reports (reports)
- * @var $this AdminController
- * @var $model Reports
+ * Report Comments (report-comment)
+ * @var $this CommentController
+ * @var $model ReportComment
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2014 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 22 February 2017, 12:25 WIB
  * @link https://github.com/ommu/Report
- * @contact (+62)856-299-4114
+ * @contect (+62)856-299-4114
  *
  */
 ?>
@@ -26,10 +27,11 @@ foreach($model->metaData->columns as $key => $val) {
 }
 ?>
 <ul>
-	<?php foreach($columns as $val): ?>	<li>
+	<?php foreach($columns as $val): ?>
+	<li>
 		<?php echo CHtml::checkBox('GridColumn['.$val.']'); ?>
 		<?php echo CHtml::label($val, 'GridColumn_'.$val); ?>
 	</li>
-	<?php endforeach; ?></ul>
-<div class="clear"></div>
+	<?php endforeach; ?>
+</ul>
 <?php echo CHtml::endForm(); ?>
