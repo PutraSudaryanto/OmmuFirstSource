@@ -4,7 +4,7 @@
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
  * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
@@ -311,7 +311,7 @@ class SupportFeedbacks extends CActiveRecord
 				$this->subject, $this->displayname, $this->email, Utility::dateFormat(date('Y-m-d H:i:s'), true), $this->message,
 			);
 			$feedback_template = 'support_feedback';
-			$feedback_title = Yii::t('attribute', '[Feedback]').' '.$this->subject.' | '.$setting->site_title;
+			$feedback_title = Yii::t('phrase', '[Feedback]').' '.$this->subject.' | '.$setting->site_title;
 			$feedback_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$feedback_template.'.php');			
 			$feedback_ireplace = str_ireplace($feedback_search, $feedback_replace, $feedback_message);
 			SupportMailSetting::sendEmail(null, null, $feedback_title, $feedback_ireplace);
@@ -328,7 +328,7 @@ class SupportFeedbacks extends CActiveRecord
 					$this->user_reply->displayname, $this->user_reply->email,
 				);
 				$reply_template = 'support_feedback_reply';
-				$reply_title = Yii::t('attribute', '[Reply]').' '.$this->subject.' | '.$setting->site_title;
+				$reply_title = Yii::t('phrase', '[Reply]').' '.$this->subject.' | '.$setting->site_title;
 				$reply_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$reply_template.'.php');			
 				$reply_ireplace = str_ireplace($reply_search, $reply_replace, $reply_message);
 				SupportMailSetting::sendEmail($this->email, $this->displayname, $reply_title, $reply_ireplace);

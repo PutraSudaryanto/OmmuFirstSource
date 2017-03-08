@@ -4,7 +4,7 @@
  * version: 0.2.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
  * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
@@ -291,8 +291,8 @@ class SupportMailSetting extends CActiveRecord
 			$mail->AddReplyTo($model->mail_from, $model->mail_name);			
 			$mail->AddAddress($to_email, $to_name);
 		} else {
-			$mail->SetFrom($model->mail_from, Yii::t('attribute', '[System]').' '.$setting->site_title);
-			$mail->AddReplyTo($model->mail_from, Yii::t('attribute', '[System]').' '.$setting->site_title);
+			$mail->SetFrom($model->mail_from, Yii::t('phrase', '[System]').' '.$setting->site_title);
+			$mail->AddReplyTo($model->mail_from, Yii::t('phrase', '[System]').' '.$setting->site_title);
 			$mail->AddAddress($model->mail_contact, $model->mail_name);
 		}
 			
@@ -327,16 +327,16 @@ class SupportMailSetting extends CActiveRecord
 		if(parent::beforeValidate()) {
 			if($this->mail_smtp == '1') {
 				if($this->smtp_address == '')
-					$this->addError('smtp_address', Yii::t('attribute', 'SMTP Server Address cannot be blank.'));
+					$this->addError('smtp_address', Yii::t('phrase', 'SMTP Server Address cannot be blank.'));
 				
 				if($this->smtp_port == '')
-					$this->addError('smtp_port', Yii::t('attribute', 'SMTP Server Port cannot be blank.'));
+					$this->addError('smtp_port', Yii::t('phrase', 'SMTP Server Port cannot be blank.'));
 				
 				if($this->smtp_authentication == '1') {
 					if($this->smtp_username == '')
-						$this->addError('smtp_username', Yii::t('attribute', 'SMTP Username cannot be blank.'));
+						$this->addError('smtp_username', Yii::t('phrase', 'SMTP Username cannot be blank.'));
 					if($this->smtp_password == '')
-						$this->addError('smtp_password', Yii::t('attribute', 'SMTP Password cannot be blank.'));
+						$this->addError('smtp_password', Yii::t('phrase', 'SMTP Password cannot be blank.'));
 				}
 			}
 
