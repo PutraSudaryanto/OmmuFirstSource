@@ -23,7 +23,6 @@
  *
  * The followings are the available columns in table '_view_core_menu':
  * @property string $menu_id
- * @property string $title
  */
 class ViewMenu extends CActiveRecord
 {
@@ -65,10 +64,10 @@ class ViewMenu extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('menu_id', 'length', 'max'=>11),
-			array('title', 'safe'),
+			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('menu_id, title', 'safe', 'on'=>'search'),
+			array('menu_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,7 +89,6 @@ class ViewMenu extends CActiveRecord
 	{
 		return array(
 			'menu_id' => Yii::t('attribute', 'Menu'),
-			'title' => Yii::t('attribute', 'Title'),
 		);
 	}
 
@@ -113,7 +111,6 @@ class ViewMenu extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.menu_id',strtolower($this->menu_id),true);
-		$criteria->compare('t.title',strtolower($this->title),true);
 
 		if(!isset($_GET['ViewMenu_sort']))
 			$criteria->order = 't.menu_id DESC';
@@ -145,7 +142,6 @@ class ViewMenu extends CActiveRecord
 			}
 		} else {
 			$this->defaultColumns[] = 'menu_id';
-			$this->defaultColumns[] = 'title';
 		}
 
 		return $this->defaultColumns;
@@ -169,7 +165,6 @@ class ViewMenu extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = 'menu_id';
-			$this->defaultColumns[] = 'title';
 		}
 		parent::afterConstruct();
 	}

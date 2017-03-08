@@ -71,7 +71,7 @@
 				}
 			}
 		?>
-		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo Yii::app()->user->level != 1 ? Yii::app()->createUrl('users/o/member/manage') : Yii::app()->createUrl('users/o/admin/manage') ?>" title="<?php echo Yii::t('phrase', 'Member');?>"><?php echo Yii::t('phrase', 'Member');?></a></li>
+		<li <?php echo $menuRender == 3 ? 'class="active"' : ''; ?>><a class="member" href="<?php echo Yii::app()->user->level != 1 ? Yii::app()->createUrl('users/o/member/manage') : Yii::app()->createUrl('users/o/admin/manage') ?>" title="<?php echo Yii::t('phrase', 'Users');?>"><?php echo Yii::t('phrase', 'Users');?></a></li>
 		<li <?php echo $menuRender == 4 ? 'class="active"' : ''; ?>><a class="setting" href="<?php echo Yii::app()->user->level == 1 ? Yii::app()->createUrl('settings/general') : Yii::app()->createUrl('support/o/contact/manage');?>" title="<?php echo Yii::t('phrase', 'Settings');?>"><?php echo Yii::t('phrase', 'Settings');?></a></li>
 	</ul>
 </div>

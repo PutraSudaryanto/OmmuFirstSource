@@ -38,7 +38,6 @@ class UserIdentity extends CUserIdentity
 		else {
 			$this->_id = $record->user_id;
 			$this->setState('level', $record->level_id);
-			$this->setState('profile', $record->profile_id);
 			$this->setState('language', $record->language_id);
 			$this->email = $record->email;
 			$this->setState('username', $record->username);

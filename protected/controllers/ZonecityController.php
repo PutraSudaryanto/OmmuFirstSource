@@ -113,15 +113,15 @@ class ZonecityController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->condition = 'city LIKE :city';
-				$criteria->select	= "city_id, city";
+				$criteria->condition = 'city_name LIKE :city';
+				$criteria->select	= "city_id, city_name";
 				$criteria->order = "city_id ASC";
 				$criteria->params = array(':city' => '%' . strtolower($_GET['term']) . '%');
 				$model = OmmuZoneCity::model()->findAll($criteria);
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->city_id, 'value' => $items->city);
+						$result[] = array('id' => $items->city_id, 'value' => $items->city_name);
 					}
 				}
 			}

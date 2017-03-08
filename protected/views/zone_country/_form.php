@@ -28,10 +28,10 @@
 		<?php //begin.Messages ?>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'country'); ?>
+			<?php echo $form->labelEx($model,'country_name'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'country',array('maxlength'=>64)); ?>
-				<?php echo $form->error($model,'country'); ?>
+				<?php echo $form->textField($model,'country_name',array('maxlength'=>64)); ?>
+				<?php echo $form->error($model,'country_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>

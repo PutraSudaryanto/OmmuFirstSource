@@ -37,10 +37,10 @@
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'city'); ?>
+			<?php echo $form->labelEx($model,'city_name'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'city',array('maxlength'=>64)); ?>
-				<?php echo $form->error($model,'city'); ?>
+				<?php echo $form->textField($model,'city_name',array('maxlength'=>64)); ?>
+				<?php echo $form->error($model,'city_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>

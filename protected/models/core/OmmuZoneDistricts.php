@@ -90,9 +90,9 @@ class OmmuZoneDistricts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'city_relation' => array(self::BELONGS_TO, 'OmmuZoneCity', 'city_id'),
-			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'city' => array(self::BELONGS_TO, 'OmmuZoneCity', 'city_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -135,6 +135,22 @@ class OmmuZoneDistricts extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'city' => array(
+				'alias'=>'city',
+				'select'=>'city_name',
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname',
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.district_id',$this->district_id,true);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
@@ -167,24 +183,9 @@ class OmmuZoneDistricts extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		// Custom Search
-		$criteria->with = array(
-			'city_relation' => array(
-				'alias'=>'city_relation',
-				'select'=>'city',
-			),
-			'creation_relation' => array(
-				'alias'=>'creation_relation',
-				'select'=>'displayname',
-			),
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
-				'select'=>'displayname',
-			),
-		);
-		$criteria->compare('city_relation.city',strtolower($this->city_search), true);
-		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('city.city_name',strtolower($this->city_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneDistricts_sort']))
 			$criteria->order = 't.district_id DESC';
@@ -250,12 +251,12 @@ class OmmuZoneDistricts extends CActiveRecord
 			$this->defaultColumns[] = 'district_name';
 			$this->defaultColumns[] = array(
 				'name' => 'city_search',
-				'value' => '$data->city_relation->city',
+				'value' => '$data->city->city_name',
 			);
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation_relation->displayname',
+				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',

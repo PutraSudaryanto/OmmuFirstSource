@@ -35,8 +35,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('city'); ?><br/>
-			<?php echo $form->textField($model,'city',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $model->getAttributeLabel('city_name'); ?><br/>
+			<?php echo $form->textField($model,'city_name',array('size'=>60,'maxlength'=>64)); ?>
 		</li>
 
 		<li>

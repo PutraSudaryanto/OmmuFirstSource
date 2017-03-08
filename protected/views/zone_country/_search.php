@@ -25,8 +25,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('country'); ?><br/>
-			<?php echo $form->textField($model,'country',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $model->getAttributeLabel('country_name'); ?><br/>
+			<?php echo $form->textField($model,'country_name',array('size'=>60,'maxlength'=>64)); ?>
 		</li>
 
 		<li>

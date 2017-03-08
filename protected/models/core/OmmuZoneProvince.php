@@ -25,7 +25,7 @@
  * @property integer $province_id
  * @property integer $publish
  * @property integer $country_id
- * @property string $province
+ * @property string $province_name
  * @property string $mfdonline
  * @property integer $checked
  * @property string $creation_date
@@ -73,15 +73,15 @@ class OmmuZoneProvince extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('province, mfdonline', 'required'),
+			array('province_name, mfdonline', 'required'),
 			array('publish, country_id, checked', 'numerical', 'integerOnly'=>true),
-			array('province', 'length', 'max'=>64),
+			array('province_name', 'length', 'max'=>64),
 			array('mfdonline', 'length', 'max'=>2),
 			array('creation_id, modified_id', 'length', 'max'=>11),
 			array('creation_id, modified_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('province_id, publish, country_id, province, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
+			array('province_id, publish, country_id, province_name, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
 				country_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,10 +94,10 @@ class OmmuZoneProvince extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'country_relation' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'country_id'),
-			'creation_relation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
-			'modified_relation' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'city_relation' => array(self::HAS_MANY, 'OmmuZoneCity', 'province_id'),
+			'country' => array(self::BELONGS_TO, 'OmmuZoneCountry', 'country_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'citys' => array(self::HAS_MANY, 'OmmuZoneCity', 'province_id'),
 		);
 	}
 
@@ -110,7 +110,7 @@ class OmmuZoneProvince extends CActiveRecord
 			'province_id' => Yii::t('attribute', 'Province'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'country_id' => Yii::t('attribute', 'Country'),
-			'province' => Yii::t('attribute', 'Province'),
+			'province_name' => Yii::t('attribute', 'Province'),
 			'mfdonline' => Yii::t('attribute', 'Mfdonline'),
 			'checked' => Yii::t('attribute', 'Checked'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
@@ -140,6 +140,22 @@ class OmmuZoneProvince extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'country' => array(
+				'alias'=>'country',
+				'select'=>'country_name',
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname',
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.province_id',$this->province_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
@@ -156,7 +172,7 @@ class OmmuZoneProvince extends CActiveRecord
 			$criteria->compare('t.country_id',$_GET['country']);
 		else
 			$criteria->compare('t.country_id',$this->country_id);
-		$criteria->compare('t.province',strtolower($this->province),true);
+		$criteria->compare('t.province_name',strtolower($this->province_name),true);
 		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
@@ -172,24 +188,9 @@ class OmmuZoneProvince extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		// Custom Search
-		$criteria->with = array(
-			'country_relation' => array(
-				'alias'=>'country_relation',
-				'select'=>'country',
-			),
-			'creation_relation' => array(
-				'alias'=>'creation_relation',
-				'select'=>'displayname',
-			),
-			'modified_relation' => array(
-				'alias'=>'modified_relation',
-				'select'=>'displayname',
-			),
-		);
-		$criteria->compare('country_relation.country',strtolower($this->country_search), true);
-		$criteria->compare('creation_relation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified_relation.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('country.country_name',strtolower($this->country_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['OmmuZoneProvince_sort']))
 			$criteria->order = 't.province_id DESC';
@@ -223,7 +224,7 @@ class OmmuZoneProvince extends CActiveRecord
 			//$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'country_id';
-			$this->defaultColumns[] = 'province';
+			$this->defaultColumns[] = 'province_name';
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = 'checked';
 			$this->defaultColumns[] = 'creation_date';
@@ -252,15 +253,15 @@ class OmmuZoneProvince extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'province';
+			$this->defaultColumns[] = 'province_name';
 			$this->defaultColumns[] = array(
 				'name' => 'country_search',
-				'value' => '$data->country_relation->country',
+				'value' => '$data->country->country_name',
 			);
 			$this->defaultColumns[] = 'mfdonline';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation_relation->displayname',
+				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
@@ -357,7 +358,7 @@ class OmmuZoneProvince extends CActiveRecord
 		$items = array();
 		if($model != null) {
 			foreach($model as $key => $val) {
-				$items[$val->province_id] = $val->province;
+				$items[$val->province_id] = $val->province_name;
 			}
 			return $items;
 		} else {

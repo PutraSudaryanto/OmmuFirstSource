@@ -113,15 +113,15 @@ class ZoneprovinceController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->condition = 'province LIKE :province';
-				$criteria->select	= "province_id, province";
+				$criteria->condition = 'province_name LIKE :province';
+				$criteria->select	= "province_id, province_name";
 				$criteria->order = "province_id ASC";
 				$criteria->params = array(':province' => '%' . strtolower($_GET['term']) . '%');
 				$model = OmmuZoneProvince::model()->findAll($criteria);
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->province_id, 'value' => $items->province);
+						$result[] = array('id' => $items->province_id, 'value' => $items->province_name);
 					}
 				}
 			}
