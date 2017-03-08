@@ -4,11 +4,12 @@
  * @var $this AdminController
  * @var $model Users
  * @var $form CActiveForm
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 25 February 2016, 15:47 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/ommu/Users
  * @contect (+62)856-299-4114
  *
  */
@@ -27,11 +28,6 @@
 		<li>
 			<?php echo $model->getAttributeLabel('level_id'); ?><br/>
 			<?php echo $form->textField($model,'level_id'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('profile_id'); ?><br/>
-			<?php echo $form->textField($model,'profile_id'); ?>
 		</li>
 
 		<li>

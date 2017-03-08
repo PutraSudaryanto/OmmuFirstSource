@@ -4,11 +4,12 @@
  * @var $this MemberController
  * @var $model Users
  * @var $form CActiveForm
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 25 February 2016, 15:47 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/ommu/Users
  * @contect (+62)856-299-4114
  *
  */
@@ -33,11 +34,16 @@
 			<?php echo Yii::t('phrase', 'To edit this users\'s account, make changes to the form below. If you want to temporarily prevent this user from logging in, you can set the user account to "disabled" below.');?>
 		</div>
 		<?php }?>
-
+		
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'level_id'); ?>
 			<div class="desc">
-				<?php echo $form->dropDownList($model,'level_id', UserLevel::getTypeMember()); ?>
+				<?php 
+				$userlevel = UserLevel::getUserLevel('member');
+				if($userlevel != null)
+					echo $form->dropDownList($model,'level_id', $userlevel, array('prompt'=>Yii::t('phrase', 'Select User Level')));
+				else
+					echo $form->dropDownList($model,'level_id', array('prompt'=>Yii::t('phrase', 'Select User Level')));?>
 				<?php echo $form->error($model,'level_id'); ?>
 			</div>
 		</div>

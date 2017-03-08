@@ -1,10 +1,12 @@
 <?php
 /**
  * ViewUserLevel
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 24 February 2016, 18:00 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/ommu/Users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -22,7 +24,10 @@
  *
  * The followings are the available columns in table '_view_user_level':
  * @property integer $level_id
- * @property string $oauths
+ * @property string $users
+ * @property string $user_block
+ * @property string $user_all
+ * @property string $verified
  */
 class ViewUserLevel extends CActiveRecord
 {
@@ -64,11 +69,11 @@ class ViewUserLevel extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('level_id', 'numerical', 'integerOnly'=>true),
-			array('oauths', 'length', 'max'=>21),
+			array('users, user_block, user_all, verified', 'length', 'max'=>21),
 			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('level_id, oauths', 'safe', 'on'=>'search'),
+			array('level_id, users, user_block, user_all, verified', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -89,8 +94,11 @@ class ViewUserLevel extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'level_id' => 'Level',
-			'oauths' => 'Oauths',
+			'level_id' => Yii::t('attribute', 'Level'),
+			'users' => Yii::t('attribute', 'Users'),
+			'user_block' => Yii::t('attribute', 'User Block'),
+			'user_all' => Yii::t('attribute', 'User All'),
+			'verified' => Yii::t('attribute', 'Verified'),
 		);
 	}
 
@@ -113,7 +121,10 @@ class ViewUserLevel extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.level_id',$this->level_id);
-		$criteria->compare('t.oauths',strtolower($this->oauths),true);
+		$criteria->compare('t.users',strtolower($this->users),true);
+		$criteria->compare('t.user_block',strtolower($this->user_block),true);
+		$criteria->compare('t.user_all',strtolower($this->user_all),true);
+		$criteria->compare('t.verified',strtolower($this->verified),true);
 
 		if(!isset($_GET['ViewUserLevel_sort']))
 			$criteria->order = 't.level_id DESC';
@@ -145,7 +156,10 @@ class ViewUserLevel extends CActiveRecord
 			}
 		} else {
 			$this->defaultColumns[] = 'level_id';
-			$this->defaultColumns[] = 'oauths';
+			$this->defaultColumns[] = 'users';
+			$this->defaultColumns[] = 'user_block';
+			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'verified';
 		}
 
 		return $this->defaultColumns;
@@ -157,7 +171,10 @@ class ViewUserLevel extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'level_id';
-			$this->defaultColumns[] = 'oauths';
+			$this->defaultColumns[] = 'users';
+			$this->defaultColumns[] = 'user_block';
+			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'verified';
 		}
 		parent::afterConstruct();
 	}

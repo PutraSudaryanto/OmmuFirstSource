@@ -1,10 +1,12 @@
 <?php
 /**
  * Users
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 24 February 2016, 17:58 WIB
- * @link http://company.ommu.co
+ * @link https://github.com/ommu/Users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -22,8 +24,9 @@
  *
  * The followings are the available columns in table 'ommu_users':
  * @property string $user_id
+ * @property integer $enabled
+ * @property integer $verified
  * @property integer $level_id
- * @property integer $profile_id
  * @property integer $language_id
  * @property string $salt
  * @property string $password
@@ -31,8 +34,6 @@
  * @property string $username
  * @property string $displayname
  * @property string $photos
- * @property integer $enabled
- * @property integer $verified
  * @property string $creation_date
  * @property string $creation_ip
  * @property string $modified_date
@@ -85,13 +86,13 @@ class Users extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, displayname', 'required'),
-			array('level_id, profile_id, language_id, enabled, verified, locale_id, timezone_id', 'required', 'on'=>'formEdit'),
+			array('level_id, email, displayname', 'required'),
+			array('enabled, verified, language_id, locale_id, timezone_id', 'required', 'on'=>'formEdit'),
 			array('
 				oldPassword', 'required', 'on'=>'formChangePassword'),
 			array('
 				newPassword, confirmPassword', 'required', 'on'=>'formAdd, formChangePassword, resetpassword'),
-			array('level_id, profile_id, language_id, enabled, verified, locale_id, timezone_id', 'numerical', 'integerOnly'=>true),
+			array('enabled, verified, level_id, language_id, locale_id, timezone_id', 'numerical', 'integerOnly'=>true),
 			array('modified_id', 'length', 'max'=>11),
 			array('
 				inviteCode', 'length', 'max'=>16),
@@ -99,7 +100,7 @@ class Users extends CActiveRecord
 			array('salt, email, password, username, 
 				oldPassword, newPassword, confirmPassword', 'length', 'max'=>32),
 			array('displayname', 'length', 'max'=>64),
-			array('level_id, password, username, photos, enabled, verified,
+			array('enabled, verified, level_id, password, username, photos,
 				oldPassword, newPassword, confirmPassword, inviteCode, referenceId', 'safe'),
 			array('oldPassword','filter','filter'=>array($this,'validatePassword')),
 			array('email', 'email'),
@@ -109,7 +110,7 @@ class Users extends CActiveRecord
 				newPassword', 'compare', 'compareAttribute' => 'confirmPassword', 'message' => 'Kedua password tidak sama.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, level_id, profile_id, language_id, salt, password, email, username, displayname, photos, enabled, verified, creation_date, creation_ip, modified_date, modified_id, lastlogin_date, lastlogin_ip, lastlogin_from, update_date, update_ip, locale_id, timezone_id', 'safe', 'on'=>'search'),
+			array('user_id, enabled, verified, level_id, language_id, salt, password, email, username, displayname, photos, creation_date, creation_ip, modified_date, modified_id, lastlogin_date, lastlogin_ip, lastlogin_from, update_date, update_ip, locale_id, timezone_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -121,8 +122,8 @@ class Users extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'level_TO' => array(self::BELONGS_TO, 'UserLevel', 'level_id'),
 			'view' => array(self::BELONGS_TO, 'ViewUsers', 'user_id'),
+			'level' => array(self::BELONGS_TO, 'UserLevel', 'level_id'),
 		);
 	}
 
@@ -132,32 +133,31 @@ class Users extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id' => 'User',
-			'level_id' => 'Level',
-			'profile_id' => 'Profile',
-			'language_id' => 'Language',
-			'salt' => 'Salt',
-			'password' => 'Password',
-			'email' => 'Email',
-			'username' => 'Username',
-			'displayname' => 'Displayname',
-			'photos' => 'Photos',
-			'enabled' => 'Enabled',
-			'verified' => 'Verified',
-			'creation_date' => 'Creation Date',
-			'creation_ip' => 'Creation Ip',
-			'modified_date' => 'Modified Date',
-			'modified_id' => 'Modified',
-			'lastlogin_date' => 'Lastlogin Date',
-			'lastlogin_ip' => 'Lastlogin Ip',
-			'lastlogin_from' => 'Last Login From',
-			'update_date' => 'Update Date',
-			'update_ip' => 'Update Ip',
-			'locale_id' => 'Locale',
-			'timezone_id' => 'Timezone',
-			'newPassword' => 'Password',
-			'confirmPassword' => 'Confirm Password',
-			'inviteCode' => 'Invite Code',
+			'user_id' => Yii::t('attribute', 'User'),
+			'enabled' => Yii::t('attribute', 'Enabled'),
+			'verified' => Yii::t('attribute', 'Verified'),
+			'level_id' => Yii::t('attribute', 'Level'),
+			'language_id' => Yii::t('attribute', 'Language'),
+			'salt' => Yii::t('attribute', 'Salt'),
+			'password' => Yii::t('attribute', 'Password'),
+			'email' => Yii::t('attribute', 'Email'),
+			'username' => Yii::t('attribute', 'Username'),
+			'displayname' => Yii::t('attribute', 'Displayname'),
+			'photos' => Yii::t('attribute', 'Photos'),
+			'creation_date' => Yii::t('attribute', 'Creation Date'),
+			'creation_ip' => Yii::t('attribute', 'Creation Ip'),
+			'modified_date' => Yii::t('attribute', 'Modified Date'),
+			'modified_id' => Yii::t('attribute', 'Modified'),
+			'lastlogin_date' => Yii::t('attribute', 'Lastlogin Date'),
+			'lastlogin_ip' => Yii::t('attribute', 'Lastlogin Ip'),
+			'lastlogin_from' => Yii::t('attribute', 'Last Login From'),
+			'update_date' => Yii::t('attribute', 'Update Date'),
+			'update_ip' => Yii::t('attribute', 'Update Ip'),
+			'locale_id' => Yii::t('attribute', 'Locale'),
+			'timezone_id' => Yii::t('attribute', 'Timezone'),
+			'newPassword' => Yii::t('attribute', 'Password'),
+			'confirmPassword' => Yii::t('attribute', 'Confirm Password'),
+			'inviteCode' => Yii::t('attribute', 'Invite Code'),
 		);
 	}
 
@@ -181,6 +181,8 @@ class Users extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.user_id',$this->user_id,true);
+		$criteria->compare('t.enabled',$this->enabled);
+		$criteria->compare('t.verified',$this->verified);
 		if($controller == 'o/member') {
 			$criteria->addNotInCondition('t.level_id',array(1));
 			$criteria->compare('t.level_id',$this->level_id);
@@ -191,7 +193,6 @@ class Users extends CActiveRecord
 			$criteria->compare('t.level_id',$_GET['level']);
 		else
 			$criteria->compare('t.level_id',$this->level_id);
-		$criteria->compare('t.profile_id',$this->profile_id);
 		$criteria->compare('t.language_id',$this->language_id);
 		$criteria->compare('t.salt',$this->salt,true);
 		$criteria->compare('t.password',$this->password,true);
@@ -199,8 +200,6 @@ class Users extends CActiveRecord
 		$criteria->compare('t.username',strtolower($this->username),true);
 		$criteria->compare('t.displayname',strtolower($this->displayname),true);
 		$criteria->compare('t.photos',strtolower($this->photos),true);
-		$criteria->compare('t.enabled',$this->enabled);
-		$criteria->compare('t.verified',$this->verified);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		$criteria->compare('t.creation_ip',strtolower($this->creation_ip),true);
@@ -250,8 +249,9 @@ class Users extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'user_id';
+			$this->defaultColumns[] = 'enabled';
+			$this->defaultColumns[] = 'verified';
 			$this->defaultColumns[] = 'level_id';
-			$this->defaultColumns[] = 'profile_id';
 			$this->defaultColumns[] = 'language_id';
 			$this->defaultColumns[] = 'salt';
 			$this->defaultColumns[] = 'password';
@@ -259,8 +259,6 @@ class Users extends CActiveRecord
 			$this->defaultColumns[] = 'username';
 			$this->defaultColumns[] = 'displayname';
 			$this->defaultColumns[] = 'photos';
-			$this->defaultColumns[] = 'enabled';
-			$this->defaultColumns[] = 'verified';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_ip';
 			$this->defaultColumns[] = 'modified_date';
@@ -307,11 +305,11 @@ class Users extends CActiveRecord
 			if(!in_array($controller, array('o/admin'))) {
 				$this->defaultColumns[] = array(
 					'name' => 'level_id',
-					'value' => 'Phrase::trans($data->level_TO->name)',
+					'value' => 'Phrase::trans($data->level->name)',
 					'htmlOptions' => array(
 						//'class' => 'center',
 					),
-					'filter'=>UserLevel::getTypeMember(),
+					'filter'=>UserLevel::getUserLevel('member'),
 					'type' => 'raw',
 				);
 			}
@@ -470,7 +468,6 @@ class Users extends CActiveRecord
 					'select' => 'site_type, signup_username, signup_approve, signup_verifyemail, signup_random, signup_inviteonly, signup_checkemail',
 				));
 				
-				$this->profile_id = 1;
 				$this->salt = self::getUniqueCode();
 				
 				if(in_array($controller, array('o/admin','o/member'))) {

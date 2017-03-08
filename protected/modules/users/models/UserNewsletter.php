@@ -1,9 +1,11 @@
 <?php
 /**
  * UserNewsletter
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
- * @link https://github.com/oMMu/Ommu-Users
+ * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @link https://github.com/ommu/Users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -20,7 +22,7 @@
  * This is the model class for table "ommu_user_newsletter".
  *
  * The followings are the available columns in table 'ommu_user_newsletter':
- * @property string $id
+ * @property string $newsletter_id
  * @property string $user_id
  * @property string $email
  * @property integer $subscribe
@@ -73,7 +75,7 @@ class UserNewsletter extends CActiveRecord
 				unsubscribe', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, email, subscribe, subscribe_date, unsubscribe_date, unsubscribe_ip,
+			array('newsletter_id, user_id, email, subscribe, subscribe_date, unsubscribe_date, unsubscribe_ip,
 				user_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -96,7 +98,7 @@ class UserNewsletter extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('attribute', 'ID'),
+			'newsletter_id' => Yii::t('attribute', 'Newsletter'),
 			'user_id' => Yii::t('attribute', 'User'),
 			'email' => Yii::t('attribute', 'Email'),
 			'subscribe' => Yii::t('attribute', 'Subscribe'),
@@ -118,7 +120,7 @@ class UserNewsletter extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.newsletter_id',$this->newsletter_id);
 		$criteria->compare('t.user_id',$this->user_id);
 		$criteria->compare('t.email',$this->email,true);
 		$criteria->compare('t.subscribe',$this->subscribe);
@@ -138,7 +140,7 @@ class UserNewsletter extends CActiveRecord
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		
 		if(!isset($_GET['UserNewsletter_sort']))
-			$criteria->order = 't.id DESC';
+			$criteria->order = 't.newsletter_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -166,7 +168,7 @@ class UserNewsletter extends CActiveRecord
 				$this->defaultColumns[] = $val;
 			}
 		}else {
-			//$this->defaultColumns[] = 'id';
+			//$this->defaultColumns[] = 'newsletter_id';
 			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'email';
 			$this->defaultColumns[] = 'subscribe';
@@ -257,7 +259,7 @@ class UserNewsletter extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'header' => Yii::t('phrase', 'Status'),
 				'name' => 'subscribe',
-				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("unsubscribe",array("id"=>$data->id, "type"=>"admin")), $data->subscribe, 8)',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("unsubscribe",array("id"=>$data->newsletter_id, "type"=>"admin")), $data->subscribe, 8)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
