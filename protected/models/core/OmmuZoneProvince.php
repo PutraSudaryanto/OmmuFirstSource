@@ -290,6 +290,18 @@ class OmmuZoneProvince extends CActiveRecord
 				), true),
 			);
 			/*
+			$this->defaultColumns[] = array(
+				'name' => 'checked',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("checked",array("id"=>$data->province_id)), $data->checked, 1)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
@@ -304,20 +316,7 @@ class OmmuZoneProvince extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'checked',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("checked",array("id"=>$data->province_id)), $data->checked, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}*/
+			*/
 		}
 		parent::afterConstruct();
 	}

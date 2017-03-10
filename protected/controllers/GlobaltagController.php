@@ -113,11 +113,11 @@ class GlobaltagController extends Controller
 		if(Yii::app()->request->isAjaxRequest) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->condition = 'publish = 1 AND body LIKE :body';
-				$criteria->select	= "tag_id, body";
+				$criteria->select	= "t.tag_id, t.body";
+				$criteria->compare('t.publish',1);
+				$criteria->compare('t.body',Utility::getUrlTitle(strtolower(trim($_GET['term']))), true);
 				$criteria->limit = $limit;
-				$criteria->order = "tag_id ASC";
-				$criteria->params = array(':body' => '%' . strtolower($_GET['term']) . '%');
+				$criteria->order = "t.tag_id ASC";
 				$model = OmmuTags::model()->findAll($criteria);
 
 				if($model) {

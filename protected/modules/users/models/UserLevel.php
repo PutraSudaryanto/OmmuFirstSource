@@ -254,7 +254,7 @@ class UserLevel extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'header' => Yii::t('phrase', 'Users'),
-				'value' => '$data->level_id != 1 ? CHtml::link($data->view->users." ".Yii::t(\'phrase\', \'User\'), Yii::app()->controller->createUrl("o/member/manage",array("level"=>$data->level_id))) : CHtml::link($data->view->users." ".Yii::t(\'phrase\', \'User\'), Yii::app()->controller->createUrl("o/admin/manage",array("level"=>$data->level_id)))',
+				'value' => '$data->level_id != 1 ? CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/member/manage",array("level"=>$data->level_id))) : CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/admin/manage",array("level"=>$data->level_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

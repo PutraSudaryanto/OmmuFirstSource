@@ -100,7 +100,7 @@ class Users extends CActiveRecord
 			array('salt, email, password, username, 
 				oldPassword, newPassword, confirmPassword', 'length', 'max'=>32),
 			array('displayname', 'length', 'max'=>64),
-			array('enabled, verified, level_id, password, username, photos,
+			array('enabled, verified, level_id, language_id, password, username, photos, locale_id, timezone_id,
 				oldPassword, newPassword, confirmPassword, inviteCode, referenceId', 'safe'),
 			array('oldPassword','filter','filter'=>array($this,'validatePassword')),
 			array('email', 'email'),
@@ -341,10 +341,10 @@ class Users extends CActiveRecord
 				), true),
 			);
 			$this->defaultColumns[] = 'creation_ip';
-			if(!isset($_GET['type'])) {
+			if($controller != 'o/admin') {
 				$this->defaultColumns[] = array(
-					'name' => 'enabled',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("enabled",array("id"=>$data->user_id)), $data->enabled, 1)',
+					'name' => 'verified',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("verified",array("id"=>$data->user_id)), $data->verified, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -355,10 +355,10 @@ class Users extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
-			if(!isset($_GET['type']) && $controller != 'o/admin') {
+			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'verified',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("verified",array("id"=>$data->user_id)), $data->verified, 1)',
+					'name' => 'enabled',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("enabled",array("id"=>$data->user_id)), $data->enabled, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
