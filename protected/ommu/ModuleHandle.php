@@ -149,7 +149,7 @@ class ModuleHandle extends CApplicationComponent
 			}
 		
 			$sourcePath = Yii::getPathOfAlias('application.modules.'.trim($module));
-			$externalPath = Yii::getPathOfAlias('webroot.externals.'.trim($module));
+			//$externalPath = Yii::getPathOfAlias('webroot.externals.'.trim($module));
 			$publicPath = Yii::getPathOfAlias('webroot.public.'.trim($module));
 
 			//Delete module source

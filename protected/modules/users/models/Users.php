@@ -621,12 +621,12 @@ class Users extends CActiveRecord
 					'{$site_title}', '{$index}',
 				);
 				$welcome_replace = array(
-					Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'), 
+					Utility::getProtocol().'://'.Yii::app()->request->serverName.$this->module->assetsUrl $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'), 
 					$setting->site_title, Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('site/index'),
 				);
 				$welcome_template = 'user_welcome';
 				$welcome_title = 'Welcome to '.$setting->site_title;
-				$welcome_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$welcome_template.'.php');
+				$welcome_message = file_get_contents(YiiBase::getPathOfAlias('application.modules.users.components.templates').'/'.$welcome_template.'.php');
 				$welcome_ireplace = str_ireplace($welcome_search, $welcome_replace, $welcome_message);
 				SupportMailSetting::sendEmail($this->email, $this->displayname, $welcome_title, $welcome_ireplace);
 			}
@@ -637,12 +637,12 @@ class Users extends CActiveRecord
 				'{$site_title}', '{$email}', '{$password}', '{$login}'
 			);
 			$account_replace = array(
-				Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'),
+				Utility::getProtocol().'://'.Yii::app()->request->serverName.$this->module->assetsUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'),
 				$setting->site_title, $this->email, $this->newPassword, Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('site/login'),
 			);
 			$account_template = 'user_welcome_account';
 			$account_title = $setting->site_title.' Account ('.$this->displayname.')';
-			$account_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$account_template.'.php');
+			$account_message = file_get_contents(YiiBase::getPathOfAlias('application.modules.users.components.templates').'/'.$account_template.'.php');
 			$account_ireplace = str_ireplace($account_search, $account_replace, $account_message);
 			SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace);
 
@@ -659,12 +659,12 @@ class Users extends CActiveRecord
 					'{$site_title}', '{$email}', '{$password}', '{$login}',
 				);
 				$account_replace = array(
-					Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'),
+					Utility::getProtocol().'://'.Yii::app()->request->serverName.$this->module->assetsUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'),
 					$setting->site_title, $this->email, $this->newPassword, Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('site/login'),
 				);
 				$account_template = 'user_forgot_new_password';
 				$account_title = 'Your password changed';
-				$account_message = file_get_contents(YiiBase::getPathOfAlias('webroot.externals.users.template').'/'.$account_template.'.php');
+				$account_message = file_get_contents(YiiBase::getPathOfAlias('application.modules.users.components.templates').'/'.$account_template.'.php');
 				$account_ireplace = str_ireplace($account_search, $account_replace, $account_message);
 				SupportMailSetting::sendEmail($this->email, $this->displayname, $account_title, $account_ireplace);
 			}

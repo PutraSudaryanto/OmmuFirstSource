@@ -88,7 +88,7 @@
                     <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" class="container590" style="box-shadow: 5px 9px 20px 0px rgba(0, 0, 0, 0.1);">
                         <tr>
                             <td align="center">
-                                <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" bgcolor="f85448" class="container590" style="border-top-left-radius: 5px; border-top-right-radius: 5px; background-image: url({$baseURL}/externals/users/images/bg.png); background-position: bottom center; background-repeat: no-repeat;">
+                                <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" bgcolor="f85448" class="container590" style="border-top-left-radius: 5px; border-top-right-radius: 5px; background-image: url({$baseURL}/images/bg.png); background-position: bottom center; background-repeat: no-repeat;">
                                     <tr>
                                         <td height="35" style="font-size: 35px; line-height: 35px;">&nbsp;</td>
                                     </tr>

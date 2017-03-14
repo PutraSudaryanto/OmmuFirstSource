@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=600,initial-scale = 2.3,user-scalable=no">
         <link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900' rel='stylesheet' type='text/css'>
-        <title>Welcome to SSO-GTP</title>
+        <title>Account Information</title>
         <!-- Responsive Styles and Valid Styles -->
         <style type="text/css">
             body{
@@ -88,7 +88,7 @@
                     <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" class="container590" style="box-shadow: 5px 9px 20px 0px rgba(0, 0, 0, 0.1);">
                         <tr>
                             <td align="center">
-                                <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" bgcolor="f85448" class="container590" style="border-top-left-radius: 5px; border-top-right-radius: 5px; background-image: url({$baseURL}/externals/users/images/bg.png); background-position: bottom center; background-repeat: no-repeat;">
+                                <table border="0" align="center" width="410" cellpadding="0" cellspacing="0" bgcolor="f85448" class="container590" style="border-top-left-radius: 5px; border-top-right-radius: 5px; background-image: url({$baseURL}/images/bg.png); background-position: bottom center; background-repeat: no-repeat;">
                                     <tr>
                                         <td height="35" style="font-size: 35px; line-height: 35px;">&nbsp;</td>
                                     </tr>
@@ -100,7 +100,7 @@
                                             <!-- ======= section header ======= -->
                                             <div style="line-height: 26px;">
                                                 <multiline>
-                                                    Welcome to {$site_title}
+                                                    Your new account is ready !
                                                 </multiline>
                                             </div>
                                         </td>
@@ -114,10 +114,12 @@
                                                 <tr>
                                                     <td align="center" mc:edit="main-text2" style="color: #f3d8d6; font-size: 14px; font-family: Lato, sans-serif; mso-line-height-rule: exactly; line-height: 22px;" class="text_color">
                                                         <div style="line-height: 22px">
-                                                            <!-- ======= section text ======= 
+                                                            <!-- ======= section text ======= -->
                                                             <multiline>
-                                                                Lorem ipsum dolor sit amet consectetur adipiscing elit curabitur lacus risus cursus et lorem ut  
-                                                            </multiline> -->
+																Your details for signing into {$site_title} are:<br/><br/>
+																Login: <a style="color: #ffffff; text-decoration: none;" href="mailto:{$email}">{$email}</a><br/>
+																Password: {$password}
+                                                            </multiline>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -125,7 +127,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+                                        <td height="40" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td align="center">
@@ -137,8 +139,8 @@
                                                     <td align="center" style="color: #ffffff; font-size: 12px; font-family: Raleway, sans-serif; font-weight: 700;" mc:edit="main-button">
                                                         <!-- ======= main section button ======= -->
                                                         <div style="line-height: 25px;">
-                                                            <a href="{$index}" style="color: #ffffff; text-decoration: none;">
-                                                                <singleline>GET STARTED</singleline>
+                                                            <a href="{$login}" style="color: #ffffff; text-decoration: none;">
+                                                                <singleline>LOGIN</singleline>
                                                             </a>
                                                         </div>
                                                     </td>
