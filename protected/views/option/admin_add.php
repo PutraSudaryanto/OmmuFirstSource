@@ -4,7 +4,7 @@
  * @var $this OptionController
  * @var $model OmmuOptions
  * @var $form CActiveForm
- * version: 0.0.1
+ * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
@@ -20,6 +20,6 @@
 	);
 ?>
 
-<div class="form">
+<div class="form" name="post-on">
 	<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
 </div>

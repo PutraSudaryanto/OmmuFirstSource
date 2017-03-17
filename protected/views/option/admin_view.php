@@ -3,7 +3,7 @@
  * Ommu Options (ommu-options)
  * @var $this OptionController
  * @var $model OmmuOptions
- * version: 0.0.1
+ * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
@@ -19,40 +19,29 @@
 	);
 ?>
 
-<?php //begin.Messages ?>
-<?php
-if(Yii::app()->user->hasFlash('success'))
-	echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
-?>
-<?php //end.Messages ?>
-
 <?php $this->widget('application.components.system.FDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		array(
 			'name'=>'option_id',
 			'value'=>$model->option_id,
-			//'value'=>$model->option_id != '' ? $model->option_id : '-',
 		),
 		array(
 			'name'=>'autoload',
-			'value'=>$model->autoload,
-			//'value'=>$model->autoload != '' ? $model->autoload : '-',
+			'value'=>$model->autoload == 1 ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
+			'type'=>'raw',
 		),
 		array(
 			'name'=>'option_type',
-			'value'=>$model->option_type,
-			//'value'=>$model->option_type != '' ? $model->option_type : '-',
+			'value'=>$model->option_type != '' ? $model->option_type : '-',
 		),
 		array(
 			'name'=>'option_name',
-			'value'=>$model->option_name,
-			//'value'=>$model->option_name != '' ? $model->option_name : '-',
+			'value'=>$model->option_name != '' ? $model->option_name : '-',
 		),
 		array(
 			'name'=>'option_value',
-			'value'=>$model->option_value,
-			//'value'=>$model->option_value != '' ? $model->option_value : '-',
+			'value'=>$model->option_value != '' ? $model->option_value : '-',
 		),
 		array(
 			'name'=>'creation_date',
@@ -60,8 +49,7 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'creation_id',
-			'value'=>$model->creation_id,
-			//'value'=>$model->creation_id != 0 ? $model->creation_id : '-',
+			'value'=>$model->creation_id != 0 ? $model->creation->displayname : '-',
 		),
 		array(
 			'name'=>'modified_date',
@@ -69,14 +57,7 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'modified_id',
-			'value'=>$model->modified_id,
-			//'value'=>$model->modified_id != 0 ? $model->modified_id : '-',
+			'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
 		),
 	),
 )); ?>
-
-<div class="dialog-content">
-</div>
-<div class="dialog-submit">
-	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
-</div>

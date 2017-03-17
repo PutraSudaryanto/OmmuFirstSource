@@ -3,7 +3,7 @@
  * Ommu Options (ommu-options)
  * @var $this OptionController
  * @var $model OmmuOptions
- * version: 0.0.1
+ * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
@@ -74,10 +74,8 @@
 						'label' => 'view',
 						'options' => array(							
 							'class' => 'view',
-							'off_address' => '',
-							'target' => '_blank',
 						),
-						'url' => 'Yii::app()->controller->createUrl("site/view",array("id"=>$data->primaryKey))'),
+						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
 					'update' => array(
 						'label' => 'update',
 						'options' => array(
