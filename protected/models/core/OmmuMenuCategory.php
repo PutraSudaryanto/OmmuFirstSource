@@ -27,6 +27,7 @@
  * @property integer $publish
  * @property string $name
  * @property string $desc
+ * @property string $cat_code
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -76,13 +77,13 @@ class OmmuMenuCategory extends CActiveRecord
 				title, description', 'required'),
 			array('publish, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('name, desc, creation_id, modified_id', 'length', 'max'=>11),
-			array('
+			array('cat_code,
 				title', 'length', 'max'=>32),
-			array('
+			array('cat_code,
 				description', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('cat_id, publish, name, desc, creation_date, creation_id, modified_date, modified_id,
+			array('cat_id, publish, name, desc, cat_code, creation_date, creation_id, modified_date, modified_id,
 				title, description, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -112,8 +113,9 @@ class OmmuMenuCategory extends CActiveRecord
 		return array(
 			'cat_id' => Yii::t('attribute', 'Cat'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'name' => Yii::t('attribute', 'Name'),
-			'desc' => Yii::t('attribute', 'Desc'),
+			'name' => Yii::t('attribute', 'Title'),
+			'desc' => Yii::t('attribute', 'Description'),
+			'cat_code' => Yii::t('attribute', 'Code'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
@@ -185,6 +187,7 @@ class OmmuMenuCategory extends CActiveRecord
 		}
 		$criteria->compare('t.name',strtolower($this->name),true);
 		$criteria->compare('t.desc',strtolower($this->desc),true);
+		$criteria->compare('t.cat_code',strtolower($this->cat_code),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		if(isset($_GET['creation']))
@@ -236,6 +239,7 @@ class OmmuMenuCategory extends CActiveRecord
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'desc';
+			$this->defaultColumns[] = 'cat_code';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -261,6 +265,13 @@ class OmmuMenuCategory extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'cat_code',
+				'value' => '$data->cat_code',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'title',
@@ -403,6 +414,8 @@ class OmmuMenuCategory extends CActiveRecord
 				$desc->en_us = $this->description;
 				$desc->save();
 			}
+			
+			$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title)));
 		}
 		return true;
 	}

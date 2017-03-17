@@ -306,6 +306,22 @@ class OmmuOptions extends CActiveRecord
 	}
 
 	/**
+	 * User get information
+	 */
+	public static function getSetting($type, $optionkey)
+	{
+		$criteria=new CDbCriteria;
+		$criteria->compare('t.option_type',strtolower($type));
+		$criteria->compare('t.option_name',strtolower($optionkey));
+		$model = self::model()->find($criteria);
+		
+		if($model != null)
+			return unserialize($model->option_value);
+		else
+			return false;
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
