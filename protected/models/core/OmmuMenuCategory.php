@@ -79,8 +79,9 @@ class OmmuMenuCategory extends CActiveRecord
 			array('name, desc, creation_id, modified_id', 'length', 'max'=>11),
 			array('cat_code,
 				title', 'length', 'max'=>32),
-			array('cat_code,
+			array('
 				description', 'length', 'max'=>128),
+			array('cat_code', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, desc, cat_code, creation_date, creation_id, modified_date, modified_id,
@@ -277,10 +278,12 @@ class OmmuMenuCategory extends CActiveRecord
 				'name' => 'title',
 				'value' => 'Phrase::trans($data->name)',
 			);
+			/*
 			$this->defaultColumns[] = array(
 				'name' => 'description',
 				'value' => 'Phrase::trans($data->desc)',
 			);
+			*/
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -415,7 +418,8 @@ class OmmuMenuCategory extends CActiveRecord
 				$desc->save();
 			}
 			
-			$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title)));
+			if($action != 'publish')
+				$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title)));
 		}
 		return true;
 	}
