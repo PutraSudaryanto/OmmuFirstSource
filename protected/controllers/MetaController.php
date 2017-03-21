@@ -2,7 +2,7 @@
 /**
 * MetaController
 * Handle MetaController
-* Copyright (c) 2012, Ommu Platform (ommu.co). All rights reserved.
+* Copyright (c) 2012, Ommu Platform (opensource.ommu.co). All rights reserved.
 * version: 1.2.0
 * Reference start
 *
@@ -21,7 +21,7 @@
 *	performAjaxValidation
 *
 * @author Putra Sudaryanto <putra@sudaryanto.id>
-* @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+* @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
 * @link https://github.com/ommu/Core
 * @contact (+62)856-299-4114
 *

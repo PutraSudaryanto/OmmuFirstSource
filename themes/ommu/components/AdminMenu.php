@@ -23,13 +23,13 @@ class AdminMenu extends CWidget
 		));
 
 		$this->render('admin_menu',array(
+			'setting'=>$setting,
 			'module'=>$module,
 			'controller'=>$controller,
 			'action'=>$action,
 			'currentAction'=>$currentAction,
 			'currentModule'=>$currentModule,
 			'currentModuleAction'=>$currentModuleAction,
-			'setting'=>$setting,
 		));	
 	}
 }

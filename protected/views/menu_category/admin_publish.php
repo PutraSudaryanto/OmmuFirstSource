@@ -7,7 +7,7 @@
  * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 15 January 2016, 16:57 WIB
  * @link https://github.com/ommu/Core
  * @contact (+62)856-299-4114

@@ -12,7 +12,7 @@
 		$menuRender = 3;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('settings','language','theme','locale','meta','template','menucategory','zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) || ($module != null && ($module == 'report' && in_array($controller, array('o/category')) || ($module == 'support' && in_array($controller, array('o/contact','o/contactcategory','o/mailsetting','o/widget')))))) {
+	} elseif($module == null && in_array($controller, array('settings','option','language','theme','locale','meta','template','menucategory','zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) || ($module != null && ($module == 'report' && in_array($controller, array('o/category')) || ($module == 'support' && in_array($controller, array('o/contact','o/contactcategory','o/mailsetting','o/widget')))))) {
 		$menuRender = 4;
 		$title = 'Submenu';
 	}
@@ -27,12 +27,12 @@
 			$plugin = OmmuPlugins::getPlugin(1, null, 'data');
 			if($plugin != null) {
 				foreach($plugin as $key => $val) {
-					$menu = Utility::getPluginMenu($val->folder);
+					$menu = Utility::getModuleMenu($val->folder);
 					if($menu != null) {
 						//attr url					
 						$arrAttrParams = array();
-						if($menu[0][urlPath][attr] != null) {
-							$arrAttr = explode(',', $menu[0][urlPath][attr]);
+						if($menu[0]['urlPath']['attr'] != null && $menu[0]['urlPath']['attr'] != '-') {
+							$arrAttr = explode(',', $menu[0]['urlPath']['attr']);
 							if(count($arrAttr) > 0) {
 								foreach($arrAttr as $row) {
 									$part = explode('=', $row);
@@ -54,7 +54,7 @@
 							}
 						}
 
-						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0][urlPath][url], $arrAttrParams);
+						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0]['urlPath']['url'], $arrAttrParams);
 						//$titleApps = $val->name;
 						$titleApps = $val->name;
 						if($val->folder == $module) {
@@ -87,13 +87,13 @@
 		$core = OmmuPlugins::getPlugin(2, null, 'data');
 		if($core != null) {
 			foreach($core as $key => $val) {
-				$menu = Utility::getPluginMenu($val->folder);
+				$menu = Utility::getModuleMenu($val->folder);
 				//print_r($menu);
 				if($menu != null) {
 					if(count($menu) == 1) {
-						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0][urlPath][url]);
+						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0]['urlPath']['url']);
 						$titleApps = $val->name;
-						$urlArray = explode('/', $menu[0][urlPath][url]);
+						$urlArray = explode('/', $menu[0]['urlPath']['url']);
 						if(count($urlArray) == 3)
 							$class = $controller == $urlArray[0].'/'.$urlArray[1] ? 'class="selected"' : '';
 						else
@@ -104,7 +104,7 @@
 							$url = 'javascript:void(0);';
 						} else {
 							$class = '';
-							$url = Yii::app()->createUrl($val->folder.'/'.$menu[0][urlPath][url]);
+							$url = Yii::app()->createUrl($val->folder.'/'.$menu[0]['urlPath']['url']);
 						}
 						$titleApps = $val->name;
 					}
@@ -115,17 +115,17 @@
 						$item .= '<ul>';
 						foreach($menu as $key => $data) {
 							$liClass = '';
-							if($data[urlPath][url] != null) {
-								$urlArray = explode('/', $data[urlPath][url]);
+							if($data['urlPath']['url'] != null && $data['urlPath']['url'] != '-') {
+								$urlArray = explode('/', $data['urlPath']['url']);
 								if(count($urlArray) == 3)
 									$liClass = $controller == $urlArray[0].'/'.$urlArray[1] ? 'class="selected"' : '';
 								else
 									$liClass = $controller == $urlArray[0] ? 'class="selected"' : '';
 							}
-							$icons = $data[urlPath][icon] != null ? $data[urlPath][icon] : 'C';
-							$url = $data[urlPath][url] != null ? Yii::app()->createUrl($val->folder.'/'.$data[urlPath][url]) : 'javascript:void(0)';
+							$icons = $data['urlPath']['icon'] != null && $data['urlPath']['icon'] != '-' ? $data['urlPath']['icon'] : 'C';
+							$url = $data['urlPath']['url'] != null && $data['urlPath']['url'] != '-' && $data['urlPath']['url'] != '-' ? Yii::app()->createUrl($val->folder.'/'.$data['urlPath']['url']) : 'javascript:void(0)';
 
-							$item .= '<li '.$liClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data[urlTitle]).'"><span class="icons">'.$icons.'</span>'.Yii::t('phrase', $data[urlTitle]).'</a></li>';
+							$item .= '<li '.$liClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$icons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';
 						}	
 						$item .= '</ul>';
 					}
@@ -160,26 +160,26 @@
 		<li <?php echo $controller == 'translate' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('translate/manage');?>" title="<?php echo Yii::t('phrase', 'Translate');?>"><?php echo Yii::t('phrase', 'Translate');?></a></li>
 
 	<?php } elseif($module != null && !in_array($module, array('users','report','support'))) {
-		$menu = Utility::getPluginMenu($module);
+		$menu = Utility::getModuleMenu($module);
 		if($menu != null) {
 			foreach($menu as $key => $val) {
-				$siteType = explode(',', $val[urlRules][siteType]);
-				$userLevel = explode(',', $val[urlRules][userLevel]);
+				$siteType = explode(',', $val['urlRules']['siteType']);
+				$userLevel = explode(',', $val['urlRules']['userLevel']);
 				if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 					$aClass = '';
-					if($val[urlPath][url] != null) {
-						$urlArray = explode('/', $val[urlPath][url]);
+					if($val['urlPath']['url'] != null && $val['urlPath']['url'] != '-') {
+						$urlArray = explode('/', $val['urlPath']['url']);
 						if(count($urlArray) == 3)
 							$aClass = $controller == $urlArray[0].'/'.$urlArray[1] ? 'class="active"' : '';
 						else
 							$aClass = $controller == $urlArray[0] ? 'class="active"' : '';
 					}					
-					$icons = $val[urlPath][icon] != null ? $val[urlPath][icon] : 'C';
+					$icons = $val['urlPath']['icon'] != null && $val['urlPath']['icon'] != '-' ? $val['urlPath']['icon'] : 'C';
 
 					//attr url					
 					$arrAttrParams = array();
-					if($val[urlPath][attr] != null) {
-						$arrAttr = explode(',', $val[urlPath][attr]);
+					if($val['urlPath']['attr'] != null && $val['urlPath']['attr'] != '-') {
+						$arrAttr = explode(',', $val['urlPath']['attr']);
 						if(count($arrAttr) > 0) {
 							foreach($arrAttr as $row) {
 								$part = explode('=', $row);
@@ -202,30 +202,30 @@
 					}
 					$submenu = $val[submenu];
 					$class = $submenu != null ? 'class="submenu-show"' : '';
-					$url = $val[urlPath][url] != null ? Yii::app()->createUrl($module.'/'.$val[urlPath][url], $arrAttrParams) : 'javascript:void(0)';
+					$url = $val['urlPath']['url'] != null && $val['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$val['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
 					
 					echo '<li '.$class.'>';
-					echo '<a '.$aClass.' href="'.$url.'" title="'.Yii::t('phrase', $val[urlTitle]).'">'.Yii::t('phrase', $val[urlTitle]).'</a>';
+					echo '<a '.$aClass.' href="'.$url.'" title="'.Yii::t('phrase', $val['urlTitle']).'">'.Yii::t('phrase', $val['urlTitle']).'</a>';
 					if($submenu != null) {
 						echo '<ul>';
 						foreach($submenu as $key => $data) {
-							$siteType = explode(',', $data[urlRules][siteType]);
-							$userLevel = explode(',', $data[urlRules][userLevel]);
+							$siteType = explode(',', $data['urlRules']['siteType']);
+							$userLevel = explode(',', $data['urlRules']['userLevel']);
 							if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 								$subLiClass = '';
-								if($data[urlPath][url] != null) {
-									$urlArray = explode('/', $data[urlPath][url]);
+								if($data['urlPath']['url'] != null && $data['urlPath']['url'] != '-') {
+									$urlArray = explode('/', $data['urlPath']['url']);
 									if(count($urlArray) == 3)
 										$subLiClass = $controller == $urlArray[0].'/'.$urlArray[1] ? 'class="selected"' : '';
 									else
 										$subLiClass = $controller == $urlArray[0] ? 'class="selected"' : '';
 								}
-								$subIcons = $data[urlPath][icon] != null ? $data[urlPath][icon] : 'C';
+								$subIcons = $data['urlPath']['icon'] != null && $data['urlPath']['icon'] != '-' ? $data['urlPath']['icon'] : 'C';
 
 								//attr url					
 								$arrAttrParams = array();
-								if($data[urlPath][attr] != null) {
-									$arrAttr = explode(',', $data[urlPath][attr]);
+								if($data['urlPath']['attr'] != null && $data['urlPath']['attr'] != '-') {
+									$arrAttr = explode(',', $data['urlPath']['attr']);
 									if(count($arrAttr) > 0) {
 										foreach($arrAttr as $row) {
 											$part = explode('=', $row);
@@ -246,8 +246,8 @@
 										}
 									}
 								}
-								$url = $data[urlPath][url] != null ? Yii::app()->createUrl($module.'/'.$data[urlPath][url], $arrAttrParams) : 'javascript:void(0)';
-								echo '<li '.$subLiClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data[urlTitle]).'"><span class="icons">'.$subIcons.'</span>'.Yii::t('phrase', $data[urlTitle]).'</a></li>';
+								$url = $data['urlPath']['url'] != null && $data['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$data['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
+								echo '<li '.$subLiClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$subIcons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';
 							}								
 						}
 						echo '</ul>';
@@ -258,26 +258,26 @@
 		}
 		
 	} elseif($menuRender == 3) { //Begin.Member 
-		$menu = Utility::getPluginMenu('users');
+		$menu = Utility::getModuleMenu('users');
 		if($menu != null) {
 			foreach($menu as $key => $val) {
-				$siteType = explode(',', $val[urlRules][siteType]);
-				$userLevel = explode(',', $val[urlRules][userLevel]);
+				$siteType = explode(',', $val['urlRules']['siteType']);
+				$userLevel = explode(',', $val['urlRules']['userLevel']);
 				if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 					$aClass = '';
-					if($val[urlPath][url] != null) {
-						$urlArray = explode('/', $val[urlPath][url]);
+					if($val['urlPath']['url'] != null && $val['urlPath']['url'] != '-') {
+						$urlArray = explode('/', $val['urlPath']['url']);
 						if(count($urlArray) == 3)
 							$aClass = $controller == $urlArray[0].'/'.$urlArray[1] ? 'class="active"' : '';
 						else
 							$aClass = $controller == $urlArray[0] ? 'class="active"' : '';					
 					}					
-					$icons = $val[urlPath][icon] != null ? $val[urlPath][icon] : 'C';
+					$icons = $val['urlPath']['icon'] != null && $val['urlPath']['icon'] != '-' ? $val['urlPath']['icon'] : 'C';
 
 					//attr url					
 					$arrAttrParams = array();
-					if($val[urlPath][attr] != null) {
-						$arrAttr = explode(',', $val[urlPath][attr]);
+					if($val['urlPath']['attr'] != null && $val['urlPath']['attr'] != '-') {
+						$arrAttr = explode(',', $val['urlPath']['attr']);
 						if(count($arrAttr) > 0) {
 							foreach($arrAttr as $row) {
 								$part = explode('=', $row);
@@ -300,19 +300,19 @@
 					}				
 					$submenu = $val[submenu];
 					$class = $submenu != null ? 'class="submenu-show"' : '';
-					$url = $val[urlPath][url] != null ? Yii::app()->createUrl($module.'/'.$val[urlPath][url], $arrAttrParams) : 'javascript:void(0)';
+					$url = $val['urlPath']['url'] != null && $val['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$val['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
 					
 					echo '<li '.$class.'>';
-					echo '<a '.$aClass.' href="'.$url.'" title="'.Yii::t('phrase', $val[urlTitle]).'">'.Yii::t('phrase', $val[urlTitle]).'</a>';
+					echo '<a '.$aClass.' href="'.$url.'" title="'.Yii::t('phrase', $val['urlTitle']).'">'.Yii::t('phrase', $val['urlTitle']).'</a>';
 					if($submenu != null) {
 						echo '<ul>';
 						foreach($submenu as $key => $data) {
-							$siteType = explode(',', $data[urlRules][siteType]);
-							$userLevel = explode(',', $data[urlRules][userLevel]);
+							$siteType = explode(',', $data['urlRules']['siteType']);
+							$userLevel = explode(',', $data['urlRules']['userLevel']);
 							if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 								$subLiClass = '';
-								if($data[urlPath][url] != null) {
-									$urlArray = explode('/', $data[urlPath][url]);
+								if($data['urlPath']['url'] != null && $data['urlPath']['url'] != '-') {
+									$urlArray = explode('/', $data['urlPath']['url']);
 									if(in_array($controller, array('o/history'))) {
 										if(count($urlArray) == 3)
 											$subLiClass = $controller == $urlArray[0].'/'.$urlArray[1] && $action == $urlArray[2] ? 'class="selected"' : '';
@@ -325,12 +325,12 @@
 											$subLiClass = $controller == $urlArray[0] ? 'class="selected"' : '';
 									}
 								}
-								$subIcons = $data[urlPath][icon] != null ? $data[urlPath][icon] : 'C';
+								$subIcons = $data['urlPath']['icon'] != null && $data['urlPath']['icon'] != '-' ? $data['urlPath']['icon'] : 'C';
 
 								//attr url					
 								$arrAttrParams = array();
-								if($data[urlPath][attr] != null) {
-									$arrAttr = explode(',', $data[urlPath][attr]);
+								if($data['urlPath']['attr'] != null && $data['urlPath']['attr'] != '-') {
+									$arrAttr = explode(',', $data['urlPath']['attr']);
 									if(count($arrAttr) > 0) {
 										foreach($arrAttr as $row) {
 											$part = explode('=', $row);
@@ -351,8 +351,8 @@
 										}
 									}
 								}
-								$url = $data[urlPath][url] != null ? Yii::app()->createUrl($module.'/'.$data[urlPath][url], $arrAttrParams) : 'javascript:void(0)';
-								echo '<li '.$subLiClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data[urlTitle]).'"><span class="icons">'.$subIcons.'</span>'.Yii::t('phrase', $data[urlTitle]).'</a></li>';
+								$url = $data['urlPath']['url'] != null && $data['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$data['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
+								echo '<li '.$subLiClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$subIcons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';
 							}
 						}
 						echo '</ul>';
@@ -366,6 +366,7 @@
 	} elseif($menuRender == 4) { //Begin.Setting ?>
 		<?php if(Yii::app()->user->level == 1) {?>
 			<li <?php echo $currentAction == 'settings/general' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/general');?>" title="<?php echo Yii::t('phrase', 'General Settings');?>"><?php echo Yii::t('phrase', 'General Settings');?></a></li>
+			<li <?php echo $controller == 'option' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('option/manage');?>" title="<?php echo Yii::t('phrase', 'Web Options');?>"><?php echo Yii::t('phrase', 'Web Options');?></a></li>
 			<?php if($setting->site_type == 1) {?>
 				<li <?php echo $currentAction == 'settings/banned' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/banned');?>" title="<?php echo Yii::t('phrase', 'Spam & Banning Tools');?>"><?php echo Yii::t('phrase', 'Spam & Banning Tools');?></a></li>				
 			<?php }?>
