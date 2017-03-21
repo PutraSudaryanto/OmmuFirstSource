@@ -36,14 +36,6 @@
 			</div>
 		<?php }
 		}?>
-		
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'contact_icon'); ?>
-			<div class="desc">
-			<?php echo $form->textField($model,'contact_icon', array('maxlength'=>32,'class'=>'span-7')); ?>
-				<?php echo $form->error($model,'contact_icon'); ?>
-			</div>
-		</div>
 
 		<div class="clearfix">
 			<?php if($model->cat->publish != '2') {?>

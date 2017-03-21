@@ -26,7 +26,6 @@
  * @property integer $publish
  * @property integer $cat_id
  * @property string $contact_name
- * @property string $contact_icon
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -71,10 +70,10 @@ class SupportContacts extends CActiveRecord
 		return array(
 			array('cat_id, contact_name', 'required'),
 			array('publish, cat_id, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
-			array('contact_icon', 'safe'),
+			array('', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, publish, cat_id, contact_name, contact_icon, creation_date, creation_id, modified_date, modified_id, 
+			array('id, publish, cat_id, contact_name, creation_date, creation_id, modified_date, modified_id, 
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -103,7 +102,6 @@ class SupportContacts extends CActiveRecord
 			'publish' => Yii::t('attribute', 'Publish'),
 			'cat_id' => Yii::t('attribute', 'Category'),
 			'contact_name' => Yii::t('attribute', 'Contact Name'),
-			'contact_icon' => Yii::t('attribute', 'Icons'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
@@ -141,7 +139,6 @@ class SupportContacts extends CActiveRecord
 		else
 			$criteria->compare('t.cat_id',$this->cat_id);
 		$criteria->compare('t.contact_name',$this->contact_name,true);
-		$criteria->compare('t.contact_icon',$this->contact_icon,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		$criteria->compare('t.creation_id',$this->creation_id);
@@ -197,7 +194,6 @@ class SupportContacts extends CActiveRecord
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'cat_id';
 			$this->defaultColumns[] = 'contact_name';
-			$this->defaultColumns[] = 'contact_icon';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -227,11 +223,6 @@ class SupportContacts extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'contact_name',
 				'value' => '$data->contact_name',
-				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'contact_icon',
-				'value' => '$data->contact_icon',
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
@@ -273,11 +264,15 @@ class SupportContacts extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if(!$this->isNewRecord) {
-				if($this->publish == 2 && $this->contact_name == '')
-					$this->addError('contact_name', Phrase::trans($this->cat->name).' '.Yii::t('phrase', 'Contact Name cannot be blank.'));
+				if($this->cat->publish == 2 && $this->contact_name == '')
+					$this->addError('contact_name', Phrase::trans($this->cat->name).' '.Yii::t('phrase', 'cannot be blank.'));
+				
 				$this->modified_id = Yii::app()->user->id;
 			} else
-				$this->creation_id = Yii::app()->user->id;	
+				$this->creation_id = Yii::app()->user->id;
+			
+			if($this->cat->publish == 2)
+				$this->publish = 1;
 		}
 		return true;
 	}

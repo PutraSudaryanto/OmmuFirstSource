@@ -25,6 +25,7 @@
  * @property integer $cat_id
  * @property integer $publish
  * @property integer $name
+ * @property string $cat_icon
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -73,6 +74,7 @@ class SupportContactCategory extends CActiveRecord
 			array('publish, name, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('
 				title', 'length', 'max'=>32),
+			array('cat_icon', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
@@ -105,6 +107,7 @@ class SupportContactCategory extends CActiveRecord
 			'cat_id' => Yii::t('attribute', 'Category'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'name' => Yii::t('attribute', 'Category'),
+			'cat_icon' => Yii::t('attribute', 'Icon'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
@@ -164,6 +167,7 @@ class SupportContactCategory extends CActiveRecord
 			$criteria->compare('t.publish',$this->publish);
 		}
 		$criteria->compare('t.name',$this->name);
+		$criteria->compare('t.cat_icon',strtolower($this->cat_icon), true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		$criteria->compare('t.creation_id',$this->creation_id);
@@ -207,6 +211,7 @@ class SupportContactCategory extends CActiveRecord
 			//$this->defaultColumns[] = 'cat_id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'name';
+			$this->defaultColumns[] = 'cat_icon';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -228,6 +233,11 @@ class SupportContactCategory extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'title',
 				'value' => 'Phrase::trans($data->name)',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'cat_icon',
+				'value' => '$data->cat_icon',
+				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',

@@ -36,6 +36,14 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'cat_icon'); ?>
+			<div class="desc">
+			<?php echo $form->textField($model,'cat_icon', array('maxlength'=>32,'class'=>'span-7')); ?>
+				<?php echo $form->error($model,'cat_icon'); ?>
+			</div>
+		</div>
 
 		<?php if($model->publish != 2) {?>
 		<div class="clearfix publish">

@@ -621,7 +621,7 @@ class Users extends CActiveRecord
 					'{$site_title}', '{$index}',
 				);
 				$welcome_replace = array(
-					Utility::getProtocol().'://'.Yii::app()->request->serverName.$this->module->assetsUrl $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'), 
+					Utility::getProtocol().'://'.Yii::app()->request->serverName.$this->module->assetsUrl, $this->displayname, SupportMailSetting::getInfo(1, 'mail_contact'), 
 					$setting->site_title, Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('site/index'),
 				);
 				$welcome_template = 'user_welcome';
