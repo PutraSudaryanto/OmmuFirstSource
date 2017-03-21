@@ -17,6 +17,10 @@
 		'Ommu Options'=>array('manage'),
 		$model->option_id,
 	);
+	
+	echo '<pre>';
+	print_r(unserialize($model->option_value));
+	echo '</pre>';
 ?>
 
 <?php $this->widget('application.components.system.FDetailView', array(
@@ -41,7 +45,8 @@
 		),
 		array(
 			'name'=>'option_value',
-			'value'=>$model->option_value != '' ? $model->option_value : '-',
+			'value'=>$model->option_value != '' ? unserialize($model->option_value) : '-',
+			'type'=>'raw',
 		),
 		array(
 			'name'=>'creation_date',

@@ -392,7 +392,9 @@ class OmmuMenuCategory extends CActiveRecord
 	/**
 	 * before save attributes
 	 */
-	protected function beforeSave() {
+	protected function beforeSave() 
+	{
+		$action = strtolower(Yii::app()->controller->action->id);
 		if(parent::beforeSave()) {
 			if($this->isNewRecord) {
 				$location = strtolower(Yii::app()->controller->id);
