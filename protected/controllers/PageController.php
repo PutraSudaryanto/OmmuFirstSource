@@ -144,7 +144,7 @@ class PageController extends Controller
 				
 				$title = Phrase::trans($model->name);
 				$description = Phrase::trans($model->desc);				
-				$image = ($model->media != '' && $model->media_show == 1) ? Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
+				$image = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
 				
 			} else {
 				$server = Utility::getConnected(Yii::app()->params['server_options']['bpad']);

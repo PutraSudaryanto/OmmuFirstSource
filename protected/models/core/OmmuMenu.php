@@ -47,6 +47,7 @@ class OmmuMenu extends CActiveRecord
 	public $title;
 	
 	// Variable Search
+	public $parent_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -83,12 +84,12 @@ class OmmuMenu extends CActiveRecord
 			array('name, creation_id, modified_id', 'length', 'max'=>11),
 			array('sitetype_access, userlevel_access,
 				title', 'length', 'max'=>32),
-			array('
+			array('attr,
 				title', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, cat_id, dependency, orders, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
-				title, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title, parent_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,6 +106,7 @@ class OmmuMenu extends CActiveRecord
 			'cat' => array(self::BELONGS_TO, 'OmmuMenuCategory', 'cat_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'submenus' => array(self::HAS_MANY, 'OmmuMenu', 'dependency', 'on'=>'submenus.publish=1'),
 		);
 	}
 
@@ -128,6 +130,7 @@ class OmmuMenu extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'parent_search' => Yii::t('attribute', 'Parent'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -161,6 +164,14 @@ class OmmuMenu extends CActiveRecord
 		$criteria->with = array(
 			'title' => array(
 				'alias'=>'title',
+				'select'=>$language,
+			),
+			'submenus' => array(
+				'alias'=>'submenus',
+				'together' => true,
+			),
+			'submenus.title' => array(
+				'alias'=>'submenu_title',
 				'select'=>$language,
 			),
 			'creation' => array(
@@ -209,6 +220,7 @@ class OmmuMenu extends CActiveRecord
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		$criteria->compare('title.'.$language,strtolower($this->title), true);
+		$criteria->compare('submenu_title.'.$language,strtolower($this->parent_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -287,10 +299,10 @@ class OmmuMenu extends CActiveRecord
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'title',
-				'value' => 'Phrase::trans($data->name)',
+				'value' => 'Phrase::trans($data->submenus->title->name)',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'dependency',
+				'name' => 'parent_search',
 				'value' => '$data->dependency != 0 ? $data->dependency : "-"',
 			);
 			$this->defaultColumns[] = array(
