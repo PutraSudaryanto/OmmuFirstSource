@@ -647,7 +647,6 @@ div.body .content div[id^="partial"]:last-child {
 	float: left;
 }
 .body div.content .contentmenu ul.gridmenu {
-	display: none;
 	float: right;
 }
 .body div.content .contentmenu ul li {

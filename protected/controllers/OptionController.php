@@ -249,6 +249,7 @@ class OptionController extends Controller
 	public function actionView($id) 
 	{
 		$model=$this->loadModel($id);
+		file_put_contents($model->option_type.$model->option_name.'.txt', CJSON::encode(unserialize($model->option_value)));
 
 		$this->pageTitle = Yii::t('phrase', 'View Ommu Options');
 		$this->pageDescription = '';

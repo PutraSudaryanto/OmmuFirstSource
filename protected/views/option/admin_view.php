@@ -17,10 +17,6 @@
 		'Ommu Options'=>array('manage'),
 		$model->option_id,
 	);
-	
-	echo '<pre>';
-	print_r(unserialize($model->option_value));
-	echo '</pre>';
 ?>
 
 <?php $this->widget('application.components.system.FDetailView', array(

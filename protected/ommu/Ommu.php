@@ -46,10 +46,10 @@ class Ommu extends CApplicationComponent
 		 * controllerMap
 		 */
 		$themePath = Yii::getPathOfAlias('webroot.themes.'.$theme).DS.$theme.'.yaml';
-		$arrayThemeSpyc = Spyc::YAMLLoad($themePath);
-		$controllerSpyc = $arrayThemeSpyc['controller'];
-		if(!empty($controllerSpyc)) {
-			foreach($controllerSpyc as $key => $val)
+		$arrayThemeYML = Spyc::YAMLLoad($themePath);
+		$controllersTheme = $arrayThemeYML['controller'];
+		if(!empty($controllersTheme)) {
+			foreach($controllersTheme as $key => $val)
 				$controllerMap[$key] = 'webroot.themes.'.$theme.'.controllers.'.$val;
 			Yii::app()->controllerMap = $controllerMap;
 		}
@@ -62,46 +62,16 @@ class Ommu extends CApplicationComponent
 			'' 																	=> 'site/index',
 			
 			//a standard rule mapping '/login' to 'site/login', and so on
-			'<action:(login|logout)>' 											=> 'site/<action>',
-			'<id:\d+>-<t:[\w\-]+>/<static:[\w\-]+>-<picture:[\w\-]+>'			=> 'page/view',
-			'<id:\d+>-<t:[\w\-]+>'												=> 'page/view',
-			//'<id:\d+>-<t:[\w\-]+>'											=> 'maintenance/page',
+			//'<action:(login|logout)>' 											=> 'site/<action>',
+			'<id:\d+>'															=> 'page/view',
 			
-			'<module:\w+>/<t:[\w\-]+>-<id:\d+>/<photo:\d+>'						=> '<module>/site/view',
-			'<module:\w+>/<t:[\w\-]+>-<id:\d+>'									=> '<module>/site/view',
-			'<module:\w+>/<id:\d+>'												=> '<module>/site/view',
-			
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>/<photo:\d+>'	=> '<module>/<controller>/view',
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>'				=> '<module>/<controller>/view',
-			'<module:\w+>/<controller:\w+>/<id:\d+>'							=> '<module>/<controller>/view',
-			
-			// Article
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>/<category:\d+>'		=> '<module>/<controller>/index',			
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>/<category:\d+>'				=> '<module>/<controller>/index',
-			'<module:\w+>/<controller:\w+>/<t:[\w\-]+>-<id:\d+>'					=> '<module>/<controller>/index',
-			'<module:\w+>/<controller:\w+>/<id:\d+>'								=> '<module>/<controller>/index',
-			'<module:\w+>/<controller:\w+>'											=> '<module>/<controller>/index',
-			
-			//'<module:\w+>/<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'		=> '<module>/<controller>/<action>',
-			//'<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'					=> '<module>/<controller>/<action>',
-			'<module:\w+>/<controller:\w+>/<action:\w+>'							=> '<module>/<controller>/<action>',
-			'<module:\w+>/<controller:\w+>'											=> '<module>/<controller>',
-			
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>/<photo:\d+>'					=> '<controller>/view',
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>'								=> '<controller>/view',
-			'<controller:\w+>/<id:\d+>'											=> '<controller>/view',
+			// module condition
+			'<module:\w+>/<controller:\w+>'								=> '<module>/<controller>/index',
+			'<module:\w+>/<controller:\w+>/<action:\w+>'				=> '<module>/<controller>/<action>',
 			
 			//controller condition
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>/<category:\d+>'				=> '<controller>/index',			
-			'<controller:\w+>/<t:[\w\-]+>/<category:\d+>'						=> '<controller>/index',
-			'<controller:\w+>/<t:[\w\-]+>-<id:\d+>'								=> '<controller>/index',
-			'<controller:\w+>/<id:\d+>'											=> '<controller>/index',
-			'<controller:\w+>'													=> '<controller>/index',
-			
-			//'<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'				=> '<controller>/<action>',
-			//'<controller:\w+>/<action:\w+>/<id:\d+>'							=> '<controller>/<action>',
-			'<controller:\w+>/<action:\w+>'										=> '<controller>/<action>',
-			'<controller:\w+>'													=> '<controller>', 
+			'<controller:\w+>'											=> '<controller>/index',
+			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
 		);
 
 		/**
@@ -127,15 +97,19 @@ class Ommu extends CApplicationComponent
 		 * and then merge all array back to $rules.
 		 */
 		$module = OmmuPlugins::model()->findAll(array(
-			'select'    => 'folder',
-			'condition' => 'actived != 0',
+			'select'    => 'actived, folder',
+			'condition' => 'actived != 0 AND folder != "-"',
 		));
 
 		$moduleRules  = array();
 		$sliceRules   = $this->getRulePos($rules);
 		if($module !== null) {
 			foreach($module as $key => $val) {
-				$moduleRules[$val->folder] = $val->folder;
+				$moduleRules[$val->folder] = $val->folder.'/site/index';
+				if($val->actived == '1') {
+					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] = $val->folder.'/site/view';
+					$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';					
+				}
 			}
 		}
 		$rules = array_merge($sliceRules['before'], $moduleRules, $sliceRules['after']);
@@ -305,7 +279,7 @@ class Ommu extends CApplicationComponent
 		$after  = array();
 
 		foreach($rules as $key => $val) {
-			if($key == '<controller:\w+>')
+			if($key == '<module:\w+>/<controller:\w+>')
 				break;
 			$result++;
 		}

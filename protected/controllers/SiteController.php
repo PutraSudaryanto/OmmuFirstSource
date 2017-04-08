@@ -97,7 +97,7 @@ class SiteController extends Controller
 	public function actionError()
 	{
 		$this->pageGuest = true;
-		$this->adsSidebar = false;
+		$this->sidebarShow = false;
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)
@@ -117,8 +117,7 @@ class SiteController extends Controller
 	{		 
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-
-		//$this->ownerId = 2;
+		
 		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'online, construction_date',
 		));
@@ -134,7 +133,7 @@ class SiteController extends Controller
 				$render = 'application.webs.site.front_index';
 			} */
 			
-			$this->adsSidebar = false;
+			$this->sidebarShow = false;
 			$this->pageTitle = 'Home';
 			$this->pageDescription = '';
 			$this->pageMeta = '';
@@ -202,7 +201,7 @@ class SiteController extends Controller
 	/* About */
 	public function actionAbout()
 	{		
-		$this->adsSidebar = false;
+		$this->sidebarShow = false;
 		$this->pageTitle = 'About COE';
 		$this->pageDescription = '';
 		$this->pageMeta = '';
