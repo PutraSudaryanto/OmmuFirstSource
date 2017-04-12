@@ -59,14 +59,12 @@ mklink /J "D:\htdocs\_project_ommu_1st_source\protected\views" "D:\htdocs\_proje
 themes
 =======
 mklink /J "D:\htdocs\_project_ommu_1st_source\themes\ommu" "D:\htdocs\_project_ommu_bootstrap\themes\ommu"
-mklink /H "D:\htdocs\_project_ommu_1st_source\externals\content.css" "D:\htdocs\_project_ommu_1st_source\themes\coe-v1\css\content.css"
 
 
 -------
 protected\modules
 =======
 ///users\\\
-mklink /J "D:\htdocs\_project_ommu_1st_source\externals\users" "D:\htdocs\_project_ommu_module_users\externals\users"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\users\users.yaml" "D:\htdocs\_project_ommu_module_users\modules\users\users.yaml"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\users\LICENSE" "D:\htdocs\_project_ommu_module_users\modules\users\LICENSE"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\users\UsersModule.php" "D:\htdocs\_project_ommu_module_users\modules\users\UsersModule.php"
@@ -81,7 +79,6 @@ mklink /J "D:\htdocs\_project_ommu_1st_source\protected\modules\users\views\o" "
 mklink /J "D:\htdocs\_project_ommu_1st_source\protected\modules\users\views\admin" "D:\htdocs\_project_ommu_module_users\modules\users\views\admin"
 
 ///report\\\
-mklink /J "D:\htdocs\_project_ommu_1st_source\externals\report" "D:\htdocs\_project_ommu_module_reports\externals\report"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\report\report.yaml" "D:\htdocs\_project_ommu_module_reports\modules\report\report.yaml"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\report\LICENSE" "D:\htdocs\_project_ommu_module_reports\modules\report\LICENSE"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\report\ReportModule.php" "D:\htdocs\_project_ommu_module_reports\modules\report\ReportModule.php"
@@ -94,7 +91,6 @@ mklink /J "D:\htdocs\_project_ommu_1st_source\protected\modules\report\controlle
 mklink /J "D:\htdocs\_project_ommu_1st_source\protected\modules\report\views\o" "D:\htdocs\_project_ommu_module_reports\modules\report\views\o"
 
 ///support\\\
-mklink /J "D:\htdocs\_project_ommu_1st_source\externals\support" "D:\htdocs\_project_ommu_module_support\externals\support"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\support\support.yaml" "D:\htdocs\_project_ommu_module_support\modules\support\support.yaml"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\support\LICENSE" "D:\htdocs\_project_ommu_module_support\modules\support\LICENSE"
 mklink /H "D:\htdocs\_project_ommu_1st_source\protected\modules\support\SupportModule.php" "D:\htdocs\_project_ommu_module_support\modules\support\SupportModule.php"

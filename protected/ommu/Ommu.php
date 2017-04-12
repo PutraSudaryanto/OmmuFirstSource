@@ -97,7 +97,7 @@ class Ommu extends CApplicationComponent
 		 * and then merge all array back to $rules.
 		 */
 		$module = OmmuPlugins::model()->findAll(array(
-			'select'    => 'actived, folder',
+			'select'    => 'actived, folder, search',
 			'condition' => 'actived != 0 AND folder != "-"',
 		));
 
@@ -105,8 +105,8 @@ class Ommu extends CApplicationComponent
 		$sliceRules   = $this->getRulePos($rules);
 		if($module !== null) {
 			foreach($module as $key => $val) {
-				$moduleRules[$val->folder] = $val->folder.'/site/index';
-				if($val->actived == '1') {
+				if($val->actived == '1' && $val->search == '1') {
+					$moduleRules[$val->folder] = $val->folder.'/site/index';
 					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] = $val->folder.'/site/view';
 					$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';					
 				}
