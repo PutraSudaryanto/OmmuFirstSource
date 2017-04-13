@@ -211,8 +211,8 @@ class OmmuSystemPhrase extends CActiveRecord
 				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
 					'model'=>$this,
 					'attribute'=>'creation_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
 						'id' => 'creation_date_filter',
