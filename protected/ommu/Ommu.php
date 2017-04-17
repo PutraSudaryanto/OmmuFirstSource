@@ -21,6 +21,7 @@
  *
  *----------------------------------------------------------------------------------------------------------
  */
+
 Yii::import('application.components.plugin.Spyc');
 define('DS', DIRECTORY_SEPARATOR);
 

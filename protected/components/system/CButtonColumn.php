@@ -226,11 +226,11 @@ class CButtonColumn extends CGridColumn
 		if($this->deleteButtonLabel===null)
 			$this->deleteButtonLabel=Yii::t('zii','Delete');
 		if($this->viewButtonImageUrl===null)
-			//$this->viewButtonImageUrl=$this->grid->baseScriptUrl.'/view.png';
+			$this->viewButtonImageUrl=$this->grid->baseScriptUrl.'/view.png';
 		if($this->updateButtonImageUrl===null)
-			//$this->updateButtonImageUrl=$this->grid->baseScriptUrl.'/update.png';
+			$this->updateButtonImageUrl=$this->grid->baseScriptUrl.'/update.png';
 		if($this->deleteButtonImageUrl===null)
-			//$this->deleteButtonImageUrl=$this->grid->baseScriptUrl.'/delete.png';
+			$this->deleteButtonImageUrl=$this->grid->baseScriptUrl.'/delete.png';
 		if($this->deleteConfirmation===null)
 			$this->deleteConfirmation=Yii::t('zii','Are you sure you want to delete this item?');
 
@@ -299,14 +299,12 @@ EOD;
 		$js=array();
 		foreach($this->buttons as $id=>$button)
 		{
-			//if(!Yii::app()->request->isAjaxRequest) {
-				if(isset($button['click']))
-				{
-					$function=CJavaScript::encode($button['click']);
-					$class=preg_replace('/\s+/','.',$button['options']['class']);
-					$js[]="jQuery(document).on('click','#{$this->grid->id} a.{$class}',$function);";
-				}
-			//}
+			if(isset($button['click']))
+			{
+				$function=CJavaScript::encode($button['click']);
+				$class=preg_replace('/\s+/','.',$button['options']['class']);
+				$js[]="jQuery(document).on('click','#{$this->grid->id} a.{$class}',$function);";
+			}
 		}
 
 		if($js!==array())
