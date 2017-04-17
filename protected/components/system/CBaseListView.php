@@ -65,8 +65,6 @@ abstract class CBaseListView extends CWidget
 	 * summary text, the items, and the pager.
 	 */
 	public $template="{summary}\n{items}\n{pager}";
-	//public $template="{items}\n{summary}";
-
 	/**
 	 * @var string the summary text template for the view. These tokens are recognized and will be replaced
 	 * with the corresponding values:

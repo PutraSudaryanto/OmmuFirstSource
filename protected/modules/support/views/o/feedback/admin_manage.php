@@ -83,6 +83,7 @@
 						'url' => 'Yii::app()->controller->createUrl("o/reply/add",array("feedback"=>$data->primaryKey,"hook"=>"feedback"))'),
 					'view' => array(
 						'label' => 'view',
+						'imageUrl' => false,
 						'options' => array(
 							'class' => 'view'
 						),
@@ -95,6 +96,7 @@
 						'url' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'),
 					'delete' => array(
 						'label' => 'delete',
+						'imageUrl' => false,
 						'options' => array(
 							'class' => 'delete'
 						),
@@ -107,6 +109,7 @@
 				'id'=>'support-feedbacks-grid',
 				'dataProvider'=>$model->search(),
 				'filter'=>$model,
+				'afterAjaxUpdate' => 'reinstallDatePicker',
 				'columns' => $columnData,
 				'pager' => array('header' => ''),
 			));

@@ -130,16 +130,15 @@ class OClientScript extends CClientScript
 		$module = strtolower(Yii::app()->controller->module->id);
 		$controller = strtolower(Yii::app()->controller->id);
 		$action = strtolower(Yii::app()->controller->action->id);
-		if(isset($_GET)) {
+		if(isset($_GET))
 			$attr = array_merge($_GET, array('protocol'=>'script'));
-		} else {
+		else
 			$attr = array('protocol'=>'script');
-		}
-		if($module == 'null') {
+		
+		if($module == 'null')
 			$url = Yii::app()->createUrl($controller.'/'.$action, $attr);
-		} else {
+		else
 			$url = Yii::app()->createUrl($module.'/'.$controller.'/'.$action, $attr);
-		}
 		
 		$return = array();
 		$return['cssFiles'] = $this->getCssFiles();
