@@ -6,7 +6,7 @@
  *	params
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
- * @copyright Copyright (c) 2012 Ommu Platform (ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
  * @link https://github.com/ommu/Core
  * @contact (+62)856-299-4114
  *
