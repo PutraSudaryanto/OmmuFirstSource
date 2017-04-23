@@ -25,7 +25,7 @@
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
 	<div class="dialog-content">
-		<?php echo $model->subscribe == 1 ? Yii::t('phrase', 'Are you sure you want to unsubcribe this item?') : Yii::t('phrase', 'Are you sure you want to subcribe this item?')?>
+		<?php echo $model->status == 1 ? Yii::t('phrase', 'Are you sure you want to unsubcribe this item?') : Yii::t('phrase', 'Are you sure you want to subcribe this item?')?>
 	</div>
 	<div class="dialog-submit">
 		<?php echo CHtml::submitButton($title, array('onclick' => 'setEnableSave()')); ?>

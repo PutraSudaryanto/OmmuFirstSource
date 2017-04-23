@@ -19,18 +19,24 @@
     'enableAjaxValidation'=>true, 
     //'htmlOptions' => array('enctype' => 'multipart/form-data') 
 )); ?>
+<div class="dialog-content">
 	<fieldset>
+		<?php $model->unsubscribe = 0;
+		echo $form->hiddenField($model,'unsubscribe');?>
+		
 		<div class="clearfix">
-			<?php if($launch == 2)
-				$model->unsubscribe = 1;
-			else {
-				$model->unsubscribe = 0;
-			}
-			echo $form->hiddenField($model,'unsubscribe');
-			?>
-			<?php echo $form->textField($model,'email',array('maxlength'=>32, 'placeholder'=>$model->getAttributeLabel('email'), 'class'=>'span-9')); ?><?php echo CHtml::submitButton($launch == 0 ? Yii::t('phrase', 'Notify Me!') : ($launch == 1 ? Yii::t('phrase', 'Subscribe') : Yii::t('phrase', 'Unsubscribe')), array('onclick' => 'setEnableSave()')); ?>
-			<?php echo $form->error($model,'email'); ?>
+			<?php echo $form->labelEx($model,'email'); ?>
+			<div class="desc">
+			    <?php echo $form->textField($model,'email',array('maxlength'=>32, 'class'=>'span-9')); ?>
+			    <?php echo $form->error($model,'email'); ?>
+			</div>
 		</div>
 
 	</fieldset>
+</div>
+<div class="dialog-submit">
+    <?php echo CHtml::submitButton(Yii::t('phrase', 'Subscribe'), array('onclick' => 'setEnableSave()')); ?>
+    <?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>
+</div>
+
 <?php $this->endWidget(); ?>

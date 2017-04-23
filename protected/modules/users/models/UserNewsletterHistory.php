@@ -23,9 +23,10 @@
  *
  * The followings are the available columns in table 'ommu_user_newsletter_history':
  * @property string $id
- * @property string $newsletter_id
  * @property integer $status
- * @property string $creation_date
+ * @property string $newsletter_id
+ * @property string $updated_date
+ * @property string $updated_ip
  *
  * The followings are the available model relations:
  * @property OmmuUserNewsletter $newsletter
@@ -65,12 +66,12 @@ class UserNewsletterHistory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('newsletter_id, status, creation_date', 'required'),
+			array('status, newsletter_id, updated_date, updated_ip', 'required'),
 			array('status', 'numerical', 'integerOnly'=>true),
 			array('newsletter_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, newsletter_id, status, creation_date,
+			array('id, status, newsletter_id, updated_date, updated_ip,
 				user_search, email_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,11 +95,12 @@ class UserNewsletterHistory extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('attribute', 'ID'),
-			'newsletter_id' => Yii::t('attribute', 'Newsletter'),
 			'status' => Yii::t('attribute', 'Status'),
-			'creation_date' => 'Creation Date',
+			'newsletter_id' => Yii::t('attribute', 'Newsletter'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
+			'updated_ip' => Yii::t('attribute', 'Updated IP'),
 			'user_search' => Yii::t('attribute', 'User'),
-			'email_search' => Yii::t('attribute', 'Category'),
+			'email_search' => Yii::t('attribute', 'Email'),
 		);
 	}
 
@@ -121,19 +123,20 @@ class UserNewsletterHistory extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.id',$this->id,true);
+		$criteria->compare('t.status',$this->status);
 		if(isset($_GET['newsletter'])) {
 			$criteria->compare('t.newsletter_id',$_GET['newsletter']);
 		} else {
 			$criteria->compare('t.newsletter_id',$this->newsletter_id);
 		}
-		$criteria->compare('t.status',$this->status);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
+		$criteria->compare('t.updated_ip',$this->updated_ip,true);
 		
 		// Custom Search
 		$criteria->with = array(
 			'newsletter.user' => array(
-				'alias'=>'users',
+				'alias'=>'newsletter_user',
 				'select'=>'displayname'
 			),
 			'newsletter' => array(
@@ -141,7 +144,7 @@ class UserNewsletterHistory extends CActiveRecord
 				'select'=>'email'
 			),
 		);
-		$criteria->compare('users.displayname',strtolower($this->user_search), true);
+		$criteria->compare('newsletter_user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('newsletter.email',strtolower($this->email_search), true);
 
 		if(!isset($_GET['UserNewsletterHistory_sort']))
@@ -174,9 +177,10 @@ class UserNewsletterHistory extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'id';
-			$this->defaultColumns[] = 'newsletter_id';
 			$this->defaultColumns[] = 'status';
-			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'newsletter_id';
+			$this->defaultColumns[] = 'updated_date';
+			$this->defaultColumns[] = 'updated_ip';
 		}
 
 		return $this->defaultColumns;
@@ -191,13 +195,48 @@ class UserNewsletterHistory extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			if(!isset($_GET['newsletter'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->newsletter->user_id ? $data->newsletter->user->displayname : "-"',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'email_search',
+					'value' => '$data->newsletter->email',
+				);
+			}
 			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->newsletter->user_id != 0 ? $data->newsletter->user->displayname : "-"',
+				'name' => 'updated_date',
+				'value' => 'Utility::dateFormat($data->updated_date)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
+					'model'=>$this,
+					'attribute'=>'updated_date',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'updated_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'email_search',
-				'value' => '$data->newsletter->email',
+				'name' => 'updated_ip',
+				'value' => '$data->updated_ip',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'status',
@@ -210,32 +249,6 @@ class UserNewsletterHistory extends CActiveRecord
 					0=>Yii::t('phrase', 'Unsubscribe'),
 				),
 				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'creation_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'creation_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
 			);
 		}
 		parent::afterConstruct();

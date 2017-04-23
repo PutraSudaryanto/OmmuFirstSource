@@ -80,7 +80,7 @@ class NewsletterController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('unsubscribe','manage','add','delete'),
+				'actions'=>array('subscribe','manage','add','delete'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -100,18 +100,20 @@ class NewsletterController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
-	}	/**
+	}
+	
+	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionUnsubscribe() 
+	public function actionSubscribe() 
 	{
 		//if(!isset($_GET['type']) || (isset($_GET['type']) && $_GET['type'] == 'admin')) {
 		//}
 		$id = $_GET['id'];
 		$model=$this->loadModel($id);
-		if($model->subscribe == 1) {
+		if($model->status == 1) {
 			$title = Yii::t('phrase', 'Unsubcribe');
 			$replace = 0;
 		} else {
@@ -123,7 +125,7 @@ class NewsletterController extends Controller
 			// we only allow deletion via POST request
 			if(isset($id)) {
 				//change value active or publish
-				$model->subscribe = $replace;
+				$model->status = $replace;
 
 				if($model->update()) {
 					echo CJSON::encode(array(
@@ -143,7 +145,7 @@ class NewsletterController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('admin_unsubscribe',array(
+			$this->render('admin_status',array(
 				'title'=>$title,
 				'model'=>$model,
 			));
@@ -212,19 +214,18 @@ class NewsletterController extends Controller
                 }
             }
             Yii::app()->end();
-			
-        } else {
-			$this->dialogDetail = true;
-			$this->dialogWidth = 500;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			
-			$this->pageTitle = Yii::t('phrase', 'Add Newsletter');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_add',array(
-				'model'=>$model,
-			));		
-		}
+        }
+
+		$this->dialogDetail = true;
+		$this->dialogWidth = 500;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		
+		$this->pageTitle = Yii::t('phrase', 'Add Newsletter');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_add',array(
+			'model'=>$model,
+		));
 	}
 	
 	/**
