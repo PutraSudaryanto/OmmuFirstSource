@@ -341,18 +341,13 @@ class OmmuZoneProvince extends CActiveRecord
 	/**
 	 * Get province
 	 */
-	public static function getProvince($country=null) {
-		if($country == null || ($country != null && ($country == '' || $country == 0))) {
-			$model = self::model()->findAll();
-		} else {
-			$model = self::model()->findAll(array(
-				//'select' => 'publish, name',
-				'condition' => 'country_id = :country',
-				'params' => array(
-					':country' => $country,
-				),
-			));
-		}
+	public static function getProvince($country=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($country != null && ($country != '' || $country != 0))
+			$criteria->compare('t.country_id',$country);
+		
+		$model = self::model()->findAll($criteria);
 
 		$items = array();
 		if($model != null) {

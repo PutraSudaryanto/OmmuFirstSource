@@ -340,18 +340,13 @@ class OmmuZoneCity extends CActiveRecord
 	/**
 	 * Get city
 	 */
-	public static function getCity($province=null) {
-		if($province == null || ($province != null && ($province == '' || $province == 0))) {
-			$model = self::model()->findAll();
-		} else {
-			$model = self::model()->findAll(array(
-				//'select' => 'publish, name',
-				'condition' => 'province_id = :province',
-				'params' => array(
-					':province' => $province,
-				),
-			));
-		}
+	public static function getCity($province=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($province != null && ($province != '' || $province != 0))
+			$criteria->compare('t.province_id',$province);
+		
+		$model = self::model()->findAll($criteria);
 
 		$items = array();
 		if($model != null) {
