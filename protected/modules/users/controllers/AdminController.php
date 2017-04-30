@@ -137,7 +137,7 @@ class AdminController extends /*SBaseController*/ Controller
 							print_r($model->getErrors());
 					}
 				}
-				Yii::app()->end();				
+				Yii::app()->end();
 			}
 			
 			// display the login form

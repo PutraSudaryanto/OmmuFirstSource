@@ -19,7 +19,7 @@
 	);
 ?>
 
-<div id="partial-user-history-login">
+<div id="partial-user-history-password">
 	<?php //begin.Messages ?>
 	<div id="ajax-message">
 	<?php
@@ -36,7 +36,7 @@
 		<?php 
 			$columnData   = $columns;
 			$this->widget('application.components.system.OGridView', array(
-				'id'=>'user-history-login-grid',
+				'id'=>'user-history-password-grid',
 				'dataProvider'=>$model->search(),
 				'filter'=>$model,
 				'afterAjaxUpdate' => 'reinstallDatePicker',
