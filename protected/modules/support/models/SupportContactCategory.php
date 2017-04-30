@@ -37,7 +37,7 @@
 class SupportContactCategory extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $title;
+	public $title_i;
 	
 	// Variable Search
 	public $creation_search;
@@ -70,15 +70,15 @@ class SupportContactCategory extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('
-				title', 'required'),
+				title_i', 'required'),
 			array('publish, name, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('
-				title', 'length', 'max'=>32),
+				title_i', 'length', 'max'=>32),
 			array('cat_icon', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
-				title, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -112,7 +112,7 @@ class SupportContactCategory extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title' => Yii::t('attribute', 'Category'),
+			'title_i' => Yii::t('attribute', 'Category'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -175,7 +175,7 @@ class SupportContactCategory extends CActiveRecord
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 		
@@ -231,7 +231,7 @@ class SupportContactCategory extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'title',
+				'name' => 'title_i',
 				'value' => 'Phrase::trans($data->name)',
 			);
 			$this->defaultColumns[] = array(
@@ -357,14 +357,16 @@ class SupportContactCategory extends CActiveRecord
 			if($this->isNewRecord) {
 				$location = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
 				$title=new OmmuSystemPhrase;
-				$title->location = $location.'_title';
-				$title->en_us = $this->title;
+				$title->location = $location.'_title_i';
+				$title->en_us = $this->title_i;
 				if($title->save())
 					$this->name = $title->phrase_id;
+				
+				$this->slug = Utility::getUrlTitle($this->title_i);	
 			
 			} else {
 				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				$title->save();
 			}
 		}
