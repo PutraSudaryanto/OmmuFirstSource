@@ -46,7 +46,7 @@ if(isset($_GET['protocol']) && $_GET['protocol'] == 'script') {
 		} else { */
 			$page = $this->contentOther == true ? 1 : 0;
 			$dialog = $this->dialogDetail == true ? (empty($this->dialogWidth) ? 1 : 2) : 0;		// 0 = static, 1 = dialog, 2 = notifier
-			$header = $this->widget('AdminMenu', array(), true);
+			$header = $this->widget('MenuMain', array(), true);
 			
 			if($this->contentOther == true) {
 				$render = array(
@@ -125,7 +125,7 @@ if ($module == 'users' && $currentAction == 'admin/login') {
 
 	<?php //begin.Header ?>
 	<header class="clearfix">
-		<?php $this->widget('LanguageFlag'); ?>
+		<?php $this->widget('HeaderLanguageFlag'); ?>
 		
 		<?php //begin.Loading ?>
 		<div class="loading"><img src="<?php echo Yii::app()->theme->baseUrl;?>/images/icons/ajax_loader.gif" /><span>Loading...</span></div>
@@ -164,12 +164,12 @@ if ($module == 'users' && $currentAction == 'admin/login') {
 		<div class="sidebar">
 			<div class="table clearfix">
 				<?php //begin.Information ?>
-				<?php $this->widget('AdminAccount'); ?>
+				<?php $this->widget('MenuAccount'); ?>
 				<?php //end.Information ?>
 
 				<?php //begin.Menu ?>
 				<div class="menu clearfix">
-					<?php $this->widget('AdminMenu'); ?>
+					<?php $this->widget('MenuMain'); ?>
 				</div>
 				<?php //end.Menu ?>
 			</div>
@@ -188,7 +188,7 @@ if ($module == 'users' && $currentAction == 'admin/login') {
 	
 	<?php //begin.Footer ?>
 	<footer class="clearfix">
-		<?php $this->widget('AdminFooterCopyright'); ?>
+		<?php $this->widget('FooterCopyright'); ?>
 	</footer>
 	<?php //end.Footer ?>
 <?php }?>

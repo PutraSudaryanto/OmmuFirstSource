@@ -310,19 +310,14 @@ class OmmuZoneVillage extends CActiveRecord
 	/**
 	 * Get city
 	 */
-	public static function getVillage($district=null) {
-		if($district == null || ($district != null && ($district == '' || $district == 0))) {
-			$model = self::model()->findAll();
-		} else {
-			$model = self::model()->findAll(array(
-				//'select' => 'publish, name',
-				'condition' => 'district_id = :district',
-				'params' => array(
-					':district' => $district,
-				),
-			));
-		}
-
+	public static function getVillage($district=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($district != null && ($district != '' || $district != 0))
+			$criteria->compare('t.district_id',$district);
+		
+		$model = self::model()->findAll($criteria);
+		
 		$items = array();
 		if($model != null) {
 			foreach($model as $key => $val) {

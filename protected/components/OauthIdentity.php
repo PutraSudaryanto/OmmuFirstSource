@@ -59,6 +59,9 @@ class OauthIdentity extends OUserIdentity
 				else {
 					$model=new Users;
 					$model->email = $object->email;
+					$model->username = $object->username;
+					$model->first_name = $object->first_name;
+					$model->last_name = $object->last_name;
 					$model->displayname = $object->displayname;
 					if($model->save()) {
 						$user = Users::model()->findByAttributes(array('email'=>$object->email));
@@ -88,7 +91,7 @@ class OauthIdentity extends OUserIdentity
 		$this->setState('level', $user->level_id);
 		$this->setState('language', $user->language_id);
 		$this->email = $user->email;
-		$this->setState('username', $record->username);
+		$this->setState('username', $user->username);
 		$this->setState('displayname', $user->displayname);
 		$this->setState('creation_date', $user->creation_date);
 		$this->setState('lastlogin_date', date('Y-m-d H:i:s'));

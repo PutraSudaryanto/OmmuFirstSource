@@ -266,7 +266,8 @@ class OmmuZoneCountry extends CActiveRecord
 	/**
 	 * Get country
 	 */
-	public static function getCountry() {
+	public static function getCountry() 
+	{
 		$model = self::model()->findAll();
 
 		$items = array();
