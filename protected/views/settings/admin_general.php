@@ -19,7 +19,7 @@
 	);
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
-	$('#OmmuSettings_online input[name="OmmuSettings[online]"]').live('change', function() {
+	$('#OmmuSettings_online input[name="OmmuSettings[online]"]').on('change', function() {
 		var id = $(this).val();
 		if(id == '0') {
 			$('div#construction').slideDown();
@@ -27,7 +27,7 @@ $js=<<<EOP
 			$('div#construction').slideUp();
 		}
 	});
-	$('#OmmuSettings_event input[name="OmmuSettings[event]"]').live('change', function() {
+	$('#OmmuSettings_event input[name="OmmuSettings[event]"]').on('change', function() {
 		var id = $(this).val();
 		if(id == '0') {
 			$('div#events').slideUp();

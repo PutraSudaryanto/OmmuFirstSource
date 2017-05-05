@@ -171,6 +171,9 @@ class AdminController extends Controller
 		
 		$model = Users::model()->findByPk($id);
 		$photo_exts = unserialize($model->level->photo_exts);
+		if(empty($photo_exts))
+			$photo_exts = array();
+		
 		if(!$model->getErrors())
 			$photos = $model->photos;
 		

@@ -39,10 +39,10 @@
 class OmmuPages extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $title;
-	public $description;
-	public $quotes;
-	public $old_media;
+	public $title_i;
+	public $description_i;
+	public $quote_i;
+	public $old_media_i;
 	
 	// Variable Search
 	public $user_search;
@@ -76,17 +76,17 @@ class OmmuPages extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id,
-				title, description', 'required'),
+				title_i, description_i', 'required'),
 			array('publish, media_show, media_type', 'numerical', 'integerOnly'=>true),
 			array('
-				title', 'length', 'max'=>256),
+				title_i', 'length', 'max'=>256),
 			//array('media', 'file', 'types' => 'jpg, jpeg, png, gif', 'allowEmpty' => true),
 			array('media, creation_date, modified_date, 
-				quotes, old_media', 'safe'),
+				quote_i, old_media_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('page_id, publish, user_id, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
-				title, description, quotes, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, description_i, quote_i, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -101,7 +101,7 @@ class OmmuPages extends CActiveRecord
 			'view' => array(self::BELONGS_TO, 'ViewPages', 'page_id'),
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
 			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'desc'),
-			'quotes' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'quote'),
+			'quote' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'quote'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -127,10 +127,10 @@ class OmmuPages extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title' => Yii::t('attribute', 'Title'),
-			'description' => Yii::t('attribute', 'Description'),
-			'quotes' => Yii::t('attribute', 'Quote'),
-			'old_media' => Yii::t('attribute', 'Old Media'),
+			'title_i' => Yii::t('attribute', 'Title'),
+			'description_i' => Yii::t('attribute', 'Description'),
+			'quote_i' => Yii::t('attribute', 'Quote'),
+			'old_media_i' => Yii::t('attribute', 'Old Media'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -167,8 +167,8 @@ class OmmuPages extends CActiveRecord
 				'alias'=>'description',
 				'select'=>$language,
 			),
-			'quotes' => array(
-				'alias'=>'quotes',
+			'quote' => array(
+				'alias'=>'quote',
 				'select'=>$language,
 			),
 			'user' => array(
@@ -210,9 +210,9 @@ class OmmuPages extends CActiveRecord
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title), true);
-		$criteria->compare('description.'.$language,strtolower($this->description), true);
-		$criteria->compare('quotes.'.$language,strtolower($this->quotes), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
+		$criteria->compare('quote.'.$language,strtolower($this->quote_i), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
@@ -282,12 +282,8 @@ class OmmuPages extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'title',
-				'value' => 'Phrase::trans($data->name)."<br/><span>".Utility::shortText(Utility::hardDecode(Phrase::trans($data->desc)),150)."</span>"',
-				'htmlOptions' => array(
-					'class' => 'bold',
-				),
-				'type' => 'raw',
+				'name' => 'title_i',
+				'value' => 'Phrase::trans($data->name)',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
@@ -367,39 +363,39 @@ class OmmuPages extends CActiveRecord
 			if($this->isNewRecord) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				if($title->save())
 					$this->name = $title->phrase_id;
 
 				$desc=new OmmuSystemPhrase;
 				$desc->location = $location.'_description';
-				$desc->en_us = $this->description;
+				$desc->en_us = $this->description_i;
 				if($desc->save())
 					$this->desc = $desc->phrase_id;
 
 				$quote=new OmmuSystemPhrase;
 				$quote->location = $location.'_quotes';
-				$quote->en_us = $this->quotes;
+				$quote->en_us = $this->quote_i;
 				if($quote->save())
 					$this->quote = $quote->phrase_id;
 				
 			} else {
 				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				$title->save();
 
 				$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
-				$desc->en_us = $this->description;
+				$desc->en_us = $this->description_i;
 				$desc->save();
 				
 				if($this->quote != 0) {
 					$quote = OmmuSystemPhrase::model()->findByPk($this->quote);
-					$quote->en_us = $this->quotes;
+					$quote->en_us = $this->quote_i;
 					$quote->save();						
 				} else {
 					$quote=new OmmuSystemPhrase;
 					$quote->location = $location.'_quotes';
-					$quote->en_us = $this->quotes;
+					$quote->en_us = $this->quote_i;
 					if($quote->save()) {
 						$this->quote = $quote->phrase_id;
 					}						
@@ -433,14 +429,14 @@ class OmmuPages extends CActiveRecord
 							$this->media_type = 1;
 						}
 						
-						if(!$this->isNewRecord && $this->old_media != '' && file_exists($page_path.'/'.$this->old_media))
-							rename($page_path.'/'.$this->old_media, 'public/page/verwijderen/'.$this->page_id.'_'.$this->old_media);
+						if(!$this->isNewRecord && $this->old_media_i != '' && file_exists($page_path.'/'.$this->old_media_i))
+							rename($page_path.'/'.$this->old_media_i, 'public/page/verwijderen/'.$this->page_id.'_'.$this->old_media_i);
 						$this->media = $fileName;
 					}
 				}
 				
 				if(!$this->isNewRecord && $this->media == '')
-					$this->media = $this->old_media;
+					$this->media = $this->old_media_i;
 			}
 		}
 		return true;

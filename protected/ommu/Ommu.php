@@ -63,16 +63,15 @@ class Ommu extends CApplicationComponent
 			'' 																	=> 'site/index',
 			
 			//a standard rule mapping '/login' to 'site/login', and so on
-			//'<action:(login|logout)>' 											=> 'site/<action>',
+			'<action:(login|logout)>' 											=> 'site/<action>',
+			'<t:[\w\-]+>-<id:\d+>'												=> 'page/view',
 			'<id:\d+>'															=> 'page/view',
 			
-			// module condition
-			'<module:\w+>/<controller:\w+>'								=> '<module>/<controller>/index',
-			'<module:\w+>/<controller:\w+>/<action:\w+>'				=> '<module>/<controller>/<action>',
-			
 			//controller condition
-			'<controller:\w+>'											=> '<controller>/index',
 			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
+			
+			// module condition
+			'<module:\w+>/<controller:\w+>/<action:\w+>'				=> '<module>/<controller>/<action>',
 		);
 
 		/**
@@ -108,8 +107,16 @@ class Ommu extends CApplicationComponent
 			foreach($module as $key => $val) {
 				if($val->actived == '1' && $val->search == '1') {
 					$moduleRules[$val->folder] = $val->folder.'/site/index';
-					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] = $val->folder.'/site/view';
-					$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';					
+					$moduleRules[$val->folder.'/<t:[\w\-]+>-<id:\d+>'] 			= $val->folder.'/site/view';													// t
+					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] 				= $val->folder.'/site/view';													// slug
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<t:[\w\-]+>-<id:\d+>'] 		= $val->folder.'/<controller>/view';					//	t/id
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<slug:[\w\-]+>'] 				= $val->folder.'/<controller>/view';					// slug
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<category:\d+>/<t:[\w\-]+>'] 	= $val->folder.'/<controller>/index';					//	category/t
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<t:[\w\-]+>'] 					= $val->folder.'/<controller>/index';					//	t
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<slug:[\w\-]+>'] 				= $val->folder.'/<controller>/index';					// slug
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'] 	= $val->folder.'/<controller>/<action>';		//	t/id
+					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<slug:[\w\-]+>'] 			= $val->folder.'/<controller>/<action>';		// slug
+					//$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';
 				}
 			}
 		}
@@ -280,7 +287,7 @@ class Ommu extends CApplicationComponent
 		$after  = array();
 
 		foreach($rules as $key => $val) {
-			if($key == '<module:\w+>/<controller:\w+>')
+			if($key == '<module:\w+>/<controller:\w+>/<action:\w+>')
 				break;
 			$result++;
 		}

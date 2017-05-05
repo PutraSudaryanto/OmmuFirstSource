@@ -92,7 +92,7 @@ class MaintenanceController extends Controller
 		$model=new SupportMails;
 		if(!Yii::app()->user->isGuest) {
 			$user = Users::model()->findByPk(Yii::app()->user->id, array(
-				'select' => 'user_id, email, displayname, photo_id',
+				'select' => 'user_id, email, displayname, photos',
 			));
 		}
 
