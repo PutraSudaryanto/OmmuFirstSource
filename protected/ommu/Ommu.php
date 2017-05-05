@@ -67,11 +67,13 @@ class Ommu extends CApplicationComponent
 			'<id:\d+>'															=> 'page/view',
 			
 			// module condition
-			'<module:\w+>/<controller:\w+>'								=> '<module>/<controller>/index',
-			'<module:\w+>/<controller:\w+>/<action:\w+>'				=> '<module>/<controller>/<action>',
+			'<module:\w+>/<controller:\w+>/<slug:[\w\-]+>'						=> '<module>/<controller>/index',
+			'<module:\w+>/<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'	=> '<module>/<controller>/<action>',
+			'<module:\w+>/<controller:\w+>/<action:\w+>'						=> '<module>/<controller>/<action>',
 			
 			//controller condition
-			'<controller:\w+>'											=> '<controller>/index',
+			'<controller:\w+>/<slug:[\w\-]+>'							=> '<controller>/index',
+			'<controller:\w+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'		=> '<controller>/<action>',
 			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
 		);
 
@@ -109,7 +111,7 @@ class Ommu extends CApplicationComponent
 				if($val->actived == '1' && $val->search == '1') {
 					$moduleRules[$val->folder] = $val->folder.'/site/index';
 					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] = $val->folder.'/site/view';
-					$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';					
+					//$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';
 				}
 			}
 		}

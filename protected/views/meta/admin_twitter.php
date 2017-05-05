@@ -21,7 +21,7 @@
 
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
-	$('select#OmmuMeta_twitter_card').live('change', function() {
+	$('select#OmmuMeta_twitter_card').on('change', function() {
 		var id = $(this).val();
 		$('div.filter').slideUp();
 		if(id == '3') {

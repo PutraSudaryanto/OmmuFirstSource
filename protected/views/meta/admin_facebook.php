@@ -21,7 +21,7 @@
 
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
-	$('select#OmmuMeta_facebook_type').live('change', function() {
+	$('select#OmmuMeta_facebook_type').on('change', function() {
 		var id = $(this).val();
 		$('div.filter').slideUp();
 		if(id == '1') {
