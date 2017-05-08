@@ -126,7 +126,7 @@ class OFunction
 			// module condition
 			'<module:\w+>/<controller:\w+>/<action:\w+>'						=> '<module>/<controller>/<action>',
 			//controller condition
-			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
+			'<controller:\w+>/<action:\w+>'										=> '<controller>/<action>',
 		);
 
 		/**
@@ -164,7 +164,6 @@ class OFunction
 		if($module !== null && $public == true) {
 			foreach($module as $key => $val) {
 				if($val->search == '1') {
-$moduleRules[$val->folder.'/<slug:[\w\-]+>'] 											= $val->folder.'/site/index';
 $moduleRules[$val->folder] 																= $val->folder.'/site/index';
 $moduleRules[$val->folder.'/<slug:[\w\-]+>-<id:\d+>'] 									= $val->folder.'/site/view';								// slug-id
 //$moduleRules[$val->folder.'/<slug:[\w\-]+>'] 											= $val->folder.'/site/view';								// slug
