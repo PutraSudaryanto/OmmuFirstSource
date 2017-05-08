@@ -10,7 +10,6 @@
  * TOC :
  *	init
  *	getDefaultTheme
- *	getRulePos
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @create date August 6, 2012 15:02 WIB
@@ -41,94 +40,23 @@ class Ommu extends CApplicationComponent
 		if(isset($_GET['theme'])) {
 			$theme = trim($_GET['theme']);
 		}
-		Yii::app()->theme = $theme;
+		//Yii::app()->theme = $theme;
 		
 		/**
 		 * controllerMap
 		 */
 		$themePath = Yii::getPathOfAlias('webroot.themes.'.$theme).DS.$theme.'.yaml';
-		$arrayThemeYML = Spyc::YAMLLoad($themePath);
-		$controllersTheme = $arrayThemeYML['controller'];
-		if(!empty($controllersTheme)) {
-			foreach($controllersTheme as $key => $val)
+		$themeYML = Spyc::YAMLLoad($themePath);
+		$groupTheme = $themeYML['group_page'];
+		$controllerTheme = $themeYML['controller'];
+		$controllerMap = array();
+		if(!empty($controllerTheme)) {
+			foreach($controllerTheme as $key => $val)
 				$controllerMap[$key] = 'webroot.themes.'.$theme.'.controllers.'.$val;
-			Yii::app()->controllerMap = $controllerMap;
 		}
-
-		/**
-		 * set url manager
-		 */
-		$rules = array(
-			//a standard rule mapping '/' to 'site/index' action
-			'' 																	=> 'site/index',
-			
-			//a standard rule mapping '/login' to 'site/login', and so on
-			'<action:(login|logout)>' 											=> 'site/<action>',
-			'<t:[\w\-]+>-<id:\d+>'												=> 'page/view',
-			'<id:\d+>'															=> 'page/view',
-			
-			//controller condition
-			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
-			
-			// module condition
-			'<module:\w+>/<controller:\w+>/<action:\w+>'				=> '<module>/<controller>/<action>',
-		);
-
-		/**
-		 * Set default controller for homepage, it can be controller, action or module
-		 * example:
-		 * controller: 'site'
-		 * controller from module: 'pose/site/index'.
-		 */
-		$default = OmmuPlugins::model()->findByAttributes(array('defaults' => 1), array(
-			'select' => 'folder',
-		));
-		if(($default == null) || ($default->folder == '-') || ($default->actived == '2')) {
-			$rules[''] = 'site/index';
-
-		} else {
-			$url = $default->folder != '-' ? $default->folder : 'site/index';
-			Yii::app()->defaultController = trim($url);
-			$rules[''] =  trim($url);
-		}
-
-		/**
-		 * Split rules into 2 part and then insert url from tabel between them.
-		 * and then merge all array back to $rules.
-		 */
-		$module = OmmuPlugins::model()->findAll(array(
-			'select'    => 'actived, folder, search',
-			'condition' => 'actived != 0 AND folder != "-"',
-		));
-
-		$moduleRules  = array();
-		$sliceRules   = $this->getRulePos($rules);
-		if($module !== null) {
-			foreach($module as $key => $val) {
-				if($val->actived == '1' && $val->search == '1') {
-					$moduleRules[$val->folder] = $val->folder.'/site/index';
-					$moduleRules[$val->folder.'/<t:[\w\-]+>-<id:\d+>'] 			= $val->folder.'/site/view';													// t
-					$moduleRules[$val->folder.'/<slug:[\w\-]+>'] 				= $val->folder.'/site/view';													// slug
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<t:[\w\-]+>-<id:\d+>'] 		= $val->folder.'/<controller>/view';					//	t/id
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<slug:[\w\-]+>'] 				= $val->folder.'/<controller>/view';					// slug
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<category:\d+>/<t:[\w\-]+>'] 	= $val->folder.'/<controller>/index';					//	category/t
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<t:[\w\-]+>'] 					= $val->folder.'/<controller>/index';					//	t
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<slug:[\w\-]+>'] 				= $val->folder.'/<controller>/index';					// slug
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<t:[\w\-]+>-<id:\d+>'] 	= $val->folder.'/<controller>/<action>';		//	t/id
-					$moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<slug:[\w\-]+>'] 			= $val->folder.'/<controller>/<action>';		// slug
-					//$moduleRules[$val->folder.'/<controller:\w+>/<slug:[\w\-]+>'] = $val->folder.'/<controller>/index';
-				}
-			}
-		}
-		$rules = array_merge($sliceRules['before'], $moduleRules, $sliceRules['after']);
-
-		Yii::app()->setComponents(array(
-			'urlManager' => array(
-				'urlFormat' => 'path',
-				'showScriptName' => false,
-				'rules' => $rules,
-			),
-		));
+		Yii::app()->controllerMap = $controllerMap;
+		
+		OFunction::setUrlManagerRules(true);
 
 		Yii::setPathOfAlias('modules', Yii::app()->basePath.DIRECTORY_SEPARATOR.'modules');
 		
@@ -166,9 +94,8 @@ class Ommu extends CApplicationComponent
 				'profile:last_name'=>$meta->facebook_profile_lastname,
 				'profile:username'=>$meta->facebook_profile_username,
 			);	
-		} else {
+		} else
 			$arrayFacebook = array();
-		}
 		
 		// Twitter mata tags
 		if($meta->twitter_card == 1) {
@@ -231,7 +158,7 @@ class Ommu extends CApplicationComponent
 					'place:location:latitude'=>$point[0],
 					'place:location:longitude'=>$point[1],
 					'business:contact_data:street_address'=>$meta->office_place.', '.$meta->office_village.', '.$meta->office_district,
-					'business:contact_data:country_name'=>$meta->view->country_name,					
+					'business:contact_data:country_name'=>$meta->view->country_name,			
 					'business:contact_data:locality'=>$meta->view->city_name,
 					'business:contact_data:region'=>$meta->office_district,
 					'business:contact_data:postal_code'=>$meta->office_zipcode,
@@ -262,7 +189,8 @@ class Ommu extends CApplicationComponent
 	 *
 	 * @return string theme name
 	 */
-	public function getDefaultTheme() {
+	public function getDefaultTheme() 
+	{
 		$theme = OmmuThemes::model()->find(array(
 			'select'    => 'folder',
 			'condition' => 'group_page= :group AND default_theme= "1"',
@@ -273,35 +201,5 @@ class Ommu extends CApplicationComponent
 			return $theme->folder;
 		else
 			return null;
-	}
-
-	/**
-	 * Split rules into two part
-	 *
-	 * @param array $rules
-	 * @return array
-	 */
-	public function getRulePos($rules) {
-		$result = 1;
-		$before = array();
-		$after  = array();
-
-		foreach($rules as $key => $val) {
-			if($key == '<module:\w+>/<controller:\w+>/<action:\w+>')
-				break;
-			$result++;
-		}
-
-		$i = 1;
-		foreach($rules as $key => $val) {
-			if($i < $result) {
-				$before[$key] = $val;
-			}elseif($i >= $pos) {
-				$after[$key]  = $val;
-			}
-			$i++;
-		}
-
-		return array('after' => $after, 'before' => $before);
 	}
 }

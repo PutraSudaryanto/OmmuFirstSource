@@ -147,11 +147,11 @@ class Controller extends CController
 				unset(Yii::app()->session['signup_user_id']);
 			
 			// set theme is active
-			if(!Yii::app()->request->isAjaxRequest) {
+			/* if(!Yii::app()->request->isAjaxRequest) {
 				Yii::app()->session['theme_active'] = Yii::app()->theme->name;
 				if($this->dialogDetail == true)
 					Yii::app()->session['current_url'] = $this->dialogGroundUrl;
-			}
+			} */
 			
 			Yii::app()->clientScript->registerMetaTag(Utility::hardDecode($this->pageDescription), 'description');
 			Yii::app()->clientScript->registerMetaTag(Utility::hardDecode($this->pageMeta), 'keywords');
@@ -227,9 +227,14 @@ class Controller extends CController
 		
 			// set theme settings
 			if($this->theme == null)
-				$this->theme = Yii::app()->theme->name;
-			$themeInfo = Utility::getArrayFromYML(Yii::getPathOfAlias('webroot.themes.'.$this->theme).'/'.$this->theme.'.yaml');
-			$this->themeSetting = $themeInfo['settings'];		
+				$theme = $this->theme = Yii::app()->theme->name;
+			$themeInfo = Utility::getArrayFromYML(Yii::getPathOfAlias('webroot.themes.'.$theme).'/'.$theme.'.yaml');
+			$themeSetting = $themeInfo['settings'];
+			$this->themeSetting = $themeSetting;
+			/*
+			if($themeInfo['group_page'] != 'admin')
+				OFunction::setUrlManagerRules(true);
+			*/
 		}
 		
 		return true;
