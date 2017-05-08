@@ -122,9 +122,9 @@ class OFunction
 			//a standard rule mapping '/login' to 'site/login', and so on
 			'<action:(login|logout)>' 											=> 'site/<action>',
 			'<slug:[\w\-]+>-<id:\d+>'											=> 'page/view',
-			'<slug:[\w\-]+>'													=> 'page/view',
+			//'<slug:[\w\-]+>'													=> 'page/view',
 			// module condition
-			'<module:\w+>/<controller:\w+>/<action:\w+>'									=> '<module>/<controller>/<action>',
+			'<module:\w+>/<controller:\w+>/<action:\w+>'						=> '<module>/<controller>/<action>',
 			//controller condition
 			'<controller:\w+>/<action:\w+>'								=> '<controller>/<action>',
 		);
