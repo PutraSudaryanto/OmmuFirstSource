@@ -2,6 +2,7 @@
 /**
  * ModuleHandle class file
  * Contains many function that most used
+ * version: 1.2.0
  *
  * Reference start
  *

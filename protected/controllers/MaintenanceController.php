@@ -89,7 +89,7 @@ class MaintenanceController extends Controller
 	 */
 	public function actionFeedback()
 	{
-		$model=new SupportMails;
+		$model=new SupportFeedbacks;
 		if(!Yii::app()->user->isGuest) {
 			$user = Users::model()->findByPk(Yii::app()->user->id, array(
 				'select' => 'user_id, email, displayname, photos',
@@ -99,8 +99,8 @@ class MaintenanceController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		//$this->performAjaxValidation($model);
 
-		if(isset($_POST['SupportMails'])) {
-			$model->attributes=$_POST['SupportMails'];
+		if(isset($_POST['SupportFeedbacks'])) {
+			$model->attributes=$_POST['SupportFeedbacks'];
 			$model->scenario = 'contactus';
 
 			$jsonError = CActiveForm::validate($model);

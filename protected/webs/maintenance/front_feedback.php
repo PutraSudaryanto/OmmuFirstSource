@@ -1,8 +1,8 @@
 <?php
 /**
- * Support Mails (support-mails)
- * @var $this ContactController
- * @var $model SupportMails
+ * Support Feedbacks (support-feedbacks)
+ * @var $this MaintenanceController
+ * @var $model SupportFeedbacks
  * @var $form CActiveForm
  * version: 1.2.0
  *

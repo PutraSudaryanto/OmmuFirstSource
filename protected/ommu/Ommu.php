@@ -2,8 +2,8 @@
 /**
  * Ommu class file
  * Bootstrap application
- * @version 1.0.9
  * in this class you set default controller to be executed first time
+ * version: 1.2.0
  *
  * Reference start
  *

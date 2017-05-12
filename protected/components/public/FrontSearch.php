@@ -1,6 +1,7 @@
 <?php
 /**
  * FrontSearch
+ * version: 1.2.0
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2013 Ommu Platform (opensource.ommu.co)
