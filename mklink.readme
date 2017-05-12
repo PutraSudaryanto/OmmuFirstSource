@@ -1,2 +1,4 @@
 mklink /H "D:\htdocs\_project_ommu_platform\protected\LICENSE" "D:\htdocs\_project_ommu_platform\LICENSE"
 mklink /H "D:\htdocs\_project_ommu_platform\protected\ommu\LICENSE" "D:\htdocs\_project_ommu_platform\LICENSE"
+
+mklink /J "D:\htdocs\_project_ommu_platform\protected\extensions\gapi-google-analytics" "D:\htdocs\_project_ommu_extension_gapi"

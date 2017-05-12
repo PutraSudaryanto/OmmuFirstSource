@@ -45,12 +45,23 @@
 
 		<div class="clearfix">
 			<label>
-				<?php echo $model->getAttributeLabel('analytic_id');?>
+				<?php echo $model->getAttributeLabel('analytic_id');?> <span class="required">*</span>
 				<span><?php echo Yii::t('phrase', 'Enter the Website Profile ID to use Google Analytics.');?></span>
 			</label>
 			<div class="desc">
 				<?php echo $form->textField($model,'analytic_id',array('maxlength'=>32)); ?>
 				<?php echo $form->error($model,'analytic_id'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<label>
+				<?php echo $model->getAttributeLabel('analytic_profile_id');?> <span class="required">*</span>
+			</label>
+			<div class="desc">
+				<?php echo $form->textField($model,'analytic_profile_id',array('maxlength'=>32)); ?>
+				<?php echo $form->error($model,'analytic_profile_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>

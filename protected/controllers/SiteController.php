@@ -134,7 +134,7 @@ class SiteController extends Controller
 			} */
 			
 			$this->sidebarShow = false;
-			$this->pageTitle = 'Home';
+			$this->pageTitle = Yii::t('phrase', 'Home');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('application.webs.site.front_index', array(
@@ -187,24 +187,15 @@ class SiteController extends Controller
 	public function actionAnalytics()
 	{
 		$model = OmmuSettings::model()->findByPk(1,array(
-			'select' => 'site_url, analytic, analytic_id',
+			'select' => 'site_url, analytic, analytic_id, analytic_profile_id',
 		));
 		
-		$this->pageTitle = 'Analytics';
+		$this->pageTitleShow = true;		
+		$this->pageTitle = Yii::t('phrase', 'Statistik');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('application.webs.site.front_analytics', array(
 			'model'=>$model,
 		));
-	}
-	
-	/* About */
-	public function actionAbout()
-	{		
-		$this->sidebarShow = false;
-		$this->pageTitle = 'About COE';
-		$this->pageDescription = '';
-		$this->pageMeta = '';
-		$this->render('application.webs.site.front_about');
 	}
 }
