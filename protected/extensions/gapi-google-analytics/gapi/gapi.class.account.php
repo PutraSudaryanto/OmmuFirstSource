@@ -3,7 +3,8 @@
  * Storage for individual gapi account entries
  *
  */
-class gapiAccountEntry {
+class gapiAccountEntry 
+{
 	private $properties = array();
 
 	/**
@@ -12,7 +13,8 @@ class gapiAccountEntry {
 	 * @param Array $properties
 	 * @return gapiAccountEntry
 	 */
-	public function __construct($properties) {
+	public function __construct($properties) 
+	{
 		$this->properties = $properties;
 	}
 
@@ -21,9 +23,9 @@ class gapiAccountEntry {
 	 *
 	 * @return String
 	 */
-	public function __toString() {
-		return isset($this->properties['name']) ?
-			$this->properties['name']: '';
+	public function __toString() 
+	{
+		return isset($this->properties['name']) ? $this->properties['name'] : '';
 	}
 
 	/**
@@ -32,7 +34,8 @@ class gapiAccountEntry {
 	 *
 	 * @return Array
 	 */
-	public function getProperties() {
+	public function getProperties() 
+	{
 		return $this->properties;
 	}
 
@@ -43,20 +46,18 @@ class gapiAccountEntry {
 	 * @return String
 	 * @throws Exception if not a valid parameter, or not a 'get' function
 	 */
-	public function __call($name, $parameters) {
-		if (!preg_match('/^get/', $name)) {
-			throw new Exception('No such function "' . $name . '"');
-		}
+	public function __call($name, $parameters) 
+	{
+		if(!preg_match('/^get/', $name))
+			throw new Exception(Yii::t('phrase', 'No such function $name', array('$name'=>$name)));
 
 		$name = preg_replace('/^get/', '', $name);
-
 		$property_key = gapi::ArrayKeyExists($name, $this->properties);
 
-		if ($property_key) {
+		if($property_key)
 			return $this->properties[$property_key];
-		}
 
-		throw new Exception('No valid property called "' . $name . '"');
+		throw new Exception(Yii::t('phrase', 'No valid property called $name', array('$name'=>$name)));
 	}
 }
 ?>

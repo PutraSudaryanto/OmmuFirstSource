@@ -3,7 +3,8 @@
  * Storage for individual gapi report entries
  *
  */
-class gapiReportEntry {
+class gapiReportEntry 
+{
 	private $metrics = array();
 	private $dimensions = array();
 
@@ -14,7 +15,8 @@ class gapiReportEntry {
 	 * @param Array $dimensions
 	 * @return gapiReportEntry
 	 */
-	public function __construct($metrics, $dimensions) {
+	public function __construct($metrics, $dimensions) 
+	{
 		$this->metrics = $metrics;
 		$this->dimensions = $dimensions;
 	}
@@ -28,7 +30,8 @@ class gapiReportEntry {
 	 *
 	 * @return String
 	 */
-	public function __toString() {
+	public function __toString() 
+	{
 		return is_array($this->dimensions) ? 
 			implode(' ', $this->dimensions) : '';
 	}
@@ -39,7 +42,8 @@ class gapiReportEntry {
 	 *
 	 * @return Array
 	 */
-	public function getDimensions() {
+	public function getDimensions() 
+	{
 		return $this->dimensions;
 	}
 
@@ -49,7 +53,8 @@ class gapiReportEntry {
 	 *
 	 * @return Array
 	 */
-	public function getMetrics() {
+	public function getMetrics() 
+	{
 		return $this->metrics;
 	}
 
@@ -61,29 +66,23 @@ class gapiReportEntry {
 	 * @return String
 	 * @throws Exception if not a valid metric or dimensions, or not a 'get' function
 	 */
-	public function __call($name, $parameters) {
-		if (!preg_match('/^get/', $name)) {
-			throw new Exception('No such function "' . $name . '"');
-		}
+	public function __call($name, $parameters) 
+	{
+		if(!preg_match('/^get/', $name))
+			throw new Exception(Yii::t('phrase', 'No such function $name', array('$name'=>$name)));
 
 		$name = preg_replace('/^get/', '', $name);
-
 		$metric_key = gapi::ArrayKeyExists($name, $this->metrics);
 
-		if ($metric_key) {
+		if($metric_key)
 			return $this->metrics[$metric_key];
-		}
 
 		$dimension_key = gapi::ArrayKeyExists($name, $this->dimensions);
 
-		if ($dimension_key) {
+		if($dimension_key)
 			return $this->dimensions[$dimension_key];
-		}
 
-		throw new Exception('No valid metric or dimesion called "' . $name . '"');
+		throw new Exception(Yii::t('phrase', 'No valid metric or dimesion called $name', array('$name'=>$name)));
 	}
 }
-
-
-
 ?>
