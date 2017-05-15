@@ -1,8 +1,8 @@
 <?php
 /**
- * User Verify (user-verify)
- * @var $this VerifyController
- * @var $model UserVerify
+ * User Newsletter (user-newsletter)
+ * @var $this MaintenanceController
+ * @var $model UserNewsletter
  * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>

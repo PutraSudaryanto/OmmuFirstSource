@@ -1,8 +1,8 @@
 <?php
 /**
- * User Verify (user-verify)
- * @var $this VerifyController
- * @var $model UserVerify
+ * Ommu Settings (ommu-settings)
+ * @var $this MaintenanceController
+ * @var $model OmmuSettings
  * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>

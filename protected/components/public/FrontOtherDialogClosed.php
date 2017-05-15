@@ -1,6 +1,7 @@
 <?php
 /**
  * FrontOtherDialogClosed
+ * version: 1.2.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
