@@ -107,7 +107,9 @@ class SettingsController extends Controller
 	 */
 	public function actionGeneral() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuSettings::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuSettings;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -161,7 +163,9 @@ class SettingsController extends Controller
 	 */
 	public function actionBanned() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuSettings::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuSettings;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -217,7 +221,9 @@ class SettingsController extends Controller
 	 */
 	public function actionSignup() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuSettings::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuSettings;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -271,13 +277,16 @@ class SettingsController extends Controller
 	 */
 	public function actionAnalytic() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuSettings::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuSettings;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['OmmuSettings'])) {
 			$model->attributes=$_POST['OmmuSettings'];
+			$model->scenario = 'analytic';
 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
