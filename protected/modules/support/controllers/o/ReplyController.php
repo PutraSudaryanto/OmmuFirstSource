@@ -143,6 +143,7 @@ class ReplyController extends Controller
 	public function actionAdd($feedback) 
 	{
 		$feedbackFind = SupportFeedbacks::model()->findByPk($feedback);
+		SupportFeedbackView::insertView($feedbackFind->feedback_id);
 		$model=new SupportFeedbackReply;
 
 		// Uncomment the following line if AJAX validation is needed

@@ -271,11 +271,11 @@ class SupportMailSetting extends CActiveRecord
 		$debugContent = $debug['content'];
 		$debugEmail = $debug['email'];
 		
-		if($debugStatus == 1 && $debugContent == 'file_put_contents') {
+		if($debugStatus == 1 && in_array(Yii::app()->request->serverName, array('localhost','127.0.0.1','192.168.3.13')) && $debugContent == 'file_put_contents') {
 			file_put_contents(Utility::getUrlTitle($subject).'.htm', $message);
 			
 		} else {
-			if($debugStatus == 1 && $debugContent == 'send_email')
+			if($debugStatus == 1 && in_array(Yii::app()->request->serverName, array('localhost','127.0.0.1','192.168.3.13')) && $debugContent == 'send_email')
 				$to_email = $to_name = $debugEmail;
 				
 			Yii::import('application.extensions.phpmailer.JPhpMailer');

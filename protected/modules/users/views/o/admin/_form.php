@@ -87,7 +87,6 @@
 			<div class="desc">
 				<?php echo $form->fileField($model,'photos'); ?>
 				<?php echo $form->error($model,'photos'); ?>
-				<div class="small-px silent"><?php echo Yii::t('phrase', 'Inputkan alamat url photo Anda.<br/>contoh: http://ommu.co/putrasudaryanto.jpg');?></div>
 			</div>
 		</div>
 		<?php }?>

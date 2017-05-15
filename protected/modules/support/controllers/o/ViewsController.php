@@ -1,28 +1,31 @@
 <?php
 /**
- * MailsettingController
- * @var $this MailsettingController
- * @var $model SupportMailSetting
+ * ViewsController
+ * @var $this ViewsController
+ * @var $model SupportFeedbackView
  * @var $form CActiveForm
  * version: 0.2.1
  * Reference start
  *
  * TOC :
  *	Index
- *	Edit
+ *	Manage
+ *	View
+ *	Delete
  *
  *	LoadModel
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 11 May 2017, 23:13 WIB
  * @link https://github.com/ommu/Support
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */
 
-class MailsettingController extends Controller
+class ViewsController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -37,7 +40,7 @@ class MailsettingController extends Controller
 	public function init() 
 	{
 		if(!Yii::app()->user->isGuest) {
-			if(Yii::app()->user->level == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
@@ -77,7 +80,7 @@ class MailsettingController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('edit'),
+				'actions'=>array('manage','view','delete'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
@@ -96,63 +99,87 @@ class MailsettingController extends Controller
 	 */
 	public function actionIndex() 
 	{
-		$this->redirect(array('edit'));
+		$this->redirect(array('manage'));
 	}
 
 	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * Manages all models.
 	 */
-	public function actionEdit() 
+	public function actionManage() 
 	{
-		$model = SupportMailSetting::model()->findByPk(1);
-		if($model == null)
-			$model=new SupportMailSetting;			
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['SupportMailSetting'])) {
-			$model->attributes=$_POST['SupportMailSetting'];
-
-			$jsonError = CActiveForm::validate($model);
-			if(strlen($jsonError) > 2) {
-				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
-				$summary['msg'] .= "<ul>";
-				foreach($errors as $key => $val) {
-					$summary['msg'] .= "<li>{$val[0]}</li>";
-				}
-				$summary['msg'] .= "</ul></div>";
-
-				$message = json_decode($jsonError, true);
-				$merge = array_merge_recursive($summary, $message);
-				$encode = json_encode($merge);
-				echo $encode;
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($model->save()) {
-						echo CJSON::encode(array(
-							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Mail Setting success updated.').'</strong></div>',
-						));
-					} else {
-						print_r($model->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
-
-		} else {
-			$this->pageTitle = Yii::t('phrase', 'Mail Settings');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('/o/mail_setting/admin_edit',array(
-				'model'=>$model,
-			));
+		$model=new SupportFeedbackView('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SupportFeedbackView'])) {
+			$model->attributes=$_GET['SupportFeedbackView'];
 		}
 
+		$columnTemp = array();
+		if(isset($_GET['GridColumn'])) {
+			foreach($_GET['GridColumn'] as $key => $val) {
+				if($_GET['GridColumn'][$key] == 1) {
+					$columnTemp[] = $key;
+				}
+			}
+		}
+		$columns = $model->getGridColumn($columnTemp);
+
+		$this->pageTitle = Yii::t('phrase', 'Support Feedback Views Manage');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_manage',array(
+			'model'=>$model,
+			'columns' => $columns,
+		));
+	}	
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+
+		$this->pageTitle = Yii::t('phrase', 'View Support Feedback Views');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}	
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				if($model->delete()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-support-feedback-view',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success deleted.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = Yii::t('phrase', 'SupportFeedbackView Delete.');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_delete');
+		}
 	}
 
 	/**
@@ -162,7 +189,7 @@ class MailsettingController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = SupportMailSetting::model()->findByPk($id);
+		$model = SupportFeedbackView::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
@@ -174,7 +201,7 @@ class MailsettingController extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='support-mail-setting-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='support-feedback-view-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

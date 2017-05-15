@@ -40,6 +40,7 @@ class SupportFeedbacks extends CActiveRecord
 	// Variable Search
 	public $user_search;
 	public $modified_search;
+	public $view_search;
 	public $reply_search;
 
 	/**
@@ -80,7 +81,7 @@ class SupportFeedbacks extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('feedback_id, user_id, email, displayname, phone, subject, message, creation_date, modified_date, modified_id,
-				user_search, modified_search, reply_search', 'safe', 'on'=>'search'),
+				user_search, modified_search, view_search, reply_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,7 +96,7 @@ class SupportFeedbacks extends CActiveRecord
 			'view' => array(self::BELONGS_TO, 'ViewSupportFeedbacks', 'feedback_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'feedbacks' => array(self::HAS_MANY, 'SupportFeedbacks', 'feedback_id'),
+			'replies' => array(self::HAS_MANY, 'SupportFeedbackReply', 'feedback_id'),
 		);
 	}
 
@@ -117,6 +118,7 @@ class SupportFeedbacks extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'view_search' => Yii::t('attribute', 'View'),
 			'reply_search' => Yii::t('attribute', 'Reply'),
 		);
 	}
@@ -134,6 +136,9 @@ class SupportFeedbacks extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'displayname',
@@ -156,10 +161,11 @@ class SupportFeedbacks extends CActiveRecord
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		$criteria->compare('t.modified_id',$this->modified_id);
-		$criteria->compare('t.reply_search',$this->reply_search);
 		
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('view.view_condition',$this->view_search);
+		$criteria->compare('view.reply_condition',$this->reply_search);
 			
 		if(!isset($_GET['SupportFeedbacks_sort']))
 			$criteria->order = 't.feedback_id DESC';
@@ -254,8 +260,20 @@ class SupportFeedbacks extends CActiveRecord
 				), true),
 			);
 			$this->defaultColumns[] = array(
+				'name' => 'view_search',
+				'value' => '$data->view->view_condition != 0 ? CHtml::link($data->view->views, Yii::app()->controller->createUrl("o/views/manage",array(\'feedback\'=>$data->feedback_id))) : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') ',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
 				'name' => 'reply_search',
-				'value' => '$data->view->feedbacks != 0 ? CHtml::link($data->view->feedbacks, Yii::app()->controller->createUrl("o/reply/manage",array(\'feedback\'=>$data->feedback_id))) : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') ',
+				'value' => '$data->view->reply_condition != 0 ? CHtml::link($data->view->replies, Yii::app()->controller->createUrl("o/reply/manage",array(\'feedback\'=>$data->feedback_id))) : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') ',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -268,12 +286,6 @@ class SupportFeedbacks extends CActiveRecord
 
 		}
 		parent::afterConstruct();
-	}
-	
-	protected function afterFind() {
-		$this->reply_search = $this->view->feedbacks != 0 ? 1 : 0;
-		
-		parent::afterFind();		
 	}
 
 	/**
@@ -312,7 +324,7 @@ class SupportFeedbacks extends CActiveRecord
 			);
 			$feedback_template = 'support_feedback';
 			$feedback_title = Yii::t('phrase', '[Feedback]').' '.$this->subject.' | '.$setting->site_title;
-			$feedback_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$feedback_template.'.php');			
+			$feedback_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.components.template').'/'.$feedback_template.'.php');			
 			$feedback_ireplace = str_ireplace($feedback_search, $feedback_replace, $feedback_message);
 			SupportMailSetting::sendEmail(null, null, $feedback_title, $feedback_ireplace);
 			
@@ -329,7 +341,7 @@ class SupportFeedbacks extends CActiveRecord
 				);
 				$reply_template = 'support_feedback_reply';
 				$reply_title = Yii::t('phrase', '[Reply]').' '.$this->subject.' | '.$setting->site_title;
-				$reply_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.assets.template').'/'.$reply_template.'.php');			
+				$reply_message = file_get_contents(YiiBase::getPathOfAlias('webroot.protected.modules.support.components.template').'/'.$reply_template.'.php');			
 				$reply_ireplace = str_ireplace($reply_search, $reply_replace, $reply_message);
 				SupportMailSetting::sendEmail($this->email, $this->displayname, $reply_title, $reply_ireplace);
 			}
