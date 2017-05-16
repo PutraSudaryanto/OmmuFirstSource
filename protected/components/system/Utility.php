@@ -177,10 +177,6 @@ class Utility
 	*/
 	public static function getContentMenu($module=null) 
 	{
-		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
-		));
-		
 		$moduleInfo = self::getModuleInfo($module);
 		$contentMenu = $moduleInfo['content_menu'];
 		
@@ -189,7 +185,7 @@ class Utility
 				$siteType = explode(',', $a['urlRules']['siteType']);
 				$userLevel = explode(',', $a['urlRules']['userLevel']);
 				
-				return in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel);
+				return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
 			});
 			return $contentMenuData;
 			
@@ -202,10 +198,6 @@ class Utility
 	*/
 	public static function getModuleMenu($module=null) 
 	{
-		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
-		));
-		
 		$moduleInfo = self::getModuleInfo($module);
 		$moduleMenu = $moduleInfo['plugin_menu'];
 		
@@ -214,7 +206,7 @@ class Utility
 				$siteType = explode(',', $a['urlRules']['siteType']);
 				$userLevel = explode(',', $a['urlRules']['userLevel']);
 				
-				return in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel);
+				return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
 			});
 			return $moduleMenuData;
 			
