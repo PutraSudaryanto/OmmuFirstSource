@@ -123,7 +123,7 @@ class PageController extends ControllerApi
 						'media_image' => $image_url_path ? $image_url_path : '-',
 						'media_show' => $item->media_show == 0 ? 'hide' : 'show',
 						'media_type' => $item->media_show != 0 ? (($item->media_type == 0 || $item->media_type == 1) ? 'large' : 'medium') : '-',
-						'creation_date' => date_timestamp_get(date_create($item->creation_date)),
+						'creation_date' => strtotime($item->creation_date),
 					);					
 				}
 			} else
@@ -173,7 +173,7 @@ class PageController extends ControllerApi
 					'media_image' => $image_url_path ? $image_url_path : '-',
 					'media_show' => $model->media_show == 0 ? 'hide' : 'show',
 					'media_type' => $model->media_show != 0 ? (($model->media_type == 0 || $model->media_type == 1) ? 'large' : 'medium') : '-',
-					'creation_date' => date_timestamp_get(date_create($model->creation_date)),
+					'creation_date' => strtotime($model->creation_date),
 				);
 				
 			} else {

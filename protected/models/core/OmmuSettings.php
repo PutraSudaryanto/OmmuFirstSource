@@ -150,7 +150,6 @@ class OmmuSettings extends CActiveRecord
 			'online' => Yii::t('attribute', 'Maintenance Mode'),
 			'site_type' => Yii::t('attribute', 'Site Type'),
 			'site_email' => Yii::t('attribute', 'Site Email'),
-			'site_headline' => Yii::t('attribute', 'Site Headline'),
 			'site_url' => Yii::t('attribute', 'Site Url'),
 			'site_title' => Yii::t('attribute', 'Site Title'),
 			'site_keywords' => Yii::t('attribute', 'Site Keywords'),
