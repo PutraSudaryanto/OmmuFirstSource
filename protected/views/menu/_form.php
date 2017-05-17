@@ -61,7 +61,8 @@
 			<?php echo $form->labelEx($model,'title'); ?>
 			<div class="desc">
 				<?php
-				$model->title = Phrase::trans($model->name);
+				if(!$model->getErrors())
+					$model->title = Phrase::trans($model->name);
 				echo $form->textField($model,'title',array('maxlength'=>32,'class'=>'span-8')); ?>
 				<?php echo $form->error($model,'title'); ?>
 			</div>

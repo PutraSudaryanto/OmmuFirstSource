@@ -311,8 +311,8 @@ class OmmuOptions extends CActiveRecord
 	public static function getSetting($type, $optionkey)
 	{
 		$criteria=new CDbCriteria;
-		$criteria->compare('t.option_type',strtolower($type));
-		$criteria->compare('t.option_name',strtolower($optionkey));
+		$criteria->compare('option_type',strtolower($type));
+		$criteria->compare('option_name',strtolower($optionkey));
 		$model = self::model()->find($criteria);
 		
 		if($model != null)

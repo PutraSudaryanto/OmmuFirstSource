@@ -415,10 +415,13 @@ class OmmuMenu extends CActiveRecord
 	/**
 	 * before save attributes
 	 */
-	protected function beforeSave() {
-		if(parent::beforeSave()) {			
-			if($this->isNewRecord) {
-				$location = strtolower(Yii::app()->controller->id);
+	protected function beforeSave() 
+	{
+		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		$location = Utility::getUrlTitle($currentAction);
+		
+		if(parent::beforeSave()) {
+			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
 				$title->en_us = $this->title;

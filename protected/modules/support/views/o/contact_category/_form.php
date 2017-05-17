@@ -30,7 +30,8 @@
 			<?php echo $form->labelEx($model,'title_i'); ?>
 			<div class="desc">
 				<?php 
-				$model->title_i = Phrase::trans($model->name);
+				if(!$model->getErrors())
+					$model->title_i = Phrase::trans($model->name);
 				echo $form->textField($model,'title_i',array('maxlength'=>32,'class'=>'span-7')); ?>
 				<?php echo $form->error($model,'title_i'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>

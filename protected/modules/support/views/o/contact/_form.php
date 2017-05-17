@@ -24,18 +24,24 @@
 	<fieldset>
 
 		<?php 
-		if($model->cat->publish != 2) {
-			$category = SupportContactCategory::getCategory(1, 'contact');
-			if(!empty($category)) {?>
+		if($model->cat->publish != 2) {?>
 			<div class="clearfix">
 				<label><?php echo $model->getAttributeLabel('cat_id');?> <span class="required">*</span></label>
 				<div class="desc">
-					<?php echo $form->dropDownList($model,'cat_id', $category, array('prompt'=>'')); ?>
+					<?php
+					if($model->isNewRecord) {
+						$category = SupportContactCategory::getCategory(1, 'contact');
+						if($category != null)
+							echo $form->dropDownList($model,'cat_id', $category, array('prompt'=>''));
+						else
+							echo $form->dropDownList($model,'cat_id', array('prompt'=>Yii::t('phrase', 'No Parent')));
+					} else {?>
+						<strong><?php echo Phrase::trans($model->cat->name); ?></strong>
+					<?php }?>
 					<?php echo $form->error($model,'cat_id'); ?>
 				</div>
 			</div>
-		<?php }
-		}?>
+		<?php }?>
 
 		<div class="clearfix">
 			<?php if($model->cat->publish != '2') {?>

@@ -356,23 +356,40 @@ class OmmuPages extends CActiveRecord
 	/**
 	 * before save attributes
 	 */
-	protected function beforeSave() {
+	protected function beforeSave() 
+	{
+		$action = strtolower(Yii::app()->controller->action->id);
+		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		$location = Utility::getUrlTitle($currentAction);
+		
 		if(parent::beforeSave()) {
-			$action = strtolower(Yii::app()->controller->action->id);
-			$location = strtolower(Yii::app()->controller->id);
-			if($this->isNewRecord) {
+			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
 				$title->en_us = $this->title_i;
 				if($title->save())
 					$this->name = $title->phrase_id;
-
+				
+			} else {
+				$title = OmmuSystemPhrase::model()->findByPk($this->name);
+				$title->en_us = $this->title_i;
+				$title->save();
+			}
+			
+			if($this->isNewRecord || (!$this->isNewRecord && $this->desc == 0)) {
 				$desc=new OmmuSystemPhrase;
 				$desc->location = $location.'_description';
 				$desc->en_us = $this->description_i;
 				if($desc->save())
 					$this->desc = $desc->phrase_id;
-
+				
+			} else {
+				$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
+				$desc->en_us = $this->description_i;
+				$desc->save();
+			}
+			
+			if($this->isNewRecord || (!$this->isNewRecord && $this->quote == 0)) {
 				$quote=new OmmuSystemPhrase;
 				$quote->location = $location.'_quotes';
 				$quote->en_us = $this->quote_i;
@@ -380,26 +397,9 @@ class OmmuPages extends CActiveRecord
 					$this->quote = $quote->phrase_id;
 				
 			} else {
-				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title_i;
-				$title->save();
-
-				$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
-				$desc->en_us = $this->description_i;
-				$desc->save();
-				
-				if($this->quote != 0) {
-					$quote = OmmuSystemPhrase::model()->findByPk($this->quote);
-					$quote->en_us = $this->quote_i;
-					$quote->save();						
-				} else {
-					$quote=new OmmuSystemPhrase;
-					$quote->location = $location.'_quotes';
-					$quote->en_us = $this->quote_i;
-					if($quote->save()) {
-						$this->quote = $quote->phrase_id;
-					}						
-				}
+				$quote = OmmuSystemPhrase::model()->findByPk($this->quote);
+				$quote->en_us = $this->quote_i;
+				$quote->save();	
 			}
 				
 			//upload new photo

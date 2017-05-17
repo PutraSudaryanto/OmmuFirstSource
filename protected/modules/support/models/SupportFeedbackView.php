@@ -277,9 +277,9 @@ class SupportFeedbackView extends CActiveRecord
 	public static function insertView($feedback_id)
 	{
 		$criteria=new CDbCriteria;
-		$criteria->select = 't.view_id, t.feedback_id, t.user_id, t.views';
-		$criteria->compare('t.feedback_id', $feedback_id);
-		$criteria->compare('t.user_id', Yii::app()->user->id);
+		$criteria->select = 'view_id, feedback_id, user_id, views';
+		$criteria->compare('feedback_id', $feedback_id);
+		$criteria->compare('user_id', Yii::app()->user->id);
 		$findView = self::model()->find($criteria);
 		
 		if($findView != null)
