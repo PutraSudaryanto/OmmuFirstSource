@@ -15,7 +15,7 @@
 
 	$this->breadcrumbs=array(
 		'Ommu Pages'=>array('manage'),
-		$model->title=>array('view','id'=>$model->page_id),
+		$model->name=>array('view','id'=>$model->page_id),
 		'Update',
 	);
 ?>

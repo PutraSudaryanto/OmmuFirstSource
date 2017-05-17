@@ -314,7 +314,7 @@ class OmmuZoneVillage extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		if($district != null && ($district != '' || $district != 0))
-			$criteria->compare('t.district_id',$district);
+			$criteria->compare('district_id',$district);
 		
 		$model = self::model()->findAll($criteria);
 		

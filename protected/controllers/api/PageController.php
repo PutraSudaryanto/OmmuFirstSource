@@ -91,8 +91,8 @@ class PageController extends ControllerApi
 			$pagesize = trim($_POST['pagesize']);
 			
 			$criteria=new CDbCriteria;
-			$criteria->compare('t.publish', 1);
-			$criteria->order = 't.page_id DESC';
+			$criteria->compare('publish', 1);
+			$criteria->order = 'page_id DESC';
 			
 			if($paging && $paging == 'true') {
 				$dataProvider = new CActiveDataProvider('OmmuPages', array(

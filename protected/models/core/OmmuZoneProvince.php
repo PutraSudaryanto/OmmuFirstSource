@@ -345,7 +345,7 @@ class OmmuZoneProvince extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		if($country != null && ($country != '' || $country != 0))
-			$criteria->compare('t.country_id',$country);
+			$criteria->compare('country_id',$country);
 		
 		$model = self::model()->findAll($criteria);
 
