@@ -195,9 +195,18 @@ class OmmuSystemPhrase extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'phrase_id';
-			$this->defaultColumns[] = 'en_us';
-			$this->defaultColumns[] = 'id';
+			$this->defaultColumns[] = array(
+				'name' => 'en_us',
+				'value' => '$data->en_us',
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'id',
+				'value' => '$data->id',
+				'type' => 'raw',
+			);
 			$this->defaultColumns[] = 'location';
+			/*
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -228,6 +237,7 @@ class OmmuSystemPhrase extends CActiveRecord
 					),
 				), true),
 			);
+			*/
 		}
 		parent::afterConstruct();
 	}
