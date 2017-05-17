@@ -41,11 +41,11 @@ if($model != null) {
 		
 		if(count($val['urlRules']) == 5) {
 			$actionArray = explode(',', $val['urlRules'][2]);
-			if($val['urlRules'][0] == $module && $val['urlRules'][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel))
+			if($val['urlRules'][0] == $module && $val['urlRules'][1] == $controller && in_array($action, $actionArray) && in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel))
 				$renderContentMenu = true;
 		} else {
 			$actionArray = explode(',', $val['urlRules'][1]);
-			if($val['urlRules'][0] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel))
+			if($val['urlRules'][0] == $controller && in_array($action, $actionArray) && in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel))
 				$renderContentMenu = true;
 		}
 		
@@ -87,11 +87,11 @@ if($model != null) {
 					
 					if(count($data['urlRules']) == 5) {
 						$actionArray = explode(',', $data['urlRules'][2]);
-						if($data['urlRules'][0] == $module && $data['urlRules'][1] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel))
+						if($data['urlRules'][0] == $module && $data['urlRules'][1] == $controller && in_array($action, $actionArray) && in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel))
 							echo '<li><a href="'.$link.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$icons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';
 					} else {
 						$actionArray = explode(',', $data['urlRules'][1]);
-						if($data['urlRules'][0] == $controller && in_array($action, $actionArray) && in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel))
+						if($data['urlRules'][0] == $controller && in_array($action, $actionArray) && in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel))
 							echo '<li><a href="'.$link.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$icons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';					
 					}
 				}

@@ -149,11 +149,15 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'site_type',
+		));
+		
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(array('site/index'));
 
 		else {
-			if(OmmuSettings::getInfo('site_type') == 1)
+			if($setting->site_type == 1)
 				$this->redirect(Yii::app()->createUrl('users/account'));
 			else
 				$this->redirect(Yii::app()->createUrl('users/admin'));

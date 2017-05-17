@@ -18,10 +18,14 @@ class MenuContent extends CWidget
 		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
 		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
 		$currentModuleAction = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		
+
+		$setting = OmmuSettings::model()->findByPk(1,array(
+			'select' => 'site_type'
+		));		
 		$model = Utility::getContentMenu($module);
 		
 		$this->render('menu_content', array(
+			'setting'=>$setting,
 			'model'=>$model,
 			'module'=>$module,
 			'controller'=>$controller,

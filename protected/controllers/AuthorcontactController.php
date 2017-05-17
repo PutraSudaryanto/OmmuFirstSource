@@ -39,10 +39,12 @@ class AuthorcontactController extends Controller
 	 */
 	public function init() 
 	{
-		$siteType = OmmuSettings::getInfo('site_type');
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'site_type',
+		));
 		
 		if(!Yii::app()->user->isGuest) {
-			if(in_array(Yii::app()->user->level, array(1,2)) && $siteType == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2)) && $setting->site_type == 1) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];

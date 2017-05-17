@@ -336,7 +336,11 @@ class Utility
 	/**
 	 * Get date format (general setting)
 	 */
-	public static function dateFormat($date, $time=false) {
+	public static function dateFormat($date, $time=false) 
+	{
+		if(is_numeric($date) && (int)$date == $date)
+			$date = date('Y-m-d H:i:s', $date);
+		
 		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'site_dateformat, site_timeformat',
 		));

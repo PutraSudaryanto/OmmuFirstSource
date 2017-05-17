@@ -165,7 +165,8 @@
 			foreach($menu as $key => $val) {
 				$siteType = explode(',', $val['urlRules']['siteType']);
 				$userLevel = explode(',', $val['urlRules']['userLevel']);
-				if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
+				if(in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
+				//if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 					$aClass = '';
 					if($val['urlPath']['url'] != null && $val['urlPath']['url'] != '-') {
 						$urlArray = explode('/', $val['urlPath']['url']);
@@ -211,7 +212,7 @@
 						foreach($submenu as $key => $data) {
 							$siteType = explode(',', $data['urlRules']['siteType']);
 							$userLevel = explode(',', $data['urlRules']['userLevel']);
-							if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
+							if(in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 								$subLiClass = '';
 								if($data['urlPath']['url'] != null && $data['urlPath']['url'] != '-') {
 									$urlArray = explode('/', $data['urlPath']['url']);
@@ -263,7 +264,7 @@
 			foreach($menu as $key => $val) {
 				$siteType = explode(',', $val['urlRules']['siteType']);
 				$userLevel = explode(',', $val['urlRules']['userLevel']);
-				if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
+				if(in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 					$aClass = '';
 					if($val['urlPath']['url'] != null && $val['urlPath']['url'] != '-') {
 						$urlArray = explode('/', $val['urlPath']['url']);
@@ -309,7 +310,7 @@
 						foreach($submenu as $key => $data) {
 							$siteType = explode(',', $data['urlRules']['siteType']);
 							$userLevel = explode(',', $data['urlRules']['userLevel']);
-							if(in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
+							if(in_array($setting->site_type, $siteType) && in_array(Yii::app()->user->level, $userLevel)) {
 								$subLiClass = '';
 								if($data['urlPath']['url'] != null && $data['urlPath']['url'] != '-') {
 									$urlArray = explode('/', $data['urlPath']['url']);

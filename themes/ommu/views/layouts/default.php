@@ -16,7 +16,7 @@ if(isset($_GET['protocol']) && $_GET['protocol'] == 'script') {
 	 ** Construction condition
 	 */
 	$setting = OmmuSettings::model()->findByPk(1,array(
-		'select' => 'site_title',
+		'select' => 'site_oauth, site_title',
 	));
 
 	/**
@@ -115,6 +115,9 @@ if ($module == 'users' && $currentAction == 'admin/login') {
 				<div class="dialog-box">
 					<img src="<?php echo Yii::app()->theme->baseUrl;?>/images/resource/logo_ommu_large.png" alt="">
 					<div class="content" id="<?php echo $dialogWidth;?>" name="notifier-wrapper"><?php echo ($this->dialogDetail == true && !empty($this->dialogWidth)) ? $content : '';?></div>
+					<?php if($setting && $setting->site_oauth == 1) {?>
+						<div class="oauth"><?php echo Yii::t('attribute', 'BPAD D.I Yogyakarta Oauth Powered by $link', array('$link'=>CHtml::link('ommu', 'https://company.ommu.co')));?></div>
+					<?php }?>
 				</div>
 			</div>
 		</div>
