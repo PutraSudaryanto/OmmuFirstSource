@@ -44,6 +44,7 @@ class UsersModule extends CWebModule
 				'verify',
 				'api/device',
 				'api/member',
+				'api/oauth',
 				'api/site',
 			);
 			
