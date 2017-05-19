@@ -52,13 +52,11 @@
 						<?php echo $form->error($model,'email'); ?>
 					</div>
 				<?php } else {
-					if($user->photo_id == 0) {
-						$images = Utility::getTimThumb(Yii::app()->request->baseUrl.'/public/users/default.png', 60, 60, 1);
-					} else {
-						$images = Utility::getTimThumb(Yii::app()->request->baseUrl.'/public/users/'.$user->user_id.'/'.$user->photo->photo, 60, 60, 1);
-					}?>
+					$image = Yii::app()->request->baseUrl.'/public/users/default.png';
+					if($user->photos)
+						$image = Yii::app()->request->baseUrl.'/public/users/'.$user->user_id.'/'.$user->photos;?>
 					<div class="user-info clearfix">
-						<img src="<?php echo $images;?>" alt="<?php echo $user->photo_id != 0 ? $user->displayname: 'Ommu Platform';?>"/>
+						<img src="<?php echo Utility::getTimThumb($image, 60, 60, 1);?>" alt="<?php echo $user->photos ? $user->displayname: 'Ommu Platform';?>"/>
 						<div>
 							<h3><?php echo $user->displayname;?></h3>
 							<?php echo $user->email;?>
