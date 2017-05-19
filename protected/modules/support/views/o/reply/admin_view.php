@@ -26,17 +26,23 @@
 			array(
 				'name'=>'reply_id',
 				'value'=>$model->reply_id,
-				//'value'=>$model->reply_id != '' ? $model->reply_id : '-',
 			),
 			array(
 				'name'=>'publish',
 				'value'=>$model->publish == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
-				//'value'=>$model->publish,
+				'type'=>'raw',
 			),
 			array(
-				'name'=>'feedback_id',
-				'value'=>$model->feedback_id,
-				//'value'=>$model->feedback_id != '' ? $model->feedback_id : '-',
+				'name'=>'user_i',
+				'value'=>$model->feedback->displayname ? $model->feedback->displayname : '-',
+			),
+			array(
+				'name'=>'subject_search',
+				'value'=>$model->feedback->subject ? $model->feedback->subject : '-',
+			),
+			array(
+				'name'=>'message_i',
+				'value'=>$model->feedback->message ? $model->feedback->message : '-',
 			),
 			array(
 				'name'=>'reply_message',
@@ -50,8 +56,7 @@
 			),
 			array(
 				'name'=>'creation_id',
-				'value'=>$model->creation_id,
-				//'value'=>$model->creation_id != 0 ? $model->creation_id : '-',
+				'value'=>$model->creation_id != 0 ? $model->creation->displayname : '-',
 			),
 			array(
 				'name'=>'modified_date',
@@ -59,8 +64,7 @@
 			),
 			array(
 				'name'=>'modified_id',
-				'value'=>$model->modified_id,
-				//'value'=>$model->modified_id != 0 ? $model->modified_id : '-',
+				'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
 			),
 		),
 	)); ?>

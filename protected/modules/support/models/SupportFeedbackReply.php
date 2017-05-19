@@ -40,7 +40,7 @@ class SupportFeedbackReply extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
-	public $feedback_search;
+	public $subject_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -78,7 +78,7 @@ class SupportFeedbackReply extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('reply_id, publish, feedback_id, reply_message, creation_date, creation_id, modified_date, modified_id,
-				feedback_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				subject_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -106,13 +106,15 @@ class SupportFeedbackReply extends CActiveRecord
 			'publish' => Yii::t('attribute', 'Publish'),
 			'feedback_id' => Yii::t('attribute', 'Feedback'),
 			'reply_message' => Yii::t('attribute', 'Reply Message'),
-			'creation_date' => Yii::t('attribute', 'Creation Date'),
-			'creation_id' => Yii::t('attribute', 'Creation'),
+			'creation_date' => Yii::t('attribute', 'Replied Date'),
+			'creation_id' => Yii::t('attribute', 'Replied'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'feedback_search' => Yii::t('attribute', 'Feedback'),
+			'subject_search' => Yii::t('attribute', 'Subject'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'user_i' => Yii::t('attribute', 'User'),
+			'message_i' => Yii::t('attribute', 'Message'),
 		);
 		/*
 			'Reply' => 'Reply',
@@ -190,7 +192,7 @@ class SupportFeedbackReply extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('feedback.subject',strtolower($this->feedback_search), true);
+		$criteria->compare('feedback.subject',strtolower($this->subject_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -255,7 +257,7 @@ class SupportFeedbackReply extends CActiveRecord
 			);
 			if(!isset($_GET['feedback'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'feedback_search',
+					'name' => 'subject_search',
 					'value' => '$data->feedback->subject ? $data->feedback->subject : \'-\'',
 				);
 			}

@@ -37,7 +37,7 @@ class SupportFeedbackView extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
-	public $feedback_search;
+	public $subject_search;
 	public $user_search;
 
 	/**
@@ -73,7 +73,7 @@ class SupportFeedbackView extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('view_id, feedback_id, user_id, views, creation_date,
-				feedback_search, user_search', 'safe', 'on'=>'search'),
+				subject_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -100,8 +100,8 @@ class SupportFeedbackView extends CActiveRecord
 			'feedback_id' => Yii::t('attribute', 'Feedback'),
 			'user_id' => Yii::t('attribute', 'User'),
 			'views' => Yii::t('attribute', 'Views'),
-			'creation_date' => Yii::t('attribute', 'Creation Date'),
-			'feedback_search' => Yii::t('attribute', 'Feedback'),
+			'creation_date' => Yii::t('attribute', 'Viewed Date'),
+			'subject_search' => Yii::t('attribute', 'Subject'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
 		/*
@@ -156,7 +156,7 @@ class SupportFeedbackView extends CActiveRecord
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		
-		$criteria->compare('feedback.subject',strtolower($this->feedback_search), true);
+		$criteria->compare('feedback.subject',strtolower($this->subject_search), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 
 		if(!isset($_GET['SupportFeedbackView_sort']))
@@ -209,7 +209,7 @@ class SupportFeedbackView extends CActiveRecord
 			);
 			if(!isset($_GET['feedback'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'feedback_search',
+					'name' => 'subject_search',
 					'value' => '$data->feedback->subject ? $data->feedback->subject : \'-\'',
 				);
 			}
