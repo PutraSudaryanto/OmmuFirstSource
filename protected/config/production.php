@@ -21,11 +21,6 @@ return array(
 	'language'       => 'id',
 	'behaviors' => array('AppConfigBehavior'),
 
-	// Language setting
-	'sourceLanguage' => '00',
-	'language'       => 'id',
-	'behaviors' => array('AppConfigBehavior'),
-
 	// preloading 'log' component
 	'preload'=>array('log', 'ommu'),
 
@@ -37,7 +32,6 @@ return array(
 		'application.modules.report.models.*',
 		'application.modules.support.models.*',
 		'application.modules.users.models.*',
-		'application.modules.users.models.Users',
 		//'application.modules.personal.models.*',
 
 		// Components
@@ -77,7 +71,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
+			'errorAction'=>'site/error',
         ),
 
 		'log'=>array(
