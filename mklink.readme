@@ -56,6 +56,10 @@ protected\views
 =======
 mklink /J "D:\htdocs\_project_ommu_1st_source\protected\views" "D:\htdocs\_project_ommu_platform\protected\views"
 -------
+protected\webs
+=======
+mklink /J "D:\htdocs\_project_ommu_1st_source\protected\webs" "D:\htdocs\_project_ommu_platform\protected\webs"
+-------
 themes
 =======
 mklink /J "D:\htdocs\_project_ommu_1st_source\themes\ommu" "D:\htdocs\_project_ommu_bootstrap\themes\ommu"
