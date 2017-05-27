@@ -3,7 +3,7 @@
  * Ommu class file
  * Bootstrap application
  * in this class you set default controller to be executed first time
- * version: 1.2.0
+ * version: 1.3.0
  *
  * Reference start
  *
@@ -16,7 +16,7 @@
  * @create date August 6, 2012 15:02 WIB
  * @updated date February 20, 2014 15:50 WIB
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------

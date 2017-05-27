@@ -4,7 +4,7 @@
  * @var $this MenucategoryController
  * @var $model OmmuMenuCategory
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -23,7 +23,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 15 January 2016, 16:57 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------

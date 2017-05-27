@@ -1,7 +1,7 @@
 <?php
 /**
  * CMenu class file.
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>

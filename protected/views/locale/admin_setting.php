@@ -4,11 +4,11 @@
  * @var $this LocaleController
  * @var $model OmmuLocale
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
