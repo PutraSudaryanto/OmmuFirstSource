@@ -61,15 +61,14 @@ content_menu	:
 	- urlTitle: Add Author
 		urlRules: {author, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: add, attr: -, icon: -}
-
-	- urlTitle: Author Contact
+	- urlTitle: Author Contacts
 		urlRules: {author, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: authorcontact/manage, attr: -, icon: -}
+		urlPath: {url: contact/manage, attr: -, icon: -}
 		
-# controller authorcontact
+# controller contact
 
 	- urlTitle: Back to Author
-		urlRules: {authorcontact, manage, siteType: "0,1", userLevel: "1,2"}
+		urlRules: {contact, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: author/manage, attr: -, icon: -}		
 	
 # controller module
