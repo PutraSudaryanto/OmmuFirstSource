@@ -16,6 +16,16 @@ content_menu	:
 	- urlTitle: Add Contact Category
 		urlRules: {contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: add, attr: -, icon: -}
+		
+# controller globaltag
+	- urlTitle: Add Tags
+		urlRules: {globaltag, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: add, attr: -, icon: -}
+		
+# controller language
+	- urlTitle: Create New Language Pack
+		urlRules: {language, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
         
 # controller meta
 	- urlTitle: Global Meta
@@ -44,16 +54,6 @@ content_menu	:
 	- urlTitle: View Pages
 		urlRules: {page, edit, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: view, attr: id=$_GET*id, icon: -}
-		
-# controller globaltag
-	- urlTitle: Add Tags
-		urlRules: {globaltag, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
-		
-# controller language
-	- urlTitle: Create New Language Pack
-		urlRules: {language, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: add, attr: -, icon: -}
 		
 # controller translate
 	- urlTitle: Add Front Phrase

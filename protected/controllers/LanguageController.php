@@ -117,6 +117,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$jsonError = CActiveForm::validate($setting);
 			if(strlen($jsonError) > 2) {
 				echo $jsonError;
+				
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($setting->save()) {
@@ -252,7 +253,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Yii::t('phrase', 'Update Language Pack').': '.$model->name;
+			$this->pageTitle = Yii::t('phrase', 'Update Language: $language_name', array('$language_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -286,7 +287,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Language');
+			$this->pageTitle = Yii::t('phrase', 'Delete Language: $language_name', array('$language_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -308,6 +309,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$title = Yii::t('phrase', 'Actived');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title: $language_name', array('$language_name'=>$model->name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -330,7 +332,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_active',array(
