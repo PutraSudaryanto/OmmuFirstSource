@@ -39,6 +39,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $contact_search;
 
 	/**
 	 * Behaviors for this model
@@ -90,7 +91,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
-				title_i, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, creation_search, modified_search, contact_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,6 +103,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewAuthorContactCategory', 'cat_id'),
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -124,6 +126,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 			'title_i' => Yii::t('attribute', 'Category'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'contact_search' => Yii::t('attribute', 'Contacts'),
 		);
 		/*
 			'Cat' => 'Cat',
@@ -205,6 +208,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
+		$criteria->compare('view.contacts',$this->contact_search);
 
 		if(!isset($_GET['OmmuAuthorContactCategory_sort']))
 			$criteria->order = 't.cat_id DESC';
@@ -297,6 +301,14 @@ class OmmuAuthorContactCategory extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'contact_search',
+				'value' => 'CHtml::link($data->view->contacts ? $data->view->contacts : 0, Yii::app()->controller->createUrl("contact/manage",array("category"=>$data->cat_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
