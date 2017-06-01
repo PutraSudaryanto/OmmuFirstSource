@@ -98,19 +98,22 @@ EOP;
 
 		<div id="photo" class="filter <?php echo $model->twitter_card != 3 ? 'hide' : '';?>">
 			<div class="clearfix">
-				<label><?php echo $model->getAttributeLabel('twitter_photo_width');?> <span class="required">*</span></label>
+				<label><?php echo $model->getAttributeLabel('twitter_photo_width_i');?> <span class="required">*</span></label>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_photo_width',array('maxlength'=>3,'class'=>'span-3')); ?>
-					<?php echo $form->error($model,'twitter_photo_width'); ?>
+					<?php 
+					if(!$model->getErrors())
+						$model->twitter_photo_size = unserialize($model->twitter_photo_size);
+					echo $form->textField($model,'twitter_photo_size[width]',array('maxlength'=>3,'class'=>'span-3')); ?>
+					<?php echo $form->error($model,'twitter_photo_size[width]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Providing width in px helps us more accurately preserve the aspect ratio of the image when resizing');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<label><?php echo $model->getAttributeLabel('twitter_photo_height');?> <span class="required">*</span></label>
+				<label><?php echo $model->getAttributeLabel('twitter_photo_height_i');?> <span class="required">*</span></label>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_photo_height',array('maxlength'=>3,'class'=>'span-3')); ?>
-					<?php echo $form->error($model,'twitter_photo_height'); ?>
+					<?php echo $form->textField($model,'twitter_photo_size[height]',array('maxlength'=>3,'class'=>'span-3')); ?>
+					<?php echo $form->error($model,'twitter_photo_size[height]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Providing height in px helps us more accurately preserve the aspect ratio of the image when resizing');?></span>
 				</div>
 			</div>
@@ -127,82 +130,91 @@ EOP;
 			</div>
 			
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_iphone_name'); ?>
+				<?php echo $form->labelEx($model,'twitter_iphone_name_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_iphone_name',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_iphone_name'); ?>
+					<?php
+					if(!$model->getErrors())
+						$model->twitter_iphone = unserialize($model->twitter_iphone);
+					echo $form->textField($model,'twitter_iphone[name]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_iphone[name]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Name of your iPhone app');?></span>
 				</div>
 			</div>
 			
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_iphone_id'); ?>
+				<?php echo $form->labelEx($model,'twitter_iphone_id_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_iphone_id',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_iphone_id'); ?>
+					<?php echo $form->textField($model,'twitter_iphone[id]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_iphone[id]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'String value, and should be the numeric representation of your app ID in the App Store (.i.e. "307234931")');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_iphone_url'); ?>
+				<?php echo $form->labelEx($model,'twitter_iphone_url_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_iphone_url',array('class'=>'span-7')); ?>
-					<?php echo $form->error($model,'twitter_iphone_url'); ?>
+					<?php echo $form->textField($model,'twitter_iphone[url]',array('class'=>'span-7')); ?>
+					<?php echo $form->error($model,'twitter_iphone[url]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Your app\'s custom URL scheme (you must include "://" after your scheme name)');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_ipad_name'); ?>
+				<?php echo $form->labelEx($model,'twitter_ipad_name_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_ipad_name',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_ipad_name'); ?>
+					<?php 
+					if(!$model->getErrors())
+						$model->twitter_ipad = unserialize($model->twitter_ipad);
+					echo $form->textField($model,'twitter_ipad[name]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_ipad[name]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Name of your iPad optimized app');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_ipad_id'); ?>
+				<?php echo $form->labelEx($model,'twitter_ipad_id_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_ipad_id',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_ipad_id'); ?>
+					<?php echo $form->textField($model,'twitter_ipad[id]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_ipad[id]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'String value, should be the numeric representation of your app ID in the App Store (.i.e. “307234931”)');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_ipad_url'); ?>
+				<?php echo $form->labelEx($model,'twitter_ipad_url_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_ipad_url',array('class'=>'span-7')); ?>
-					<?php echo $form->error($model,'twitter_ipad_url'); ?>
+					<?php echo $form->textField($model,'twitter_ipad[url]',array('class'=>'span-7')); ?>
+					<?php echo $form->error($model,'twitter_ipad[url]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Your app\'s custom URL scheme (you must include "://" after your scheme name)');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_googleplay_name'); ?>
+				<?php echo $form->labelEx($model,'twitter_googleplay_name_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_googleplay_name',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_googleplay_name'); ?>
+					<?php 
+					if(!$model->getErrors())
+						$model->twitter_googleplay = unserialize($model->twitter_googleplay);
+					echo $form->textField($model,'twitter_googleplay[name]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_googleplay[name]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Name of your Android app');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_googleplay_id'); ?>
+				<?php echo $form->labelEx($model,'twitter_googleplay_id_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_googleplay_id',array('maxlength'=>32,'class'=>'span-4')); ?>
-					<?php echo $form->error($model,'twitter_googleplay_id'); ?>
+					<?php echo $form->textField($model,'twitter_googleplay[id]',array('maxlength'=>32,'class'=>'span-4')); ?>
+					<?php echo $form->error($model,'twitter_googleplay[id]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'String value, and should be the numeric representation of your app ID in Google Play (.i.e. "co.ommu.nirwasita")');?></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<?php echo $form->labelEx($model,'twitter_googleplay_url'); ?>
+				<?php echo $form->labelEx($model,'twitter_googleplay_url_i'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'twitter_googleplay_url',array('class'=>'span-7')); ?>
-					<?php echo $form->error($model,'twitter_googleplay_url'); ?>
+					<?php echo $form->textField($model,'twitter_googleplay[url]',array('class'=>'span-7')); ?>
+					<?php echo $form->error($model,'twitter_googleplay[url]'); ?>
 					<span class="small-px silent"><?php echo Yii::t('phrase', 'Your app\'s custom URL scheme (.i.e. "http://play.google.com/store/apps/details?id=co.ommu.nirwasita")');?></span>
 				</div>
 			</div>

@@ -227,19 +227,22 @@
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'twitter_photo_width'); ?>
+		<?php echo $form->labelEx($model,'twitter_photo_width_i'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'twitter_photo_width',array('size'=>3,'maxlength'=>3)); ?>
-			<?php echo $form->error($model,'twitter_photo_width'); ?>
+			<?php 
+			if(!$model->getErrors())
+				$model->twitter_photo_size = unserialize($model->twitter_photo_size);
+			echo $form->textField($model,'twitter_photo_size[width]',array('maxlength'=>3)); ?>
+			<?php echo $form->error($model,'twitter_photo_size[width]'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'twitter_photo_height'); ?>
+		<?php echo $form->labelEx($model,'twitter_photo_height_i'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'twitter_photo_height',array('size'=>3,'maxlength'=>3)); ?>
-			<?php echo $form->error($model,'twitter_photo_height'); ?>
+			<?php echo $form->textField($model,'twitter_photo_size[height]',array('maxlength'=>3)); ?>
+			<?php echo $form->error($model,'twitter_photo_size[height]'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>

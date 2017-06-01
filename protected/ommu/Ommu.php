@@ -145,6 +145,11 @@ $moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<category:\d+>
 		$images = $meta->meta_image != '' ? $meta->meta_image : 'meta_default.png';
 		$metaImages = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/'.$images;
 		
+		$twitter_photo_size = unserialize($meta->twitter_photo_size);
+		$twitter_iphone = unserialize($meta->twitter_iphone);
+		$twitter_ipad = unserialize($meta->twitter_ipad);
+		$twitter_googleplay = unserialize($meta->twitter_photo_size);
+		
 		// Google Discoverability mata tags
 		$point = explode(',', $meta->office_location);
 		
@@ -181,31 +186,31 @@ $moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<category:\d+>
 		} else if($meta->twitter_card == 3) {
 			$cardType = 'photo';
 			$arrayTwitter = array(
-				'twitter:image:width'=>$meta->twitter_photo_width,
-				'twitter:image:height'=>$meta->twitter_photo_height,
+				'twitter:image:width'=>$twitter_photo_size['width'],
+				'twitter:image:height'=>$twitter_photo_size['height'],
 			);
 		} else {
 			$cardType = 'app';
 			if($meta->twitter_country != '')
 				$arrayTwitter['twitter:app:country'] = $meta->twitter_country;
-			if($meta->twitter_iphone_name != '')
-				$arrayTwitter['twitter:app:name:iphone'] = $meta->twitter_iphone_name;
-			if($meta->twitter_iphone_id != '')
-				$arrayTwitter['twitter:app:id:iphone'] = $meta->twitter_iphone_id;
-			if($meta->twitter_iphone_url != '')
-				$arrayTwitter['twitter:app:url:iphone'] = $meta->twitter_iphone_url;
-			if($meta->twitter_ipad_name != '')
-				$arrayTwitter['twitter:app:name:ipad'] = $meta->twitter_ipad_name;
-			if($meta->twitter_ipad_id != '')
-				$arrayTwitter['twitter:app:id:ipad'] = $meta->twitter_ipad_id;
-			if($meta->twitter_ipad_url != '')
-				$arrayTwitter['twitter:app:url:ipad'] = $meta->twitter_ipad_url;
-			if($meta->twitter_googleplay_name != '')
-				$arrayTwitter['twitter:app:name:googleplay'] = $meta->twitter_googleplay_name;
-			if($meta->twitter_googleplay_id != '')
-				$arrayTwitter['twitter:app:id:googleplay'] = $meta->twitter_googleplay_id;
-			if($meta->twitter_googleplay_url != '')
-				$arrayTwitter['twitter:app:url:googleplay'] = $meta->twitter_googleplay_url;
+			if($twitter_iphone['name'] != '')
+				$arrayTwitter['twitter:app:name:iphone'] = $twitter_iphone['name'];
+			if($twitter_iphone['id'] != '')
+				$arrayTwitter['twitter:app:id:iphone'] = $twitter_iphone['id'];
+			if($twitter_iphone['url'] != '')
+				$arrayTwitter['twitter:app:url:iphone'] = $twitter_iphone['url'];
+			if($twitter_ipad['name'] != '')
+				$arrayTwitter['twitter:app:name:ipad'] = $twitter_ipad['name'];
+			if($twitter_ipad['id'] != '')
+				$arrayTwitter['twitter:app:id:ipad'] = $twitter_ipad['id'];
+			if($twitter_ipad['url'] != '')
+				$arrayTwitter['twitter:app:url:ipad'] = $twitter_ipad['url'];
+			if($twitter_googleplay['name'] != '')
+				$arrayTwitter['twitter:app:name:googleplay'] = $twitter_googleplay['name'];
+			if($twitter_googleplay['id'] != '')
+				$arrayTwitter['twitter:app:id:googleplay'] = $twitter_googleplay['id'];
+			if($twitter_googleplay['url'] != '')
+				$arrayTwitter['twitter:app:url:googleplay'] = $twitter_googleplay['url'];
 			
 			if(empty($arrayTwitter))
 				$arrayTwitter = array();
