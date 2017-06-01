@@ -25,18 +25,23 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('publish'); ?><br/>
+			<?php echo $form->textField($model,'publish'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('author_id'); ?><br/>
 			<?php echo $form->textField($model,'author_id'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('type'); ?><br/>
-			<?php echo $form->textField($model,'type'); ?>
+			<?php echo $model->getAttributeLabel('cat_id'); ?><br/>
+			<?php echo $form->textField($model,'cat_id'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('contact'); ?><br/>
-			<?php echo $form->textField($model,'contact'); ?>
+			<?php echo $model->getAttributeLabel('contact_value'); ?><br/>
+			<?php echo $form->textField($model,'contact_value'); ?>
 		</li>
 
 		<li>

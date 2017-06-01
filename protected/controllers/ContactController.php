@@ -127,7 +127,7 @@ class ContactController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Author Contact Manage');
+		$this->pageTitle = Yii::t('phrase', 'Author Contacts');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -175,7 +175,7 @@ class ContactController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Yii::t('phrase', 'Create Author Contact');
+			$this->pageTitle = Yii::t('phrase', 'Create Contact');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_add',array(
@@ -225,7 +225,7 @@ class ContactController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Yii::t('phrase', 'Update Author Contact: $author_name ($author_email)', array('$author_name'=>$model->author->name,'$author_email'=>$model->author->email));
+			$this->pageTitle = Yii::t('phrase', 'Update Contact: $contact_value ($category_name) author $author_name', array('$contact_value'=>$model->contact_value, '$category_name'=>Phrase::trans($model->category->name), '$author_name'=>$model->author->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -261,10 +261,59 @@ class ContactController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Author Contact: $author_name ($author_email)', array('$author_name'=>$model->author->name,'$author_email'=>$model->author->email));
+			$this->pageTitle = Yii::t('phrase', 'Delete Contact: $contact_value ($category_name) author $author_name', array('$contact_value'=>$model->contact_value, '$category_name'=>Phrase::trans($model->category->name), '$author_name'=>$model->author->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionPublish($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		if($model->publish == 1) {
+			$title = Yii::t('phrase', 'Unpublish');
+			$replace = 0;
+		} else {
+			$title = Yii::t('phrase', 'Publish');
+			$replace = 1;
+		}
+		$pageTitle = Yii::t('phrase', '$title: $contact_value ($category_name) author $author_name', array('$title'=>$title, '$contact_value'=>$model->contact_value, '$category_name'=>Phrase::trans($model->category->name), '$author_name'=>$model->author->name));
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				//change value active or publish
+				$model->publish = $replace;
+
+				if($model->update()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-ommu-author-contact',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Author contact success updated.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = $pageTitle;
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('/contact_category/admin_publish',array(
+				'title'=>$title,
+				'model'=>$model,
+			));
 		}
 	}
 

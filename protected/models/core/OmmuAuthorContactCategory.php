@@ -114,7 +114,7 @@ class OmmuAuthorContactCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => Yii::t('attribute', 'Cat'),
+			'cat_id' => Yii::t('attribute', 'Category'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'name' => Yii::t('attribute', 'Category'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
@@ -331,6 +331,33 @@ class OmmuAuthorContactCategory extends CActiveRecord
 			$model = self::model()->findByPk($id);
 			return $model;			
 		}
+	}
+	/**
+	 * Get category
+	 * 0 = unpublish
+	 * 1 = publish
+	 */
+	public static function getCategory($publish=null, $type=null) 
+	{		
+		$criteria=new CDbCriteria;
+		if($publish != null)
+			$criteria->compare('publish',$publish);
+		
+		$model = self::model()->findAll($criteria);
+
+		if($type == null) {
+			$items = array();
+			if($model != null) {
+				foreach($model as $key => $val) {
+					$items[$val->cat_id] = Phrase::trans($val->name);
+				}
+				return $items;
+				
+			} else
+				return false;
+			
+		} else if($type == 'data')
+			return $model;
 	}
 
 	/**

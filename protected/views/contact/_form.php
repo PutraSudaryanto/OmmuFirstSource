@@ -39,20 +39,34 @@
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'type'); ?>
+			<?php echo $form->labelEx($model,'cat_id'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'type'); ?>
-				<?php echo $form->error($model,'type'); ?>
+				<?php 
+				$category = OmmuAuthorContactCategory::getCategory();
+				if($category != null)
+					echo $form->dropDownList($model,'cat_id', $category, array('prompt'=>Yii::t('phrase', 'Select One')));
+				else
+					echo $form->dropDownList($model,'cat_id', array('prompt'=>Yii::t('phrase', 'Select One'))); ?>
+				<?php echo $form->error($model,'cat_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'contact'); ?>
+			<?php echo $form->labelEx($model,'contact_value'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'contact',array('maxlength'=>64)); ?>
-				<?php echo $form->error($model,'contact'); ?>
+				<?php echo $form->textField($model,'contact_value'); ?>
+				<?php echo $form->error($model,'contact_value'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'publish'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'publish'); ?>
+				<?php echo $form->labelEx($model,'publish'); ?>
+				<?php echo $form->error($model,'publish'); ?>
 			</div>
 		</div>
 
