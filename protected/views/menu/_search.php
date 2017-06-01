@@ -22,7 +22,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('id'); ?><br/>
-			<?php echo $form->textField($model,'id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'id'); ?>
 		</li>
 
 		<li>
@@ -36,38 +36,38 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('dependency'); ?><br/>
-			<?php echo $form->textField($model,'dependency'); ?>
+			<?php echo $model->getAttributeLabel('parent'); ?><br/>
+			<?php echo $form->textField($model,'parent'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('orders'); ?><br/>
-			<?php echo $form->textField($model,'orders'); ?>
+			<?php echo $model->getAttributeLabel('order'); ?><br/>
+			<?php echo $form->textField($model,'order'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('name'); ?><br/>
-			<?php echo $form->textField($model,'name',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('url'); ?><br/>
-			<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $form->textField($model,'url'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('attr'); ?><br/>
-			<?php echo $form->textField($model,'attr',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $form->textField($model,'attr'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('sitetype_access'); ?><br/>
-			<?php echo $form->textField($model,'sitetype_access',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'sitetype_access'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('userlevel_access'); ?><br/>
-			<?php echo $form->textField($model,'userlevel_access',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'userlevel_access'); ?>
 		</li>
 
 		<li>
@@ -77,7 +77,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -87,7 +87,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

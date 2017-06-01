@@ -26,6 +26,16 @@ content_menu	:
 	- urlTitle: Create New Language Pack
 		urlRules: {language, manage, siteType: "0,1", userLevel: 1}
 		urlPath: {url: add, attr: -, icon: -}
+		
+# controller menucategory
+	- urlTitle: Add Menu Category
+		urlRules: {menucategory, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
+		
+# controller menu
+	- urlTitle: Add Menu
+		urlRules: {menu, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
         
 # controller meta
 	- urlTitle: Global Meta
@@ -70,18 +80,6 @@ content_menu	:
 	- urlTitle: View All Module
 		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
 		urlPath: {url: module/manage, attr: type=all, icon: -}
-		
-# controller menu
-
-	- urlTitle: Add Menu
-		urlRules: {menu, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: add, attr: -, icon: -}
-		
-# controller menucategory
-
-	- urlTitle: Add Menu Category
-		urlRules: {menucategory, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: add, attr: -, icon: -}
 		
 #minus theme, template
 

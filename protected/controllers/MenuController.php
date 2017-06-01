@@ -109,8 +109,13 @@ class MenuController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($category=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Menus');
+		if($category != null) {
+			$data = OmmuMenuCategory::model()->findByPk($category);
+			$pageTitle = Yii::t('phrase', 'Menus: category $category_name', array ('$category_name'=>Phrase::trans($data->name)));
+		}
 		$model=new OmmuMenu('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['OmmuMenu'])) {
@@ -127,7 +132,7 @@ class MenuController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Ommu Menus Manage');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -161,7 +166,7 @@ class MenuController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-menu',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenu success created.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -175,7 +180,7 @@ class MenuController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Create Ommu Menus');
+		$this->pageTitle = Yii::t('phrase', 'Create Menu');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -209,7 +214,7 @@ class MenuController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-menu',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenu success updated.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -223,7 +228,7 @@ class MenuController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Update Ommu Menus');
+		$this->pageTitle = Yii::t('phrase', 'Update Menu: $menu_name from category $category_name', array('$menu_name'=>Phrase::trans($model->name),'$category_name'=>Phrase::trans($model->cat->name)));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -243,7 +248,7 @@ class MenuController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 500;
 		
-		$this->pageTitle = Yii::t('phrase', 'View Ommu Menus');
+		$this->pageTitle = Yii::t('phrase', 'View Menu: $menu_name from category $category_name', array('$menu_name'=>Phrase::trans($model->name),'$category_name'=>Phrase::trans($model->cat->name)));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -304,7 +309,7 @@ class MenuController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-menu',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenu success deleted.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -314,7 +319,7 @@ class MenuController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'OmmuMenu Delete.');
+			$this->pageTitle = Yii::t('phrase', 'Delete Menu: $menu_name from category $category_name', array('$menu_name'=>Phrase::trans($model->name),'$category_name'=>Phrase::trans($model->cat->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -337,6 +342,7 @@ class MenuController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Menu: $menu_name from category $category_name', array('$title'=>$title,'$menu_name'=>Phrase::trans($model->name),'$category_name'=>Phrase::trans($model->cat->name)));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -349,7 +355,7 @@ class MenuController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-menu',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuMenu success updated.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -359,7 +365,7 @@ class MenuController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

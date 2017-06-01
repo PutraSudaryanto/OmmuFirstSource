@@ -26,8 +26,8 @@
  * @property string $id
  * @property integer $publish
  * @property integer $cat_id
- * @property integer $dependency
- * @property integer $orders
+ * @property integer $parent
+ * @property integer $order
  * @property string $name
  * @property string $url
  * @property string $attr
@@ -44,7 +44,7 @@
 class OmmuMenu extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $title;
+	public $title_i;
 	
 	// Variable Search
 	public $parent_search;
@@ -79,17 +79,17 @@ class OmmuMenu extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('publish, cat_id, url,
-				title', 'required'),
-			array('publish, cat_id, dependency, orders, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
+				title_i', 'required'),
+			array('publish, cat_id, parent, order, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('name, creation_id, modified_id', 'length', 'max'=>11),
-			array('sitetype_access, userlevel_access,
-				title', 'length', 'max'=>32),
-			array('attr,
-				title', 'safe'),
+			array('
+				title_i', 'length', 'max'=>32),
+			array('attr, sitetype_access, userlevel_access,
+				title_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, cat_id, dependency, orders, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
-				title, parent_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('id, publish, cat_id, parent, order, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
+				title_i, parent_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -106,7 +106,8 @@ class OmmuMenu extends CActiveRecord
 			'cat' => array(self::BELONGS_TO, 'OmmuMenuCategory', 'cat_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
-			'submenus' => array(self::HAS_MANY, 'OmmuMenu', 'dependency', 'on'=>'submenus.publish=1'),
+			'parentmenu' => array(self::BELONGS_TO, 'OmmuMenu', 'parent'),
+			'submenus' => array(self::HAS_MANY, 'OmmuMenu', 'parent', 'on'=>'submenus.publish=1'),
 		);
 	}
 
@@ -119,9 +120,9 @@ class OmmuMenu extends CActiveRecord
 			'id' => Yii::t('attribute', 'ID'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'cat_id' => Yii::t('attribute', 'Category'),
-			'dependency' => Yii::t('attribute', 'Parent'),
-			'orders' => Yii::t('attribute', 'Orders'),
-			'name' => Yii::t('attribute', 'Name'),
+			'parent' => Yii::t('attribute', 'Parent'),
+			'order' => Yii::t('attribute', 'Order'),
+			'name' => Yii::t('attribute', 'Title'),
 			'url' => Yii::t('attribute', 'Url'),
 			'attr' => Yii::t('attribute', 'Attribute'),
 			'sitetype_access' => Yii::t('attribute', 'Sitetype Access'),
@@ -130,6 +131,7 @@ class OmmuMenu extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'title_i' => Yii::t('attribute', 'Title'),
 			'parent_search' => Yii::t('attribute', 'Parent'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -166,12 +168,12 @@ class OmmuMenu extends CActiveRecord
 				'alias'=>'title',
 				'select'=>$language,
 			),
-			'submenus' => array(
-				'alias'=>'submenus',
-				'together' => true,
+			'parentmenu' => array(
+				'alias'=>'parentmenu',
+				'select'=>'name'
 			),
-			'submenus.title' => array(
-				'alias'=>'submenu_title',
+			'parentmenu.title' => array(
+				'alias'=>'parentmenu_title',
 				'select'=>$language,
 			),
 			'creation' => array(
@@ -199,8 +201,8 @@ class OmmuMenu extends CActiveRecord
 			$criteria->compare('t.cat_id',$_GET['category']);
 		else
 			$criteria->compare('t.cat_id',$this->cat_id);
-		$criteria->compare('t.dependency',$this->dependency);
-		$criteria->compare('t.orders',$this->orders);
+		$criteria->compare('t.parent',$this->parent);
+		$criteria->compare('t.order',$this->order);
 		$criteria->compare('t.name',strtolower($this->name),true);
 		$criteria->compare('t.url',strtolower($this->url),true);
 		$criteria->compare('t.attr',strtolower($this->attr),true);
@@ -219,8 +221,8 @@ class OmmuMenu extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title), true);
-		$criteria->compare('submenu_title.'.$language,strtolower($this->parent_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
+		$criteria->compare('parentmenu_title.'.$language,strtolower($this->parent_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -256,8 +258,8 @@ class OmmuMenu extends CActiveRecord
 			//$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'cat_id';
-			$this->defaultColumns[] = 'dependency';
-			$this->defaultColumns[] = 'orders';
+			$this->defaultColumns[] = 'parent';
+			$this->defaultColumns[] = 'order';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'url';
 			$this->defaultColumns[] = 'attr';
@@ -298,12 +300,12 @@ class OmmuMenu extends CActiveRecord
 				);
 			}
 			$this->defaultColumns[] = array(
-				'name' => 'title',
+				'name' => 'title_i',
 				'value' => 'Phrase::trans($data->submenus->title->name)',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'parent_search',
-				'value' => '$data->dependency != 0 ? $data->dependency : "-"',
+				'value' => '$data->parent != 0 ? Phrase::trans($data->parentmenu->name) : "-"',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
@@ -375,13 +377,13 @@ class OmmuMenu extends CActiveRecord
 	 * 0 = unpublish
 	 * 1 = publish
 	 */
-	public static function getParentMenu($publish=null, $dependency=null, $type=null) 
+	public static function getParentMenu($publish=null, $parent=null, $type=null) 
 	{		
 		$criteria=new CDbCriteria;
 		if($publish != null)
 			$criteria->compare('t.publish',$publish);
-		if($dependency != null)
-			$criteria->compare('t.dependency',$dependency);
+		if($parent != null)
+			$criteria->compare('t.parent',$parent);
 		
 		$model = self::model()->findAll($criteria);
 
@@ -417,22 +419,25 @@ class OmmuMenu extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$controller = strtolower(Yii::app()->controller->id);
+		$location = Utility::getUrlTitle($controller);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				if($title->save())
 					$this->name = $title->phrase_id;
 				
 			} else {
 				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				$title->save();
 			}
+			
+			$this->sitetype_access = serialize($this->sitetype_access);
+			$this->userlevel_access = serialize($this->userlevel_access);
 		}
 		return true;
 	}
