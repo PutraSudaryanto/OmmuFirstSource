@@ -346,7 +346,7 @@ class GlobaltagController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
-		$pageTitle = Yii::t('phrase', '$title: $tag_name', array('$title'=>$title, '$tag_name'=>$model->body));
+		$pageTitle = Yii::t('phrase', '$title Tag: $tag_name', array('$title'=>$title, '$tag_name'=>$model->body));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request

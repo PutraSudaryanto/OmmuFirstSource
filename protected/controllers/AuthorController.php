@@ -342,7 +342,7 @@ class AuthorController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
-		$pageTitle = Yii::t('phrase', '$title: $author_name', array('$title'=>$title, '$author_name'=>$model->name));
+		$pageTitle = Yii::t('phrase', '$title Author: $author_name', array('$title'=>$title, '$author_name'=>$model->name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request

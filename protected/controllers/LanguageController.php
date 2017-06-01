@@ -309,7 +309,7 @@ class LanguageController extends /*SBaseController*/ Controller
 			$title = Yii::t('phrase', 'Actived');
 			$replace = 1;
 		}
-		$pageTitle = Yii::t('phrase', '$title: $language_name', array('$language_name'=>$model->name));
+		$pageTitle = Yii::t('phrase', '$title Language: $language_name', array('$language_name'=>$model->name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request

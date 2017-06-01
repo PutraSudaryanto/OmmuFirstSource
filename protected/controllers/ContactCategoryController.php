@@ -340,7 +340,7 @@ class ContactCategoryController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
-		$pageTitle = Yii::t('phrase', '$title: $category_name', array('$title'=>$title, '$category_name'=>Phrase::trans($model->name)));
+		$pageTitle = Yii::t('phrase', '$title Contact Category: $category_name', array('$title'=>$title, '$category_name'=>Phrase::trans($model->name)));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
