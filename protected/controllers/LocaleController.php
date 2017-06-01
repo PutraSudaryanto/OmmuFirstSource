@@ -118,11 +118,11 @@ class LocaleController extends Controller
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($model->validate()) {
-						$locale = OmmuLocale::model()->findByPk($model->default_locale);
-						$timezone = OmmuTimezone::model()->findByPk($model->timezone);
+						$locale = OmmuLocale::model()->findByPk($model->default_locale_i);
+						$timezone = OmmuTimezone::model()->findByPk($model->timezone_i);
 						
-						$setting->site_dateformat = $model->dateformat;
-						$setting->site_timeformat = $model->timeformat;
+						$setting->site_dateformat = $model->dateformat_i;
+						$setting->site_timeformat = $model->timeformat_i;
 						
 						if($locale->update() && $timezone->update() && $setting->update()) {
 							echo CJSON::encode(array(
