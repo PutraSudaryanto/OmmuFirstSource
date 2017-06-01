@@ -1,20 +1,20 @@
 <?php
 /**
- * Ommu Authors (ommu-authors)
- * @var $this AuthorController
- * @var $model OmmuAuthors
+ * Ommu Author Contacts (ommu-author-contact)
+ * @var $this ContactController
+ * @var $model OmmuAuthorContacts
  * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
  * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Ommu Authors'=>array('manage'),
-		$model->name,
+		'Ommu Author Contacts'=>array('manage'),
+		$model->contact_value,
 	);
 ?>
 
@@ -22,13 +22,24 @@
 	<?php $this->widget('application.components.system.FDetailView', array(
 		'data'=>$model,
 		'attributes'=>array(
-			'author_id',
+			'id',
 			array(
 				'name'=>'publish',
 				'value'=>$model->publish == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
 				'type'=>'raw',
 			),
-			'name',
+			array(
+				'name'=>'author_id',
+				'value'=>$model->author->name ? $model->author->name : '-',
+			),
+			array(
+				'name'=>'cat_id',
+				'value'=>Phrase::trans($model->category->name),
+			),
+			array(
+				'name'=>'author_id',
+				'value'=>$model->contact_value ? $model->contact_value : '-',
+			),
 			array(
 				'name'=>'creation_date',
 				'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',

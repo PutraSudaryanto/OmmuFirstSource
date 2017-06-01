@@ -31,26 +31,8 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'name'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'name',array('size'=>32,'maxlength'=>32)); ?>
+				<?php echo $form->textField($model,'name',array('maxlength'=>32)); ?>
 				<?php echo $form->error($model,'name'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
-			</div>
-		</div>
-
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'email'); ?>
-			<div class="desc">
-				<?php echo $form->textField($model,'email',array('size'=>32,'maxlength'=>32)); ?>
-				<?php echo $form->error($model,'email'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
-			</div>
-		</div>
-
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'password'); ?>
-			<div class="desc">
-				<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
-				<?php echo $form->error($model,'password'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>

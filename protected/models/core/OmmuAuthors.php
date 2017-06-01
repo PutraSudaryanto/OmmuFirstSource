@@ -25,8 +25,6 @@
  * @property string $author_id
  * @property integer $publish
  * @property string $name
- * @property string $email
- * @property string $password
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -35,11 +33,12 @@
 class OmmuAuthors extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $author_phone;
+	public $author_phone_i;
 	
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $contact_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -68,16 +67,17 @@ class OmmuAuthors extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email', 'required'),
-			array('author_phone', 'required', 'on'=>'phone'),
+			array('name', 'required'),
+			array('
+				author_phone_i', 'required', 'on'=>'phone'),
 			array('publish', 'numerical', 'integerOnly'=>true),
-			array('name, email, password', 'length', 'max'=>32),
-			array('password, creation_date, modified_date,
-				author_phone', 'safe'),
+			array('name', 'length', 'max'=>32),
+			array('
+				author_phone_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('author_id, publish, name, email, password, creation_date, creation_id, modified_date, modified_id,
-				creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('author_id, publish, name, creation_date, creation_id, modified_date, modified_id,
+				creation_search, modified_search, contact_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -89,6 +89,7 @@ class OmmuAuthors extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewAuthors', 'author_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 			'contacts' => array(self::HAS_MANY, 'OmmuAuthorContacts', 'author_id'),
@@ -104,15 +105,14 @@ class OmmuAuthors extends CActiveRecord
 			'author_id' => Yii::t('attribute', 'Author'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'name' => Yii::t('attribute', 'Name'),
-			'email' => Yii::t('attribute', 'Email'),
-			'password' => Yii::t('attribute', 'Password'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'author_phone' => Yii::t('attribute', 'Author Phone'),
+			'author_phone_i' => Yii::t('attribute', 'Author Phone'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'contact_search' => Yii::t('attribute', 'Contacts'),
 		);
 	}
 
@@ -136,6 +136,9 @@ class OmmuAuthors extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'creation' => array(
 				'alias'=>'creation',
 				'select'=>'displayname'
@@ -158,17 +161,22 @@ class OmmuAuthors extends CActiveRecord
 			$criteria->compare('t.publish',$this->publish);
 		}
 		$criteria->compare('t.name',$this->name,true);
-		$criteria->compare('t.email',$this->email,true);
-		$criteria->compare('t.password',$this->password,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('view.contacts',$this->contact_search);
 
 		if(!isset($_GET['OmmuAuthors_sort']))
 			$criteria->order = 't.author_id DESC';
@@ -202,8 +210,6 @@ class OmmuAuthors extends CActiveRecord
 			//$this->defaultColumns[] = 'author_id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'name';
-			$this->defaultColumns[] = 'email';
-			$this->defaultColumns[] = 'password';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -231,8 +237,6 @@ class OmmuAuthors extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = 'name';
-			$this->defaultColumns[] = 'email';
-			//$this->defaultColumns[] = 'password';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -262,6 +266,14 @@ class OmmuAuthors extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'contact_search',
+				'value' => 'CHtml::link($data->view->contacts ? $data->view->contacts : 0, Yii::app()->controller->createUrl("contact/manage",array("author"=>$data->author_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
@@ -312,27 +324,17 @@ class OmmuAuthors extends CActiveRecord
 	}
 	
 	/**
-	 * before save attributes
-	 */
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			$this->email = strtolower($this->email);
-		}
-		return true;	
-	}
-	
-	/**
 	 * After save attributes
 	 */
 	protected function afterSave() {
 		parent::afterSave();
 		
 		if($this->isNewRecord) {
-			if($this->author_phone != '') {
+			if($this->author_phone_i != '') {
 				$contact = new OmmuAuthorContacts;
 				$contact->author_id = $this->author_id;
-				$contact->type = 1;
-				$contact->contact = $this->author_phone;
+				$contact->cat_id = 2;
+				$contact->contact_value = $this->author_phone_i;
 				$contact->save();
 			}
 		}

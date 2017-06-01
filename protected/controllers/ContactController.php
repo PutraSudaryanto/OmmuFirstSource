@@ -12,7 +12,10 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
+ *	RunAction
  *	Delete
+ *	Publish
  *
  *	LoadModel
  *	performAjaxValidation
@@ -109,8 +112,18 @@ class ContactController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($author=null, $category=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Author Contacts');
+		if($author != null) {
+			$data = OmmuAuthors::model()->findByPk($author);
+			$pageTitle = Yii::t('phrase', 'Author Contacts: author $author_name', array ('$author_name'=>$data->name));
+		}
+		if($category != null) {
+			$data = OmmuAuthorContactCategory::model()->findByPk($category);
+			$pageTitle = Yii::t('phrase', 'Author Contacts: category $category_name', array ('$category_name'=>Phrase::trans($data->name)));
+		}
+		
 		$model=new OmmuAuthorContacts('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['OmmuAuthorContacts'])) {
@@ -127,7 +140,7 @@ class ContactController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Author Contacts');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -231,6 +244,62 @@ class ContactController extends Controller
 			$this->render('admin_edit',array(
 				'model'=>$model,
 			));			
+		}
+	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 500;
+
+		$this->pageTitle = Yii::t('phrase', 'View Contact: $contact_value ($category_name) author $author_name', array('$contact_value'=>$model->contact_value, '$category_name'=>Phrase::trans($model->category->name), '$author_name'=>$model->author->name));
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}	
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionRunAction() {
+		$id       = $_POST['trash_id'];
+		$criteria = null;
+		$actions  = $_GET['action'];
+
+		if(count($id) > 0) {
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('id', $id);
+
+			if($actions == 'publish') {
+				OmmuAuthorContacts::model()->updateAll(array(
+					'publish' => 1,
+				),$criteria);
+			} elseif($actions == 'unpublish') {
+				OmmuAuthorContacts::model()->updateAll(array(
+					'publish' => 0,
+				),$criteria);
+			} elseif($actions == 'trash') {
+				OmmuAuthorContacts::model()->updateAll(array(
+					'publish' => 2,
+				),$criteria);
+			} elseif($actions == 'delete') {
+				OmmuAuthorContacts::model()->deleteAll($criteria);
+			}
+		}
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax'])) {
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 	}
 

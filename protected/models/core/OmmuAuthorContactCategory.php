@@ -166,6 +166,9 @@ class OmmuAuthorContactCategory extends CActiveRecord
 			$language = $defaultLang;
 		
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'title' => array(
 				'alias'=>'title',
 				'select'=>$language,
