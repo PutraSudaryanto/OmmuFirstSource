@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('tag_id'); ?><br/>
-			<?php echo $form->textField($model,'tag_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'tag_id'); ?>
 		</li>
 
 		<li>
@@ -31,12 +31,27 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('body'); ?><br/>
-			<?php echo $form->textField($model,'body',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'body'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
-			<?php echo $form->textField($model,'creation_date'); ?>
+			<?php echo $form->textField($model,'creation_date'); ?><br/>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?><br/>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?><br/>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?><br/>
 		</li>
 
 		<li class="submit">

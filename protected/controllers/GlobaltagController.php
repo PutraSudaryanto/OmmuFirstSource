@@ -124,9 +124,8 @@ class GlobaltagController extends Controller
 					foreach($model as $items) {
 						$result[] = array('id' => $items->tag_id, 'value' => $items->body);
 					}
-				} else {
+				} else
 					$result[] = array('id' => 0, 'value' => $_GET['term']);
-				}
 			}
 			echo CJSON::encode($result);
 			Yii::app()->end();
@@ -156,7 +155,7 @@ class GlobaltagController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Tags Manage');
+		$this->pageTitle = Yii::t('phrase', 'Global Tags');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('/global_tag/admin_manage',array(
@@ -253,7 +252,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Yii::t('phrase', 'Update Tag');
+			$this->pageTitle = Yii::t('phrase', 'Update Tag: $tag_name', array('$tag_name'=>$model->body));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_edit',array(
@@ -305,17 +304,19 @@ class GlobaltagController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
-				echo CJSON::encode(array(
-					'type' => 5,
-					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-ommu-tags',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success deleted.').'</strong></div>',
-				));
+				if($model->delete()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-ommu-tags',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Tag success deleted.').'</strong></div>',
+					));
+				}
 			}
 
 		} else {
@@ -323,7 +324,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Tag');
+			$this->pageTitle = Yii::t('phrase', 'Delete Tag: $tag_name', array('$tag_name'=>$model->body));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_delete');
@@ -345,6 +346,7 @@ class GlobaltagController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title: $tag_name', array('$title'=>$title, '$tag_name'=>$model->body));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -367,7 +369,7 @@ class GlobaltagController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/global_tag/admin_publish',array(

@@ -23,37 +23,37 @@
 		<li>
 			<?php echo $model->getAttributeLabel('cat_id'); ?><br/>
 			<?php echo $form->textField($model,'cat_id'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('publish'); ?><br/>
 			<?php echo $form->textField($model,'publish'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('name'); ?><br/>
 			<?php echo $form->textField($model,'name'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
 			<?php echo $form->textField($model,'creation_id'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
 			<?php echo $form->textField($model,'modified_date'); ?><br/>
-					</li>
+		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
 			<?php echo $form->textField($model,'modified_id'); ?><br/>
-					</li>
+		</li>
 
 		<li class="submit">
 			<?php echo CHtml::submitButton(Yii::t('phrase', 'Search')); ?>
