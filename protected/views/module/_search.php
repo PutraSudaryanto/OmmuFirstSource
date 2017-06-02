@@ -25,8 +25,23 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('default'); ?><br/>
+			<?php echo $form->textField($model,'default'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('install'); ?><br/>
+			<?php echo $form->textField($model,'install'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('actived'); ?><br/>
 			<?php echo $form->textField($model,'actived'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('search'); ?><br/>
+			<?php echo $form->textField($model,'search'); ?>
 		</li>
 
 		<li>
@@ -36,22 +51,42 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('folder'); ?><br/>
-			<?php echo $form->textField($model,'folder',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'folder'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('name'); ?><br/>
-			<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $form->textField($model,'name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('desc'); ?><br/>
-			<?php echo $form->textField($model,'desc',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->textField($model,'desc'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('model'); ?><br/>
+			<?php echo $form->textField($model,'model'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

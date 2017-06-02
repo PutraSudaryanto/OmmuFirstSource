@@ -23,7 +23,7 @@
  *
  * The followings are the available columns in table 'ommu_core_plugins':
  * @property integer $plugin_id
- * @property integer $defaults
+ * @property integer $default
  * @property integer $install
  * @property integer $actived
  * @property integer $search
@@ -77,14 +77,14 @@ class OmmuPlugins extends CActiveRecord
 		return array(
 			array('folder', 'required'),
 			array('name, desc', 'required', 'on'=>'adminadd'),
-			array('defaults, install, actived, search, orders', 'numerical', 'integerOnly'=>true),
+			array('default, install, actived, search, orders', 'numerical', 'integerOnly'=>true),
 			array('folder', 'length', 'max'=>32),
 			array('name, model', 'length', 'max'=>128),
 			array('desc', 'length', 'max'=>255),
 			array('model', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('plugin_id, defaults, install, actived, search, orders, folder, name, desc, model, creation_date, creation_id, modified_date, modified_id,
+			array('plugin_id, default, install, actived, search, orders, folder, name, desc, model, creation_date, creation_id, modified_date, modified_id,
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -109,11 +109,11 @@ class OmmuPlugins extends CActiveRecord
 	{
 		return array(
 			'plugin_id' => Yii::t('attribute', 'Plugin'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'install' => Yii::t('attribute', 'Install'),
 			'actived' => Yii::t('attribute', 'Actived'),
 			'search' => Yii::t('attribute', 'Search'),
-			'orders' => Yii::t('attribute', 'Orders'),
+			'orders' => Yii::t('attribute', 'Order'),
 			'folder' => Yii::t('attribute', 'Folder'),
 			'name' => Yii::t('attribute', 'Name'),
 			'desc' => Yii::t('attribute', 'Description'),
@@ -151,14 +151,12 @@ class OmmuPlugins extends CActiveRecord
 		);
 
 		$criteria->compare('t.plugin_id',$this->plugin_id);
-		$criteria->compare('t.defaults',$this->defaults);
-		$criteria->compare('t.install',$this->install);
-		if(isset($_GET['type']) && $_GET['type'] == 'all') {
-			$criteria->compare('t.actived',$this->actived);
-		} else {
-			$criteria->addInCondition('t.actived',array(1,2));
-			$criteria->compare('t.actived',$this->actived);
-		}
+		$criteria->compare('t.default',$this->default);
+		if(isset($_GET['type']) && $_GET['type'] == 'all')
+			$criteria->compare('t.install',$this->install);
+		else
+			$criteria->compare('t.install',1);
+		$criteria->compare('t.actived',$this->actived);
 		$criteria->compare('t.search',$this->search);
 		$criteria->compare('t.orders',$this->orders);
 		$criteria->compare('t.folder',strtolower($this->folder),true);
@@ -205,7 +203,7 @@ class OmmuPlugins extends CActiveRecord
 			}
 		}else {
 			//$this->defaultColumns[] = 'plugin_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'install';
 			$this->defaultColumns[] = 'actived';
 			$this->defaultColumns[] = 'search';
@@ -273,7 +271,7 @@ class OmmuPlugins extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'install',
-				'value' => '$data->install == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("install",array("id"=>$data->plugin_id)), $data->install, 10)',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("install",array("id"=>$data->plugin_id)), $data->install, \'Install,Uninstall\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -285,7 +283,7 @@ class OmmuPlugins extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'actived',
-				'value' => '$data->install == 1 ? ($data->actived == 2 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("active",array("id"=>$data->plugin_id)), $data->actived, 2)) : "-"',
+				'value' => '$data->install == 1 ? ($data->actived == 2 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("active",array("id"=>$data->plugin_id)), $data->actived, \'Actived,Deactived\')) : "-"',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -308,8 +306,8 @@ class OmmuPlugins extends CActiveRecord
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'defaults',
-				'value' => '$data->install == 1 ? ($data->defaults == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->plugin_id)), $data->defaults, 6)) : "-"',
+				'name' => 'default',
+				'value' => '$data->install == 1 ? ($data->default == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->plugin_id)), $data->default, 6)) : "-"',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -405,11 +403,11 @@ class OmmuPlugins extends CActiveRecord
 					$this->orders = count(self::getPlugin(1, null, 'data')) + 1;
 
 				// set to default modules
-				if($this->defaults == 1) {
+				if($this->default == 1) {
 					self::model()->updateAll(array(
-						'defaults' => 0,	
+						'default' => 0,	
 					));
-					$this->defaults = 1;
+					$this->default = 1;
 				}
 			}
 		}

@@ -11,9 +11,12 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
  *	Delete
  *	Active
  *	Default
+ *	Upload
+ *	Install
  *
  *	LoadModel
  *	performAjaxValidation
@@ -82,7 +85,7 @@ class ModuleController extends Controller
 				'expression'=>'isset(Yii::app()->user->level)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','upload','add','edit','install','delete','active','default'),
+				'actions'=>array('manage','add','edit','view','delete','active','default','upload','install'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
@@ -141,15 +144,254 @@ class ModuleController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Manage Modules');
-		$this->pageDescription = Yii::t('phrase', 'Any SocialEngine plugins that you have installed will appear on this page. Note that some plugins may have user level-specific settings which are available on the User Levels page.');
+		$this->pageTitle = Yii::t('phrase', 'Modules');
+		$this->pageDescription = Yii::t('phrase', 'Any Ommu Platform plugins that you have installed will appear on this page. Note that some plugins may have user level-specific settings which are available on the User Levels page.');
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
 
+	}
+	
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionAdd() 
+	{
+		$model=new OmmuPlugins;
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['OmmuPlugins'])) {
+			$model->attributes=$_POST['OmmuPlugins'];
+			$model->scenario = 'adminadd';
+
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+				
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						echo CJSON::encode(array(
+							'type' => 5,
+							'get' => Yii::app()->controller->createUrl('manage'),
+							'id' => 'partial-ommu-plugins',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success created.').'</strong></div>',
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
+			}
+			Yii::app()->end();
+		}
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 500;
+		
+		$this->pageTitle = Yii::t('phrase', 'Add Module');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_add',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionEdit($id) 
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['OmmuPlugins'])) {
+			$model->attributes=$_POST['OmmuPlugins'];
+
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+				
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						echo CJSON::encode(array(
+							'type' => 5,
+							'get' => Yii::app()->controller->createUrl('manage'),
+							'id' => 'partial-ommu-plugins',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
+			}
+			Yii::app()->end();
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 500;
+			
+			$this->pageTitle = Yii::t('phrase', 'Update Module: $module_name', array('$module_name'=>$model->name));
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_edit',array(
+				'model'=>$model,
+			));
+		}
+	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 500;
+
+		$this->pageTitle = Yii::t('phrase', 'View Module: $module_name', array('$module_name'=>$model->name));
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
 	}	
+	
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id) 
+	{
+		$model = $this->loadModel($id);
+				
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				if($model->delete()) {
+					$this->moduleHandle->deleteModule($model->folder);
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-ommu-plugins',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success deleted.').'</strong></div>',
+					));					
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = Yii::t('phrase', 'Delete Module: $module_name', array('$module_name'=>$model->name));
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_delete');
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionActive($id) 
+	{
+		$model=$this->loadModel($id);
+		if($model->actived == 1) {
+			$title = Yii::t('phrase', 'Deactived');
+			$replace = 0;
+		} else {
+			$title = Yii::t('phrase', 'Actived');
+			$replace = 1;
+		}
+		$pageTitle = Yii::t('phrase', '$title Module: $module_name', array('$title'=>$title, '$module_name'=>$model->name));
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				//change value active or publish
+				$model->actived = $replace;
+
+				if($model->save()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-ommu-plugins',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = $pageTitle;
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_active',array(
+				'title'=>$title,
+				'model'=>$model,
+			));
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDefault($id) 
+	{
+		$model=$this->loadModel($id);
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				//change value active or publish
+				$model->default = 1;
+
+				if($model->update()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-ommu-plugins',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = Yii::t('phrase', 'DefaultModule: $module_name', array('$module_name'=>$model->name));
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_default',array(
+				'model'=>$model,
+			));
+		}
+	}
 	
 	/**
 	 * Creates a new model.
@@ -181,12 +423,10 @@ class ModuleController extends Controller
 						Utility::recursiveDelete($runtimePath.'/'.$fileName->name);
 					}
 
-				} else {
-					Yii::app()->user->setFlash('error', Yii::t('phrase', 'Gagal mengupload file.'));				
-				}
-			} else {
+				} else
+					Yii::app()->user->setFlash('error', Yii::t('phrase', 'Gagal mengupload file.'));	
+			} else
 				Yii::app()->user->setFlash('error', Yii::t('phrase', 'Hanya file .zip yang dibolehkan.'));
-			}
 		}
 		
 		$this->dialogDetail = true;
@@ -198,102 +438,6 @@ class ModuleController extends Controller
 		$this->pageMeta = '';
 		$this->render('admin_upload');
 	}
-	
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionAdd() 
-	{
-		$model=new OmmuPlugins;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['OmmuPlugins'])) {
-			$model->attributes=$_POST['OmmuPlugins'];
-			$model->scenario = 'adminadd';
-
-			$jsonError = CActiveForm::validate($model);
-			if(strlen($jsonError) > 2) {
-				echo $jsonError;
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($model->save()) {
-						echo CJSON::encode(array(
-							'type' => 5,
-							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-plugins',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success created.').'</strong></div>',
-						));
-					} else {
-						print_r($model->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 500;
-			
-			$this->pageTitle = Yii::t('phrase', 'Add Module');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_add',array(
-				'model'=>$model,
-			));
-		}
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionEdit($id) 
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['OmmuPlugins'])) {
-			$model->attributes=$_POST['OmmuPlugins'];
-
-			$jsonError = CActiveForm::validate($model);
-			if(strlen($jsonError) > 2) {
-				echo $jsonError;
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($model->save()) {
-						echo CJSON::encode(array(
-							'type' => 5,
-							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-plugins',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
-						));
-					} else {
-						print_r($model->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 500;
-			
-			$this->pageTitle = Yii::t('phrase', 'Update Module: {module}', array('{module}'=>$model->name));
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_edit',array(
-				'model'=>$model,
-			));
-		}
-	}
 
 	/**
 	 * Install module
@@ -301,12 +445,20 @@ class ModuleController extends Controller
 	public function actionInstall($id)
 	{
 		$model=$this->loadModel($id);
+		if($model->install == 1) {
+			$title = Yii::t('phrase', 'Uninstall');
+			$replace = 0;
+		} else {
+			$title = Yii::t('phrase', 'Install');
+			$replace = 1;
+		}
+		$pageTitle = Yii::t('phrase', '$title Module: $module_name', array('$title'=>$title, '$module_name'=>$model->name));
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
 				//change value install
-				$model->install = 1;
+				$model->install = $replace;
 
 				if($model->update()) {
 					$this->moduleHandle->installModule($model->plugin_id, $model->folder);					
@@ -324,128 +476,11 @@ class ModuleController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Install Module');
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('admin_install');			
-		}
-	}
-	
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id) 
-	{
-		if(Yii::app()->request->isPostRequest) {
-			// we only allow deletion via POST request
-			if(isset($id)) {
-				$model = $this->loadModel($id);
-				if($model->delete()) {
-					$this->moduleHandle->deleteModule($model->folder);
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-plugins',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success deleted.').'</strong></div>',
-					));					
-				}
-			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = Yii::t('phrase', 'Delete Module');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_delete');
-		}
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionActive($id) 
-	{
-		$model=$this->loadModel($id);
-		if($model->actived == 1) {
-			$title = Yii::t('phrase', 'Deactived');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Actived');
-			$replace = 1;
-		}
-
-		if(Yii::app()->request->isPostRequest) {
-			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->actived = $replace;
-
-				if($model->save()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-plugins',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
-					));
-				}
-			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = $title;
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_active',array(
+			$this->render('admin_install',array(
 				'title'=>$title,
-				'model'=>$model,
-			));
-		}
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDefault($id) 
-	{
-		$model=$this->loadModel($id);
-
-		if(Yii::app()->request->isPostRequest) {
-			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->defaults = 1;
-
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-plugins',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Module success updated.').'</strong></div>',
-					));
-				}
-			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = Yii::t('phrase', 'Default');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_default',array(
 				'model'=>$model,
 			));
 		}

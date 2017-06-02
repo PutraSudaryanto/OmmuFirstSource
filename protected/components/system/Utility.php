@@ -450,8 +450,8 @@ class Utility
 		$class = '';
 		$arrType = explode(',', $type);
 		if(count($arrType) > 1 ) {
-			$plus = $arrType[0];
-			$min = $arrType[1];
+			$plus = Yii::t('phrase', trim($arrType[0]));
+			$min = Yii::t('phrase', trim($arrType[1]));
 		} else {
 			if($type == '1') {
 				$plus = Yii::t('phrase', 'Publish');
@@ -480,7 +480,7 @@ class Utility
 			} else if($type == '9') {
 				$plus = Yii::t('phrase', 'Headline');
 				$min = Yii::t('phrase', 'Headline');
-			} else if($type == '9') {
+			} else if($type == '10') {
 				$plus = Yii::t('phrase', 'Install Module');
 				$min = Yii::t('phrase', 'Install Module');
 			}

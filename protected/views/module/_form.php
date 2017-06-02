@@ -51,6 +51,15 @@
 			</div>
 		</div>
 
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'install'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'install'); ?>
+				<?php echo $form->labelEx($model,'install'); ?>
+				<?php echo $form->error($model,'install'); ?>
+			</div>
+		</div>
+
 		<?php if($model->actived != '2') {?>
 		<div class="clearfix publish">
 			<?php echo $form->labelEx($model,'actived'); ?>
@@ -72,11 +81,11 @@
 		</div>
 
 		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'defaults'); ?>
+			<?php echo $form->labelEx($model,'default'); ?>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'defaults'); ?>
-				<?php echo $form->labelEx($model,'defaults'); ?>
-				<?php echo $form->error($model,'defaults'); ?>
+				<?php echo $form->checkBox($model,'default'); ?>
+				<?php echo $form->labelEx($model,'default'); ?>
+				<?php echo $form->error($model,'default'); ?>
 			</div>
 		</div>
 

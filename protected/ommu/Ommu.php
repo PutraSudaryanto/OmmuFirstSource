@@ -79,7 +79,7 @@ class Ommu extends CApplicationComponent
 		 * controller: 'site'
 		 * controller from module: 'pose/site/index'.
 		 */
-		$default = OmmuPlugins::model()->findByAttributes(array('defaults' => 1), array(
+		$default = OmmuPlugins::model()->findByAttributes(array('default' => 1), array(
 			'select' => 'folder',
 		));
 		if($default == null || ($default != null && ($default->folder == '-' || $default->actived == '2'))) {
