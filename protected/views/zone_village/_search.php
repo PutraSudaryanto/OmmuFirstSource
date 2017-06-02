@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('village_id'); ?><br/>
-			<?php echo $form->textField($model,'village_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'village_id'); ?>
 		</li>
 
 		<li>
@@ -31,22 +31,22 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('district_id'); ?><br/>
-			<?php echo $form->textField($model,'district_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'district_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('village_name'); ?><br/>
-			<?php echo $form->textField($model,'village_name',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $form->textField($model,'village_name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('zipcode'); ?><br/>
-			<?php echo $form->textField($model,'zipcode',array('size'=>5,'maxlength'=>5)); ?>
+			<?php echo $form->textField($model,'zipcode'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('mfdonline'); ?><br/>
-			<?php echo $form->textField($model,'mfdonline',array('size'=>10,'maxlength'=>10)); ?>
+			<?php echo $form->textField($model,'mfdonline'); ?>
 		</li>
 
 		<li>
@@ -56,7 +56,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -66,7 +66,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

@@ -258,7 +258,13 @@ class OmmuZoneProvince extends CActiveRecord
 				'name' => 'country_search',
 				'value' => '$data->country->country_name',
 			);
-			$this->defaultColumns[] = 'mfdonline';
+			$this->defaultColumns[] = array(
+				'name' => 'mfdonline',
+				'value' => '$data->mfdonline',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -302,6 +308,7 @@ class OmmuZoneProvince extends CActiveRecord
 				),
 				'type' => 'raw',
 			);
+			*/
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
@@ -316,7 +323,6 @@ class OmmuZoneProvince extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
-			*/
 		}
 		parent::afterConstruct();
 	}

@@ -257,8 +257,20 @@ class OmmuZoneVillage extends CActiveRecord
 				'name' => 'district_search',
 				'value' => '$data->district->district_name',
 			);
-			$this->defaultColumns[] = 'zipcode';
-			$this->defaultColumns[] = 'mfdonline';
+			$this->defaultColumns[] = array(
+				'name' => 'zipcode',
+				'value' => '$data->zipcode',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'mfdonline',
+				'value' => '$data->mfdonline',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',

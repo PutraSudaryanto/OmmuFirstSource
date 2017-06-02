@@ -159,7 +159,7 @@ class ZoneprovinceController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Ommu Zone Provinces Manage';
+		$this->pageTitle = Yii::t('phrase', 'Provinces');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('/zone_province/admin_manage',array(
@@ -193,7 +193,7 @@ class ZoneprovinceController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-province',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneProvince success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Province success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -207,7 +207,7 @@ class ZoneprovinceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Create Ommu Zone Provinces';
+			$this->pageTitle = Yii::t('phrase', 'Create Provincy');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_province/admin_add',array(
@@ -242,7 +242,7 @@ class ZoneprovinceController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-province',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneProvince success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Province success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -256,7 +256,7 @@ class ZoneprovinceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Update Ommu Zone Provinces';
+			$this->pageTitle = Yii::t('phrase', 'Update Provincy: $province_name', array('$province_name'=>$model->province_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_province/admin_edit',array(
@@ -318,7 +318,7 @@ class ZoneprovinceController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-zone-province',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneProvince success deleted.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Province success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -328,7 +328,7 @@ class ZoneprovinceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'OmmuZoneProvince Delete.';
+			$this->pageTitle = Yii::t('phrase', 'Delete Provincy: $province_name', array('$province_name'=>$model->province_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_province/admin_delete');
@@ -351,6 +351,7 @@ class ZoneprovinceController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title District: $province_name', array('$title'=>$title, '$province_name'=>$model->province_name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -363,7 +364,7 @@ class ZoneprovinceController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-zone-province',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneProvince success published.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Province success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -373,7 +374,7 @@ class ZoneprovinceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_province/admin_publish',array(

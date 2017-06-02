@@ -26,12 +26,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('country_name'); ?><br/>
-			<?php echo $form->textField($model,'country_name',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $form->textField($model,'country_name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('code'); ?><br/>
-			<?php echo $form->textField($model,'code',array('size'=>2,'maxlength'=>2)); ?>
+			<?php echo $form->textField($model,'code'); ?>
 		</li>
 
 		<li>
@@ -41,7 +41,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -51,7 +51,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

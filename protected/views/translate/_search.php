@@ -21,17 +21,37 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('phrase_id'); ?><br/>
-			<?php echo $form->textField($model,'phrase_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'phrase_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('location'); ?><br/>
-			<?php echo $form->textField($model,'location',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'location'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('en_us'); ?><br/>
-			<?php echo $form->textArea($model,'en_us',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'en_us'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
+			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">
