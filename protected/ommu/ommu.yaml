@@ -1,4 +1,9 @@
 content_menu	:
+# controller admin
+	- urlTitle: Download Manual Book
+		urlRules: {admin, dashboard, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: settings/manual, attr: -, icon: -}
+        
 # controller author
 	- urlTitle: Add Author
 		urlRules: {author, manage, siteType: "0,1", userLevel: "1,2"}
