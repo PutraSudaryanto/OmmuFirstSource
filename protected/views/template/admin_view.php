@@ -28,20 +28,26 @@
 				'value'=>$model->plugin->name,
 			),
 			array(
-				'name'=>'user_id',
-				'value'=>$model->user->displayname,
-			),
-			array(
 				'name'=>'template',
 				'value'=>$model->template,
 				'type'=>'raw',
 			),
 			'variable',
-			'creation_date',
-			'modified_date',
+			array(
+				'name'=>'creation_date',
+				'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',
+			),
+			array(
+				'name'=>'creation_id',
+				'value'=>$model->creation_id != 0 ? $model->creation->displayname : '-',
+			),
+			array(
+				'name'=>'modified_date',
+				'value'=>!in_array($model->modified_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->modified_date, true) : '-',
+			),
 			array(
 				'name'=>'modified_id',
-				'value'=>$model->modified->displayname,
+				'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
 			),
 		),
 	)); ?>

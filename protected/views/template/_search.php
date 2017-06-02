@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('template_key'); ?><br/>
-			<?php echo $form->textField($model,'template_key',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'template_key'); ?>
 		</li>
 
 		<li>
@@ -30,23 +30,23 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
-		</li>
-
-		<li>
 			<?php echo $model->getAttributeLabel('template'); ?><br/>
-			<?php echo $form->textArea($model,'template',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'template'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('variable'); ?><br/>
-			<?php echo $form->textArea($model,'variable',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'variable'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -56,7 +56,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

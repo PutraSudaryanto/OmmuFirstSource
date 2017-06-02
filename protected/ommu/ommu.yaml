@@ -77,15 +77,20 @@ content_menu	:
 	- urlTitle: Add Pages
 		urlRules: {page, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: add, attr: -, icon: -}
-	- urlTitle: Update Pages
-		urlRules: {page, view, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: manage, attr: id=$_GET*id, icon: -}
 	- urlTitle: Back to Manage
 		urlRules: {page, "add,edit,view", siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: manage, attr: -, icon: -}
+	- urlTitle: Update Pages
+		urlRules: {page, view, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: manage, attr: id=$_GET*id, icon: -}
 	- urlTitle: View Pages
 		urlRules: {page, edit, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: view, attr: id=$_GET*id, icon: -}
+		
+# controller template
+	- urlTitle: Add Template
+		urlRules: {template, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
 		
 # controller translate
 	- urlTitle: Add Front Phrase
