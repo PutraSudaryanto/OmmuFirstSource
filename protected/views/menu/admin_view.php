@@ -42,7 +42,7 @@
 			),
 			array(
 				'name'=>'orders',
-				'value'=>$model->order,
+				'value'=>$model->orders,
 			),
 			array(
 				'name'=>'name',

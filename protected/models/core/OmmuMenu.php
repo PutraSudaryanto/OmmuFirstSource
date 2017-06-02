@@ -27,7 +27,7 @@
  * @property integer $publish
  * @property integer $cat_id
  * @property integer $parent
- * @property integer $order
+ * @property integer $orders
  * @property string $name
  * @property string $url
  * @property string $attr
@@ -80,7 +80,7 @@ class OmmuMenu extends CActiveRecord
 		return array(
 			array('publish, cat_id, url,
 				title_i', 'required'),
-			array('publish, cat_id, parent, order, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
+			array('publish, cat_id, parent, orders, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('name, creation_id, modified_id', 'length', 'max'=>11),
 			array('
 				title_i', 'length', 'max'=>32),
@@ -88,7 +88,7 @@ class OmmuMenu extends CActiveRecord
 				title_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, cat_id, parent, order, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
+			array('id, publish, cat_id, parent, orders, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
 				title_i, parent_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -121,7 +121,7 @@ class OmmuMenu extends CActiveRecord
 			'publish' => Yii::t('attribute', 'Publish'),
 			'cat_id' => Yii::t('attribute', 'Category'),
 			'parent' => Yii::t('attribute', 'Parent'),
-			'order' => Yii::t('attribute', 'Order'),
+			'orders' => Yii::t('attribute', 'Order'),
 			'name' => Yii::t('attribute', 'Title'),
 			'url' => Yii::t('attribute', 'Url'),
 			'attr' => Yii::t('attribute', 'Attribute'),
@@ -202,7 +202,7 @@ class OmmuMenu extends CActiveRecord
 		else
 			$criteria->compare('t.cat_id',$this->cat_id);
 		$criteria->compare('t.parent',$this->parent);
-		$criteria->compare('t.order',$this->order);
+		$criteria->compare('t.orders',$this->orders);
 		$criteria->compare('t.name',strtolower($this->name),true);
 		$criteria->compare('t.url',strtolower($this->url),true);
 		$criteria->compare('t.attr',strtolower($this->attr),true);
@@ -259,7 +259,7 @@ class OmmuMenu extends CActiveRecord
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'cat_id';
 			$this->defaultColumns[] = 'parent';
-			$this->defaultColumns[] = 'order';
+			$this->defaultColumns[] = 'orders';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'url';
 			$this->defaultColumns[] = 'attr';

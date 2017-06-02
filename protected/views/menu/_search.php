@@ -41,8 +41,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('order'); ?><br/>
-			<?php echo $form->textField($model,'order'); ?>
+			<?php echo $model->getAttributeLabel('orders'); ?><br/>
+			<?php echo $form->textField($model,'orders'); ?>
 		</li>
 
 		<li>
