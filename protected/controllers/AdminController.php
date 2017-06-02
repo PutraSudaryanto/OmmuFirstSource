@@ -137,7 +137,7 @@ class AdminController extends Controller
 		}
 		$nextPager = $pager['nextPage'] != 0 ? Yii::app()->createUrl('wall/get', array($pager['pageVar']=>$pager['nextPage'])) : 0;
 		
-		$this->pageTitle = Yii::t('phrase', 'Welcome').', '.Yii::app()->user->displayname.'!';
+		$this->pageTitle = Yii::t('phrase', 'Welcome, $displayname', array('$displayname'=>Yii::app()->user->displayname));
 		$this->pageDescription = Yii::t('phrase', 'Welcome to your social network control panel. Here you can manage and modify every aspect of your social network. Directly below, you will find a quick snapshot of your social network including some useful statistics.');
 		$this->pageMeta = '';
 		$this->render('application.webs.admin.admin_dashboard', array(
