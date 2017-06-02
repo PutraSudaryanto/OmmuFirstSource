@@ -44,7 +44,6 @@ class OmmuPages extends CActiveRecord
 	public $old_media_i;
 	
 	// Variable Search
-	public $user_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -85,7 +84,7 @@ class OmmuPages extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
-				title_i, description_i, quote_i, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, description_i, quote_i, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -128,7 +127,6 @@ class OmmuPages extends CActiveRecord
 			'description_i' => Yii::t('attribute', 'Description'),
 			'quote_i' => Yii::t('attribute', 'Quote'),
 			'old_media_i' => Yii::t('attribute', 'Old Media'),
-			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -168,10 +166,6 @@ class OmmuPages extends CActiveRecord
 				'alias'=>'quote',
 				'select'=>$language,
 			),
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
 			'creation' => array(
 				'alias'=>'creation',
 				'select'=>'displayname'
@@ -209,7 +203,6 @@ class OmmuPages extends CActiveRecord
 		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
 		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
 		$criteria->compare('quote.'.$language,strtolower($this->quote_i), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 		
