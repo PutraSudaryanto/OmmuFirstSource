@@ -19,6 +19,7 @@
 	);
 ?>
 
+<div class="box">
 <?php $this->widget('application.components.system.FDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
@@ -62,3 +63,4 @@
 		),
 	),
 )); ?>
+</div>

@@ -21,7 +21,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 17 March 2017, 10:49 WIB
- * @link http://opensource.ommu.co
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ class OptionController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Ommu Options Manage');
+		$this->pageTitle = Yii::t('phrase', 'Web Options');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -151,7 +151,7 @@ class OptionController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>Please fix the following input errors:</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -170,7 +170,7 @@ class OptionController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-options',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuOptions success created.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Web options success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -180,7 +180,7 @@ class OptionController extends Controller
 			Yii::app()->end();
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Create Ommu Options');
+		$this->pageTitle = Yii::t('phrase', 'Create Option');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -206,7 +206,7 @@ class OptionController extends Controller
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				$errors = $model->getErrors();
-				$summary['msg'] = "<div class='errorSummary'><strong>Please fix the following input errors:</strong>";
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
 				$summary['msg'] .= "<ul>";
 				foreach($errors as $key => $value) {
 					$summary['msg'] .= "<li>{$value[0]}</li>";
@@ -225,7 +225,7 @@ class OptionController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-options',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuOptions success updated.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Web options success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -234,7 +234,7 @@ class OptionController extends Controller
 			}
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Update Ommu Options');
+		$this->pageTitle = Yii::t('phrase', 'Update Option: $option_name', array('$option_name'=>$model->option_name));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -251,7 +251,7 @@ class OptionController extends Controller
 		$model=$this->loadModel($id);
 		file_put_contents($model->option_type.$model->option_name.'.txt', CJSON::encode(unserialize($model->option_value)));
 
-		$this->pageTitle = Yii::t('phrase', 'View Ommu Options');
+		$this->pageTitle = Yii::t('phrase', 'View Option: $option_name', array('$option_name'=>$model->option_name));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -312,7 +312,7 @@ class OptionController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-options',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'OmmuOptions success deleted.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Web options success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -322,7 +322,7 @@ class OptionController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'OmmuOptions Delete.');
+			$this->pageTitle = Yii::t('phrase', 'Delete Option: $option_name', array('$option_name'=>$model->option_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');

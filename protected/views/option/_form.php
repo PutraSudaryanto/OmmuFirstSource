@@ -32,7 +32,11 @@
 	<div class="clearfix">
 		<?php echo $form->labelEx($model,'option_type'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'option_type',array('maxlength'=>6)); ?>
+			<?php $optionType = array(
+				'module'=>Yii::t('phrase', 'Modules'),
+				'theme'=>Yii::t('phrase', 'Themes'),
+			);
+			echo $form->dropDownList($model,'option_type', $optionType); ?>
 			<?php echo $form->error($model,'option_type'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
@@ -50,7 +54,7 @@
 	<div class="clearfix">
 		<?php echo $form->labelEx($model,'option_value'); ?>
 		<div class="desc">
-			<?php echo $form->textArea($model,'option_value',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 large')); ?>
+			<?php echo $form->textArea($model,'option_value',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 medium')); ?>
 			<?php echo $form->error($model,'option_value'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>

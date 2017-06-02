@@ -32,17 +32,17 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_type'); ?><br/>
-			<?php echo $form->textField($model,'option_type',array('size'=>6,'maxlength'=>6)); ?>
+			<?php echo $form->textField($model,'option_type'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_name'); ?><br/>
-			<?php echo $form->textField($model,'option_name',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $form->textField($model,'option_name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_value'); ?><br/>
-			<?php echo $form->textArea($model,'option_value',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'option_value'); ?>
 		</li>
 
 		<li>
@@ -52,7 +52,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -62,7 +62,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

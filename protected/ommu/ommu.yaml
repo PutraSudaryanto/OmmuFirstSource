@@ -39,17 +39,39 @@ content_menu	:
         
 # controller meta
 	- urlTitle: Global Meta
-		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: "1,2"}
+		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: edit, attr: -, icon: -}		
 	- urlTitle: Google Owner Meta
-		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: "1,2"}
+		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: google, attr: -, icon: -}		
 	- urlTitle: Facebook Meta
-		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: "1,2"}
+		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: facebook, attr: -, icon: -}		
 	- urlTitle: Twitter Meta
-		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: "1,2"}
+		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: twitter, attr: -, icon: -}
+	
+# controller module
+	- urlTitle: Upload Module
+		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: module/upload, attr: -, icon: -}
+	- urlTitle: View All Module
+		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: module/manage, attr: type=all, icon: -}
+		
+# controller option
+	- urlTitle: Add Web Option
+		urlRules: {option, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: add, attr: -, icon: -}
+	- urlTitle: Back to Manage
+		urlRules: {option, "add,edit,view", siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: manage, attr: -, icon: -}
+	- urlTitle: View Option
+		urlRules: {option, edit, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: view, attr: id=$_GET*id, icon: -}
+	- urlTitle: Edit Option
+		urlRules: {option, view, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: edit, attr: id=$_GET*id, icon: -}
 		
 # controller page
 	- urlTitle: Add Pages
@@ -72,17 +94,8 @@ content_menu	:
 	- urlTitle: Back to Manage
 		urlRules: {translate, "add,edit", siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: manage, attr: -, icon: -}
-	
-# controller module
-	- urlTitle: Upload Module
-		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: module/upload, attr: -, icon: -}
-	- urlTitle: View All Module
-		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: module/manage, attr: type=all, icon: -}
 		
 #minus theme, template
-
 	- urlTitle: Add Theme
 		urlRules: {theme, manage, siteType: "0,1", userLevel: 1}
 		urlPath: {url: add, attr: -, icon: -}
