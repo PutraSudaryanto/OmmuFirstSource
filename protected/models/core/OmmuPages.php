@@ -24,7 +24,6 @@
  * The followings are the available columns in table 'ommu_core_page':
  * @property integer $page_id
  * @property integer $publish
- * @property string $user_id
  * @property string $name
  * @property string $desc
  * @property string $quote
@@ -75,7 +74,7 @@ class OmmuPages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id,
+			array('
 				title_i, description_i', 'required'),
 			array('publish, media_show, media_type', 'numerical', 'integerOnly'=>true),
 			array('
@@ -85,7 +84,7 @@ class OmmuPages extends CActiveRecord
 				quote_i, old_media_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('page_id, publish, user_id, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
+			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
 				title_i, description_i, quote_i, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -102,7 +101,6 @@ class OmmuPages extends CActiveRecord
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
 			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'desc'),
 			'quote' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'quote'),
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -116,7 +114,6 @@ class OmmuPages extends CActiveRecord
 		return array(
 			'page_id' => Yii::t('attribute', 'Page'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'user_id' => Yii::t('attribute', 'User'),
 			'name' => Yii::t('attribute', 'Name'),
 			'desc' => Yii::t('attribute', 'Desc'),
 			'quote' => Yii::t('attribute', 'Quote'),
@@ -196,7 +193,6 @@ class OmmuPages extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.user_id',$this->user_id);
 		$criteria->compare('t.name',$this->name);
 		$criteria->compare('t.desc',$this->desc);
 		$criteria->compare('t.quote',$this->quote);
@@ -248,7 +244,6 @@ class OmmuPages extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'page_id';
 			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'desc';
 			$this->defaultColumns[] = 'quote';
@@ -339,7 +334,7 @@ class OmmuPages extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord)
-				$this->user_id = Yii::app()->user->id;
+				$this->creation_id = Yii::app()->user->id;
 			else
 				$this->modified_id = Yii::app()->user->id;
 			

@@ -31,17 +31,32 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('name'); ?><br/>
-			<?php echo $form->textField($model,'name',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('desc'); ?><br/>
-			<?php echo $form->textField($model,'desc',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'desc'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('quote'); ?><br/>
+			<?php echo $form->textField($model,'quote'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('media'); ?><br/>
+			<?php echo $form->textField($model,'media'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('media_show'); ?><br/>
+			<?php echo $form->textField($model,'media_show'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('media_type'); ?><br/>
+			<?php echo $form->textField($model,'media_type'); ?>
 		</li>
 
 		<li>
@@ -50,8 +65,18 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
 			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">
