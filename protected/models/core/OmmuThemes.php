@@ -213,13 +213,12 @@ class OmmuThemes extends CActiveRecord
 				'name' => 'group_page',
 				'value' => '$data->group_page',
 				'htmlOptions' => array(
-					//'class' => 'center',
+					'class' => 'center',
 				),
 				'filter'=>array(
-					'admin'=>Yii::t('phrase', 'Admin'),
-					'public'=>Yii::t('phrase', 'Public'),
-					'underconstruction'=>Yii::t('phrase', 'Underconstruction'),
-					'maintenance'=>Yii::t('phrase', 'Maintenance'),
+					'public' => Yii::t('phrase', 'Public'),
+					'admin' => Yii::t('phrase', 'Administrator'),
+					'underconstruction' => Yii::t('phrase', 'Undercontruction'),
 				),
 				'type' => 'raw',
 			);

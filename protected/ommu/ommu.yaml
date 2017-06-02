@@ -92,6 +92,11 @@ content_menu	:
 		urlRules: {template, manage, siteType: "0,1", userLevel: 1}
 		urlPath: {url: add, attr: -, icon: -}
 		
+# controller theme
+	- urlTitle: Add Theme
+		urlRules: {theme, manage, siteType: "0,1", userLevel: 1}
+		urlPath: {url: add, attr: -, icon: -}
+		
 # controller translate
 	- urlTitle: Add Front Phrase
 		urlRules: {translate, manage, siteType: "0,1", userLevel: "1,2"}
@@ -99,8 +104,3 @@ content_menu	:
 	- urlTitle: Back to Manage
 		urlRules: {translate, "add,edit", siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: manage, attr: -, icon: -}
-		
-#minus theme, template
-	- urlTitle: Add Theme
-		urlRules: {theme, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: add, attr: -, icon: -}
