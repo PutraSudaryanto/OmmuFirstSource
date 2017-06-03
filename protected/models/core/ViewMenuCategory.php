@@ -117,8 +117,8 @@ class ViewMenuCategory extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.cat_id',$this->cat_id);
-		$criteria->compare('t.menus',strtolower($this->menus),true);
-		$criteria->compare('t.menu_all',strtolower($this->menu_all),true);
+		$criteria->compare('t.menus',$this->menus);
+		$criteria->compare('t.menu_all',$this->menu_all);
 
 		if(!isset($_GET['ViewMenuCategory_sort']))
 			$criteria->order = 't.cat_id DESC';

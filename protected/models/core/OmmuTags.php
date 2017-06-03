@@ -130,7 +130,7 @@ class OmmuTags extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.tag_id',$this->tag_id,true);
+		$criteria->compare('t.tag_id',$this->tag_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
 			$criteria->compare('t.publish',1);
 		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
@@ -155,8 +155,8 @@ class OmmuTags extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuTags_sort']))
 			$criteria->order = 't.tag_id DESC';

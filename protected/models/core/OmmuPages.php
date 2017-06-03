@@ -177,13 +177,13 @@ class OmmuPages extends CActiveRecord
 		);
 
 		$criteria->compare('t.page_id',$this->page_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
@@ -195,16 +195,22 @@ class OmmuPages extends CActiveRecord
 		$criteria->compare('t.media_type',$this->media_type);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
-		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
-		$criteria->compare('quote.'.$language,strtolower($this->quote_i), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
+		$criteria->compare('quote.'.$language,strtolower($this->quote_i),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		
 		if(!isset($_GET['OmmuPages_sort']))
 			$criteria->order = 't.page_id DESC';
@@ -396,13 +402,13 @@ class OmmuPages extends CActiveRecord
 				$page_path = "public/page";
 				// Add directory
 				if(!file_exists($page_path)) {
-					@mkdir($page_path, 0755, true);
+					@mkdir($page_path, 0755,true);
 
 					// Add file in directory (index.php)
 					$newFile = $page_path.'/index.php';
 					$FileHandle = fopen($newFile, 'w');
 				} else
-					@chmod($page_path, 0755, true);
+					@chmod($page_path, 0755,true);
 				
 				$this->media = CUploadedFile::getInstance($this, 'media');
 				if($this->media instanceOf CUploadedFile) {

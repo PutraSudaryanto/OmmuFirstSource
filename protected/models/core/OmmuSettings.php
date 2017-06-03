@@ -228,13 +228,14 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.site_creation',$this->site_creation,true);
 		$criteria->compare('t.site_dateformat',$this->site_dateformat,true);
 		$criteria->compare('t.site_timeformat',$this->site_timeformat,true);
-		$criteria->compare('t.construction_date',$this->construction_date);
+		if($this->construction_date != null && !in_array($this->construction_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.construction_date)',date('Y-m-d', strtotime($this->construction_date)));
 		$criteria->compare('t.construction_text',$this->construction_text,true);
 		if($this->event_startdate != null && !in_array($this->event_startdate, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.event_startdate)',date('Y-m-d', strtotime($this->event_startdate)));
 		if($this->event_finishdate != null && !in_array($this->event_finishdate, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.event_finishdate)',date('Y-m-d', strtotime($this->event_finishdate)));
-		$criteria->compare('t.event_tag',$this->event_tag);
+		$criteria->compare('t.event_tag',strtolower($this->event_tag),true);
 		$criteria->compare('t.signup_username',$this->signup_username);
 		$criteria->compare('t.signup_approve',$this->signup_approve);
 		$criteria->compare('t.signup_verifyemail',$this->signup_verifyemail);
@@ -270,7 +271,10 @@ class OmmuSettings extends CActiveRecord
 		$criteria->compare('t.ommu_version',$this->ommu_version,true);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		if(!isset($_GET['OmmuSettings_sort']))
 			$criteria->order = 't.id DESC';
@@ -282,7 +286,7 @@ class OmmuSettings extends CActiveRecord
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

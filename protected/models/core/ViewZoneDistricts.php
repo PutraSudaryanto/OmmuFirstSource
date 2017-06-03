@@ -117,7 +117,7 @@ class ViewZoneDistricts extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.district_id',strtolower($this->district_id),true);
+		$criteria->compare('t.district_id',$this->district_id);
 		$criteria->compare('t.district_name',strtolower($this->district_name),true);
 		$criteria->compare('t.city_name',strtolower($this->city_name),true);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);

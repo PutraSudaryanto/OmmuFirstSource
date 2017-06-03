@@ -186,7 +186,7 @@ class OmmuMenu extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',strtolower($this->id),true);
+		$criteria->compare('t.id',$this->id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
 		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
@@ -203,7 +203,7 @@ class OmmuMenu extends CActiveRecord
 			$criteria->compare('t.cat_id',$this->cat_id);
 		$criteria->compare('t.parent',$this->parent);
 		$criteria->compare('t.orders',$this->orders);
-		$criteria->compare('t.name',strtolower($this->name),true);
+		$criteria->compare('t.name',$this->name);
 		$criteria->compare('t.url',strtolower($this->url),true);
 		$criteria->compare('t.attr',strtolower($this->attr),true);
 		$criteria->compare('t.sitetype_access',strtolower($this->sitetype_access),true);
@@ -221,10 +221,10 @@ class OmmuMenu extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
-		$criteria->compare('parentmenu_title.'.$language,strtolower($this->parent_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('parentmenu_title.'.$language,strtolower($this->parent_search),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuMenu_sort']))
 			$criteria->order = 't.id DESC';

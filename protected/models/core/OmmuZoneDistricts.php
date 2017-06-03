@@ -153,13 +153,13 @@ class OmmuZoneDistricts extends CActiveRecord
 		);
 
 		$criteria->compare('t.district_id',$this->district_id,true);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
@@ -168,7 +168,7 @@ class OmmuZoneDistricts extends CActiveRecord
 		else
 			$criteria->compare('t.city_id',$this->city_id);
 		$criteria->compare('t.district_name',strtolower($this->district_name),true);
-		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
+		$criteria->compare('t.mfdonline',$this->mfdonline,true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -183,9 +183,9 @@ class OmmuZoneDistricts extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('city.city_name',strtolower($this->city_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('city.city_name',strtolower($this->city_search),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuZoneDistricts_sort']))
 			$criteria->order = 't.district_id DESC';

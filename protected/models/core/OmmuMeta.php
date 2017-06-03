@@ -212,6 +212,14 @@ class OmmuMeta extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.id',$this->id);
 		$criteria->compare('t.meta_image',$this->meta_image,true);
@@ -254,16 +262,12 @@ class OmmuMeta extends CActiveRecord
 		$criteria->compare('t.facebook_admins',$this->facebook_admins,true);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		// Custom Search
-		$criteria->with = array(
-			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname'
-			),
-		);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuMeta_sort']))
 			$criteria->order = 't.id DESC';

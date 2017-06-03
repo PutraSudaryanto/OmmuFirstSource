@@ -122,9 +122,9 @@ class ViewAuthors extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.author_id',strtolower($this->author_id),true);
-		$criteria->compare('t.contacts',strtolower($this->contacts),true);
-		$criteria->compare('t.contact_all',strtolower($this->contact_all),true);
+		$criteria->compare('t.author_id',$this->author_id);
+		$criteria->compare('t.contacts',$this->contacts);
+		$criteria->compare('t.contact_all',$this->contact_all);
 
 		if(!isset($_GET['ViewAuthors_sort']))
 			$criteria->order = 't.author_id DESC';

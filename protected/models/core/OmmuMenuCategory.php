@@ -189,8 +189,8 @@ class OmmuMenuCategory extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.name',strtolower($this->name),true);
-		$criteria->compare('t.desc',strtolower($this->desc),true);
+		$criteria->compare('t.name',$this->name);
+		$criteria->compare('t.desc',$this->desc);
 		$criteria->compare('t.cat_code',strtolower($this->cat_code),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -205,10 +205,10 @@ class OmmuMenuCategory extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
-		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		$criteria->compare('view.menus',$this->menu_search);
 
 		if(!isset($_GET['OmmuMenuCategory_sort']))

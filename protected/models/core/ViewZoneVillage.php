@@ -119,7 +119,7 @@ class ViewZoneVillage extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.village_id',strtolower($this->village_id),true);
+		$criteria->compare('t.village_id',$this->village_id);
 		$criteria->compare('t.village_name',strtolower($this->village_name),true);
 		$criteria->compare('t.district_name',strtolower($this->district_name),true);
 		$criteria->compare('t.city_name',strtolower($this->city_name),true);

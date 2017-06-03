@@ -149,14 +149,14 @@ class OmmuAuthors extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.author_id',$this->author_id,true);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		$criteria->compare('t.author_id',$this->author_id);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
@@ -174,8 +174,8 @@ class OmmuAuthors extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		$criteria->compare('view.contacts',$this->contact_search);
 
 		if(!isset($_GET['OmmuAuthors_sort']))

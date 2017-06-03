@@ -124,20 +124,6 @@ class OmmuThemes extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.theme_id',$this->theme_id);
-		$criteria->compare('t.group_page',$this->group_page,true);
-		$criteria->compare('t.default_theme',$this->default_theme);
-		$criteria->compare('t.folder',strtolower($this->folder),true);
-		$criteria->compare('t.layout',strtolower($this->layout),true);
-		$criteria->compare('t.name',strtolower($this->name),true);
-		$criteria->compare('t.thumbnail',$this->thumbnail,true);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
 		
 		// Custom Search
 		$criteria->with = array(
@@ -150,8 +136,29 @@ class OmmuThemes extends CActiveRecord
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+
+		$criteria->compare('t.theme_id',$this->theme_id);
+		$criteria->compare('t.group_page',$this->group_page,true);
+		$criteria->compare('t.default_theme',$this->default_theme);
+		$criteria->compare('t.folder',strtolower($this->folder),true);
+		$criteria->compare('t.layout',strtolower($this->layout),true);
+		$criteria->compare('t.name',strtolower($this->name),true);
+		$criteria->compare('t.thumbnail',$this->thumbnail,true);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		
 		if(!isset($_GET['OmmuThemes_sort']))
 			$criteria->order = 't.theme_id DESC';

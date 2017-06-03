@@ -136,23 +136,30 @@ class OmmuWalls extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'user' => array(
+				'alias'=>'user',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.wall_id',$this->wall_id,true);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}		
-		if(isset($_GET['user'])) {
+		if(isset($_GET['user']))
 			$criteria->compare('t.user_id',$_GET['user']);
-		} else {
+		else
 			$criteria->compare('t.user_id',$this->user_id);
-		}
 		$criteria->compare('t.wall_media',$this->wall_media,true);
 		$criteria->compare('t.wall_status',$this->wall_status,true);
 		$criteria->compare('t.comments',$this->comments);
@@ -162,14 +169,7 @@ class OmmuWalls extends CActiveRecord
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		
-		// Custom Search
-		$criteria->with = array(
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
-		);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['OmmuWalls_sort']))
 			$criteria->order = 't.wall_id DESC';

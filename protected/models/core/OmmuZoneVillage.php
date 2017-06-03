@@ -156,7 +156,7 @@ class OmmuZoneVillage extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.village_id',strtolower($this->village_id),true);
+		$criteria->compare('t.village_id',$this->village_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
 		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
@@ -172,8 +172,8 @@ class OmmuZoneVillage extends CActiveRecord
 		else
 			$criteria->compare('t.district_id',$this->district_id);
 		$criteria->compare('t.village_name',strtolower($this->village_name),true);
-		$criteria->compare('t.zipcode',strtolower($this->zipcode),true);
-		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
+		$criteria->compare('t.zipcode',$this->zipcode,true);
+		$criteria->compare('t.mfdonline',$this->mfdonline,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		if(isset($_GET['creation']))
@@ -187,9 +187,9 @@ class OmmuZoneVillage extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('district.district_name',strtolower($this->district_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('district.district_name',strtolower($this->district_search),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuZoneVillage_sort']))
 			$criteria->order = 't.village_id DESC';

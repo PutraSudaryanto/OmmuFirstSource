@@ -131,34 +131,6 @@ class OmmuWallComment extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.comment_id',$this->comment_id,true);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
-			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
-			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
-			$criteria->compare('t.publish',2);
-		} else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
-		}
-		$criteria->compare('t.parent_id',$this->parent_id);
-		if(isset($_GET['wall'])) {
-			$criteria->compare('t.wall_id',$_GET['wall']);
-		} else {
-			$criteria->compare('t.wall_id',$this->wall_id);
-		}
-		if(isset($_GET['user'])) {
-			$criteria->compare('t.user_id',$_GET['user']);
-		} else {
-			$criteria->compare('t.user_id',$this->user_id);
-		}
-		$criteria->compare('t.comment',$this->comment,true);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		
 		// Custom Search
 		$criteria->with = array(
@@ -171,8 +143,35 @@ class OmmuWallComment extends CActiveRecord
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('wall.wall_status',strtolower($this->wall_search), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+
+		$criteria->compare('t.comment_id',$this->comment_id);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
+			$criteria->compare('t.publish',1);
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
+			$criteria->compare('t.publish',0);
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
+			$criteria->compare('t.publish',2);
+		else {
+			$criteria->addInCondition('t.publish',array(0,1));
+			$criteria->compare('t.publish',$this->publish);
+		}
+		$criteria->compare('t.parent_id',$this->parent_id);
+		if(isset($_GET['wall']))
+			$criteria->compare('t.wall_id',$_GET['wall']);
+		else
+			$criteria->compare('t.wall_id',$this->wall_id);
+		if(isset($_GET['user']))
+			$criteria->compare('t.user_id',$_GET['user']);
+		else
+			$criteria->compare('t.user_id',$this->user_id);
+		$criteria->compare('t.comment',$this->comment);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		
+		$criteria->compare('wall.wall_status',strtolower($this->wall_search),true);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['OmmuWallComment_sort']))
 			$criteria->order = 't.comment_id DESC';
