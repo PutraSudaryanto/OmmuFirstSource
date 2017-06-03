@@ -23,7 +23,7 @@
  *
  * The followings are the available columns in table 'ommu_core_timezone':
  * @property integer $timezone_id
- * @property integer $defaults
+ * @property integer $default
  * @property string $timezone
  * @property string $title
  */
@@ -58,12 +58,12 @@ class OmmuTimezone extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('timezone, title', 'required'),
-			array('defaults', 'numerical', 'integerOnly'=>true),
+			array('default', 'numerical', 'integerOnly'=>true),
 			array('timezone', 'length', 'max'=>32),
 			array('title', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('timezone_id, defaults, timezone, title', 'safe', 'on'=>'search'),
+			array('timezone_id, default, timezone, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,7 +85,7 @@ class OmmuTimezone extends CActiveRecord
 	{
 		return array(
 			'timezone_id' => Yii::t('attribute', 'Timezone'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'timezone' => Yii::t('attribute', 'Timezone'),
 			'title' => Yii::t('attribute', 'Title'),
 		);
@@ -103,7 +103,7 @@ class OmmuTimezone extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.timezone_id',$this->timezone_id);
-		$criteria->compare('t.defaults',$this->defaults);
+		$criteria->compare('t.default',$this->default);
 		$criteria->compare('t.timezone',strtolower($this->timezone),true);
 		$criteria->compare('t.title',strtolower($this->title),true);
 
@@ -136,7 +136,7 @@ class OmmuTimezone extends CActiveRecord
 			}
 		}else {
 			//$this->defaultColumns[] = 'timezone_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'timezone';
 			$this->defaultColumns[] = 'title';
 		}
@@ -150,7 +150,7 @@ class OmmuTimezone extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'timezone_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'timezone';
 			$this->defaultColumns[] = 'title';
 		}
@@ -161,7 +161,7 @@ class OmmuTimezone extends CActiveRecord
 	 * Get Default
 	 */
 	public static function getDefault(){
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		return $model->timezone_id;
 	}
 
@@ -187,11 +187,11 @@ class OmmuTimezone extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			if(!$this->isNewRecord) {
-				if($this->defaults != 1) {
+				if($this->default != 1) {
 					self::model()->updateAll(array(
-						'defaults' => 0,	
+						'default' => 0,	
 					));
-					$this->defaults = 1;
+					$this->default = 1;
 				}
 			}
 		}

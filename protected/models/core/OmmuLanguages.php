@@ -24,7 +24,7 @@
  * The followings are the available columns in table 'ommu_core_languages':
  * @property integer $language_id
  * @property integer $actived
- * @property integer $defaults
+ * @property integer $default
  * @property string $code
  * @property string $name
  * @property string $creation_date
@@ -67,12 +67,12 @@ class OmmuLanguages extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('code, name', 'required'),
-			array('actived, defaults', 'numerical', 'integerOnly'=>true),
+			array('actived, default', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>6),
 			array('name', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('language_id, actived, defaults, code, name, creation_date, creation_id, modified_date, modified_id,
+			array('language_id, actived, default, code, name, creation_date, creation_id, modified_date, modified_id,
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -98,7 +98,7 @@ class OmmuLanguages extends CActiveRecord
 		return array(
 			'language_id' => Yii::t('attribute', 'Language'),
 			'actived' => Yii::t('attribute', 'Actived'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'code' => Yii::t('attribute', 'Language Code'),
 			'name' => Yii::t('attribute', 'Language Name'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
@@ -135,7 +135,7 @@ class OmmuLanguages extends CActiveRecord
 
 		$criteria->compare('language_id',$this->language_id);
 		$criteria->compare('actived',$this->actived);
-		$criteria->compare('defaults',$this->defaults);
+		$criteria->compare('default',$this->default);
 		$criteria->compare('code',strtolower($this->code),true);
 		$criteria->compare('name',strtolower($this->name),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
@@ -185,7 +185,7 @@ class OmmuLanguages extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'language_id';
 			$this->defaultColumns[] = 'actived';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'code';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'creation_date';
@@ -213,8 +213,8 @@ class OmmuLanguages extends CActiveRecord
 				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
-				'name'  => 'defaults',
-				'value' => '$data->defaults == 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\')',
+				'name'  => 'default',
+				'value' => '$data->default == 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -273,7 +273,7 @@ class OmmuLanguages extends CActiveRecord
 	 * Get Default
 	 */
 	public static function getDefault($select=null) {
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		if($select == null)
 			$return = $model->language_id;
 		else
@@ -288,7 +288,7 @@ class OmmuLanguages extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord) {
-				if($this->defaults == 1)
+				if($this->default == 1)
 					$this->actived = 1;
 				$this->creation_id = Yii::app()->user->id;	
 			} else
@@ -303,11 +303,11 @@ class OmmuLanguages extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			// Language set to default
-			if ($this->defaults == 1) {
+			if ($this->default == 1) {
 				self::model()->updateAll(array(
-					'defaults' => 0,	
+					'default' => 0,	
 				));
-				$this->defaults = 1;
+				$this->default = 1;
 			}
 		}
 		return true;

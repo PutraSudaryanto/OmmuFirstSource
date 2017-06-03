@@ -51,11 +51,11 @@
 		</div>
 
 		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'defaults'); ?>
+			<?php echo $form->labelEx($model,'default'); ?>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'defaults'); ?>
-				<?php echo $form->labelEx($model,'defaults'); ?>
-				<?php echo $form->error($model,'defaults'); ?>
+				<?php echo $form->checkBox($model,'default'); ?>
+				<?php echo $form->labelEx($model,'default'); ?>
+				<?php echo $form->error($model,'default'); ?>
 			</div>
 		</div>
 

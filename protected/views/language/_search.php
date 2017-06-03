@@ -30,8 +30,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('defaults'); ?><br/>
-			<?php echo $form->textField($model,'defaults'); ?>
+			<?php echo $model->getAttributeLabel('default'); ?><br/>
+			<?php echo $form->textField($model,'default'); ?>
 		</li>
 
 		<li>

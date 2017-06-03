@@ -23,7 +23,7 @@
  *
  * The followings are the available columns in table 'ommu_core_locale':
  * @property integer $locale_id
- * @property integer $defaults
+ * @property integer $default
  * @property string $locale
  * @property string $title
  */
@@ -63,13 +63,13 @@ class OmmuLocale extends CActiveRecord
 		return array(
 			array('
 				default_locale_i, timezone_i, dateformat_i, timeformat_i', 'required'),
-			array('defaults,
+			array('default,
 				default_locale_i, timezone_i', 'numerical', 'integerOnly'=>true),
 			array('locale', 'length', 'max'=>16),
 			array('title', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('locale_id, defaults, locale, title', 'safe', 'on'=>'search'),
+			array('locale_id, default, locale, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,7 +91,7 @@ class OmmuLocale extends CActiveRecord
 	{
 		return array(
 			'locale_id' => Yii::t('attribute', 'Locale'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'locale' => Yii::t('attribute', 'Locale'),
 			'title' => Yii::t('attribute', 'Title'),
 			'default_locale_i' => Yii::t('attribute', 'Default Locale'),
@@ -113,7 +113,7 @@ class OmmuLocale extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.locale_id',$this->locale_id);
-		$criteria->compare('t.defaults',$this->defaults);
+		$criteria->compare('t.default',$this->default);
 		$criteria->compare('t.locale',strtolower($this->locale),true);
 		$criteria->compare('t.title',strtolower($this->title),true);
 
@@ -144,7 +144,7 @@ class OmmuLocale extends CActiveRecord
 			}
 		}else {
 			//$this->defaultColumns[] = 'locale_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'locale';
 			$this->defaultColumns[] = 'title';
 		}
@@ -158,7 +158,7 @@ class OmmuLocale extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'locale_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'locale';
 			$this->defaultColumns[] = 'title';
 		}
@@ -169,7 +169,7 @@ class OmmuLocale extends CActiveRecord
 	 * Get Default
 	 */
 	public static function getDefault(){
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		return $model->locale_id;
 	}
 
@@ -207,11 +207,11 @@ class OmmuLocale extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			if(!$this->isNewRecord) {
-				if($this->defaults != 1) {
+				if($this->default != 1) {
 					self::model()->updateAll(array(
-						'defaults' => 0,	
+						'default' => 0,	
 					));
-					$this->defaults = 1;
+					$this->default = 1;
 				}
 			}
 		}
