@@ -352,9 +352,9 @@ class OmmuPages extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
+		$controller = strtolower(Yii::app()->controller->id);
 		$action = strtolower(Yii::app()->controller->action->id);
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$location = Utility::getUrlTitle($controller);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
