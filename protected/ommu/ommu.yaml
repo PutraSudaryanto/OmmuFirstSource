@@ -49,12 +49,12 @@ content_menu	:
 	- urlTitle: Google Owner Meta
 		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: google, attr: -, icon: -}		
-	- urlTitle: Facebook Meta
-		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
-		urlPath: {url: facebook, attr: -, icon: -}		
 	- urlTitle: Twitter Meta
 		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
 		urlPath: {url: twitter, attr: -, icon: -}
+	- urlTitle: Facebook Meta
+		urlRules: {meta, "edit,google,facebook,twitter", siteType: "0,1", userLevel: 1}
+		urlPath: {url: facebook, attr: -, icon: -}		
 	
 # controller module
 	- urlTitle: Upload Module
