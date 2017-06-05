@@ -11,6 +11,7 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
  *	Delete
  *	Actived
  *
@@ -79,7 +80,7 @@ class LanguageController extends /*SBaseController*/ Controller
 				'expression'=>'isset(Yii::app()->user->level)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('settings','manage','add','edit','delete','actived'),
+				'actions'=>array('settings','manage','add','edit','view','delete','actived'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
@@ -261,6 +262,26 @@ class LanguageController extends /*SBaseController*/ Controller
 			));
 		}
 	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 500;
+
+		$this->pageTitle = Yii::t('phrase', 'View Language: $language_name', array('$language_name'=>$model->name));
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}	
 	
 	/**
 	 * Deletes a particular model.

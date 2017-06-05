@@ -213,6 +213,32 @@ class OmmuLanguages extends CActiveRecord
 				'value' => '$data->creation->displayname',
 			);
 			$this->defaultColumns[] = array(
+				'name' => 'creation_date',
+				'value' => 'Utility::dateFormat($data->creation_date)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
+					'model'=>$this,
+					'attribute'=>'creation_date',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'creation_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
+			);
+			$this->defaultColumns[] = array(
 				'name'  => 'default',
 				'value' => '$data->default == 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\')',
 				'htmlOptions' => array(

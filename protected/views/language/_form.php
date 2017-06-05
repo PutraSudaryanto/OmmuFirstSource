@@ -26,18 +26,18 @@
 		<?php echo $form->errorSummary($model); ?>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'code'); ?>
-			<div class="desc">
-				<?php echo $form->textField($model,'code',array('maxlength'=>8)); ?>
-				<?php echo $form->error($model,'code'); ?>
-			</div>
-		</div>
-
-		<div class="clearfix">
 			<?php echo $form->labelEx($model,'name'); ?>
 			<div class="desc">
 				<?php echo $form->textField($model,'name',array('maxlength'=>32)); ?>
 				<?php echo $form->error($model,'name'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'code'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'code',array('maxlength'=>8)); ?>
+				<?php echo $form->error($model,'code'); ?>
 			</div>
 		</div>
 
