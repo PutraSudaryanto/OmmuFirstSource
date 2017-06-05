@@ -114,16 +114,16 @@ class OmmuMenuCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => Yii::t('attribute', 'Cat'),
+			'cat_id' => Yii::t('attribute', 'Category'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'name' => Yii::t('attribute', 'Title'),
+			'name' => Yii::t('attribute', 'Category'),
 			'desc' => Yii::t('attribute', 'Description'),
 			'cat_code' => Yii::t('attribute', 'Code'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title_i' => Yii::t('attribute', 'Title'),
+			'title_i' => Yii::t('attribute', 'Category'),
 			'description_i' => Yii::t('attribute', 'Description'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -438,7 +438,7 @@ class OmmuMenuCategory extends CActiveRecord
 			}
 			
 			if($action != 'publish')
-				$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title)));
+				$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title_i)));
 		}
 		return true;
 	}
