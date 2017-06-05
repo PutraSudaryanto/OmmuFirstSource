@@ -115,7 +115,7 @@ class OmmuPlugins extends CActiveRecord
 			'search' => Yii::t('attribute', 'Search'),
 			'orders' => Yii::t('attribute', 'Order'),
 			'folder' => Yii::t('attribute', 'Folder'),
-			'name' => Yii::t('attribute', 'Name'),
+			'name' => Yii::t('attribute', 'Module'),
 			'desc' => Yii::t('attribute', 'Description'),
 			'model' => Yii::t('attribute', 'Model'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
@@ -239,12 +239,14 @@ class OmmuPlugins extends CActiveRecord
 			$this->defaultColumns[] = 'folder';
 			$this->defaultColumns[] = array(
 				'name' => 'name',
-				'value' => '$data->name == "" ? "-" : $data->name',
+				'value' => '$data->name ? $data->name : \'-\'',
 			);
+			/*
 			$this->defaultColumns[] = array(
 				'name' => 'desc',
-				'value' => '$data->desc == "" ? "-" : $data->desc',
+				'value' => '$data->desc ? $data->desc : \'-\'',
 			);
+			*/
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',

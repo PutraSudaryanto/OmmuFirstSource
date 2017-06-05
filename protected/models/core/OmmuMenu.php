@@ -122,7 +122,7 @@ class OmmuMenu extends CActiveRecord
 			'cat_id' => Yii::t('attribute', 'Category'),
 			'parent' => Yii::t('attribute', 'Parent'),
 			'orders' => Yii::t('attribute', 'Order'),
-			'name' => Yii::t('attribute', 'Title'),
+			'name' => Yii::t('attribute', 'Menu'),
 			'url' => Yii::t('attribute', 'Url'),
 			'attr' => Yii::t('attribute', 'Attribute'),
 			'sitetype_access' => Yii::t('attribute', 'Sitetype Access'),
@@ -131,7 +131,7 @@ class OmmuMenu extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title_i' => Yii::t('attribute', 'Title'),
+			'title_i' => Yii::t('attribute', 'Menu'),
 			'parent_search' => Yii::t('attribute', 'Parent'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -301,7 +301,7 @@ class OmmuMenu extends CActiveRecord
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'title_i',
-				'value' => 'Phrase::trans($data->submenus->title->name)',
+				'value' => 'Phrase::trans($data->name)',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'parent_search',

@@ -11,6 +11,7 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
  *	RunAction
  *	Delete
  *	Publish
@@ -81,7 +82,7 @@ class GlobaltagController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','runaction','delete','publish'),
+				'actions'=>array('manage','add','edit','view','runaction','delete','publish'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -260,6 +261,26 @@ class GlobaltagController extends Controller
 			));
 		}
 	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 500;
+
+		$this->pageTitle = Yii::t('phrase', 'View Tag: $tag_name', array('$tag_name'=>$model->body));
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('/global_tag/admin_view',array(
+			'model'=>$model,
+		));
+	}	
 
 	/**
 	 * Displays a particular model.

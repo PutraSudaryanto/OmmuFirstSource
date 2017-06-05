@@ -97,7 +97,7 @@ class OmmuTags extends CActiveRecord
 		return array(
 			'tag_id' => Yii::t('attribute', 'Tag'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'body' => Yii::t('attribute', 'Body'),
+			'body' => Yii::t('attribute', 'Tag'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
@@ -226,7 +226,7 @@ class OmmuTags extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date)',
+				'value' => 'Utility::dateFormat($data->creation_date, true)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
