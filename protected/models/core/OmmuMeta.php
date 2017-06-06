@@ -447,7 +447,10 @@ class OmmuMeta extends CActiveRecord
 	/**
 	 * After save attributes
 	 */
-	protected function beforeSave() {
+	protected function beforeSave() 
+	{
+		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		
 		if(parent::beforeSave()) {
 			$meta_path = "public";
 			$this->meta_image = CUploadedFile::getInstance($this, 'meta_image');
@@ -466,11 +469,15 @@ class OmmuMeta extends CActiveRecord
 				}
 			}
 			
-			$this->map_icon_size = serialize($this->map_icon_size);
-			$this->twitter_photo_size = serialize($this->twitter_photo_size);
-			$this->twitter_iphone = serialize($this->twitter_iphone);
-			$this->twitter_ipad = serialize($this->twitter_ipad);
-			$this->twitter_googleplay = serialize($this->twitter_googleplay);
+			if($currentAction == 'meta/edit')
+				$this->map_icon_size = serialize($this->map_icon_size);
+			
+			if($currentAction == 'meta/twitter') {
+				$this->twitter_photo_size = serialize($this->twitter_photo_size);
+				$this->twitter_iphone = serialize($this->twitter_iphone);
+				$this->twitter_ipad = serialize($this->twitter_ipad);
+				$this->twitter_googleplay = serialize($this->twitter_googleplay);
+			}
 		}
 		return true;
 	}

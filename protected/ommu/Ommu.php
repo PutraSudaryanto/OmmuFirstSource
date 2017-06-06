@@ -147,8 +147,14 @@ $moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<category:\d+>
 		
 		$twitter_photo_size = unserialize($meta->twitter_photo_size);
 		$twitter_iphone = unserialize($meta->twitter_iphone);
+		if(empty($twitter_iphone))
+			$twitter_iphone = array();
 		$twitter_ipad = unserialize($meta->twitter_ipad);
-		$twitter_googleplay = unserialize($meta->twitter_photo_size);
+		if(empty($twitter_ipad))
+			$twitter_ipad = array();
+		$twitter_googleplay = unserialize($meta->twitter_googleplay);
+		if(empty($twitter_googleplay))
+			$twitter_googleplay = array();
 		
 		// Google Discoverability mata tags
 		$point = explode(',', $meta->office_location);
@@ -193,23 +199,23 @@ $moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<category:\d+>
 			$cardType = 'app';
 			if($meta->twitter_country != '')
 				$arrayTwitter['twitter:app:country'] = $meta->twitter_country;
-			if($twitter_iphone['name'] != '')
+			if(!empty($twitter_iphone) && $twitter_iphone['name'])
 				$arrayTwitter['twitter:app:name:iphone'] = $twitter_iphone['name'];
-			if($twitter_iphone['id'] != '')
+			if(!empty($twitter_iphone) && $twitter_iphone['id'])
 				$arrayTwitter['twitter:app:id:iphone'] = $twitter_iphone['id'];
-			if($twitter_iphone['url'] != '')
+			if(!empty($twitter_iphone) && $twitter_iphone['url'])
 				$arrayTwitter['twitter:app:url:iphone'] = $twitter_iphone['url'];
-			if($twitter_ipad['name'] != '')
+			if(!empty($twitter_ipad) && $twitter_ipad['name'])
 				$arrayTwitter['twitter:app:name:ipad'] = $twitter_ipad['name'];
-			if($twitter_ipad['id'] != '')
+			if(!empty($twitter_ipad) && $twitter_ipad['id'])
 				$arrayTwitter['twitter:app:id:ipad'] = $twitter_ipad['id'];
-			if($twitter_ipad['url'] != '')
+			if(!empty($twitter_ipad) && $twitter_ipad['url'])
 				$arrayTwitter['twitter:app:url:ipad'] = $twitter_ipad['url'];
-			if($twitter_googleplay['name'] != '')
+			if(!empty($twitter_googleplay) && $twitter_googleplay['name'])
 				$arrayTwitter['twitter:app:name:googleplay'] = $twitter_googleplay['name'];
-			if($twitter_googleplay['id'] != '')
+			if(!empty($twitter_googleplay) && $twitter_googleplay['id'])
 				$arrayTwitter['twitter:app:id:googleplay'] = $twitter_googleplay['id'];
-			if($twitter_googleplay['url'] != '')
+			if(!empty($twitter_googleplay) && $twitter_googleplay['url'])
 				$arrayTwitter['twitter:app:url:googleplay'] = $twitter_googleplay['url'];
 			
 			if(empty($arrayTwitter))
