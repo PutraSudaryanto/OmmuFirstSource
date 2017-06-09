@@ -356,7 +356,7 @@ class SettingsController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('admin/dashboard');
 		$this->dialogWidth = 400;
 		
-		$this->pageTitle = Yii::t('phrase', 'Downlaod Manual Book');
+		$this->pageTitle = Yii::t('phrase', 'Core Manual Book');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manual', array(
