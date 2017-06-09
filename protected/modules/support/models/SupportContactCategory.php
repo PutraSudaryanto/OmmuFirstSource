@@ -42,6 +42,8 @@ class SupportContactCategory extends CActiveRecord
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $contact_search;
+	public $widget_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -78,7 +80,7 @@ class SupportContactCategory extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
-				title_i, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, creation_search, modified_search, contact_search, widget_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -114,7 +116,8 @@ class SupportContactCategory extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'title_i' => Yii::t('attribute', 'Category'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
-			'modified_search' => Yii::t('attribute', 'Modified'),
+			'contact_search' => Yii::t('attribute', 'Contact'),
+			'widget_search' => Yii::t('attribute', 'Widget'),
 		);
 	}
 	
@@ -178,6 +181,8 @@ class SupportContactCategory extends CActiveRecord
 		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('view.contact',$this->contact_search);
+		$criteria->compare('view.widget',$this->widget_search);
 		
 		if(!isset($_GET['SupportContactCategory_sort']))
 			$criteria->order = 't.cat_id DESC';
@@ -247,7 +252,7 @@ class SupportContactCategory extends CActiveRecord
 				'name' => 'creation_date',
 				'value' => 'Utility::dateFormat($data->creation_date)',
 				'htmlOptions' => array(
-					'class' => 'center',
+					//'class' => 'center',
 				),
 				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
 					'model'=>$this,
@@ -268,6 +273,30 @@ class SupportContactCategory extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'contact_search',
+				'value' => '$data->view->contact == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'widget_search',
+				'value' => '$data->view->widget == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'publish',
@@ -352,8 +381,8 @@ class SupportContactCategory extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+		$location = Utility::getUrlTitle($currentModule);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {

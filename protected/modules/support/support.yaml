@@ -20,63 +20,33 @@ plugin_menu		:
 	- urlTitle: Views
 		urlRules: {siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/views/manage, attr: -, icon: -}
-		
-	# urlTitle: Manage Contact
-	#	urlRules: {siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contact/manage, attr: -, icon: -}
-		
-	# urlTitle: Contact Categories
-	#	urlRules: {siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contactcategory/manage, attr: -, icon: -}
-		
-	# urlTitle: Address Settings
-	#	urlRules: {siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contact/setting, attr: -, icon: -}
+	- urlTitle: Support Manual
+		urlRules: {siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/setting/manual, attr: -, icon: -}
 
-content_menu	:
-# controller o/contact
-	# urlTitle: Manage Contact
-	#	urlRules: {support, o/contact, "manage,setting", siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: manage, attr: -, icon: -}
-		
-	# urlTitle: Contact Categories
-	#	urlRules: {support, o/contact, "manage,setting", siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contactcategory/manage, attr: -, icon: -}
-		
-	# urlTitle: Address Settings
-	#	urlRules: {support, o/contact, "manage,setting", siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: setting, attr: -, icon: -}
-		
-	- urlTitle: Add Contact
-		urlRules: {support, o/contact, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
-		
-# controller o/contactcategory
-	# urlTitle: Manage Contact
-	#	urlRules: {support, o/contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contact/manage, attr: -, icon: -}
-		
-	# urlTitle: Contact Categories
-	#	urlRules: {support, o/contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: manage, attr: -, icon: -}
-		
-	# urlTitle: Address Settings
-	#	urlRules: {support, o/contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
-	#	urlPath: {url: o/contact/setting, attr: -, icon: -}
-		
-	- urlTitle: Add Contact Category
-		urlRules: {support, o/contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
-		
+content_menu	:		
 # controller o/reply
-	- urlTitle: Back to Feedback
+	- urlTitle: Back to Feedbacks
 		urlRules: {support, o/reply, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/feedback/manage, attr: -, icon: -}
 		
 # controller o/views
-	- urlTitle: Back to Feedback
+	- urlTitle: Back to Feedbacks
 		urlRules: {support, o/views, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/feedback/manage, attr: -, icon: -}
+        
+# controller o/contact		
+	- urlTitle: Add Contact
+		urlRules: {support, o/contact, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: add, attr: -, icon: -}
+	- urlTitle: Back to Contacts
+		urlRules: {support, o/contact, setting, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/contact/manage, attr: -, icon: -}
+		
+# controller o/contactcategory
+	- urlTitle: Add Contact Category
+		urlRules: {support, o/contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: add, attr: -, icon: -}
 		
 # controller o/widget
 	- urlTitle: Add Widget
