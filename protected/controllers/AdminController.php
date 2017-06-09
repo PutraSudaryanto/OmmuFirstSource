@@ -2,7 +2,7 @@
 /**
  * AdminController
  * @var $this AdminController
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -14,7 +14,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ class AdminController extends Controller
 		}
 		$nextPager = $pager['nextPage'] != 0 ? Yii::app()->createUrl('wall/get', array($pager['pageVar']=>$pager['nextPage'])) : 0;
 		
-		$this->pageTitle = Yii::t('phrase', 'Welcome').', '.Yii::app()->user->displayname.'!';
+		$this->pageTitle = Yii::t('phrase', 'Welcome, $displayname', array('$displayname'=>Yii::app()->user->displayname));
 		$this->pageDescription = Yii::t('phrase', 'Welcome to your social network control panel. Here you can manage and modify every aspect of your social network. Directly below, you will find a quick snapshot of your social network including some useful statistics.');
 		$this->pageMeta = '';
 		$this->render('application.webs.admin.admin_dashboard', array(

@@ -3,26 +3,22 @@
 * MetaController
 * Handle MetaController
 * Copyright (c) 2012, Ommu Platform (opensource.ommu.co). All rights reserved.
-* version: 1.2.0
+* version: 1.3.0
 * Reference start
 *
 * TOC :
 *	Index
-*	View
-*	Manage
-*	Add
 *	Edit
-*	RunAction
-*	Delete
-*	Publish
-*	Headline
+*	Google
+*	Facebook
+*	Twitter
 *
 *	LoadModel
 *	performAjaxValidation
 *
 * @author Putra Sudaryanto <putra@sudaryanto.id>
 * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
-* @link https://github.com/ommu/Core
+* @link https://github.com/ommu/core
 * @contact (+62)856-299-4114
 *
 *----------------------------------------------------------------------------------------------------------
@@ -181,7 +177,7 @@ class MetaController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Yii::t('phrase', 'Meta Settings: {meta}', array('{meta}'=>'Google Owner'));
+			$this->pageTitle = Yii::t('phrase', 'Meta Settings: $meta_name', array('$meta_name'=>'Google Owner'));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_google',array(
@@ -239,7 +235,7 @@ class MetaController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Yii::t('phrase', 'Meta Settings: {meta}', array('{meta}'=>'Facebook OpenGraph'));
+			$this->pageTitle = Yii::t('phrase', 'Meta Settings: $meta_name', array('$meta_name'=>'Facebook OpenGraph'));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_facebook',array(
@@ -262,10 +258,7 @@ class MetaController extends Controller
 
 		if(isset($_POST['OmmuMeta'])) {
 			$model->attributes=$_POST['OmmuMeta'];
-			if($model->twitter_card == 3)
-				$model->scenario = 'twitter_photo';
-			else
-				$model->scenario = 'twitter';
+			$model->scenario = 'twitter';
 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
@@ -297,7 +290,7 @@ class MetaController extends Controller
 			Yii::app()->end();
 
 		} else {
-			$this->pageTitle = Yii::t('phrase', 'Meta Settings: {meta}', array('{meta}'=>'Twitter'));
+			$this->pageTitle = Yii::t('phrase', 'Meta Settings: $meta_name', array('$meta_name'=>'Twitter'));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_twitter',array(

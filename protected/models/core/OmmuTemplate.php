@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuTemplate
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -24,7 +24,6 @@
  * The followings are the available columns in table 'ommu_core_template':
  * @property string $template_key
  * @property integer $plugin_id
- * @property string $user_id
  * @property string $template
  * @property string $variable
  * @property string $creation_date
@@ -37,7 +36,6 @@ class OmmuTemplate extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
-	public $user_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -71,12 +69,12 @@ class OmmuTemplate extends CActiveRecord
 			array('template_key, plugin_id, template, variable', 'required'),
 			array('plugin_id', 'numerical', 'integerOnly'=>true),
 			array('template_key', 'length', 'max'=>32),
-			array('user_id, modified_id', 'length', 'max'=>11),
+			array('modified_id', 'length', 'max'=>11),
 			array('modified_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('template_key, plugin_id, user_id, template, variable, creation_date, creation_id, modified_date, modified_id,
-				user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('template_key, plugin_id, template, variable, creation_date, creation_id, modified_date, modified_id,
+				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -89,7 +87,6 @@ class OmmuTemplate extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'plugin' => array(self::BELONGS_TO, 'OmmuPlugins', 'plugin_id'),
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -103,14 +100,12 @@ class OmmuTemplate extends CActiveRecord
 		return array(
 			'template_key' => Yii::t('attribute', 'Template Key'),
 			'plugin_id' => Yii::t('attribute', 'Plugin'),
-			'user_id' => Yii::t('attribute', 'User'),
 			'template' => Yii::t('attribute', 'Template'),
 			'variable' => Yii::t('attribute', 'Variable'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -136,10 +131,6 @@ class OmmuTemplate extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
 			'creation' => array(
 				'alias'=>'creation',
 				'select'=>'displayname'
@@ -152,11 +143,6 @@ class OmmuTemplate extends CActiveRecord
 
 		$criteria->compare('t.template_key',$this->template_key,true);
 		$criteria->compare('t.plugin_id',$this->plugin_id);
-		if(isset($_GET['user'])) {
-			$criteria->compare('t.user_id',$_GET['user']);
-		} else {
-			$criteria->compare('t.user_id',$this->user_id);
-		}
 		$criteria->compare('t.template',$this->template,true);
 		$criteria->compare('t.variable',$this->variable,true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
@@ -172,9 +158,8 @@ class OmmuTemplate extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuTemplate_sort']))
 			$criteria->order = 't.template_key DESC';
@@ -207,7 +192,6 @@ class OmmuTemplate extends CActiveRecord
 		} else {
 			//$this->defaultColumns[] = 'template_key';
 			$this->defaultColumns[] = 'plugin_id';
-			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'template';
 			$this->defaultColumns[] = 'variable';
 			$this->defaultColumns[] = 'creation_date';
@@ -242,7 +226,7 @@ class OmmuTemplate extends CActiveRecord
 				'value' => '$data->template_key',
 			);
 			//$this->defaultColumns[] = 'template';
-			$this->defaultColumns[] = 'variable';
+			//$this->defaultColumns[] = 'variable';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -329,7 +313,7 @@ class OmmuTemplate extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {	
 			if($this->isNewRecord)
-				$this->user_id = Yii::app()->user->id;
+				$this->creation_id = Yii::app()->user->id;
 			else
 				$this->modified_id = Yii::app()->user->id;
 		}

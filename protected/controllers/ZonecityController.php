@@ -4,7 +4,7 @@
  * @var $this ZonecityController
  * @var $model OmmuZoneCity
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -49,8 +49,11 @@ class ZonecityController extends Controller
 				$this->layout = $arrThemes['layout'];
 			} else
 				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
-		} else
-			$this->redirect(Yii::app()->createUrl('site/login'));
+		} else {
+			$arrThemes = Utility::getCurrentTemplate('public');
+			Yii::app()->theme = $arrThemes['folder'];
+			$this->layout = $arrThemes['layout'];
+		}
 	}
 
 	/**
@@ -159,7 +162,7 @@ class ZonecityController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Ommu Zone Cities Manage';
+		$this->pageTitle = Yii::t('phrase', 'Cities');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('/zone_city/admin_manage',array(
@@ -193,7 +196,7 @@ class ZonecityController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'City success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -207,7 +210,7 @@ class ZonecityController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Create Ommu Zone Cities';
+			$this->pageTitle = Yii::t('phrase', 'Create City');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_city/admin_add',array(
@@ -242,7 +245,7 @@ class ZonecityController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'City success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -256,7 +259,7 @@ class ZonecityController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Update Ommu Zone Cities';
+			$this->pageTitle = Yii::t('phrase', 'Update City: $city_name', array('$city_name'=>$model->city_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_city/admin_edit',array(
@@ -318,7 +321,7 @@ class ZonecityController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-zone-city',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success deleted.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'City success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -328,7 +331,7 @@ class ZonecityController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'OmmuZoneCity Delete.';
+			$this->pageTitle = Yii::t('phrase', 'Delete City: $city_name', array('$city_name'=>$model->city_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_city/admin_delete');
@@ -351,6 +354,7 @@ class ZonecityController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title City: $city_name', array('$title'=>$title, '$city_name'=>$model->city_name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -363,7 +367,7 @@ class ZonecityController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-zone-city',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCity success published.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'City success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -373,7 +377,7 @@ class ZonecityController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_city/admin_publish',array(

@@ -1,13 +1,13 @@
 <?php
 /**
  * MetaTags class file.
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
  * @create date February 20, 2014 14:02 WIB
  * @updated date February 21, 2014 15:50 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */

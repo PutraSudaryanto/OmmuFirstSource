@@ -1,12 +1,12 @@
 <?php
 /**
  * ViewMenuCategory
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 24 March 2016, 09:28 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -117,8 +117,8 @@ class ViewMenuCategory extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.cat_id',$this->cat_id);
-		$criteria->compare('t.menus',strtolower($this->menus),true);
-		$criteria->compare('t.menu_all',strtolower($this->menu_all),true);
+		$criteria->compare('t.menus',$this->menus);
+		$criteria->compare('t.menu_all',$this->menu_all);
 
 		if(!isset($_GET['ViewMenuCategory_sort']))
 			$criteria->order = 't.cat_id DESC';

@@ -1,7 +1,7 @@
 <?php
 /**
  * CUserIdentity class file
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/

@@ -3,12 +3,12 @@
  * Ommu Options (ommu-options)
  * @var $this OptionController
  * @var $model OmmuOptions
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 17 March 2017, 10:49 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -19,6 +19,7 @@
 	);
 ?>
 
+<div class="box">
 <?php $this->widget('application.components.system.FDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
@@ -62,3 +63,4 @@
 		),
 	),
 )); ?>
+</div>

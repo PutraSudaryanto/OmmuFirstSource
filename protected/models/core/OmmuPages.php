@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuPages
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -24,7 +24,6 @@
  * The followings are the available columns in table 'ommu_core_page':
  * @property integer $page_id
  * @property integer $publish
- * @property string $user_id
  * @property string $name
  * @property string $desc
  * @property string $quote
@@ -45,7 +44,6 @@ class OmmuPages extends CActiveRecord
 	public $old_media_i;
 	
 	// Variable Search
-	public $user_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -75,7 +73,7 @@ class OmmuPages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id,
+			array('
 				title_i, description_i', 'required'),
 			array('publish, media_show, media_type', 'numerical', 'integerOnly'=>true),
 			array('
@@ -85,8 +83,8 @@ class OmmuPages extends CActiveRecord
 				quote_i, old_media_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('page_id, publish, user_id, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
-				title_i, description_i, quote_i, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
+				title_i, description_i, quote_i, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,7 +100,6 @@ class OmmuPages extends CActiveRecord
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
 			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'desc'),
 			'quote' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'quote'),
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -116,9 +113,8 @@ class OmmuPages extends CActiveRecord
 		return array(
 			'page_id' => Yii::t('attribute', 'Page'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'user_id' => Yii::t('attribute', 'User'),
-			'name' => Yii::t('attribute', 'Name'),
-			'desc' => Yii::t('attribute', 'Desc'),
+			'name' => Yii::t('attribute', 'Title'),
+			'desc' => Yii::t('attribute', 'Page'),
 			'quote' => Yii::t('attribute', 'Quote'),
 			'media' => Yii::t('attribute', 'Media'),
 			'media_show' => Yii::t('attribute', 'Media Show'),
@@ -128,10 +124,9 @@ class OmmuPages extends CActiveRecord
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'title_i' => Yii::t('attribute', 'Title'),
-			'description_i' => Yii::t('attribute', 'Description'),
+			'description_i' => Yii::t('attribute', 'Page'),
 			'quote_i' => Yii::t('attribute', 'Quote'),
 			'old_media_i' => Yii::t('attribute', 'Old Media'),
-			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -171,10 +166,6 @@ class OmmuPages extends CActiveRecord
 				'alias'=>'quote',
 				'select'=>$language,
 			),
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
 			'creation' => array(
 				'alias'=>'creation',
 				'select'=>'displayname'
@@ -186,17 +177,16 @@ class OmmuPages extends CActiveRecord
 		);
 
 		$criteria->compare('t.page_id',$this->page_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.user_id',$this->user_id);
 		$criteria->compare('t.name',$this->name);
 		$criteria->compare('t.desc',$this->desc);
 		$criteria->compare('t.quote',$this->quote);
@@ -205,17 +195,22 @@ class OmmuPages extends CActiveRecord
 		$criteria->compare('t.media_type',$this->media_type);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
-		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
-		$criteria->compare('quote.'.$language,strtolower($this->quote_i), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
+		$criteria->compare('quote.'.$language,strtolower($this->quote_i),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		
 		if(!isset($_GET['OmmuPages_sort']))
 			$criteria->order = 't.page_id DESC';
@@ -248,7 +243,6 @@ class OmmuPages extends CActiveRecord
 		}else {
 			//$this->defaultColumns[] = 'page_id';
 			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'desc';
 			$this->defaultColumns[] = 'quote';
@@ -339,7 +333,7 @@ class OmmuPages extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord)
-				$this->user_id = Yii::app()->user->id;
+				$this->creation_id = Yii::app()->user->id;
 			else
 				$this->modified_id = Yii::app()->user->id;
 			
@@ -358,9 +352,9 @@ class OmmuPages extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
+		$controller = strtolower(Yii::app()->controller->id);
 		$action = strtolower(Yii::app()->controller->action->id);
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$location = Utility::getUrlTitle($controller);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
@@ -408,13 +402,13 @@ class OmmuPages extends CActiveRecord
 				$page_path = "public/page";
 				// Add directory
 				if(!file_exists($page_path)) {
-					@mkdir($page_path, 0755, true);
+					@mkdir($page_path, 0755,true);
 
 					// Add file in directory (index.php)
 					$newFile = $page_path.'/index.php';
 					$FileHandle = fopen($newFile, 'w');
 				} else
-					@chmod($page_path, 0755, true);
+					@chmod($page_path, 0755,true);
 				
 				$this->media = CUploadedFile::getInstance($this, 'media');
 				if($this->media instanceOf CUploadedFile) {

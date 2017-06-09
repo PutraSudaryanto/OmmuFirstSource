@@ -4,11 +4,11 @@
  * @var $this ModuleController
  * @var $model OmmuPlugins
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -51,6 +51,15 @@
 			</div>
 		</div>
 
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'install'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'install'); ?>
+				<?php echo $form->labelEx($model,'install'); ?>
+				<?php echo $form->error($model,'install'); ?>
+			</div>
+		</div>
+
 		<?php if($model->actived != '2') {?>
 		<div class="clearfix publish">
 			<?php echo $form->labelEx($model,'actived'); ?>
@@ -72,11 +81,11 @@
 		</div>
 
 		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'defaults'); ?>
+			<?php echo $form->labelEx($model,'default'); ?>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'defaults'); ?>
-				<?php echo $form->labelEx($model,'defaults'); ?>
-				<?php echo $form->error($model,'defaults'); ?>
+				<?php echo $form->checkBox($model,'default'); ?>
+				<?php echo $form->labelEx($model,'default'); ?>
+				<?php echo $form->error($model,'default'); ?>
 			</div>
 		</div>
 

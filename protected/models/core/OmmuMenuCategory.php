@@ -1,12 +1,12 @@
 <?php
 /**
  * OmmuMenuCategory
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co) 
  * @created date 15 January 2016, 16:53 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -39,12 +39,13 @@
 class OmmuMenuCategory extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $title;
-	public $description;
+	public $title_i;
+	public $description_i;
 	
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $menu_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -74,18 +75,19 @@ class OmmuMenuCategory extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('publish,
-				title, description', 'required'),
+				title_i', 'required'),
 			array('publish, creation_id, modified_id', 'numerical', 'integerOnly'=>true),
 			array('name, desc, creation_id, modified_id', 'length', 'max'=>11),
 			array('cat_code,
-				title', 'length', 'max'=>32),
+				title_i', 'length', 'max'=>32),
 			array('
-				description', 'length', 'max'=>128),
-			array('cat_code', 'safe'),
+				description_i', 'length', 'max'=>128),
+			array('cat_code, 
+				description_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('cat_id, publish, name, desc, cat_code, creation_date, creation_id, modified_date, modified_id,
-				title, description, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, description_i, creation_search, modified_search, menu_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -112,19 +114,20 @@ class OmmuMenuCategory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'cat_id' => Yii::t('attribute', 'Cat'),
+			'cat_id' => Yii::t('attribute', 'Category'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'name' => Yii::t('attribute', 'Title'),
+			'name' => Yii::t('attribute', 'Category'),
 			'desc' => Yii::t('attribute', 'Description'),
 			'cat_code' => Yii::t('attribute', 'Code'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title' => Yii::t('attribute', 'Title'),
-			'description' => Yii::t('attribute', 'Description'),
+			'title_i' => Yii::t('attribute', 'Category'),
+			'description_i' => Yii::t('attribute', 'Description'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'menu_search' => Yii::t('attribute', 'Menus'),
 		);
 	}
 
@@ -186,8 +189,8 @@ class OmmuMenuCategory extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.name',strtolower($this->name),true);
-		$criteria->compare('t.desc',strtolower($this->desc),true);
+		$criteria->compare('t.name',$this->name);
+		$criteria->compare('t.desc',$this->desc);
 		$criteria->compare('t.cat_code',strtolower($this->cat_code),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -202,10 +205,11 @@ class OmmuMenuCategory extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title), true);
-		$criteria->compare('description.'.$language,strtolower($this->description), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
+		$criteria->compare('view.menus',$this->menu_search);
 
 		if(!isset($_GET['OmmuMenuCategory_sort']))
 			$criteria->order = 't.cat_id DESC';
@@ -275,12 +279,12 @@ class OmmuMenuCategory extends CActiveRecord
 				),
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'title',
+				'name' => 'title_i',
 				'value' => 'Phrase::trans($data->name)',
 			);
 			/*
 			$this->defaultColumns[] = array(
-				'name' => 'description',
+				'name' => 'description_i',
 				'value' => 'Phrase::trans($data->desc)',
 			);
 			*/
@@ -313,6 +317,14 @@ class OmmuMenuCategory extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'menu_search',
+				'value' => 'CHtml::link($data->view->menus ? $data->view->menus : 0, Yii::app()->controller->createUrl("menu/manage",array("category"=>$data->cat_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
@@ -394,39 +406,39 @@ class OmmuMenuCategory extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
+		$controller = strtolower(Yii::app()->controller->id);
 		$action = strtolower(Yii::app()->controller->action->id);
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$location = Utility::getUrlTitle($controller);
 				
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				if($title->save())
 					$this->name = $title->phrase_id;
 				
 			} else {
 				$title = OmmuSystemPhrase::model()->findByPk($this->name);
-				$title->en_us = $this->title;
+				$title->en_us = $this->title_i;
 				$title->save();					
 			}
 			
 			if($this->isNewRecord || (!$this->isNewRecord && $this->desc == 0)) {
 				$desc=new OmmuSystemPhrase;
 				$desc->location = $location.'_description';
-				$desc->en_us = $this->description;
+				$desc->en_us = $this->description_i;
 				if($desc->save())
 					$this->desc = $desc->phrase_id;
 				
 			} else {
 				$desc = OmmuSystemPhrase::model()->findByPk($this->desc);
-				$desc->en_us = $this->description;
+				$desc->en_us = $this->description_i;
 				$desc->save();
 			}
 			
 			if($action != 'publish')
-				$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title)));
+				$this->cat_code = Utility::getUrlTitle(strtolower(trim($this->title_i)));
 		}
 		return true;
 	}

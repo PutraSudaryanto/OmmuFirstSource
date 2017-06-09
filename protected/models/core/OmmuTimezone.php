@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuTimezone
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -23,8 +23,8 @@
  *
  * The followings are the available columns in table 'ommu_core_timezone':
  * @property integer $timezone_id
- * @property integer $defaults
- * @property string $timezone
+ * @property integer $default
+ * @property string $timezone_name
  * @property string $title
  */
 class OmmuTimezone extends CActiveRecord
@@ -57,13 +57,12 @@ class OmmuTimezone extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('timezone, title', 'required'),
-			array('defaults', 'numerical', 'integerOnly'=>true),
-			array('timezone', 'length', 'max'=>32),
-			array('title', 'length', 'max'=>64),
+			array('timezone_name, title', 'required'),
+			array('default', 'numerical', 'integerOnly'=>true),
+			array('timezone_name, title', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('timezone_id, defaults, timezone, title', 'safe', 'on'=>'search'),
+			array('timezone_id, default, timezone_name, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,8 +84,8 @@ class OmmuTimezone extends CActiveRecord
 	{
 		return array(
 			'timezone_id' => Yii::t('attribute', 'Timezone'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
-			'timezone' => Yii::t('attribute', 'Timezone'),
+			'default' => Yii::t('attribute', 'Default'),
+			'timezone_name' => Yii::t('attribute', 'Timezone'),
 			'title' => Yii::t('attribute', 'Title'),
 		);
 	}
@@ -103,8 +102,8 @@ class OmmuTimezone extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.timezone_id',$this->timezone_id);
-		$criteria->compare('t.defaults',$this->defaults);
-		$criteria->compare('t.timezone',strtolower($this->timezone),true);
+		$criteria->compare('t.default',$this->default);
+		$criteria->compare('t.timezone_name',strtolower($this->timezone_name),true);
 		$criteria->compare('t.title',strtolower($this->title),true);
 
 		if(!isset($_GET['OmmuTimezone_sort']))
@@ -136,8 +135,8 @@ class OmmuTimezone extends CActiveRecord
 			}
 		}else {
 			//$this->defaultColumns[] = 'timezone_id';
-			$this->defaultColumns[] = 'defaults';
-			$this->defaultColumns[] = 'timezone';
+			$this->defaultColumns[] = 'default';
+			$this->defaultColumns[] = 'timezone_name';
 			$this->defaultColumns[] = 'title';
 		}
 
@@ -150,8 +149,8 @@ class OmmuTimezone extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'timezone_id';
-			$this->defaultColumns[] = 'defaults';
-			$this->defaultColumns[] = 'timezone';
+			$this->defaultColumns[] = 'default';
+			$this->defaultColumns[] = 'timezone_name';
 			$this->defaultColumns[] = 'title';
 		}
 		parent::afterConstruct();
@@ -161,7 +160,7 @@ class OmmuTimezone extends CActiveRecord
 	 * Get Default
 	 */
 	public static function getDefault(){
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		return $model->timezone_id;
 	}
 
@@ -187,11 +186,11 @@ class OmmuTimezone extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			if(!$this->isNewRecord) {
-				if($this->defaults != 1) {
+				if($this->default != 1) {
 					self::model()->updateAll(array(
-						'defaults' => 0,	
+						'default' => 0,	
 					));
-					$this->defaults = 1;
+					$this->default = 1;
 				}
 			}
 		}

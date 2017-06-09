@@ -4,11 +4,11 @@
  * @var $this LanguageController
  * @var $model OmmuLanguages
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -26,18 +26,18 @@
 		<?php echo $form->errorSummary($model); ?>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'code'); ?>
-			<div class="desc">
-				<?php echo $form->textField($model,'code',array('maxlength'=>8)); ?>
-				<?php echo $form->error($model,'code'); ?>
-			</div>
-		</div>
-
-		<div class="clearfix">
 			<?php echo $form->labelEx($model,'name'); ?>
 			<div class="desc">
 				<?php echo $form->textField($model,'name',array('maxlength'=>32)); ?>
 				<?php echo $form->error($model,'name'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'code'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'code',array('maxlength'=>8)); ?>
+				<?php echo $form->error($model,'code'); ?>
 			</div>
 		</div>
 
@@ -51,11 +51,11 @@
 		</div>
 
 		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'defaults'); ?>
+			<?php echo $form->labelEx($model,'default'); ?>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'defaults'); ?>
-				<?php echo $form->labelEx($model,'defaults'); ?>
-				<?php echo $form->error($model,'defaults'); ?>
+				<?php echo $form->checkBox($model,'default'); ?>
+				<?php echo $form->labelEx($model,'default'); ?>
+				<?php echo $form->error($model,'default'); ?>
 			</div>
 		</div>
 

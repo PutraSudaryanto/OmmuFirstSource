@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuLocale
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -23,17 +23,17 @@
  *
  * The followings are the available columns in table 'ommu_core_locale':
  * @property integer $locale_id
- * @property integer $defaults
+ * @property integer $default
  * @property string $locale
  * @property string $title
  */
 class OmmuLocale extends CActiveRecord
 {
 	public $defaultColumns = array();
-	public $default_locale;
-	public $timezone;
-	public $dateformat;
-	public $timeformat;
+	public $default_locale_i;
+	public $timezone_i;
+	public $dateformat_i;
+	public $timeformat_i;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -62,14 +62,14 @@ class OmmuLocale extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('
-				default_locale, timezone, dateformat, timeformat', 'required'),
-			array('defaults,
-				default_locale, timezone', 'numerical', 'integerOnly'=>true),
+				default_locale_i, timezone_i, dateformat_i, timeformat_i', 'required'),
+			array('default,
+				default_locale_i, timezone_i', 'numerical', 'integerOnly'=>true),
 			array('locale', 'length', 'max'=>16),
 			array('title', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('locale_id, defaults, locale, title', 'safe', 'on'=>'search'),
+			array('locale_id, default, locale, title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,13 +91,13 @@ class OmmuLocale extends CActiveRecord
 	{
 		return array(
 			'locale_id' => Yii::t('attribute', 'Locale'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'locale' => Yii::t('attribute', 'Locale'),
 			'title' => Yii::t('attribute', 'Title'),
-			'default_locale' => Yii::t('attribute', 'Default Locale'),
-			'timezone' => Yii::t('attribute', 'Timezone'),
-			'dateformat' => Yii::t('attribute', 'Date Format'),
-			'timeformat' => Yii::t('attribute', 'Time Format'),
+			'default_locale_i' => Yii::t('attribute', 'Default Locale'),
+			'timezone_i' => Yii::t('attribute', 'Timezone'),
+			'dateformat_i' => Yii::t('attribute', 'Date Format'),
+			'timeformat_i' => Yii::t('attribute', 'Time Format'),
 		);
 	}
 	
@@ -113,7 +113,7 @@ class OmmuLocale extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.locale_id',$this->locale_id);
-		$criteria->compare('t.defaults',$this->defaults);
+		$criteria->compare('t.default',$this->default);
 		$criteria->compare('t.locale',strtolower($this->locale),true);
 		$criteria->compare('t.title',strtolower($this->title),true);
 
@@ -144,7 +144,7 @@ class OmmuLocale extends CActiveRecord
 			}
 		}else {
 			//$this->defaultColumns[] = 'locale_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'locale';
 			$this->defaultColumns[] = 'title';
 		}
@@ -158,7 +158,7 @@ class OmmuLocale extends CActiveRecord
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
 			$this->defaultColumns[] = 'locale_id';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'locale';
 			$this->defaultColumns[] = 'title';
 		}
@@ -169,7 +169,7 @@ class OmmuLocale extends CActiveRecord
 	 * Get Default
 	 */
 	public static function getDefault(){
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		return $model->locale_id;
 	}
 
@@ -194,8 +194,8 @@ class OmmuLocale extends CActiveRecord
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
-			if($this->dateformat == '' || $this->timeformat == '') {
-				$this->addError('dateformat', Yii::t('phrase', 'Date Format cannot be blank.'));
+			if($this->dateformat_i == '' || $this->timeformat_i == '') {
+				$this->addError('dateformat_i', Yii::t('phrase', 'Date Format cannot be blank.'));
 			}
 		}
 		return true;
@@ -207,11 +207,11 @@ class OmmuLocale extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			if(!$this->isNewRecord) {
-				if($this->defaults != 1) {
+				if($this->default != 1) {
 					self::model()->updateAll(array(
-						'defaults' => 0,	
+						'default' => 0,	
 					));
-					$this->defaults = 1;
+					$this->default = 1;
 				}
 			}
 		}

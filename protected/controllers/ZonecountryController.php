@@ -4,7 +4,7 @@
  * @var $this ZonecountryController
  * @var $model OmmuZoneCountry
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -20,7 +20,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -47,8 +47,11 @@ class ZonecountryController extends Controller
 				$this->layout = $arrThemes['layout'];
 			} else
 				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
-		} else
-			$this->redirect(Yii::app()->createUrl('site/login'));
+		} else {
+			$arrThemes = Utility::getCurrentTemplate('public');
+			Yii::app()->theme = $arrThemes['folder'];
+			$this->layout = $arrThemes['layout'];
+		}
 	}
 
 	/**
@@ -157,7 +160,7 @@ class ZonecountryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Ommu Zone Countries Manage';
+		$this->pageTitle = Yii::t('phrase', 'Countries');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('/zone_country/admin_manage',array(
@@ -191,7 +194,7 @@ class ZonecountryController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-country',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCountry success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Country success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -205,7 +208,7 @@ class ZonecountryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Create Ommu Zone Countries';
+			$this->pageTitle = Yii::t('phrase', 'Create Country');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_country/admin_add',array(
@@ -240,7 +243,7 @@ class ZonecountryController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-zone-country',
-							'msg' => '<div class="errorSummary success"><strong>OmmuZoneCountry success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Country success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -254,7 +257,7 @@ class ZonecountryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Update Ommu Zone Countries';
+			$this->pageTitle = Yii::t('phrase', 'Update Country: $country_name', array('$country_name'=>$model->country_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_country/admin_edit',array(
@@ -280,7 +283,7 @@ class ZonecountryController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-zone-country',
-						'msg' => '<div class="errorSummary success"><strong>OmmuZoneCountry success deleted.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Country success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -290,7 +293,7 @@ class ZonecountryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'OmmuZoneCountry Delete.';
+			$this->pageTitle = Yii::t('phrase', 'Delete Country: $country_name', array('$country_name'=>$model->country_name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_country/admin_delete');

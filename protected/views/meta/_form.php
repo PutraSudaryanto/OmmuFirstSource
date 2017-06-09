@@ -4,11 +4,11 @@
  * @var $this MetaController
  * @var $model OmmuMeta
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -227,19 +227,22 @@
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'twitter_photo_width'); ?>
+		<?php echo $form->labelEx($model,'twitter_photo_width_i'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'twitter_photo_width',array('size'=>3,'maxlength'=>3)); ?>
-			<?php echo $form->error($model,'twitter_photo_width'); ?>
+			<?php 
+			if(!$model->getErrors())
+				$model->twitter_photo_size = unserialize($model->twitter_photo_size);
+			echo $form->textField($model,'twitter_photo_size[width]',array('maxlength'=>3)); ?>
+			<?php echo $form->error($model,'twitter_photo_size[width]'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'twitter_photo_height'); ?>
+		<?php echo $form->labelEx($model,'twitter_photo_height_i'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'twitter_photo_height',array('size'=>3,'maxlength'=>3)); ?>
-			<?php echo $form->error($model,'twitter_photo_height'); ?>
+			<?php echo $form->textField($model,'twitter_photo_size[height]',array('maxlength'=>3)); ?>
+			<?php echo $form->error($model,'twitter_photo_size[height]'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>

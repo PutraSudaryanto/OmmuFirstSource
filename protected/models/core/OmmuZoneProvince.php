@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuZoneProvince
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -158,13 +158,13 @@ class OmmuZoneProvince extends CActiveRecord
 		);
 
 		$criteria->compare('t.province_id',$this->province_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
 			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
 			$criteria->compare('t.publish',2);
-		} else {
+		else {
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
@@ -173,7 +173,7 @@ class OmmuZoneProvince extends CActiveRecord
 		else
 			$criteria->compare('t.country_id',$this->country_id);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);
-		$criteria->compare('t.mfdonline',strtolower($this->mfdonline),true);
+		$criteria->compare('t.mfdonline',$this->mfdonline,true);
 		$criteria->compare('t.checked',$this->checked);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
@@ -188,9 +188,9 @@ class OmmuZoneProvince extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('country.country_name',strtolower($this->country_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('country.country_name',strtolower($this->country_search),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['OmmuZoneProvince_sort']))
 			$criteria->order = 't.province_id DESC';
@@ -258,7 +258,13 @@ class OmmuZoneProvince extends CActiveRecord
 				'name' => 'country_search',
 				'value' => '$data->country->country_name',
 			);
-			$this->defaultColumns[] = 'mfdonline';
+			$this->defaultColumns[] = array(
+				'name' => 'mfdonline',
+				'value' => '$data->mfdonline',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
@@ -302,6 +308,7 @@ class OmmuZoneProvince extends CActiveRecord
 				),
 				'type' => 'raw',
 			);
+			*/
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
@@ -316,7 +323,6 @@ class OmmuZoneProvince extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
-			*/
 		}
 		parent::afterConstruct();
 	}

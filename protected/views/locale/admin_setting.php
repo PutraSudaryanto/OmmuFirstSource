@@ -4,11 +4,11 @@
  * @var $this LocaleController
  * @var $model OmmuLocale
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -34,32 +34,32 @@
 
 	<fieldset>
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'default_locale'); ?>
+			<?php echo $form->labelEx($model,'default_locale_i'); ?>
 			<div class="desc">
 				<?php 
-				$model->default_locale = OmmuLocale::getDefault();
-				echo $form->dropDownList($model,'default_locale', OmmuLocale::getLocale()); ?>
-				<?php echo $form->error($model,'default_locale'); ?>
+				$model->default_locale_i = OmmuLocale::getDefault();
+				echo $form->dropDownList($model,'default_locale_i', OmmuLocale::getLocale()); ?>
+				<?php echo $form->error($model,'default_locale_i'); ?>
 			</div>
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'timezone'); ?>
+			<?php echo $form->labelEx($model,'timezone_i'); ?>
 			<div class="desc">
 				<?php 
-				$model->timezone = OmmuTimezone::getDefault();
-				echo $form->dropDownList($model,'timezone', OmmuTimezone::getTimezone()); ?>
-				<?php echo $form->error($model,'timezone'); ?>
+				$model->timezone_i = OmmuTimezone::getDefault();
+				echo $form->dropDownList($model,'timezone_i', OmmuTimezone::getTimezone()); ?>
+				<?php echo $form->error($model,'timezone_i'); ?>
 			</div>
 		</div>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'dateformat'); ?>
+			<?php echo $form->labelEx($model,'dateformat_i'); ?>
 			<div class="desc">
 				<?php 
 				$dateformat = "1986-08-11 16:25:50";
-				$model->dateformat = $setting->site_dateformat;
-				echo $form->dropDownList($model,'dateformat', array(
+				$model->dateformat_i = $setting->site_dateformat;
+				echo $form->dropDownList($model,'dateformat_i', array(
 					'n/j/Y' => date('n/j/Y', strtotime($dateformat)),
 					'n-j-Y' => date('n-j-Y', strtotime($dateformat)),
 					'm/j/Y' => date('m/j/Y', strtotime($dateformat)),
@@ -86,8 +86,8 @@
 					'D j M Y' => date('D j M Y', strtotime($dateformat)),
 				)); ?>
 				<?php 
-				$model->timeformat = $setting->site_timeformat;
-				echo $form->dropDownList($model,'timeformat', array(
+				$model->timeformat_i = $setting->site_timeformat;
+				echo $form->dropDownList($model,'timeformat_i', array(
 					'g:i A' => date('g:i A', strtotime($dateformat)),
 					'h:i A' => date('h:i A', strtotime($dateformat)),
 					'g:i' => date('g:i', strtotime($dateformat)),
@@ -95,7 +95,7 @@
 					'H:i' => date('H:i', strtotime($dateformat)),
 					'H\hi' => date('H\hi', strtotime($dateformat)),
 				)); ?>
-				<?php echo $form->error($model,'dateformat'); ?>
+				<?php echo $form->error($model,'dateformat_i'); ?>
 			</div>
 		</div>
 

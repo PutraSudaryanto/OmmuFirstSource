@@ -1,7 +1,7 @@
 <?php
 /**
  * Utility class file
- * version: 1.2.0
+ * version: 1.3.0
  *
  * Contains many function that most used :
  *	getCurrentTemplate
@@ -34,7 +34,7 @@
  * @create date November 27, 2013 15:02 WIB
  * @update date April 3, 2014 15:02 WIB
  * @copyright Copyright (c) 2013 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -450,8 +450,8 @@ class Utility
 		$class = '';
 		$arrType = explode(',', $type);
 		if(count($arrType) > 1 ) {
-			$plus = $arrType[0];
-			$min = $arrType[1];
+			$plus = Yii::t('phrase', trim($arrType[0]));
+			$min = Yii::t('phrase', trim($arrType[1]));
 		} else {
 			if($type == '1') {
 				$plus = Yii::t('phrase', 'Publish');
@@ -480,7 +480,7 @@ class Utility
 			} else if($type == '9') {
 				$plus = Yii::t('phrase', 'Headline');
 				$min = Yii::t('phrase', 'Headline');
-			} else if($type == '9') {
+			} else if($type == '10') {
 				$plus = Yii::t('phrase', 'Install Module');
 				$min = Yii::t('phrase', 'Install Module');
 			}

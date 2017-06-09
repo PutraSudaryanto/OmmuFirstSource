@@ -4,11 +4,11 @@
  * @var $this AuthorController
  * @var $model OmmuAuthors
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -31,26 +31,8 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'name'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'name',array('size'=>32,'maxlength'=>32)); ?>
+				<?php echo $form->textField($model,'name',array('maxlength'=>32)); ?>
 				<?php echo $form->error($model,'name'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
-			</div>
-		</div>
-
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'email'); ?>
-			<div class="desc">
-				<?php echo $form->textField($model,'email',array('size'=>32,'maxlength'=>32)); ?>
-				<?php echo $form->error($model,'email'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
-			</div>
-		</div>
-
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'password'); ?>
-			<div class="desc">
-				<?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
-				<?php echo $form->error($model,'password'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>

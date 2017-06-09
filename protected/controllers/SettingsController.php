@@ -4,7 +4,7 @@
  * @var $this SettingsController
  * @var $model OmmuSettings
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -13,13 +13,14 @@
  *	Banned
  *	Signup
  *	Analytic
+ *	Manual
  *
  *	LoadModel
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ class SettingsController extends Controller
 	public function init() 
 	{
 		if(!Yii::app()->user->isGuest) {
-			if(Yii::app()->user->level == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
@@ -83,6 +84,11 @@ class SettingsController extends Controller
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('manual'),
+				'users'=>array('@'),
+				'expression'=>'isset(Yii::app()->user->level) && (in_array(Yii::app()->user->level, array(1,2)))',
+			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(),
 				'users'=>array('admin'),
@@ -107,6 +113,9 @@ class SettingsController extends Controller
 	 */
 	public function actionGeneral() 
 	{
+		if(Yii::app()->user->level != 1)
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+		
 		$model = OmmuSettings::model()->findByPk(1);
 		if($model == null)
 			$model=new OmmuSettings;
@@ -163,6 +172,9 @@ class SettingsController extends Controller
 	 */
 	public function actionBanned() 
 	{
+		if(Yii::app()->user->level != 1)
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+		
 		$model = OmmuSettings::model()->findByPk(1);
 		if($model == null)
 			$model=new OmmuSettings;
@@ -221,6 +233,9 @@ class SettingsController extends Controller
 	 */
 	public function actionSignup() 
 	{
+		if(Yii::app()->user->level != 1)
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+		
 		$model = OmmuSettings::model()->findByPk(1);
 		if($model == null)
 			$model=new OmmuSettings;
@@ -277,6 +292,9 @@ class SettingsController extends Controller
 	 */
 	public function actionAnalytic() 
 	{
+		if(Yii::app()->user->level != 1)
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+		
 		$model = OmmuSettings::model()->findByPk(1);
 		if($model == null)
 			$model=new OmmuSettings;
@@ -325,6 +343,25 @@ class SettingsController extends Controller
 				'model'=>$model,
 			));
 		}
+	}
+	
+	/**
+	 * Lists all models.
+	 */
+	public function actionManual() 
+	{
+		$manual_path = YiiBase::getPathOfAlias('application.ommu.assets.manual');
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('admin/dashboard');
+		$this->dialogWidth = 400;
+		
+		$this->pageTitle = Yii::t('phrase', 'Core Manual Book');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_manual', array(
+			'manual_path'=>$manual_path,			
+		));
 	}
 
 	/**

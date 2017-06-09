@@ -80,7 +80,10 @@ class gapiOAuth2
 		$auth_token = json_decode($response['body'], true);
 
 		if(substr($response['code'], 0, 1) != '2' || !is_array($auth_token) || empty($auth_token['access_token']))
-			throw new Exception(Yii::t('phrase', 'GAPI: Failed to authenticate user. Error: $error', array('$error'=>strip_tags($response['body']))));
+			return false;
+			//Yii::app()->user->setFlash('analytic-api-error', Yii::t('phrase', 'GAPI: Failed to authenticate user. Error: $error', array('$error'=>strip_tags($response['body']))));
+			//throw new Exception(Yii::t('phrase', 'GAPI: Failed to authenticate user. Error: $error', array('$error'=>strip_tags($response['body']))));
+			//throw new CHttpException(404, Yii::t('phrase', 'GAPI: Failed to authenticate user. Error: $error', array('$error'=>strip_tags($response['body']))));
 
 		$this->auth_token = $auth_token['access_token'];
 

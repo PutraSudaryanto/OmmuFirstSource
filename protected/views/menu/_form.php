@@ -4,12 +4,12 @@
  * @var $this MenuController
  * @var $model OmmuMenu
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 24 March 2016, 10:20 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -48,23 +48,23 @@
 		$menu = OmmuMenu::getParentMenu(null, $parent);
 		if($menu != null) {?>
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'dependency'); ?>
+			<?php echo $form->labelEx($model,'parent'); ?>
 			<div class="desc">
-				<?php echo $form->dropDownList($model,'dependency', $menu, array('prompt'=>Yii::t('phrase', 'No Parent'))); ?>
-				<?php echo $form->error($model,'dependency'); ?>
+				<?php echo $form->dropDownList($model,'parent', $menu, array('prompt'=>Yii::t('phrase', 'No Parent'))); ?>
+				<?php echo $form->error($model,'parent'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 		<?php }?>
 
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'title'); ?>
+			<?php echo $form->labelEx($model,'title_i'); ?>
 			<div class="desc">
 				<?php
 				if(!$model->getErrors())
-					$model->title = Phrase::trans($model->name);
-				echo $form->textField($model,'title',array('maxlength'=>32,'class'=>'span-8')); ?>
-				<?php echo $form->error($model,'title'); ?>
+					$model->title_i = Phrase::trans($model->name);
+				echo $form->textField($model,'title_i',array('maxlength'=>32,'class'=>'span-8')); ?>
+				<?php echo $form->error($model,'title_i'); ?>
 			</div>
 		</div>
 
@@ -85,12 +85,18 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
-
-		<?php /*
+		
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'sitetype_access'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'sitetype_access',array('maxlength'=>32)); ?>
+				<?php 
+				$siteType = array(
+					'0' => Yii::t('phrase', 'Company Profile'),
+					'1' => Yii::t('phrase', 'Social Media / Community Website'),
+				);
+				if(!$model->getErrors())
+					$model->sitetype_access = unserialize($model->sitetype_access);
+				echo $form->checkBoxList($model,'sitetype_access', $siteType); ?>
 				<?php echo $form->error($model,'sitetype_access'); ?>
 			</div>
 		</div>
@@ -98,11 +104,14 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'userlevel_access'); ?>
 			<div class="desc">
-				<?php echo $form->textField($model,'userlevel_access',array('maxlength'=>32)); ?>
+				<?php 
+				if(!$model->getErrors())
+					$model->userlevel_access = unserialize($model->userlevel_access);
+				$userlevel = UserLevel::getUserLevel();
+				echo $form->checkBoxList($model,'userlevel_access', $userlevel); ?>
 				<?php echo $form->error($model,'userlevel_access'); ?>
 			</div>
 		</div>
-		*/?>
 
 		<div class="clearfix publish">
 			<?php echo $form->labelEx($model,'publish'); ?>

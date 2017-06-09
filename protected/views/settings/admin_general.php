@@ -4,11 +4,11 @@
  * @var $this SettingsController
  * @var $model OmmuSettings
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -27,7 +27,7 @@ $js=<<<EOP
 			$('div#construction').slideUp();
 		}
 	});
-	$('#OmmuSettings_event input[name="OmmuSettings[event]"]').on('change', function() {
+	$('#OmmuSettings_event_i input[name="OmmuSettings[event_i]"]').on('change', function() {
 		var id = $(this).val();
 		if(id == '0') {
 			$('div#events').slideUp();
@@ -55,7 +55,35 @@ EOP;
 
 	<fieldset>
 		<div class="clearfix">
-			<?php echo $form->labelEx($model,'online'); ?>
+			<label><?php echo $model->getAttributeLabel('site_type');?> <span class="required">*</span></label>
+			<div class="desc">
+				<?php 
+				if($model->isNewRecord && !$model->getErrors())
+					$model->site_type = 0;
+				echo $form->dropDownLIst($model,'site_type', array(
+					'1' => Yii::t('phrase', 'Social Media / Community Website'),
+					'0' => Yii::t('phrase', 'Company Profile'),
+				)); ?>
+				<?php echo $form->error($model,'site_type'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<label><?php echo $model->getAttributeLabel('site_oauth');?> <span class="required">*</span></label>
+			<div class="desc">
+				<?php 
+				if($model->isNewRecord && !$model->getErrors())
+					$model->site_oauth = 0;
+				echo $form->dropDownLIst($model,'site_oauth', array(
+					'1' => Yii::t('phrase', 'Enable'),
+					'0' => Yii::t('phrase', 'Disable'),
+				)); ?>
+				<?php echo $form->error($model,'site_oauth'); ?>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<label><?php echo $model->getAttributeLabel('online');?> <span class="required">*</span></label>
 			<div class="desc">
 				<span class="small-px"><?php echo Yii::t('phrase', 'Maintenance Mode will prevent site visitors from accessing your website. You can customize the maintenance mode page by manually editing the file "/application/maintenance.html".');?></span>
 				<?php echo $form->radioButtonList($model, 'online', array(
@@ -94,31 +122,33 @@ EOP;
 					<?php echo $form->error($model,'construction_text'); ?>
 				</div>
 			</div>
-
 		</div>
 
-		<?php 
-		$model->event = 0;
-		if($model->isNewRecord || (!$model->isNewRecord && !in_array(date('Y-m-d', strtotime($model->event_startdate)), array('0000-00-00','1970-01-01')) && !in_array(date('Y-m-d', strtotime($model->event_finishdate)), array('0000-00-00','1970-01-01'))))
-			$model->event = 1;
-		?>
 		<div class="clearfix">
-			<label><?php echo $model->getAttributeLabel('event')?> <span class="required">*</span></label>
+			<label><?php echo $model->getAttributeLabel('event_i')?> <span class="required">*</span></label>
 			<div class="desc">
-				<?php echo $form->radioButtonList($model,'event', array(
+				<?php 
+				if(!$model->getErrors()) {
+					$model->event_i = 0;
+					if($model->isNewRecord || (!$model->isNewRecord && !in_array(date('Y-m-d', strtotime($model->event_startdate)), array('0000-00-00','1970-01-01')) && !in_array(date('Y-m-d', strtotime($model->event_finishdate)), array('0000-00-00','1970-01-01'))))
+						$model->event_i = 1;
+				}
+				echo $form->radioButtonList($model,'event_i', array(
 					1 => 'Enable',
 					0 => 'Disable',
 				)); ?>
-				<?php echo $form->error($model,'event'); ?>
+				<?php echo $form->error($model,'event_i'); ?>
 			</div>
 		</div>
 		
-		<div id="events" <?php echo $model->event == '0' ? 'class="hide"' : ''; ?>>
+		<div id="events" <?php echo $model->event_i == '0' ? 'class="hide"' : ''; ?>>
 			<div class="clearfix">
 				<label><?php echo $model->getAttributeLabel('event_startdate');?> <span class="required">*</span></label>
 				<div class="desc">
 					<?php 
-					$model->event_startdate = date('d-m-Y', strtotime($model->event_startdate));
+					if(!$model->getErrors())
+						$model->event_startdate = !$model->isNewRecord ? (!in_array(date('Y-m-d', strtotime($model->event_startdate)), array('0000-00-00','1970-01-01')) ? date('d-m-Y', strtotime($model->event_startdate)) : '00-00-0000') : '';
+					//$model->event_startdate = date('d-m-Y', strtotime($model->event_startdate));
 					//echo $form->textField($model,'event_startdate',array('maxlength'=>10, 'class'=>'span-3'));
 					$this->widget('application.components.system.CJuiDatePicker',array(
 						'model'=>$model, 
@@ -138,7 +168,9 @@ EOP;
 				<label><?php echo $model->getAttributeLabel('event_finishdate');?> <span class="required">*</span></label>
 				<div class="desc">
 					<?php 
-					$model->event_finishdate = date('d-m-Y', strtotime($model->event_finishdate));
+					if(!$model->getErrors())
+						$model->event_finishdate = !$model->isNewRecord ? (!in_array(date('Y-m-d', strtotime($model->event_finishdate)), array('0000-00-00','1970-01-01')) ? date('d-m-Y', strtotime($model->event_finishdate)) : '00-00-0000') : '';
+					//$model->event_finishdate = date('d-m-Y', strtotime($model->event_finishdate));
 					//echo $form->textField($model,'event_finishdate',array('maxlength'=>10, 'class'=>'span-3'));
 					$this->widget('application.components.system.CJuiDatePicker',array(
 						'model'=>$model, 
@@ -159,6 +191,7 @@ EOP;
 				<div class="desc">
 					<?php echo $form->textArea($model,'event_tag',array('rows'=>6, 'cols'=>50, 'class'=>'span-9 smaller')); ?>
 					<?php echo $form->error($model,'event_tag'); ?>
+					<span class="small-px"><?php echo Yii::t('phrase', 'tambahkan tanda koma (,) jika ingin menambahkan event tag lebih dari satu');?></span>
 				</div>
 			</div>
 		</div>
@@ -201,6 +234,7 @@ EOP;
 			<div class="desc">
 				<?php echo $form->textArea($model,'site_keywords',array('rows'=>6, 'cols'=>50, 'class'=>'span-9', 'maxlength'=>256)); ?>
 				<?php echo $form->error($model,'site_keywords'); ?>
+				<span class="small-px"><?php echo Yii::t('phrase', 'tambahkan tanda koma (,) jika ingin menambahkan keyword lebih dari satu');?></span>
 			</div>
 		</div>
 

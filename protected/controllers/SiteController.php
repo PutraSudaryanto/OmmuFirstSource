@@ -2,7 +2,7 @@
 /**
  * SiteController
  * @var $this SiteController
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -18,7 +18,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -57,17 +57,6 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * @return array action filters
-	 */
-	public function filters() 
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			//'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
-
-	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
@@ -76,7 +65,7 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','error','login','logout','sendemail','analytics','about'),
+				'actions'=>array('error','index','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -172,17 +161,6 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
-
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionSendEmail($email='putra.sudaryanto@gmail.com', $name='Putra Sudaryanto', $subject='testing', $message='testing')
-	{
-		if(SupportMailSetting::sendEmail($email, $name, $subject, $message))
-			echo 'send';
-		else 
-			echo 'notsend';
-	}
 	
 	/**
 	 * This is the default 'index' action that is invoked
@@ -195,11 +173,22 @@ class SiteController extends Controller
 		));
 		
 		$this->pageTitleShow = true;		
-		$this->pageTitle = Yii::t('phrase', 'Statistik');
+		$this->pageTitle = Yii::t('phrase', 'Statistic');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('application.webs.site.front_analytics', array(
 			'model'=>$model,
 		));
+	}
+
+	/**
+	 * Logs out the current user and redirect to homepage.
+	 */
+	public function actionSendEmail($email='putra.sudaryanto@gmail.com', $name='Putra Sudaryanto', $subject='testing', $message='testing')
+	{
+		if(SupportMailSetting::sendEmail($email, $name, $subject, $message))
+			echo 'send';
+		else 
+			echo 'notsend';
 	}
 }

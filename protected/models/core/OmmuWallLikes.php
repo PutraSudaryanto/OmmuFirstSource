@@ -1,11 +1,11 @@
 <?php
 /**
  * OmmuWallLikes
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -123,21 +123,6 @@ class OmmuWallLikes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.like_id',$this->like_id,true);
-		if(isset($_GET['wall'])) {
-			$criteria->compare('t.wall_id',$_GET['wall']);
-		} else {
-			$criteria->compare('t.wall_id',$this->wall_id);
-		}
-		if(isset($_GET['user'])) {
-			$criteria->compare('t.user_id',$_GET['user']);
-		} else {
-			$criteria->compare('t.user_id',$this->user_id);
-		}
-		if($this->likes_date != null && !in_array($this->likes_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.likes_date)',date('Y-m-d', strtotime($this->likes_date)));
-		$criteria->compare('t.likes_ip',$this->likes_ip,true);
 		
 		// Custom Search
 		$criteria->with = array(
@@ -150,8 +135,22 @@ class OmmuWallLikes extends CActiveRecord
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('wall.wall_status',strtolower($this->wall_search), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+
+		$criteria->compare('t.like_id',$this->like_id);
+		if(isset($_GET['wall']))
+			$criteria->compare('t.wall_id',$_GET['wall']);
+		else
+			$criteria->compare('t.wall_id',$this->wall_id);
+		if(isset($_GET['user']))
+			$criteria->compare('t.user_id',$_GET['user']);
+		else
+			$criteria->compare('t.user_id',$this->user_id);
+		if($this->likes_date != null && !in_array($this->likes_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.likes_date)',date('Y-m-d', strtotime($this->likes_date)));
+		$criteria->compare('t.likes_ip',$this->likes_ip,true);
+		
+		$criteria->compare('wall.wall_status',strtolower($this->wall_search),true);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['OmmuWallLikes_sort']))
 			$criteria->order = 't.like_id DESC';

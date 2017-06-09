@@ -4,12 +4,12 @@
  * @var $this OptionController
  * @var $model OmmuOptions
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 17 March 2017, 10:49 WIB
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -32,17 +32,17 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_type'); ?><br/>
-			<?php echo $form->textField($model,'option_type',array('size'=>6,'maxlength'=>6)); ?>
+			<?php echo $form->textField($model,'option_type'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_name'); ?><br/>
-			<?php echo $form->textField($model,'option_name',array('size'=>60,'maxlength'=>128)); ?>
+			<?php echo $form->textField($model,'option_name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('option_value'); ?><br/>
-			<?php echo $form->textArea($model,'option_value',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'option_value'); ?>
 		</li>
 
 		<li>
@@ -52,7 +52,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -62,7 +62,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

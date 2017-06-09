@@ -4,11 +4,11 @@
  * @var $this ZonecountryController
  * @var $model OmmuZoneCountry
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -26,12 +26,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('country_name'); ?><br/>
-			<?php echo $form->textField($model,'country_name',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $form->textField($model,'country_name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('code'); ?><br/>
-			<?php echo $form->textField($model,'code',array('size'=>2,'maxlength'=>2)); ?>
+			<?php echo $form->textField($model,'code'); ?>
 		</li>
 
 		<li>
@@ -41,7 +41,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -51,7 +51,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

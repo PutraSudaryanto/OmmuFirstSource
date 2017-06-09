@@ -2,7 +2,7 @@
 /**
  * ModuleHandle class file
  * Contains many function that most used
- * version: 1.2.0
+ * version: 1.3.0
  *
  * Reference start
  *
@@ -24,7 +24,7 @@
  * @create date November 27, 2013 15:02 WIB
  * @version 1.0
  * @copyright Copyright (c) 2013 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -339,13 +339,25 @@ class ModuleHandle extends CApplicationComponent
 	public function installModule($id, $moduleName) {
 		$module		= OmmuPlugins::model()->findByPk($id);
 		$config		= $this->getModuleConfig($moduleName);
-		if($config != null) {			
-			$module->code = trim($config['code']);
-			$module->model = trim($config['global_model']);
-			$module->name = trim($config['name']);
-			$module->desc = trim($config['description']);
-			$module->version = trim($config['version']);
-			$module->created_date = date('Y-m-d H:i:s');
+		if($config != null) {
+			$name = trim($config['name']);
+			$description = trim($config['description']);
+			$folder_name = trim($config['folder_name']);
+			$global_model = trim($config['global_model']);
+			$version = trim($config['version']);
+			
+			if($folder_name)
+				$module->folder = $folder_name;
+			if($name)
+				$module->name = $name;
+			if($description)
+				$module->desc = $description;
+			if($global_model)
+				$module->model = $global_model;
+			if($module->isNewRecord)
+				$module->creation_date = date('Y-m-d H:i:s');
+			else
+				$module->modified_date = date('Y-m-d H:i:s');
 			
 			if($module->save()) {
 				$tableName = $config['db_table_name'];

@@ -4,7 +4,7 @@
  * @var $this AuthorController
  * @var $model OmmuAuthors
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ class AuthorController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Ommu Authors Manage';
+		$this->pageTitle = Yii::t('phrase', 'Authors');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -164,7 +164,7 @@ class AuthorController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-authors',
-							'msg' => '<div class="errorSummary success"><strong>OmmuAuthors success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Authors success created').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -178,7 +178,7 @@ class AuthorController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Create Ommu Authors';
+			$this->pageTitle = Yii::t('phrase', 'Create Author');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_add',array(
@@ -213,7 +213,7 @@ class AuthorController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-authors',
-							'msg' => '<div class="errorSummary success"><strong>OmmuAuthors success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Authors success updated').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -227,7 +227,7 @@ class AuthorController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 600;
 			
-			$this->pageTitle = 'Update Ommu Authors';
+			$this->pageTitle = Yii::t('phrase', 'Update Author: $author_name', array('$author_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -248,7 +248,7 @@ class AuthorController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 500;
 
-		$this->pageTitle = 'View Ommu Authors';
+		$this->pageTitle = Yii::t('phrase', 'View Author: $author_name', array('$author_name'=>$model->name));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -309,7 +309,7 @@ class AuthorController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-authors',
-						'msg' => '<div class="errorSummary success"><strong>OmmuAuthors success deleted.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Authors success deleted').'</strong></div>',
 					));
 				}
 			}
@@ -319,7 +319,7 @@ class AuthorController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'OmmuAuthors Delete.';
+			$this->pageTitle = Yii::t('phrase', 'Delete Author: $author_name', array('$author_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -342,6 +342,7 @@ class AuthorController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Author: $author_name', array('$title'=>$title, '$author_name'=>$model->name));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -354,7 +355,7 @@ class AuthorController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-ommu-authors',
-						'msg' => '<div class="errorSummary success"><strong>OmmuAuthors success published.</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Authors success published').'</strong></div>',
 					));
 				}
 			}
@@ -364,7 +365,7 @@ class AuthorController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

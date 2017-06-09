@@ -2,7 +2,7 @@
 /**
  * PageController
  * Handle PageController
- * version: 1.2.0
+ * version: 1.3.0
  * Reference start
  *
  * TOC :
@@ -20,7 +20,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ class PageController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Manage Pages');
+		$this->pageTitle = Yii::t('phrase', 'Static Pages');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -234,13 +234,14 @@ class PageController extends Controller
 
 		if(isset($_POST['OmmuPages'])) {
 			$model->attributes=$_POST['OmmuPages'];
+			
 			if($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Pages success created.'));
 				$this->redirect(array('manage'));
 			}
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Add Pages');
+		$this->pageTitle = Yii::t('phrase', 'Add Page');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -262,13 +263,14 @@ class PageController extends Controller
 
 		if(isset($_POST['OmmuPages'])) {
 			$model->attributes=$_POST['OmmuPages'];
+			
 			if($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Pages success updated.'));
 				$this->redirect(array('manage'));
 			}
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Update Pages');
+		$this->pageTitle = Yii::t('phrase', 'Update Page: $page_name', array('$page_name'=>Phrase::trans($model->name)));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -319,17 +321,19 @@ class PageController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
-				echo CJSON::encode(array(
-					'type' => 5,
-					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-pages',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success deleted.').'</strong></div>',
-				));
+				if($model->delete()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-pages',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success deleted.').'</strong></div>',
+					));
+				}
 			}
 
 		} else {
@@ -337,7 +341,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Pages');
+			$this->pageTitle = Yii::t('phrase', 'Delete Page: $page_name', array('$page_name'=>Phrase::trans($model->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -359,6 +363,7 @@ class PageController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Page: $page_name', array('$title'=>$title, '$page_name'=>Phrase::trans($model->name)));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -381,7 +386,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

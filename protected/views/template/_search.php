@@ -4,11 +4,11 @@
  * @var $this TemplateController
  * @var $model OmmuTemplate
  * @var $form CActiveForm
- * version: 1.2.0
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Core
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('template_key'); ?><br/>
-			<?php echo $form->textField($model,'template_key',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'template_key'); ?>
 		</li>
 
 		<li>
@@ -30,23 +30,23 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
-		</li>
-
-		<li>
 			<?php echo $model->getAttributeLabel('template'); ?><br/>
-			<?php echo $form->textArea($model,'template',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'template'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('variable'); ?><br/>
-			<?php echo $form->textArea($model,'variable',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'variable'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -56,7 +56,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">
