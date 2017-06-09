@@ -23,7 +23,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -139,8 +139,14 @@ class MemberController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($level=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Members');
+		if($level != null) {
+			$data = UserLevel::model()->findByPk($level);
+			$pageTitle = Yii::t('phrase', 'Members: category $level_name', array ('$level_name'=>Phrase::trans($data->name)));
+		}
+		
 		$model=new Users('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Users'])) {
@@ -157,7 +163,7 @@ class MemberController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Managa Users');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = Yii::t('phrase', 'This page lists all of the users that exist on your social network. For more information about a specific user, click on the "edit" link in its row. Click the "login" link to login as a specific user. Use the filter fields to find specific users based on your criteria. To view all users on your system, leave all the filter fields blank.');
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -196,7 +202,7 @@ class MemberController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-users',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User success created.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Member success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -210,7 +216,7 @@ class MemberController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Add User');
+		$this->pageTitle = Yii::t('phrase', 'Add Member');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -249,7 +255,7 @@ class MemberController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-users',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User success updated.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Member success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -263,7 +269,7 @@ class MemberController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Update User : {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'Update Member: {displayname}', array('{displayname}'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -279,12 +285,8 @@ class MemberController extends Controller
 	public function actionView($id) 
 	{
 		$model=$this->loadModel($id);
-		
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 600;
 
-		$this->pageTitle = 'View Users';
+		$this->pageTitle = Yii::t('phrase', 'View Member: {displayname}', array('{displayname}'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -309,7 +311,7 @@ class MemberController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User success deleted.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Member success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -319,7 +321,7 @@ class MemberController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete User');
+			$this->pageTitle = Yii::t('phrase', 'Delete Member: {displayname}', array('{displayname}'=>$model->displayname));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -341,6 +343,7 @@ class MemberController extends Controller
 			$title = Yii::t('phrase', 'Enabled');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Member: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -353,7 +356,7 @@ class MemberController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User success updated.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Member success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -363,7 +366,7 @@ class MemberController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_enabled',array(
@@ -388,6 +391,7 @@ class MemberController extends Controller
 			$title = Yii::t('phrase', 'Verified');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Member: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -400,7 +404,7 @@ class MemberController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User success updated.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Member success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -410,7 +414,7 @@ class MemberController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_verify',array(

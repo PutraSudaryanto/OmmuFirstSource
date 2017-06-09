@@ -23,7 +23,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -249,7 +249,7 @@ class AdminController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Manage Administrator');
+		$this->pageTitle = Yii::t('phrase', 'Administrators');
 		$this->pageDescription = Yii::t('phrase', 'Your social network can have more than one administrator. This is useful if you want to have a staff of admins who maintain your social network. However, the first admin to be created (upon installation) is the "superadmin" and cannot be deleted. The superadmin can create and delete other admin accounts. All admin accounts on your system are listed below.');
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -363,7 +363,7 @@ class AdminController extends Controller
 		$this->dialogGroundUrl = $condition == 1 ? Yii::app()->controller->createUrl('manage') : Yii::app()->createUrl('admin/dashboard');
 		$this->dialogWidth = 600;
 		
-		$this->pageTitle = Yii::t('phrase', 'Update Administrator : {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'Update Administrator: {displayname}', array('{displayname}'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -379,12 +379,8 @@ class AdminController extends Controller
 	public function actionView($id) 
 	{
 		$model=$this->loadModel($id);
-		
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 600;
 
-		$this->pageTitle = 'View Users';
+		$this->pageTitle = Yii::t('phrase', 'View Administrator: {displayname}', array('{displayname}'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -420,7 +416,7 @@ class AdminController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 350;
 
-		$this->pageTitle = Yii::t('phrase', 'Delete Administrator');
+		$this->pageTitle = Yii::t('phrase', 'Delete Administrator: {displayname}', array('{displayname}'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_delete');
@@ -441,6 +437,7 @@ class AdminController extends Controller
 			$title = Yii::t('phrase', 'Enabled');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Administrator: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -463,7 +460,7 @@ class AdminController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_enabled',array(
@@ -488,6 +485,7 @@ class AdminController extends Controller
 			$title = Yii::t('phrase', 'Verified');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Administrator: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -510,7 +508,7 @@ class AdminController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_verify',array(

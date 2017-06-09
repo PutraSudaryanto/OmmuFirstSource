@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -103,7 +103,7 @@ class UserInviteQueue extends CActiveRecord
 			'reference_id' => Yii::t('attribute', 'Reference'),
 			'email' => Yii::t('attribute', 'Email'),
 			'invite' => Yii::t('attribute', 'Invite'),
-			'user_search' => Yii::t('attribute', 'Member'),
+			'user_search' => Yii::t('attribute', 'User'),
 			'reference_search' => Yii::t('attribute', 'Reference'),
 		);
 	}
@@ -118,26 +118,33 @@ class UserInviteQueue extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.queue_id',$this->queue_id);
-		$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.reference_id',$this->reference_id);
-		$criteria->compare('t.email',strtolower($this->email),true);
-		$criteria->compare('t.invite',$this->invite);
 		
 		// Custom Search
 		$criteria->with = array(
 			'user' => array(
 				'alias'=>'user',
-				'select'=>'displayname'
+				'select'=>'level_id, displayname'
 			),
 			'reference' => array(
 				'alias'=>'reference',
 				'select'=>'displayname'
 			),
 		);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('reference.displayname',strtolower($this->reference_search), true);
+
+		$criteria->compare('t.queue_id',$this->queue_id);
+		if(isset($_GET['user']))
+			$criteria->compare('t.user_id',$_GET['user']);
+		else
+			$criteria->compare('t.user_id',$this->user_id);
+		if(isset($_GET['reference']))
+			$criteria->compare('t.reference_id',$_GET['reference']);
+		else
+			$criteria->compare('t.reference_id',$this->reference_id);
+		$criteria->compare('t.email',strtolower($this->email),true);
+		$criteria->compare('t.invite',$this->invite);
+		
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
+		$criteria->compare('reference.displayname',strtolower($this->reference_search),true);
 		
 		if(!isset($_GET['UserInviteQueue_sort']))
 			$criteria->order = 't.queue_id DESC';
@@ -184,18 +191,22 @@ class UserInviteQueue extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user_id == 0 ? "-" : $data->user->displayname',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'reference_search',
-				'value' => '$data->reference_id == 0 ? "-" : $data->reference->displayname',
-			);
+			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user_id ? $data->user->displayname : \'-\'',
+				);
+			}
+			if(!isset($_GET['reference'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'reference_search',
+					'value' => '$data->reference_id ? $data->reference->displayname : \'-\'',
+				);
+			}
 			$this->defaultColumns[] = 'email';
 			$this->defaultColumns[] = array(
 				'name' => 'inviters',
-				'value' => 'CHtml::link($data->inviters." ".Yii::t(\'phrase\', \'Invite\'), Yii::app()->controller->createUrl("o/invite/manage",array("queue"=>$data->queue_id)))',
+				'value' => 'CHtml::link($data->inviters ? $data->inviters : 0, Yii::app()->controller->createUrl("o/invite/manage",array("queue"=>$data->queue_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

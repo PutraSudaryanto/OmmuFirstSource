@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -138,6 +138,9 @@ class Users extends CActiveRecord
 			'option' => array(self::BELONGS_TO, 'UserOption', 'user_id'),
 			'level' => array(self::BELONGS_TO, 'UserLevel', 'level_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'language' => array(self::BELONGS_TO, 'OmmuLanguages', 'language_id'),
+			'locale' => array(self::BELONGS_TO, 'OmmuLocale', 'locale_id'),
+			'timezone' => array(self::BELONGS_TO, 'OmmuTimezone', 'timezone_id'),
 		);
 	}
 
@@ -264,7 +267,7 @@ class Users extends CActiveRecord
 			$criteria->compare('date(t.update_date)',date('Y-m-d', strtotime($this->update_date)));
 		$criteria->compare('t.update_ip',strtolower($this->update_ip),true);
 		
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['Users_sort']))
 			$criteria->order = 't.user_id DESC';
@@ -356,7 +359,7 @@ class Users extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!in_array($controller, array('o/admin'))) {
+			if(!in_array($controller, array('o/admin')) && !isset($_GET['level'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'level_id',
 					'value' => 'Phrase::trans($data->level->name)',
@@ -411,7 +414,7 @@ class Users extends CActiveRecord
 			if(!in_array($controller, array('o/admin'))) {
 				$this->defaultColumns[] = array(
 					'name' => 'verified',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("verified",array("id"=>$data->user_id)), $data->verified, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("verify",array("id"=>$data->user_id)), $data->verified, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -425,7 +428,7 @@ class Users extends CActiveRecord
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'enabled',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("enabled",array("id"=>$data->user_id)), $data->enabled, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("enable",array("id"=>$data->user_id)), $data->enabled, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),

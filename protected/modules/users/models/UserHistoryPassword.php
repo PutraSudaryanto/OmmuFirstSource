@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -35,6 +35,7 @@ class UserHistoryPassword extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $level_search;
 	public $user_search;
 
 	/**
@@ -71,7 +72,7 @@ class UserHistoryPassword extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, password, update_date,
-				user_search', 'safe', 'on'=>'search'),
+				level_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,6 +98,7 @@ class UserHistoryPassword extends CActiveRecord
 			'user_id' => Yii::t('attribute', 'User'),
 			'password' => Yii::t('attribute', 'Password'),
 			'update_date' => Yii::t('attribute', 'Update Date'),
+			'level_search' => Yii::t('attribute', 'level'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
 	}
@@ -123,11 +125,11 @@ class UserHistoryPassword extends CActiveRecord
 		$criteria->with = array(
 			'user' => array(
 				'alias'=>'user',
-				'select'=>'displayname'
+				'select'=>'level_id, displayname'
 			),
 		);
 
-		$criteria->compare('t.id',$this->id,true);
+		$criteria->compare('t.id',$this->id;
 		if(isset($_GET['user']))
 			$criteria->compare('t.user_id',$_GET['user']);
 		else
@@ -136,7 +138,8 @@ class UserHistoryPassword extends CActiveRecord
 		if($this->update_date != null && !in_array($this->update_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.update_date)',date('Y-m-d', strtotime($this->update_date)));
 		
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('user.level_id',$this->level_search);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['UserHistoryPassword_sort']))
 			$criteria->order = 't.id DESC';
@@ -186,6 +189,12 @@ class UserHistoryPassword extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => 'Phrase::trans($data->user->level->name)',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
 					'value' => '$data->user->displayname',

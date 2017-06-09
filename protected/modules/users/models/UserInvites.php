@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -38,6 +38,7 @@ class UserInvites extends CActiveRecord
 	public $email;
 	
 	// Variable Search
+	public $level_search;
 	public $inviter_search;
 
 	/**
@@ -78,7 +79,7 @@ class UserInvites extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('invite_id, queue_id, user_id, code, invite_date, invite_ip,
-				email, inviter_search', 'safe', 'on'=>'search'),
+				email, level_search, inviter_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -108,6 +109,7 @@ class UserInvites extends CActiveRecord
 			'invite_date' => Yii::t('attribute', 'Invite Date'),
 			'invite_ip' => Yii::t('attribute', 'Invite Ip'),
 			'email' => Yii::t('attribute', 'Email'),
+			'level_search' => Yii::t('attribute', 'level'),
 			'inviter_search' => Yii::t('attribute', 'Inviter'),
 		);
 	}
@@ -122,22 +124,6 @@ class UserInvites extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->compare('t.invite_id',$this->invite_id);
-		if(isset($_GET['queue'])) {
-			$criteria->compare('t.queue_id',$_GET['queue']);
-		} else {
-			$criteria->compare('t.queue_id',$this->queue_id);
-		}
-		if(isset($_GET['invite'])) {
-			$criteria->compare('t.user_id',$_GET['invite']);
-		} else {
-			$criteria->compare('t.user_id',$this->user_id);
-		}
-		$criteria->compare('t.code',strtolower($this->code),true);
-		if($this->invite_date != null && !in_array($this->invite_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.invite_date)',date('Y-m-d', strtotime($this->invite_date)));
-		$criteria->compare('t.invite_ip',strtolower($this->invite_ip),true);
 		
 		// Custom Search
 		$criteria->with = array(
@@ -147,11 +133,27 @@ class UserInvites extends CActiveRecord
 			),
 			'inviter' => array(
 				'alias'=>'inviter',
-				'select'=>'displayname'
+				'select'=>'level_id, displayname'
 			),
 		);
-		$criteria->compare('queue.email',strtolower($this->email), true);
-		$criteria->compare('inviter.displayname',strtolower($this->inviter_search), true);
+
+		$criteria->compare('t.invite_id',$this->invite_id);
+		if(isset($_GET['queue']))
+			$criteria->compare('t.queue_id',$_GET['queue']);
+		else
+			$criteria->compare('t.queue_id',$this->queue_id);
+		if(isset($_GET['invite']))
+			$criteria->compare('t.user_id',$_GET['invite']);
+		else
+			$criteria->compare('t.user_id',$this->user_id);
+		$criteria->compare('t.code',strtolower($this->code),true);
+		if($this->invite_date != null && !in_array($this->invite_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.invite_date)',date('Y-m-d', strtotime($this->invite_date)));
+		$criteria->compare('t.invite_ip',strtolower($this->invite_ip),true);
+		
+		$criteria->compare('queue.email',strtolower($this->email),true);
+		$criteria->compare('inviter.level_id',$this->level_search);
+		$criteria->compare('inviter.displayname',strtolower($this->inviter_search),true);
 
 		if(!isset($_GET['UserInvites_sort']))
 			$criteria->order = 't.invite_id DESC';
@@ -207,8 +209,14 @@ class UserInvites extends CActiveRecord
 			}
 			if(!isset($_GET['invite'])) {
 				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => '$data->user_id ? Phrase::trans($data->inviter->level->name) : \'-\'',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
 					'name' => 'inviter_search',
-					'value' => '$data->inviter->displayname',
+					'value' => '$data->user_id ? $data->inviter->displayname : \'-\'',
 				);
 			}
 			$this->defaultColumns[] = array(

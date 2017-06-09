@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  */
@@ -21,7 +21,17 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('enabled'); ?><br/>
+			<?php echo $form->textField($model,'enabled'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('verified'); ?><br/>
+			<?php echo $form->textField($model,'verified'); ?>
 		</li>
 
 		<li>
@@ -35,48 +45,53 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('locale_id'); ?><br/>
+			<?php echo $form->textField($model,'locale_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('timezone_id'); ?><br/>
+			<?php echo $form->textField($model,'timezone_id'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('email'); ?><br/>
-			<?php echo $form->textField($model,'email',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('salt'); ?><br/>
-			<?php echo $form->textField($model,'salt',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('first_name'); ?><br/>
-			<?php echo $form->textField($model,'first_name',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('last_name'); ?><br/>
-			<?php echo $form->textField($model,'last_name',array('size'=>32,'maxlength'=>32)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('displayname'); ?><br/>
-			<?php echo $form->textField($model,'displayname',array('size'=>60,'maxlength'=>64)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('photos'); ?><br/>
-			<?php echo $form->textField($model,'photos',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $form->textField($model,'email'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('username'); ?><br/>
-			<?php echo $form->textField($model,'username',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'username'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('enabled'); ?><br/>
-			<?php echo $form->textField($model,'enabled'); ?>
+			<?php echo $model->getAttributeLabel('first_name'); ?><br/>
+			<?php echo $form->textField($model,'first_name'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('verified'); ?><br/>
-			<?php echo $form->textField($model,'verified'); ?>
+			<?php echo $model->getAttributeLabel('last_name'); ?><br/>
+			<?php echo $form->textField($model,'last_name'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('displayname'); ?><br/>
+			<?php echo $form->textField($model,'displayname'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('password'); ?><br/>
+			<?php echo $form->textField($model,'password'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('photos'); ?><br/>
+			<?php echo $form->textField($model,'photos'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('salt'); ?><br/>
+			<?php echo $form->textField($model,'salt'); ?>
 		</li>
 
 		<li>
@@ -111,7 +126,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_ip'); ?><br/>
-			<?php echo $form->textField($model,'creation_ip',array('size'=>20,'maxlength'=>20)); ?>
+			<?php echo $form->textField($model,'creation_ip'); ?>
 		</li>
 
 		<li>
@@ -121,7 +136,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li>
@@ -131,7 +146,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('lastlogin_ip'); ?><br/>
-			<?php echo $form->textField($model,'lastlogin_ip',array('size'=>20,'maxlength'=>20)); ?>
+			<?php echo $form->textField($model,'lastlogin_ip'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('lastlogin_from'); ?><br/>
+			<?php echo $form->textField($model,'lastlogin_from'); ?>
 		</li>
 
 		<li>
@@ -141,17 +161,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('update_ip'); ?><br/>
-			<?php echo $form->textField($model,'update_ip',array('size'=>20,'maxlength'=>20)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('locale_id'); ?><br/>
-			<?php echo $form->textField($model,'locale_id'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('timezone_id'); ?><br/>
-			<?php echo $form->textField($model,'timezone_id'); ?>
+			<?php echo $form->textField($model,'update_ip'); ?>
 		</li>
 
 		<li class="submit">

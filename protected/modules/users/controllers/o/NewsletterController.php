@@ -19,7 +19,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ class NewsletterController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Manage Subscribe Newsletter');
+		$this->pageTitle = Yii::t('phrase', 'Manage Subscribes');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -170,7 +170,7 @@ class NewsletterController extends Controller
 		$this->dialogWidth = 500;
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		
-		$this->pageTitle = Yii::t('phrase', 'Add Newsletter');
+		$this->pageTitle = Yii::t('phrase', 'Add Subscribe');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -185,11 +185,11 @@ class NewsletterController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
+			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
@@ -203,7 +203,7 @@ class NewsletterController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Member Newsletter');
+			$this->pageTitle = Yii::t('phrase', 'Delete Subscribe');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -217,8 +217,6 @@ class NewsletterController extends Controller
 	 */
 	public function actionSubscribe() 
 	{
-		//if(!isset($_GET['type']) || (isset($_GET['type']) && $_GET['type'] == 'admin')) {
-		//}
 		$id = $_GET['id'];
 		$model=$this->loadModel($id);
 		if($model->status == 1) {

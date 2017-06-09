@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -37,6 +37,10 @@ class UserForgot extends CActiveRecord
 {
 	public $defaultColumns = array();
 	public $email_i;
+	
+	// Variable Search
+	public $level_search;
+	public $user_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -77,7 +81,8 @@ class UserForgot extends CActiveRecord
 				email_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('forgot_id, publish, user_id, code, forgot_date, forgot_ip, deleted_date', 'safe', 'on'=>'search'),
+			array('forgot_id, publish, user_id, code, forgot_date, forgot_ip, deleted_date,
+				level_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,6 +112,8 @@ class UserForgot extends CActiveRecord
 			'forgot_ip' => Yii::t('attribute', 'Forgot Ip'),
 			'deleted_date' => Yii::t('attribute', 'Deleted Date'),
 			'email_i' => Yii::t('attribute', 'Email'),
+			'level_search' => Yii::t('attribute', 'level'),
+			'user_search' => Yii::t('attribute', 'User'),
 		);
 	}
 	
@@ -120,6 +127,14 @@ class UserForgot extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'user' => array(
+				'alias'=>'user',
+				'select'=>'level_id, displayname'
+			),
+		);
 
 		$criteria->compare('t.forgot_id',$this->forgot_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -132,13 +147,19 @@ class UserForgot extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.user_id',$this->user_id);
+		if(isset($_GET['user']))
+			$criteria->compare('t.user_id',$_GET['user']);
+		else
+			$criteria->compare('t.user_id',$this->user_id);
 		$criteria->compare('t.code',$this->code,true);
 		if($this->forgot_date != null && !in_array($this->forgot_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.forgot_date)',date('Y-m-d', strtotime($this->forgot_date)));
 		$criteria->compare('t.forgot_ip',$this->forgot_ip,true);
 		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.deleted_date)',date('Y-m-d', strtotime($this->deleted_date)));
+		
+		$criteria->compare('user.level_id',$this->level_search);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['UserForgot_sort']))
 			$criteria->order = 't.forgot_id DESC';
@@ -187,7 +208,18 @@ class UserForgot extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'user_id';
+			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => 'Phrase::trans($data->user->level->name)',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user->displayname',
+				);
+			}
 			$this->defaultColumns[] = 'code';
 			$this->defaultColumns[] = array(
 				'name' => 'forgot_date',
@@ -227,32 +259,6 @@ class UserForgot extends CActiveRecord
 					0=>Yii::t('phrase', 'No'),
 				),
 				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'deleted_date',
-				'value' => 'Utility::dateFormat($data->deleted_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
-					'model'=>$this, 
-					'attribute'=>'deleted_date', 
-					'language' => 'en',
-					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'deleted_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
 			);
 		}
 		parent::afterConstruct();

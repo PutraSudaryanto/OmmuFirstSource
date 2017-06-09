@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  */
@@ -21,22 +21,22 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('invite_id'); ?><br/>
-			<?php echo $form->textField($model,'invite_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'invite_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('queue_id'); ?><br/>
-			<?php echo $form->textField($model,'queue_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'queue_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('code'); ?><br/>
-			<?php echo $form->textField($model,'code',array('size'=>16,'maxlength'=>16)); ?>
+			<?php echo $form->textField($model,'code'); ?>
 		</li>
 
 		<li>
@@ -46,7 +46,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('invite_ip'); ?><br/>
-			<?php echo $form->textField($model,'invite_ip',array('size'=>20,'maxlength'=>20)); ?>
+			<?php echo $form->textField($model,'invite_ip'); ?>
 		</li>
 
 		<li class="submit">

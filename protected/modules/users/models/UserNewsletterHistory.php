@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -36,6 +36,7 @@ class UserNewsletterHistory extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $level_search;
 	public $user_search;
 	public $email_search;
 
@@ -72,7 +73,7 @@ class UserNewsletterHistory extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, status, newsletter_id, updated_date, updated_ip,
-				user_search, email_search', 'safe', 'on'=>'search'),
+				level_search, user_search, email_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +100,7 @@ class UserNewsletterHistory extends CActiveRecord
 			'newsletter_id' => Yii::t('attribute', 'Newsletter'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'updated_ip' => Yii::t('attribute', 'Updated IP'),
+			'level_search' => Yii::t('attribute', 'level'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'email_search' => Yii::t('attribute', 'Email'),
 		);
@@ -121,31 +123,32 @@ class UserNewsletterHistory extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'newsletter' => array(
+				'alias'=>'newsletter',
+				'select'=>'user_id, email'
+			),
+			'newsletter.user' => array(
+				'alias'=>'newsletter_user',
+				'select'=>'level_id, displayname'
+			),
+		);
 
 		$criteria->compare('t.id',$this->id,true);
 		$criteria->compare('t.status',$this->status);
-		if(isset($_GET['newsletter'])) {
+		if(isset($_GET['newsletter']))
 			$criteria->compare('t.newsletter_id',$_GET['newsletter']);
-		} else {
+		else
 			$criteria->compare('t.newsletter_id',$this->newsletter_id);
-		}
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		$criteria->compare('t.updated_ip',$this->updated_ip,true);
 		
-		// Custom Search
-		$criteria->with = array(
-			'newsletter.user' => array(
-				'alias'=>'newsletter_user',
-				'select'=>'displayname'
-			),
-			'newsletter' => array(
-				'alias'=>'newsletter',
-				'select'=>'email'
-			),
-		);
-		$criteria->compare('newsletter_user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('newsletter.email',strtolower($this->email_search), true);
+		$criteria->compare('newsletter_user.level_id',$this->level_search);
+		$criteria->compare('newsletter_user.displayname',strtolower($this->user_search),true);
+		$criteria->compare('newsletter.email',strtolower($this->email_search),true);
 
 		if(!isset($_GET['UserNewsletterHistory_sort']))
 			$criteria->order = 't.id DESC';
@@ -197,8 +200,14 @@ class UserNewsletterHistory extends CActiveRecord
 			);
 			if(!isset($_GET['newsletter'])) {
 				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => '$data->newsletter->user_id ? Phrase::trans($data->newsletter->user->level->name) : \'-\'',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
 					'name' => 'user_search',
-					'value' => '$data->newsletter->user_id ? $data->newsletter->user->displayname : "-"',
+					'value' => '$data->newsletter->user_id ? $data->newsletter->user->displayname : \'-\'',
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'email_search',

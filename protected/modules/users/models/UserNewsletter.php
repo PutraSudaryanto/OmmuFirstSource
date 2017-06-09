@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -39,6 +39,7 @@ class UserNewsletter extends CActiveRecord
 	public $unsubscribe;
 	
 	// Variable Search
+	public $level_search;
 	public $user_search;
 	public $subscribe_search;
 	public $modified_search;
@@ -81,7 +82,7 @@ class UserNewsletter extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('newsletter_id, status, user_id, email, subscribe_date, subscribe_id, modified_date, modified_id, updated_date, updated_ip,
-				user_search, subscribe_search, modified_search', 'safe', 'on'=>'search'),
+				level_search, user_search, subscribe_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -115,6 +116,7 @@ class UserNewsletter extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'updated_ip' => Yii::t('attribute', 'Updated IP'),
+			'level_search' => Yii::t('attribute', 'level'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'subscribe_search' => Yii::t('attribute', 'Subscribe'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -131,6 +133,22 @@ class UserNewsletter extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'user' => array(
+				'alias'=>'user',
+				'select'=>'level_id, displayname'
+			),
+			'subscribe' => array(
+				'alias'=>'subscribe',
+				'select'=>'displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.newsletter_id',$this->newsletter_id);
 		$criteria->compare('t.status',$this->status);
@@ -155,24 +173,10 @@ class UserNewsletter extends CActiveRecord
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		$criteria->compare('t.updated_ip',$this->updated_ip,true);
 		
-		// Custom Search
-		$criteria->with = array(
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
-			'subscribe' => array(
-				'alias'=>'subscribe',
-				'select'=>'displayname'
-			),
-			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname'
-			),
-		);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('subscribe.displayname',strtolower($this->subscribe_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('user.level_id',$this->level_search);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
+		$criteria->compare('subscribe.displayname',strtolower($this->subscribe_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		
 		if(!isset($_GET['UserNewsletter_sort']))
 			$criteria->order = 't.newsletter_id DESC';
@@ -227,10 +231,18 @@ class UserNewsletter extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user_id != 0 ? $data->user->displayname : "-"',
-			);
+			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => '$data->user_id ? Phrase::trans($data->user->level->name) : \'-\'',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user_id ? $data->user->displayname : \'-\'',
+				);
+			}
 			$this->defaultColumns[] = array(
 				'name' => 'email',
 				'value' => '$data->email',
@@ -260,39 +272,6 @@ class UserNewsletter extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'updated_date',
-				'value' => '$data->updated_date == "0000-00-00 00:00:00" ? "-" : Utility::dateFormat($data->updated_date, true)',
-				'htmlOptions' => array(
-					//'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
-					'model'=>$this, 
-					'attribute'=>'updated_date', 
-					'language' => 'en',
-					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'updated_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'updated_ip',
-				'value' => '$data->updated_ip',
-				'htmlOptions' => array(
-					//'class' => 'center',
-				),
 			);
 			$this->defaultColumns[] = array(
 				'header' => Yii::t('phrase', 'Status'),

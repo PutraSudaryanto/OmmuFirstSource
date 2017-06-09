@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  */
@@ -26,12 +26,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('name'); ?><br/>
-			<?php echo $form->textField($model,'name',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'name'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('desc'); ?><br/>
-			<?php echo $form->textField($model,'desc',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'desc'); ?>
 		</li>
 
 		<li>
@@ -66,12 +66,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('profile_privacy'); ?><br/>
-			<?php echo $form->textField($model,'profile_privacy',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'profile_privacy'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('profile_comments'); ?><br/>
-			<?php echo $form->textField($model,'profile_comments',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'profile_comments'); ?>
 		</li>
 
 		<li>
@@ -121,7 +121,27 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('photo_exts'); ?><br/>
-			<?php echo $form->textField($model,'photo_exts',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'photo_exts'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
+			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

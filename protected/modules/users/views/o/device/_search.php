@@ -9,7 +9,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 9 April 2016, 06:37 WIB
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  */
@@ -22,7 +22,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('id'); ?><br/>
-			<?php echo $form->textField($model,'id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'id'); ?>
 		</li>
 
 		<li>
@@ -32,17 +32,27 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('android_id'); ?><br/>
-			<?php echo $form->textArea($model,'android_id',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'android_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('generate_date'); ?><br/>
+			<?php echo $form->textField($model,'generate_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('unpublish_date'); ?><br/>
+			<?php echo $form->textField($model,'unpublish_date'); ?>
 		</li>
 
 		<li>
@@ -52,7 +62,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
 		</li>
 
 		<li class="submit">

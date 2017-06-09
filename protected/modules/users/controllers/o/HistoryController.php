@@ -20,7 +20,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -106,8 +106,14 @@ class HistoryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionLogin() 
+	public function actionLogin($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'History Logins');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'History Login: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserHistoryLogin('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserHistoryLogin'])) {
@@ -124,7 +130,7 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'User History Logins');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_history_login',array(
@@ -136,8 +142,14 @@ class HistoryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionEmail() 
+	public function actionEmail($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'History Emails');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'History Email: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserHistoryEmail('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserHistoryEmail'])) {
@@ -154,7 +166,7 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'User History Emails');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_history_email',array(
@@ -166,8 +178,14 @@ class HistoryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionUsername() 
+	public function actionUsername($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'History Usernames');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'History Username: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserHistoryUsername('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserHistoryUsername'])) {
@@ -184,7 +202,7 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'User History Usernames');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_history_username',array(
@@ -196,8 +214,14 @@ class HistoryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionPassword() 
+	public function actionPassword($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'History Passwords');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'History Password: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserHistoryPassword('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserHistoryPassword'])) {
@@ -214,7 +238,7 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'User History Change Password');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_history_password',array(
@@ -226,8 +250,14 @@ class HistoryController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionSubscribe() 
+	public function actionSubscribe($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'History Subscribe/Unsubscribe');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'History Subscribe/Unsubscribe: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserNewsletterHistory('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserNewsletterHistory'])) {
@@ -244,7 +274,7 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'History Subscribe/Unsubscribe');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_history_subscribe',array(

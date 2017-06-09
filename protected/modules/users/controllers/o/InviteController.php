@@ -20,7 +20,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -106,8 +106,14 @@ class InviteController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'User Invites');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'User Invites: by $user_displayname', array ('$user_displayname'=>$data->displayname));
+		}
+		
 		$model=new UserInvites('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserInvites'])) {
@@ -124,7 +130,7 @@ class InviteController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'View User Invites');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -188,11 +194,15 @@ class InviteController extends Controller
 	 */
 	public function actionDelete($id) 
 	{
+		$model=$this->loadModel($id);
+		
+		$pageTitle = Yii::t('phrase', 'Delete Invite: $queue_email by Guest', array('$queue_email'=>$model->queue->email));
+		if($model->inviter->displayname)
+			$pageTitle = Yii::t('phrase', 'Delete Invite: $queue_email by $inviter_displayname', array('$queue_email'=>$model->queue->email, '$inviter_displayname'=>$model->inviter->displayname));
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				$this->loadModel($id)->delete();
-
+			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
@@ -206,7 +216,7 @@ class InviteController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete User Invite');
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -234,7 +244,7 @@ class InviteController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'View Queue Invites');
+		$this->pageTitle = Yii::t('phrase', 'Queue Invites');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_queue_manage',array(
@@ -250,11 +260,15 @@ class InviteController extends Controller
 	 */
 	public function actionQueuedelete($id) 
 	{
+		$model = UserInviteQueue::model()->findByPk($id);
+		
+		$pageTitle = Yii::t('phrase', 'Delete Queue: $email_address', array('$email_address'=>$model->email));
+		if($model->reference->displayname)
+			$pageTitle = Yii::t('phrase', 'Delete Queue: $email_address by $inviter_displayname', array('$email_address'=>$model->email,'$inviter_displayname'=>$model->reference->displayname));
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				UserInviteQueue::model()->findByPk($id)->delete();
-
+			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('queuemanage'),
@@ -268,7 +282,7 @@ class InviteController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('queuemanage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Queue');
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_queue_delete');

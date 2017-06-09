@@ -22,7 +22,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 9 April 2016, 06:37 WIB
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -108,8 +108,14 @@ class DeviceController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Devices');
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'Devices: $user_displayname level $level_name', array ('$user_displayname'=>$data->displayname,'$level_name'=>Phrase::trans($data->level->name)));
+		}
+		
 		$model=new UserDevice('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['UserDevice'])) {
@@ -126,7 +132,7 @@ class DeviceController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'User Devices Manage');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -143,6 +149,10 @@ class DeviceController extends Controller
 	public function actionEdit($id) 
 	{
 		$model=$this->loadModel($id);
+		
+		$pageTitle = Yii::t('phrase', 'Update Device: $user_displayname', array('$user_displayname'=>'Guest'));
+		if($model->user->displayname)
+			$pageTitle = Yii::t('phrase', 'Update Device: $user_displayname level $level_name', array ('$user_displayname'=>$model->user->displayname,'$level_name'=>Phrase::trans($model->user->level->name)));
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -161,7 +171,7 @@ class DeviceController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-user-device',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'UserDevice success updated.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User device success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -175,7 +185,7 @@ class DeviceController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Update User Devices');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -189,15 +199,20 @@ class DeviceController extends Controller
 	 */
 	public function actionView($id) 
 	{		
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 500;
 		
 		$model=$this->loadModel($id);
+		
+		$pageTitle = Yii::t('phrase', 'View Device: $user_displayname', array('$user_displayname'=>'Guest'));
+		if($model->user->displayname)
+			$pageTitle = Yii::t('phrase', 'View Device: $user_displayname level $level_name', array ('$user_displayname'=>$model->user->displayname,'$level_name'=>Phrase::trans($model->user->level->name)));
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'View User Devices');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
-		$this->pageMeta = $setting->meta_keyword;
+		$this->pageMeta = '';
 		$this->render('admin_view',array(
 			'model'=>$model,
 		));
@@ -248,6 +263,11 @@ class DeviceController extends Controller
 	{
 		$model=$this->loadModel($id);
 		
+		$pageTitle = Yii::t('phrase', 'Delete Device: $user_displayname', array('$user_displayname'=>'Guest'));
+		if($model->user->displayname)
+			$pageTitle = Yii::t('phrase', 'Delete Device: $user_displayname level $level_name', array ('$user_displayname'=>$model->user->displayname,'$level_name'=>Phrase::trans($model->user->level->name)));
+		
+		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			if(isset($id)) {
@@ -256,7 +276,7 @@ class DeviceController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-user-device',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'UserDevice success deleted.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User device success deleted.').'</strong></div>',
 					));
 				}
 			}
@@ -266,7 +286,7 @@ class DeviceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'UserDevice Delete.');
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -289,6 +309,9 @@ class DeviceController extends Controller
 			$title = Yii::t('phrase', 'Publish');
 			$replace = 1;
 		}
+		$pageTitle = Yii::t('phrase', '$title Device: $user_displayname', array('$title'=>$title, '$user_displayname'=>'Guest'));
+		if($model->user->displayname)
+			$pageTitle = Yii::t('phrase', '$title Device: $user_displayname level $level_name', array('$title'=>$title, '$user_displayname'=>$model->user->displayname,'$level_name'=>Phrase::trans($model->user->level->name)));
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -301,7 +324,7 @@ class DeviceController extends Controller
 						'type' => 5,
 						'get' => Yii::app()->controller->createUrl('manage'),
 						'id' => 'partial-user-device',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'UserDevice success updated.').'</strong></div>',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User device success updated.').'</strong></div>',
 					));
 				}
 			}
@@ -311,7 +334,7 @@ class DeviceController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

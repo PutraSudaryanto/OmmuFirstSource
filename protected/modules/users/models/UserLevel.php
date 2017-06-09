@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -129,7 +129,7 @@ class UserLevel extends CActiveRecord
 	{
 		return array(
 			'level_id' => Yii::t('attribute', 'Level'),
-			'name' => Yii::t('attribute', 'Name'),
+			'name' => Yii::t('attribute', 'Level'),
 			'desc' => Yii::t('attribute', 'Description'),
 			'defaults' => Yii::t('attribute', 'Defaults'),
 			'signup' => Yii::t('attribute', 'Signup'),
@@ -153,7 +153,7 @@ class UserLevel extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'title_i' => Yii::t('attribute', 'Name'),
+			'title_i' => Yii::t('attribute', 'Level'),
 			'description_i' => Yii::t('attribute', 'Description'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -242,10 +242,10 @@ class UserLevel extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
-		$criteria->compare('description.'.$language,strtolower($this->description_i), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
+		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 		$criteria->compare('view.users',$this->user_search);
 
 		if(!isset($_GET['UserLevel_sort']))
@@ -325,14 +325,6 @@ class UserLevel extends CActiveRecord
 				'value' => 'Phrase::trans($data->desc)',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => 'CHtml::link($data->view->users ? $data->view->users : 0, $data->level_id != 1 ? Yii::app()->controller->createUrl("o/member/manage",array("level"=>$data->level_id)) : Yii::app()->controller->createUrl("o/admin/manage",array("level"=>$data->level_id)))',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',
 			);
@@ -361,6 +353,14 @@ class UserLevel extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'user_search',
+				'value' => 'CHtml::link($data->view->users ? $data->view->users : 0, $data->level_id != 1 ? Yii::app()->controller->createUrl("o/member/manage",array("level"=>$data->level_id)) : Yii::app()->controller->createUrl("o/admin/manage",array("level"=>$data->level_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'defaults',
@@ -446,8 +446,9 @@ class UserLevel extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
+		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
 		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$location = Utility::getUrlTitle($currentModule);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {

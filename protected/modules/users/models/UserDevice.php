@@ -6,7 +6,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
  * @created date 9 April 2016, 06:35 WIB
- * @link https://github.com/ommu/Users
+ * @link https://github.com/ommu/mod-users
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -38,6 +38,7 @@ class UserDevice extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $level_search;
 	public $user_search;
 	public $modified_search;
 
@@ -75,7 +76,7 @@ class UserDevice extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, user_id, android_id, creation_date, generate_date, unpublish_date, modified_date, modified_id,
-				user_search, modified_search', 'safe', 'on'=>'search'),
+				level_search, user_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -107,6 +108,7 @@ class UserDevice extends CActiveRecord
 			'unpublish_date' => Yii::t('attribute', 'Unpublish Date'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'level_search' => Yii::t('attribute', 'level'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -141,8 +143,20 @@ class UserDevice extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'user' => array(
+				'alias'=>'user',
+				'select'=>'level_id, displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
-		$criteria->compare('t.id',strtolower($this->id),true);
+		$criteria->compare('t.id',$this->id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
 		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
@@ -171,19 +185,9 @@ class UserDevice extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
-		// Custom Search
-		$criteria->with = array(
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
-			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname'
-			),
-		);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('user.level_id',$this->level_search);
+		$criteria->compare('user.displayname',strtolower($this->user_search),true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['UserDevice_sort']))
 			$criteria->order = 't.id DESC';
@@ -245,10 +249,18 @@ class UserDevice extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user->displayname',
-			);
+			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => '$data->user_id ? Phrase::trans($data->user->level->name) : \'-\'',
+					'filter'=>UserLevel::getUserLevel(),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user_id ? $data->user->displayname : \'-\'',
+				);
+			}
 			$this->defaultColumns[] = 'android_id';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
