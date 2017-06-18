@@ -28,6 +28,7 @@
  * @property integer $actived
  * @property integer $search
  * @property integer $orders
+ * @property integer $parent_id
  * @property string $folder
  * @property string $name
  * @property string $desc
@@ -77,14 +78,14 @@ class OmmuPlugins extends CActiveRecord
 		return array(
 			array('folder', 'required'),
 			array('name, desc', 'required', 'on'=>'adminadd'),
-			array('default, install, actived, search, orders', 'numerical', 'integerOnly'=>true),
+			array('default, install, actived, search, orders, parent_id', 'numerical', 'integerOnly'=>true),
 			array('folder', 'length', 'max'=>32),
 			array('name, model', 'length', 'max'=>128),
 			array('desc', 'length', 'max'=>255),
 			array('model', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('plugin_id, default, install, actived, search, orders, folder, name, desc, model, creation_date, creation_id, modified_date, modified_id,
+			array('plugin_id, default, install, actived, search, orders, parent_id, folder, name, desc, model, creation_date, creation_id, modified_date, modified_id,
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -97,6 +98,7 @@ class OmmuPlugins extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'parent' => array(self::BELONGS_TO, 'OmmuPlugins', 'parent_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
@@ -114,6 +116,7 @@ class OmmuPlugins extends CActiveRecord
 			'actived' => Yii::t('attribute', 'Actived'),
 			'search' => Yii::t('attribute', 'Search'),
 			'orders' => Yii::t('attribute', 'Order'),
+			'parent_id' => Yii::t('attribute', 'Parent'),
 			'folder' => Yii::t('attribute', 'Folder'),
 			'name' => Yii::t('attribute', 'Module'),
 			'desc' => Yii::t('attribute', 'Description'),
@@ -159,6 +162,7 @@ class OmmuPlugins extends CActiveRecord
 		$criteria->compare('t.actived',$this->actived);
 		$criteria->compare('t.search',$this->search);
 		$criteria->compare('t.orders',$this->orders);
+		$criteria->compare('t.parent_id',$this->parent_id);
 		$criteria->compare('t.folder',strtolower($this->folder),true);
 		$criteria->compare('t.name',strtolower($this->name),true);
 		$criteria->compare('t.desc',strtolower($this->desc),true);
@@ -214,6 +218,7 @@ class OmmuPlugins extends CActiveRecord
 			$this->defaultColumns[] = 'actived';
 			$this->defaultColumns[] = 'search';
 			$this->defaultColumns[] = 'orders';
+			$this->defaultColumns[] = 'parent_id';
 			$this->defaultColumns[] = 'folder';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'desc';
@@ -237,6 +242,10 @@ class OmmuPlugins extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = 'folder';
+			$this->defaultColumns[] = array(
+				'name' => 'parent_id',
+				'value' => '$data->parent_id ? $data->parent->folder : \'-\'',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'name',
 				'value' => '$data->name ? $data->name : \'-\'',

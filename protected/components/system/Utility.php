@@ -155,12 +155,16 @@ class Utility
 	/**
 	* Return setting template with typePage: public, admin_sweeto or back_office
 	*/
-	public static function getModuleInfo($module=null)
+	public static function getModuleInfo($module=null, $parent=null)
 	{
 		define('DS', DIRECTORY_SEPARATOR);		
-		if($module != null)
-			$YMLPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';			
-		else
+		if($module != null) {
+			$YMLPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';
+			if($parent != null) {
+				$module = $parent.'-'.$module;
+				$YMLPath = Yii::getPathOfAlias('application.modules.'.$parent).DS.$module.'.yaml';
+			}
+		} else
 			$YMLPath = Yii::getPathOfAlias('application.ommu').DS.'ommu.yaml';
 			
 		if(file_exists($YMLPath)) {
@@ -196,9 +200,9 @@ class Utility
 	/**
 	* Return setting template with typePage: public, admin_sweeto or back_office
 	*/
-	public static function getModuleMenu($module=null) 
+	public static function getModuleMenu($module=null, $parent=null) 
 	{
-		$moduleInfo = self::getModuleInfo($module);
+		$moduleInfo = self::getModuleInfo($module, $parent);
 		$moduleMenu = $moduleInfo['plugin_menu'];
 		
 		if($moduleMenu != null) {
