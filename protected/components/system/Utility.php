@@ -179,12 +179,25 @@ class Utility
 	/**
 	* Return setting template with typePage: public, admin_sweeto or back_office
 	*/
-	public static function getContentMenu($module=null) 
+	public static function getContentMenu($module=null, $parent=null) 
 	{
-		$moduleInfo = self::getModuleInfo($module);
+		$moduleInfo = self::getModuleInfo($module, $parent);
 		$contentMenu = $moduleInfo['content_menu'];
 		
 		if($contentMenu != null) {
+			foreach ($contentMenu as $key => $val) {
+				$contentSubmenu = $val['submenu'];
+				if($contentSubmenu != null) {
+					$contentSubmenuData = array_filter($contentSubmenu, function($a) {
+						$siteType = explode(',', $a['urlRules']['siteType']);
+						$userLevel = explode(',', $a['urlRules']['userLevel']);
+						
+						return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
+					});
+					$contentMenu[$key]['submenu'] = array_values($contentSubmenuData);	
+				}
+			}
+			
 			$contentMenuData = array_filter($contentMenu, function($a) {					
 				$siteType = explode(',', $a['urlRules']['siteType']);
 				$userLevel = explode(',', $a['urlRules']['userLevel']);
@@ -219,9 +232,9 @@ class Utility
 				}
 			}
 			
-			$moduleMenuData = array_filter($moduleMenu, function($key) {
-				$siteType = explode(',', $key['urlRules']['siteType']);
-				$userLevel = explode(',', $key['urlRules']['userLevel']);
+			$moduleMenuData = array_filter($moduleMenu, function($a) {
+				$siteType = explode(',', $a['urlRules']['siteType']);
+				$userLevel = explode(',', $a['urlRules']['userLevel']);
 				
 				return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
 			});
