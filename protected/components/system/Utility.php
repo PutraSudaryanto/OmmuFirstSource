@@ -206,13 +206,26 @@ class Utility
 		$moduleMenu = $moduleInfo['plugin_menu'];
 		
 		if($moduleMenu != null) {
-			$moduleMenuData = array_filter($moduleMenu, function($a){					
-				$siteType = explode(',', $a['urlRules']['siteType']);
-				$userLevel = explode(',', $a['urlRules']['userLevel']);
+			foreach ($moduleMenu as $key => $val) {
+				$moduleSubmenu = $val['submenu'];
+				if($moduleSubmenu != null) {
+					$moduleSubmenuData = array_filter($moduleSubmenu, function($a) {
+						$siteType = explode(',', $a['urlRules']['siteType']);
+						$userLevel = explode(',', $a['urlRules']['userLevel']);
+						
+						return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
+					});
+					$moduleMenu[$key]['submenu'] = array_values($moduleSubmenuData);	
+				}
+			}
+			
+			$moduleMenuData = array_filter($moduleMenu, function($key) {
+				$siteType = explode(',', $key['urlRules']['siteType']);
+				$userLevel = explode(',', $key['urlRules']['userLevel']);
 				
 				return in_array(OmmuSettings::getInfo('site_type'), $siteType) && in_array(Yii::app()->user->level, $userLevel);
 			});
-			return $moduleMenuData;
+			return array_values($moduleMenuData);
 			
 		} else
 			return false;
