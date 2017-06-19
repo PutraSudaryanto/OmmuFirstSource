@@ -96,12 +96,6 @@ class ViewAuthorContactCategory extends CActiveRecord
 			'contacts' => Yii::t('attribute', 'Contacts'),
 			'contact_all' => Yii::t('attribute', 'Contact All'),
 		);
-		/*
-			'Cat' => 'Cat',
-			'Contacts' => 'Contacts',
-			'Contact All' => 'Contact All',
-		
-		*/
 	}
 
 	/**

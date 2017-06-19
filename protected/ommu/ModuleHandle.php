@@ -62,6 +62,7 @@ class ModuleHandle extends CApplicationComponent
 				':folder'=>'-',
 			);
 		}
+		$criteria->compare('parent_id',0);
 		$criteria->order = 'folder ASC';
 		$modules = OmmuPlugins::model()->findAll($criteria);
 		
