@@ -30,6 +30,8 @@ if($model != null) {
 				}
 			}
 		}
+		if(isset($plugin))
+			$arrAttrParams['plugin'] = $plugin;
 		
 		$link = $val['urlPath']['url'] != null && $val['urlPath']['url'] != '-' ? Yii::app()->controller->createUrl($val['urlPath']['url'], $arrAttrParams) : 'javascript:void(0);';
 		$icons = $val['urlPath']['icon'] != null && $val['urlPath']['icon'] != '-' ? $val['urlPath']['icon'] : 'C';
@@ -79,6 +81,9 @@ if($model != null) {
 							}
 						}
 					}
+					if(isset($plugin))
+						$arrAttrParams['plugin'] = $plugin;
+		
 					$link = $data['urlPath']['url'] != null && $data['urlPath']['url'] != '-' ? Yii::app()->controller->createUrl($data['urlPath']['url'], $arrAttrParams) : 'javascript:void(0);';
 					$icons = $data['urlPath']['icon'] != null && $data['urlPath']['icon'] != '-' ? $data['urlPath']['icon'] : 'C';
 					

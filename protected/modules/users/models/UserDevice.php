@@ -112,18 +112,6 @@ class UserDevice extends CActiveRecord
 			'user_search' => Yii::t('attribute', 'User'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
-		/*
-			'ID' => 'ID',
-			'Publish' => 'Publish',
-			'User' => 'User',
-			'Android' => 'Android',
-			'Creation Date' => 'Creation Date',
-			'Generate Date' => 'Generate Date',
-			'Unpublish Date' => 'Unpublish Date',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

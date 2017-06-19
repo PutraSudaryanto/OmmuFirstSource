@@ -111,18 +111,6 @@ class OmmuOptions extends CActiveRecord
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
-		/*
-			'Option' => 'Option',
-			'Autoload' => 'Autoload',
-			'Option Type' => 'Option Type',
-			'Option Name' => 'Option Name',
-			'Option Value' => 'Option Value',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

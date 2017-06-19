@@ -3,11 +3,11 @@
  * Support Feedbacks (support-feedbacks)
  * @var $this FeedbackController
  * @var $model SupportFeedbacks
- * version: 0.2.1
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/Support
+ * @link https://github.com/ommu/mod-support
  * @contact (+62)856-299-4114
  *
  */

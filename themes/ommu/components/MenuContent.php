@@ -21,11 +21,17 @@ class MenuContent extends CWidget
 
 		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'site_type'
-		));		
-		$model = Utility::getContentMenu($module);
+		));
+		
+		$plugin = $_GET['plugin'];
+		if(isset($plugin))
+			$model = Utility::getContentMenu($plugin, $module);
+		else
+			$model = Utility::getContentMenu($module);
 		
 		$this->render('menu_content', array(
 			'setting'=>$setting,
+			'plugin'=>$plugin,
 			'model'=>$model,
 			'module'=>$module,
 			'controller'=>$controller,

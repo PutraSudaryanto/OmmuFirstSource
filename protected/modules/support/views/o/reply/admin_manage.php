@@ -3,12 +3,12 @@
  * Support Feedback Replies (support-feedback-reply)
  * @var $this ReplyController
  * @var $model SupportFeedbackReply
- * version: 0.2.1
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 16 February 2017, 16:00 WIB
- * @link https://github.com/ommu/Support
+ * @link https://github.com/ommu/mod-support
  * @contact (+62)856-299-4114
  *
  */

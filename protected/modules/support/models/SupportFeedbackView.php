@@ -1,12 +1,12 @@
 <?php
 /**
  * SupportFeedbackView
- * version: 0.2.1
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 11 May 2017, 23:12 WIB
- * @link https://github.com/ommu/Support
+ * @link https://github.com/ommu/mod-support
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -104,13 +104,6 @@ class SupportFeedbackView extends CActiveRecord
 			'subject_search' => Yii::t('attribute', 'Subject'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
-		/*
-			'View' => 'View',
-			'Feedback' => 'Feedback',
-			'User' => 'User',
-			'Creation Date' => 'Creation Date',
-		
-		*/
 	}
 
 	/**

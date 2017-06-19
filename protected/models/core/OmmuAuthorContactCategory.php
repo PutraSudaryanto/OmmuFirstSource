@@ -128,16 +128,6 @@ class OmmuAuthorContactCategory extends CActiveRecord
 			'modified_search' => Yii::t('attribute', 'Modified'),
 			'contact_search' => Yii::t('attribute', 'Contacts'),
 		);
-		/*
-			'Cat' => 'Cat',
-			'Publish' => 'Publish',
-			'Name' => 'Name',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

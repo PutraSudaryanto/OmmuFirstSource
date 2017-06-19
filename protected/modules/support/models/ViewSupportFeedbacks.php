@@ -1,12 +1,12 @@
 <?php
 /**
  * ViewSupportFeedbacks
- * version: 0.2.1
+ * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 16 February 2017, 18:03 WIB
- * @link https://github.com/ommu/Support
+ * @link https://github.com/ommu/mod-support
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -105,12 +105,6 @@ class ViewSupportFeedbacks extends CActiveRecord
 			'views' => Yii::t('attribute', 'Views'),
 			'users' => Yii::t('attribute', 'Users'),
 		);
-		/*
-			'Feedback' => 'Feedback',
-			'Feedbacks' => 'Feedbacks',
-			'Feedback All' => 'Feedback All',
-		
-		*/
 	}
 
 	/**

@@ -27,7 +27,8 @@
 			$plugin = OmmuPlugins::getPlugin(1, null, 'data');
 			if($plugin != null) {
 				foreach($plugin as $key => $val) {
-					$menu = Utility::getModuleMenu($val->folder);
+					$parent = $val->parent_id ? $val->parent->folder : null;
+					$menu = Utility::getModuleMenu($val->folder, $parent);
 					if($menu != null) {
 						//attr url					
 						$arrAttrParams = array();
@@ -53,15 +54,27 @@
 								}
 							}
 						}
+						if($val->parent_id)
+							$arrAttrParams['plugin'] = $val->folder;
 
-						$url = Yii::app()->createUrl($val->folder.'/'.$menu[0]['urlPath']['url'], $arrAttrParams);
+						$folder = $val->parent_id ? $val->parent->folder : $val->folder;
+						$url = Yii::app()->createUrl($folder.'/'.$menu[0]['urlPath']['url'], $arrAttrParams);
 						//$titleApps = $val->name;
 						$titleApps = $val->name;
-						if($val->folder == $module) {
-							$class = 'class="active"';
-							$title = $val->name;
-						} else
-							$class = '';
+						$class = '';
+						$plugin = $_GET['plugin'];
+						
+						if(isset($plugin)) {
+							if($val->parent_id && $val->folder == $plugin) {
+								$class = 'class="active"';
+								$title = $val->name;
+							}
+						} else {
+							if(!$val->parent_id && $val->folder == $module) {
+								$class = 'class="active"';
+								$title = $val->name;
+							}
+						}
 
 						$item = '<li '.$class.'>';
 						$item .= '<a href="'.$url.'" title="'.Yii::t('phrase', $titleApps).'">'.Yii::t('phrase', $titleApps).'</a>';						
@@ -160,7 +173,11 @@
 		<li <?php echo $controller == 'translate' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('translate/manage');?>" title="<?php echo Yii::t('phrase', 'Translate');?>"><?php echo Yii::t('phrase', 'Translate');?></a></li>
 
 	<?php } elseif($module != null && !in_array($module, array('users','report','support'))) {
-		$menu = Utility::getModuleMenu($module);
+		$plugin = $_GET['plugin'];
+		if(isset($plugin))
+			$menu = Utility::getModuleMenu($plugin, $module);
+		else
+			$menu = Utility::getModuleMenu($module);
 		if($menu != null) {
 			foreach($menu as $key => $val) {
 				$siteType = explode(',', $val['urlRules']['siteType']);
@@ -201,6 +218,9 @@
 							}
 						}
 					}
+					if(isset($plugin))
+						$arrAttrParams['plugin'] = $plugin;
+						
 					$submenu = $val[submenu];
 					$class = $submenu != null ? 'class="submenu-show"' : '';
 					$url = $val['urlPath']['url'] != null && $val['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$val['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
@@ -247,6 +267,9 @@
 										}
 									}
 								}
+								if(isset($plugin))
+									$arrAttrParams['plugin'] = $plugin;
+								
 								$url = $data['urlPath']['url'] != null && $data['urlPath']['url'] != '-' ? Yii::app()->createUrl($module.'/'.$data['urlPath']['url'], $arrAttrParams) : 'javascript:void(0)';
 								echo '<li '.$subLiClass.'><a href="'.$url.'" title="'.Yii::t('phrase', $data['urlTitle']).'"><span class="icons">'.$subIcons.'</span>'.Yii::t('phrase', $data['urlTitle']).'</a></li>';
 							}								
