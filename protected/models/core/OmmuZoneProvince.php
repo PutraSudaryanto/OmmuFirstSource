@@ -350,7 +350,7 @@ class OmmuZoneProvince extends CActiveRecord
 	public static function getProvince($country=null) 
 	{
 		$criteria=new CDbCriteria;
-		if($country != null && ($country != '' || $country != 0))
+		if($country != null && $country != '' && $country != 0)
 			$criteria->compare('country_id',$country);
 		
 		$model = self::model()->findAll($criteria);

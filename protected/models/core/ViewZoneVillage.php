@@ -24,8 +24,11 @@
  * The followings are the available columns in table '_view_core_zone_village':
  * @property string $village_id
  * @property string $village_name
+ * @property string $district_id
  * @property string $district_name
+ * @property string $city_id
  * @property string $city_name
+ * @property string $province_id
  * @property string $province_name
  */
 class ViewZoneVillage extends CActiveRecord
@@ -68,11 +71,12 @@ class ViewZoneVillage extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('village_name', 'required'),
-			array('village_id', 'length', 'max'=>11),
+			array('province_id', 'length', 'max'=>5),
+			array('village_id, district_id, city_id', 'length', 'max'=>11),
 			array('village_name, district_name, city_name, province_name', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('village_id, village_name, district_name, city_name, province_name', 'safe', 'on'=>'search'),
+			array('village_id, village_name, district_id, district_name, city_id, city_name, province_id, province_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,8 +99,11 @@ class ViewZoneVillage extends CActiveRecord
 		return array(
 			'village_id' => Yii::t('attribute', 'Village'),
 			'village_name' => Yii::t('attribute', 'Village'),
+			'district_id' => Yii::t('attribute', 'District'),
 			'district_name' => Yii::t('attribute', 'District'),
+			'city_id' => Yii::t('attribute', 'City'),
 			'city_name' => Yii::t('attribute', 'City'),
+			'province_id' => Yii::t('attribute', 'Province'),
 			'province_name' => Yii::t('attribute', 'Province'),
 		);
 	}
@@ -121,8 +128,11 @@ class ViewZoneVillage extends CActiveRecord
 
 		$criteria->compare('t.village_id',$this->village_id);
 		$criteria->compare('t.village_name',strtolower($this->village_name),true);
+		$criteria->compare('t.district_id',$this->district_id);
 		$criteria->compare('t.district_name',strtolower($this->district_name),true);
+		$criteria->compare('t.city_id',$this->city_id);
 		$criteria->compare('t.city_name',strtolower($this->city_name),true);
+		$criteria->compare('t.province_id',$this->province_id);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);
 
 		if(!isset($_GET['ViewZoneVillage_sort']))
@@ -156,8 +166,11 @@ class ViewZoneVillage extends CActiveRecord
 		} else {
 			$this->defaultColumns[] = 'village_id';
 			$this->defaultColumns[] = 'village_name';
+			$this->defaultColumns[] = 'district_id';
 			$this->defaultColumns[] = 'district_name';
+			$this->defaultColumns[] = 'city_id';
 			$this->defaultColumns[] = 'city_name';
+			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 		}
 
@@ -175,8 +188,11 @@ class ViewZoneVillage extends CActiveRecord
 			);
 			$this->defaultColumns[] = 'village_id';
 			$this->defaultColumns[] = 'village_name';
+			$this->defaultColumns[] = 'district_id';
 			$this->defaultColumns[] = 'district_name';
+			$this->defaultColumns[] = 'city_id';
 			$this->defaultColumns[] = 'city_name';
+			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 		}
 		parent::afterConstruct();

@@ -24,6 +24,7 @@
  * The followings are the available columns in table '_view_core_zone_city':
  * @property string $city_id
  * @property string $city_name
+ * @property string $province_id
  * @property string $province_name
  */
 class ViewZoneCity extends CActiveRecord
@@ -66,11 +67,12 @@ class ViewZoneCity extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('city_name', 'required'),
+			array('province_id', 'length', 'max'=>5),
 			array('city_id', 'length', 'max'=>11),
 			array('city_name, province_name', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('city_id, city_name, province_name', 'safe', 'on'=>'search'),
+			array('city_id, city_name, province_id, province_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +95,7 @@ class ViewZoneCity extends CActiveRecord
 		return array(
 			'city_id' => Yii::t('attribute', 'City'),
 			'city_name' => Yii::t('attribute', 'City'),
+			'province_id' => Yii::t('attribute', 'Province'),
 			'province_name' => Yii::t('attribute', 'Province'),
 		);
 	}
@@ -117,6 +120,7 @@ class ViewZoneCity extends CActiveRecord
 
 		$criteria->compare('t.city_id',$this->city_id);
 		$criteria->compare('t.city_name',strtolower($this->city_name),true);
+		$criteria->compare('t.province_id',$this->province_id);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);
 
 		if(!isset($_GET['ViewZoneCity_sort']))
@@ -150,6 +154,7 @@ class ViewZoneCity extends CActiveRecord
 		} else {
 			$this->defaultColumns[] = 'city_id';
 			$this->defaultColumns[] = 'city_name';
+			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 		}
 
@@ -167,6 +172,7 @@ class ViewZoneCity extends CActiveRecord
 			);
 			$this->defaultColumns[] = 'city_id';
 			$this->defaultColumns[] = 'city_name';
+			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 		}
 		parent::afterConstruct();

@@ -117,14 +117,24 @@ class ZonevillageController extends Controller
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
 				$criteria->condition = 'village_name LIKE :village';
-				$criteria->select	= "village_id, village_name";
-				$criteria->order = "village_id ASC";
+				$criteria->select	= "village_id, village_name, zipcode";
+				$criteria->order = "village_name ASC";
 				$criteria->params = array(':village' => '%' . strtolower($_GET['term']) . '%');
 				$model = OmmuZoneVillage::model()->findAll($criteria);
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->village_id, 'value' => $items->village_name);
+						$result[] = array(
+							'id' => $items->village_id, 
+							'value' => $items->village_name,
+							'zipcode' => $items->zipcode,
+							'district_id' => $items->view->district_id,
+							'district_name' => $items->view->district_name,
+							'city_id' => $items->view->city_id,
+							'city_name' => $items->view->city_name,
+							'province_id' => $items->view->province_id,
+							'province_name' => $items->view->province_name,
+						);
 					}
 				}
 			}

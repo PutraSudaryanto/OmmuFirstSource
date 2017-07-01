@@ -118,13 +118,20 @@ class ZonedistrictController extends Controller
 				$criteria = new CDbCriteria;
 				$criteria->condition = 'district_name LIKE :district';
 				$criteria->select	= "district_id, district_name";
-				$criteria->order = "district_id ASC";
+				$criteria->order = "district_name ASC";
 				$criteria->params = array(':district' => '%' . strtolower($_GET['term']) . '%');
 				$model = OmmuZoneDistricts::model()->findAll($criteria);
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->district_id, 'value' => $items->district_name);
+						$result[] = array(
+							'id' => $items->district_id, 
+							'value' => $items->district_name,
+							'city_id' => $items->view->city_id,
+							'city_name' => $items->view->city_name,
+							'province_id' => $items->view->province_id,
+							'province_name' => $items->view->province_name,
+						);
 					}
 				}
 			}

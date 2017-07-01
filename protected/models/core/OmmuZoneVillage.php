@@ -94,6 +94,7 @@ class OmmuZoneVillage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewZoneVillage', 'village_id'),
 			'district' => array(self::BELONGS_TO, 'OmmuZoneDistricts', 'district_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -325,7 +326,7 @@ class OmmuZoneVillage extends CActiveRecord
 	public static function getVillage($district=null) 
 	{
 		$criteria=new CDbCriteria;
-		if($district != null && ($district != '' || $district != 0))
+		if($district != null && $district != '' && $district != 0)
 			$criteria->compare('district_id',$district);
 		
 		$model = self::model()->findAll($criteria);

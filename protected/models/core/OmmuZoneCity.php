@@ -93,6 +93,7 @@ class OmmuZoneCity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewZoneCity', 'city_id'),
 			'province' => array(self::BELONGS_TO, 'OmmuZoneProvince', 'province_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -349,7 +350,7 @@ class OmmuZoneCity extends CActiveRecord
 	public static function getCity($province=null) 
 	{
 		$criteria=new CDbCriteria;
-		if($province != null && ($province != '' || $province != 0))
+		if($province != null && $province != '' && $province != 0)
 			$criteria->compare('province_id',$province);
 		
 		$model = self::model()->findAll($criteria);

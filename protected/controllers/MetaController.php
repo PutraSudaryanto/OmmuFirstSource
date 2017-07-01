@@ -108,7 +108,9 @@ class MetaController extends Controller
 	 */
 	public function actionEdit() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuMeta::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuMeta;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -138,7 +140,9 @@ class MetaController extends Controller
 	 */
 	public function actionGoogle() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuMeta::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuMeta;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -193,7 +197,9 @@ class MetaController extends Controller
 	 */
 	public function actionFacebook() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuMeta::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuMeta;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -251,7 +257,9 @@ class MetaController extends Controller
 	 */
 	public function actionTwitter() 
 	{
-		$model=$this->loadModel(1);
+		$model = OmmuMeta::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuMeta;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);

@@ -419,8 +419,10 @@ class OmmuMeta extends CActiveRecord
 		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
 		
 		if(parent::beforeValidate()) {
-			if($this->office_place == '' && $this->office_district == '' && $this->office_village == '') {
+			if($this->office_place == '' || $this->office_district == '' || $this->office_village == '') {
 				$this->addError('office_place', Yii::t('phrase', 'Office Address cannot be blank.'));
+				$this->addError('office_village', Yii::t('phrase', 'Office Village cannot be blank.'));		
+				$this->addError('office_district', Yii::t('phrase', 'Office District cannot be blank.'));		
 			}
 			
 			$meta_image = CUploadedFile::getInstance($this, 'meta_image');	
