@@ -1,10 +1,11 @@
 <?php
 /**
- * ViewZoneCity
+ * ViewZoneProvince
  * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
- * @copyright Copyright (c) 2015 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 2 July 2017, 09:29 WIB
  * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
@@ -19,17 +20,15 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "_view_core_zone_city".
+ * This is the model class for table "_view_core_zone_province".
  *
- * The followings are the available columns in table '_view_core_zone_city':
- * @property string $city_id
- * @property string $city_name
- * @property string $province_id
+ * The followings are the available columns in table '_view_core_zone_province':
+ * @property integer $province_id
  * @property string $province_name
- * @property string $country_id
+ * @property integer $country_id
  * @property string $country_name
  */
-class ViewZoneCity extends CActiveRecord
+class ViewZoneProvince extends CActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -37,7 +36,7 @@ class ViewZoneCity extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ViewZoneCity the static model class
+	 * @return ViewZoneProvince the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -49,7 +48,7 @@ class ViewZoneCity extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '_view_core_zone_city';
+		return '_view_core_zone_province';
 	}
 
 	/**
@@ -57,7 +56,7 @@ class ViewZoneCity extends CActiveRecord
 	 */
 	public function primaryKey()
 	{
-		return 'city_id';
+		return 'province_id';
 	}
 
 	/**
@@ -68,13 +67,12 @@ class ViewZoneCity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('city_name', 'required'),
-			array('province_id, country_id', 'length', 'max'=>5),
-			array('city_id', 'length', 'max'=>11),
-			array('city_name, province_name, country_name', 'length', 'max'=>64),
+			array('province_name', 'required'),
+			array('province_id, country_id', 'numerical', 'integerOnly'=>true),
+			array('province_name, country_name', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('city_id, city_name, province_id, province_name, country_id, country_name', 'safe', 'on'=>'search'),
+			array('province_id, province_name, country_id, country_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,12 +93,10 @@ class ViewZoneCity extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'city_id' => Yii::t('attribute', 'City'),
-			'city_name' => Yii::t('attribute', 'City'),
 			'province_id' => Yii::t('attribute', 'Province'),
-			'province_name' => Yii::t('attribute', 'Province'),
+			'province_name' => Yii::t('attribute', 'Province Name'),
 			'country_id' => Yii::t('attribute', 'Country'),
-			'country_name' => Yii::t('attribute', 'Country'),
+			'country_name' => Yii::t('attribute', 'Country Name'),
 		);
 	}
 
@@ -122,15 +118,13 @@ class ViewZoneCity extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.city_id',$this->city_id);
-		$criteria->compare('t.city_name',strtolower($this->city_name),true);
 		$criteria->compare('t.province_id',$this->province_id);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);
 		$criteria->compare('t.country_id',$this->country_id);
 		$criteria->compare('t.country_name',strtolower($this->country_name),true);
 
-		if(!isset($_GET['ViewZoneCity_sort']))
-			$criteria->order = 't.city_id DESC';
+		if(!isset($_GET['ViewZoneProvince_sort']))
+			$criteria->order = 't.province_id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -158,8 +152,6 @@ class ViewZoneCity extends CActiveRecord
 				$this->defaultColumns[] = $val;
 			}
 		} else {
-			$this->defaultColumns[] = 'city_id';
-			$this->defaultColumns[] = 'city_name';
 			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 			$this->defaultColumns[] = 'country_id';
@@ -178,9 +170,7 @@ class ViewZoneCity extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'city_id';
-			$this->defaultColumns[] = 'city_name';
-			$this->defaultColumns[] = 'province_id';
+			//$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
 			$this->defaultColumns[] = 'country_id';
 			$this->defaultColumns[] = 'country_name';

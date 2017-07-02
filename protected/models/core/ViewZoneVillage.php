@@ -30,6 +30,8 @@
  * @property string $city_name
  * @property string $province_id
  * @property string $province_name
+ * @property string $country_id
+ * @property string $country_name
  */
 class ViewZoneVillage extends CActiveRecord
 {
@@ -71,12 +73,12 @@ class ViewZoneVillage extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('village_name', 'required'),
-			array('province_id', 'length', 'max'=>5),
+			array('province_id, country_id', 'length', 'max'=>5),
 			array('village_id, district_id, city_id', 'length', 'max'=>11),
-			array('village_name, district_name, city_name, province_name', 'length', 'max'=>64),
+			array('village_name, district_name, city_name, province_name, country_name', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('village_id, village_name, district_id, district_name, city_id, city_name, province_id, province_name', 'safe', 'on'=>'search'),
+			array('village_id, village_name, district_id, district_name, city_id, city_name, province_id, province_name, country_id, country_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,6 +107,8 @@ class ViewZoneVillage extends CActiveRecord
 			'city_name' => Yii::t('attribute', 'City'),
 			'province_id' => Yii::t('attribute', 'Province'),
 			'province_name' => Yii::t('attribute', 'Province'),
+			'country_id' => Yii::t('attribute', 'Country'),
+			'country_name' => Yii::t('attribute', 'Country'),
 		);
 	}
 
@@ -134,6 +138,8 @@ class ViewZoneVillage extends CActiveRecord
 		$criteria->compare('t.city_name',strtolower($this->city_name),true);
 		$criteria->compare('t.province_id',$this->province_id);
 		$criteria->compare('t.province_name',strtolower($this->province_name),true);
+		$criteria->compare('t.country_id',$this->country_id);
+		$criteria->compare('t.country_name',strtolower($this->country_name),true);
 
 		if(!isset($_GET['ViewZoneVillage_sort']))
 			$criteria->order = 't.village_id DESC';
@@ -172,6 +178,8 @@ class ViewZoneVillage extends CActiveRecord
 			$this->defaultColumns[] = 'city_name';
 			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
+			$this->defaultColumns[] = 'country_id';
+			$this->defaultColumns[] = 'country_name';
 		}
 
 		return $this->defaultColumns;
@@ -194,6 +202,8 @@ class ViewZoneVillage extends CActiveRecord
 			$this->defaultColumns[] = 'city_name';
 			$this->defaultColumns[] = 'province_id';
 			$this->defaultColumns[] = 'province_name';
+			$this->defaultColumns[] = 'country_id';
+			$this->defaultColumns[] = 'country_name';
 		}
 		parent::afterConstruct();
 	}

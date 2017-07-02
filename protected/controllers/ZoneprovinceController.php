@@ -43,7 +43,7 @@ class ZoneprovinceController extends Controller
 	public function init() 
 	{
 		if(!Yii::app()->user->isGuest) {
-			if(Yii::app()->user->level == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
@@ -76,11 +76,11 @@ class ZoneprovinceController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','suggest'),
+				'actions'=>array('index'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
+				'actions'=>array('suggest'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
@@ -111,15 +111,16 @@ class ZoneprovinceController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionSuggest($id=null) 
+	public function actionSuggest($id=null, $limit=10) 
 	{
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
+				$criteria->select	= "province_id, country_id, province_name";
 				$criteria->condition = 'province_name LIKE :province';
-				$criteria->select	= "province_id, province_name";
-				$criteria->order = "province_name ASC";
 				$criteria->params = array(':province' => '%' . strtolower($_GET['term']) . '%');
+				$criteria->order = "province_name ASC";
+				$criteria->limit = $limit;
 				$model = OmmuZoneProvince::model()->findAll($criteria);
 
 				if($model) {
@@ -127,6 +128,8 @@ class ZoneprovinceController extends Controller
 						$result[] = array(
 							'id' => $items->province_id, 
 							'value' => $items->province_name,
+							'country_id' => $items->country->country_id,
+							'country_name' => $items->country->country_name,
 						);
 					}
 				}
