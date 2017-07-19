@@ -20,9 +20,9 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_core_menu".
+ * This is the model class for table "ommu_core_menus".
  *
- * The followings are the available columns in table 'ommu_core_menu':
+ * The followings are the available columns in table 'ommu_core_menus':
  * @property string $id
  * @property integer $publish
  * @property integer $cat_id
@@ -39,7 +39,7 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuCoreMenuCategory $cat
+ * @property CoreMenuCategory $cat
  */
 class OmmuMenu extends CActiveRecord
 {
@@ -67,7 +67,7 @@ class OmmuMenu extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_core_menu';
+		return 'ommu_core_menus';
 	}
 
 	/**

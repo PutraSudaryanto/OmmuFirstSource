@@ -33,12 +33,12 @@
  * @property string $modified_date
  *
  * The followings are the available model relations:
- * @property OmmuCoreWallComment[] $ommuCoreWallComments
- * @property OmmuCoreWallLikes[] $ommuCoreWallLikes
- * @property OmmuCoreWallUser[] $ommuCoreWallUsers
- * @property OmmuWallComment[] $ommuWallComments
- * @property OmmuWallLikes[] $ommuWallLikes
- * @property OmmuWallUser[] $ommuWallUsers
+ * @property CoreWallComment[] $CoreWallComments
+ * @property CoreWallLikes[] $CoreWallLikes
+ * @property CoreWallUser[] $CoreWallUsers
+ * @property WallComment[] WallComments
+ * @property WallLikes[] WallLikes
+ * @property WallUser[] WallUsers
  */
 class OmmuWalls extends CActiveRecord
 {

@@ -116,7 +116,7 @@ class ZonedistrictController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->select	= "district_id, city_id, district_name";
+				$criteria->select = "district_id, city_id, district_name";
 				$criteria->condition = 'district_name LIKE :district';
 				$criteria->params = array(':district' => '%' . strtolower($_GET['term']) . '%');
 				$criteria->order = "district_name ASC";

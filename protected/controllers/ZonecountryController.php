@@ -114,7 +114,7 @@ class ZonecountryController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->select	= "country_id, country_name";
+				$criteria->select = "country_id, country_name";
 				$criteria->condition = 'country_name LIKE :country';
 				$criteria->params = array(':country' => '%' . strtolower($_GET['term']) . '%');
 				$criteria->order = "country_id ASC";

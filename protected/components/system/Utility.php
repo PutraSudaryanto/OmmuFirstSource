@@ -475,56 +475,38 @@ class Utility
 	 * 9 = Headline
 	 * 10 = Install
 	 */
-	public static function getPublish($url, $id, $type) 
+	public static function getPublish($url, $id, $type=1) 
 	{
-		$class = '';
+		$baseUrl = !empty(Yii::app()->theme->name) ? Yii::app()->theme->baseUrl : Yii::app()->request->baseUrl;
+		
 		$arrType = explode(',', $type);
-		if(count($arrType) > 1 ) {
-			$plus = Yii::t('phrase', trim($arrType[0]));
-			$min = Yii::t('phrase', trim($arrType[1]));
-		} else {
-			if($type == '1') {
-				$plus = Yii::t('phrase', 'Publish');
-				$min = Yii::t('phrase', 'Unpublish');
-			} else if($type == '2') {
-				$plus = Yii::t('phrase', 'Actived');
-				$min = Yii::t('phrase', 'Deactived');
-			} else if($type == '3') {
-				$plus = Yii::t('phrase', 'Enabled');
-				$min = Yii::t('phrase', 'Disabled');
-			} else if($type == '4') {
-				$plus = Yii::t('phrase', 'Enabled Dialog');
-				$min = Yii::t('phrase', 'Disable Dialog');
-			} else if($type == '5') {
-				$plus = Yii::t('phrase', 'Unresolved');
-				$min = Yii::t('phrase', 'Resolved');
-			} else if($type == '6') {
-				$plus = Yii::t('phrase', 'Defaults');
-				$min = Yii::t('phrase', 'Defaults');
-			} else if($type == '7') {
-				$plus = Yii::t('phrase', 'Verified');
-				$min = Yii::t('phrase', 'Unverified');
-			} else if($type == '8') {
-				$plus = Yii::t('phrase', 'Subcribe');
-				$min = Yii::t('phrase', 'Unsubcribe');
-			} else if($type == '9') {
-				$plus = Yii::t('phrase', 'Headline');
-				$min = Yii::t('phrase', 'Headline');
-			} else if($type == '10') {
-				$plus = Yii::t('phrase', 'Install Module');
-				$min = Yii::t('phrase', 'Install Module');
-			}
+		if(count($arrType) > 1 )
+			$phrase = $id == '0' ? Yii::t('phrase', trim($arrType[0])) : Yii::t('phrase', trim($arrType[1]));
+		else {
+			if($type == '1')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Publish') : Yii::t('phrase', 'Unpublish');
+			else if($type == '2')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Actived') : Yii::t('phrase', 'Deactived');
+			else if($type == '3')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Enabled') : Yii::t('phrase', 'Disabled');
+			else if($type == '4')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Enabled Dialog') : Yii::t('phrase', 'Disable Dialog');
+			else if($type == '5')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Unresolved') : Yii::t('phrase', 'Resolved');
+			else if($type == '6')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Defaults') : Yii::t('phrase', 'Defaults');
+			else if($type == '7')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Verified') : Yii::t('phrase', 'Unverified');
+			else if($type == '8')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Subcribe') : Yii::t('phrase', 'Unsubcribe');
+			else if($type == '9')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Headline') : Yii::t('phrase', 'Headline');
+			else if($type == '10')
+				$phrase = $id == '0' ? Yii::t('phrase', 'Install Module') : Yii::t('phrase', 'Install Module');
 		}
-		if(!empty(Yii::app()->theme->name))
-			$baseUrl = Yii::app()->theme->baseUrl;
-		else
-			$baseUrl = Yii::app()->request->baseUrl;
-
-		if($id == '1') {
-			$publish = '<a href="'.$url.'" title="'.$min.'"><img src="'.$baseUrl.'/images/icons/publish.png" alt="'.$plus.'"></a>';
-		} else {
-			$publish = '<a href="'.$url.'" title="'.$plus.'"><img src="'.$baseUrl.'/images/icons/unpublish.png" alt="'.$min.'"></a>';
-		}
+		
+		$image = $id == '0' ? $baseUrl.'/images/icons/unpublish.png' : $baseUrl.'/images/icons/publish.png';
+		$publish = '<a href="'.$url.'" title="'.$phrase.'"><img src="'.$image.'"></a>';
 
 		return $publish;
 	}

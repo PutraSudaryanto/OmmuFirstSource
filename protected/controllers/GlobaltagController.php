@@ -114,7 +114,7 @@ class GlobaltagController extends Controller
 		if(Yii::app()->request->isAjaxRequest) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->select	= 'tag_id, body';
+				$criteria->select = 'tag_id, body';
 				$criteria->compare('publish',1);
 				$criteria->compare('body',Utility::getUrlTitle(strtolower(trim($_GET['term']))), true);
 				$criteria->limit = $limit;

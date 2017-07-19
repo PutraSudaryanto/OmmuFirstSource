@@ -116,7 +116,7 @@ class ZonecityController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->select	= "city_id, province_id, city_name";
+				$criteria->select = "city_id, province_id, city_name";
 				$criteria->condition = 'city_name LIKE :city';
 				$criteria->params = array(':city' => '%' . strtolower($_GET['term']) . '%');
 				$criteria->order = "city_name ASC";

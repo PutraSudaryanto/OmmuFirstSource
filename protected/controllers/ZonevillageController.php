@@ -116,7 +116,7 @@ class ZonevillageController extends Controller
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
-				$criteria->select	= "village_id, district_id, village_name, zipcode";
+				$criteria->select = "village_id, district_id, village_name, zipcode";
 				$criteria->condition = 'village_name LIKE :village';
 				$criteria->params = array(':village' => '%' . strtolower($_GET['term']) . '%');
 				$criteria->order = "village_name ASC";

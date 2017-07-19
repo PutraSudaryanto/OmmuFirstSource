@@ -39,8 +39,8 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuCoreComment[] $ommuCoreComments
- * @property OmmuCorePluginPhrase[] $ommuCorePluginPhrases
+ * @property CoreComment[] $CoreComments
+ * @property CorePluginPhrase[] $CorePluginPhrases
  */
 class OmmuPlugins extends CActiveRecord
 {

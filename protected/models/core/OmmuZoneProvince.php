@@ -34,8 +34,8 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuCoreZoneCity[] $ommuCoreZoneCities
- * @property OmmuCoreZoneCountry $country
+ * @property CoreZoneCity[] $CoreZoneCities
+ * @property CoreZoneCountry $country
  */
 class OmmuZoneProvince extends CActiveRecord
 {
