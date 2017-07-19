@@ -1,6 +1,6 @@
 <?php
 /**
- * ViewMenu
+ * ViewMenus
  * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
@@ -19,12 +19,12 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "_view_core_menu".
+ * This is the model class for table "_view_core_menus".
  *
- * The followings are the available columns in table '_view_core_menu':
+ * The followings are the available columns in table '_view_core_menus':
  * @property string $menu_id
  */
-class ViewMenu extends CActiveRecord
+class ViewMenus extends CActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -32,7 +32,7 @@ class ViewMenu extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ViewMenu the static model class
+	 * @return ViewMenus the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -44,7 +44,7 @@ class ViewMenu extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '_view_core_menu';
+		return '_view_core_menus';
 	}
 
 	/**
@@ -112,7 +112,7 @@ class ViewMenu extends CActiveRecord
 
 		$criteria->compare('t.menu_id',$this->menu_id);
 
-		if(!isset($_GET['ViewMenu_sort']))
+		if(!isset($_GET['ViewMenus_sort']))
 			$criteria->order = 't.menu_id DESC';
 
 		return new CActiveDataProvider($this, array(
