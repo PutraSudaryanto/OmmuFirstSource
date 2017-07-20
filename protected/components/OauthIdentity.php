@@ -74,10 +74,19 @@ class OauthIdentity extends OUserIdentity
 				$this->errorCode = self::ERROR_NONE;
 				
 			} else {
-				if($object->error == 'email')
+				if(preg_match('/@/',$this->username)) //$this->username can filled by username or email
+					$record = Users::model()->findByAttributes(array('email' => $this->username));
+				else 
+					$record = Users::model()->findByAttributes(array('username' => $this->username));
+			
+				if($record === null)
 					$this->errorCode = self::ERROR_USERNAME_INVALID;
-				else if($object->error == 'password')
+				else if($record->password !== Users::hashPassword($record->salt,$this->password))
 					$this->errorCode = self::ERROR_PASSWORD_INVALID;
+				else {
+					$this->setUserSession($record);
+					$this->errorCode = self::ERROR_NONE;
+				}
 			}
 		}
 		return !$this->errorCode;
