@@ -108,8 +108,9 @@ class OmmuSettings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('site_oauth, site_type, site_url, site_title, site_keywords, site_description, site_dateformat, site_timeformat,
+			array('site_oauth, site_type, site_url, site_title, site_keywords, site_description,
 				event_i', 'required', 'on'=>'general'),
+			array('site_dateformat, site_timeformat', 'required', 'on'=>'locale'),
 			array('general_commenthtml, spam_failedcount', 'required', 'on'=>'banned'),
 			array('signup_numgiven', 'required', 'on'=>'signup'),
 			array('analytic_id, analytic_profile_id', 'required', 'on'=>'analytic'),
@@ -119,7 +120,7 @@ class OmmuSettings extends CActiveRecord
 			array('site_url, analytic_id, analytic_profile_id, license_email, license_key', 'length', 'max'=>32),
 			array('site_title, site_keywords, site_description, general_commenthtml', 'length', 'max'=>256),
 			array('license_email', 'email'),
-			array('site_creation, construction_date, construction_text, event_startdate, event_finishdate, event_tag, general_include, banned_ips, banned_emails, banned_usernames, banned_words, analytic_id, analytic_profile_id,
+			array('site_creation, site_dateformat, site_timeformat, construction_date, construction_text, event_startdate, event_finishdate, event_tag, general_include, banned_ips, banned_emails, banned_usernames, banned_words, analytic_id, analytic_profile_id,
 				event_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

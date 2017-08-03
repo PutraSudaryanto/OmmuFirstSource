@@ -13,6 +13,7 @@
  *	Banned
  *	Signup
  *	Analytic
+ *	Locale
  *	Manual
  *
  *	LoadModel
@@ -80,7 +81,7 @@ class SettingsController extends Controller
 				'expression'=>'isset(Yii::app()->user->level)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('general','banned','signup','analytic'),
+				'actions'=>array('general','banned','signup','analytic','locale'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 			),
@@ -340,6 +341,65 @@ class SettingsController extends Controller
 			$this->pageDescription = Yii::t('phrase', 'Want to use Google Analytics to keep track of your site\'s traffic data? Setup is super easy. Just enter your Google Analytics Tracking ID and *bam*... you\'re tracking your site\'s traffic stats! If you need help finding your ID, check here.');
 			$this->pageMeta = '';
 			$this->render('admin_analytic',array(
+				'model'=>$model,
+			));
+		}
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionLocale() 
+	{
+		if(Yii::app()->user->level != 1)
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+		
+		$model = OmmuSettings::model()->findByPk(1);
+		if($model == null)
+			$model=new OmmuSettings;
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['OmmuSettings'])) {
+			$model->attributes=$_POST['OmmuSettings'];
+			$model->scenario = 'locale';
+
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				$errors = $model->getErrors();
+				$summary['msg'] = "<div class='errorSummary'><strong>".Yii::t('phrase', 'Please fix the following input errors:')."</strong>";
+				$summary['msg'] .= "<ul>";
+				foreach($errors as $key => $value) {
+					$summary['msg'] .= "<li>{$value[0]}</li>";
+				}
+				$summary['msg'] .= "</ul></div>";
+
+				$message = json_decode($jsonError, true);
+				$merge = array_merge_recursive($summary, $message);
+				$encode = json_encode($merge);
+				echo $encode;
+				
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						echo CJSON::encode(array(
+							'type' => 0,
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Locale setting success updated.').'</strong></div>',
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
+			}
+			Yii::app()->end();
+
+		} else {
+			$this->pageTitle = Yii::t('phrase', 'Locale Settings');
+			$this->pageDescription = Yii::t('phrase', 'Please select a default timezone setting for your social network. This will be the default timezone applied to users\' accounts if they do not select a timezone during signup, or if they are not signed in. Select the default locale you want to use on your social network. This will affect the language of the dates that appear on your social network pages.');
+			$this->pageMeta = '';
+			$this->render('admin_locale',array(
 				'model'=>$model,
 			));
 		}
