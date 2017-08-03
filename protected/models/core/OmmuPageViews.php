@@ -5,8 +5,8 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 4 August 2017, 06:09 WIB
- * @link http://opensource.ommu.co
+ * @created date 4 August 2017, 06:16 WIB
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -31,12 +31,19 @@
  * @property string $view_date
  * @property string $view_ip
  * @property string $deleted_date
+ *
+ * The followings are the available model relations:
+ * @property CorePageViewHistory[] $core_page_view_histories
+ * @property Users[] $user;
+ * @property CorePages $page
+ * @property Users[] $user;
  */
 class OmmuPageViews extends CActiveRecord
 {
 	public $defaultColumns = array();
 
 	// Variable Search	
+	public $page_search;
 	public $user_search;
 
 	/**
@@ -67,14 +74,14 @@ class OmmuPageViews extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, user_id, view_date, view_ip', 'required'),
+			array('page_id, user_id', 'required'),
 			array('publish, page_id, views', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>11),
 			array('view_ip', 'length', 'max'=>20),
 			array('deleted_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('view_id, publish, page_id, user_id, views, view_date, view_ip, deleted_date, user_search', 'safe', 'on'=>'search'),
+			array('view_id, publish, page_id, user_id, views, view_date, view_ip, deleted_date, page_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,7 +93,9 @@ class OmmuPageViews extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'page' => array(self::BELONGS_TO, 'OmmuPages', 'page_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'histories' => array(self::HAS_MANY, 'OmmuPageViewHistory', 'view_id'),
 		);
 	}
 
@@ -104,6 +113,7 @@ class OmmuPageViews extends CActiveRecord
 			'view_date' => Yii::t('attribute', 'View Date'),
 			'view_ip' => Yii::t('attribute', 'View Ip'),
 			'deleted_date' => Yii::t('attribute', 'Deleted Date'),
+			'page_search' => Yii::t('attribute', 'Page'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
 	}
@@ -127,7 +137,21 @@ class OmmuPageViews extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		// Custom Search
+		$defaultLang = OmmuLanguages::getDefault('code');
+		if(isset(Yii::app()->session['language']))
+			$language = Yii::app()->session['language'];
+		else 
+			$language = $defaultLang;
+		
 		$criteria->with = array(
+			'page' => array(
+				'alias'=>'page',
+				'select'=>'page_id, name',
+			),
+			'page.title' => array(
+				'alias'=>'page_title',
+				'select'=>$language,
+			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'displayname'
@@ -145,7 +169,10 @@ class OmmuPageViews extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.page_id',$this->page_id);
+		if(isset($_GET['page']))
+			$criteria->compare('t.page_id',$_GET['page']);
+		else
+			$criteria->compare('t.page_id',$this->page_id);
 		if(isset($_GET['user']))
 			$criteria->compare('t.user_id',$_GET['user']);
 		else
@@ -157,6 +184,7 @@ class OmmuPageViews extends CActiveRecord
 		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.deleted_date)',date('Y-m-d', strtotime($this->deleted_date)));
 
+		$criteria->compare('page_title.'.$language,strtolower($this->page_search),true);
 		$criteria->compare('user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['OmmuPageViews_sort']))
@@ -218,33 +246,25 @@ class OmmuPageViews extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-			$this->defaultColumns[] = array(
-				'name' => 'publish',
-				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\',array(\'id\'=>$data->view_id)), $data->publish)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
-				'type' => 'raw',
-			);
+			if(!isset($_GET['page'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'page_search',
+					'value' => 'Phrase::trans($data->page->name)',
+				);
 			}
-			$this->defaultColumns[] = array(
-				'name' => 'page_id',
-				'value' => '$data->page_id',
-			);
 			if(!isset($_GET['user'])) {
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user->displayname',
-			);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user->displayname ? $data->user->displayname : \'-\'',
+				);
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'views',
-				'value' => '$data->views',
+				'value' => 'CHtml::link($data->views ? $data->views : 0, Yii::app()->createUrl("o/history/manage",array(\'view\'=>$data->view_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'view_date',
@@ -275,7 +295,11 @@ class OmmuPageViews extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'view_ip',
 				'value' => '$data->view_ip',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
 			);
+			/*
 			$this->defaultColumns[] = array(
 				'name' => 'deleted_date',
 				'value' => 'Utility::dateFormat($data->deleted_date)',
@@ -302,6 +326,21 @@ class OmmuPageViews extends CActiveRecord
 					),
 				), true),
 			);
+			*/
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\',array(\'id\'=>$data->view_id)), $data->publish)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
 	}
@@ -324,64 +363,38 @@ class OmmuPageViews extends CActiveRecord
 	}
 
 	/**
+	 * User get information
+	 */
+	public static function insertView($page_id)
+	{
+		$criteria=new CDbCriteria;
+		$criteria->select = 'view_id, publish, page_id, user_id, views';
+		$criteria->compare('publish', 1);
+		$criteria->compare('page_id', $page_id);
+		$criteria->compare('user_id', !Yii::app()->user->isGuest ? Yii::app()->user->id : '0');
+		$findView = self::model()->find($criteria);
+		
+		if($findView != null)
+			self::model()->updateByPk($findView->view_id, array('views'=>$findView->views + 1, 'view_ip'=>$_SERVER['REMOTE_ADDR']));
+		
+		else {
+			$view=new OmmuPageViews;
+			$view->page_id = $page_id;
+			$view->save();
+		}
+	}
+
+	/**
 	 * before validate attributes
 	 */
-	protected function beforeValidate() 
-	{
+	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
+			if($this->isNewRecord)
+				$this->user_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : 0;
+			
+			$this->view_ip = $_SERVER['REMOTE_ADDR'];
 		}
 		return true;
-	}
-
-	/**
-	 * after validate attributes
-	 */
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-		// Create action
-		
-		return true;
-	}
-	
-	/**
-	 * before save attributes
-	 */
-	protected function beforeSave() 
-	{
-		if(parent::beforeSave()) {
-			// Create action
-		}
-		return true;	
-	}
-	
-	/**
-	 * After save attributes
-	 */
-	protected function afterSave() 
-	{
-		parent::afterSave();
-		// Create action
-	}
-
-	/**
-	 * Before delete attributes
-	 */
-	protected function beforeDelete() 
-	{
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-
-	/**
-	 * After delete attributes
-	 */
-	protected function afterDelete() 
-	{
-		parent::afterDelete();
-		// Create action
 	}
 
 }

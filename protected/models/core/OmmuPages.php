@@ -47,6 +47,7 @@ class OmmuPages extends CActiveRecord
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $view_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -85,7 +86,7 @@ class OmmuPages extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id, updated_date,
-				title_i, description_i, quote_i, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title_i, description_i, quote_i, creation_search, modified_search, view_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -131,6 +132,7 @@ class OmmuPages extends CActiveRecord
 			'old_media_i' => Yii::t('attribute', 'Old Media'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'view_search' => Yii::t('attribute', 'Views'),
 		);
 	}
 	
@@ -215,6 +217,7 @@ class OmmuPages extends CActiveRecord
 		$criteria->compare('quote.'.$language,strtolower($this->quote_i),true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
+		$criteria->compare('view.views',$this->view_search);
 		
 		if(!isset($_GET['OmmuPages_sort']))
 			$criteria->order = 't.page_id DESC';
@@ -313,6 +316,14 @@ class OmmuPages extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'view_search',
+				'value' => 'CHtml::link($data->view->views ? $data->view->views : 0, Yii::app()->createUrl("view/manage",array(\'page\'=>$data->page_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
