@@ -32,6 +32,7 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
  * @property CoreMenu[] $CoreMenus
@@ -86,7 +87,7 @@ class OmmuMenuCategory extends CActiveRecord
 				description_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('cat_id, publish, name, desc, cat_code, creation_date, creation_id, modified_date, modified_id,
+			array('cat_id, publish, name, desc, cat_code, creation_date, creation_id, modified_date, modified_id, updated_date,
 				title_i, description_i, creation_search, modified_search, menu_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -123,6 +124,7 @@ class OmmuMenuCategory extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'title_i' => Yii::t('attribute', 'Category'),
 			'description_i' => Yii::t('attribute', 'Description'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
@@ -204,6 +206,8 @@ class OmmuMenuCategory extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
 		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
@@ -249,6 +253,7 @@ class OmmuMenuCategory extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;

@@ -77,19 +77,19 @@
 		</div>
 
 		<div class="clearfix">
-			<label><?php echo $model->getAttributeLabel('office_city');?> <span class="required">*</span></label>
+			<label><?php echo $model->getAttributeLabel('office_city_id');?> <span class="required">*</span></label>
 			<div class="desc">
-				<?php echo $form->dropDownList($model,'office_city', OmmuZoneCity::getCity($model->office_province)); ?>
-				<?php echo $form->error($model,'office_city'); ?>
+				<?php echo $form->dropDownList($model,'office_city_id', OmmuZoneCity::getCity($model->office_province_id)); ?>
+				<?php echo $form->error($model,'office_city_id'); ?>
 				<span class="small-px silent"><?php echo Yii::t('phrase', 'The city (or locality) line of the postal address for this business');?></span>
 			</div>
 		</div>
 
 		<div class="clearfix">
-			<label><?php echo $model->getAttributeLabel('office_province');?> <span class="required">*</span></label>
+			<label><?php echo $model->getAttributeLabel('office_province_id');?> <span class="required">*</span></label>
 			<div class="desc">
-				<?php echo $form->dropDownList($model,'office_province', OmmuZoneProvince::getProvince($model->office_country)); ?>
-				<?php echo $form->error($model,'office_province'); ?>
+				<?php echo $form->dropDownList($model,'office_province_id', OmmuZoneProvince::getProvince($model->office_country)); ?>
+				<?php echo $form->error($model,'office_province_id'); ?>
 			</div>
 		</div>
 

@@ -83,19 +83,19 @@
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'office_province'); ?>
+		<?php echo $form->labelEx($model,'office_province_id'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'office_province'); ?>
-			<?php echo $form->error($model,'office_province'); ?>
+			<?php echo $form->textField($model,'office_province_id'); ?>
+			<?php echo $form->error($model,'office_province_id'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'office_city'); ?>
+		<?php echo $form->labelEx($model,'office_city_id'); ?>
 		<div class="desc">
-			<?php echo $form->textField($model,'office_city'); ?>
-			<?php echo $form->error($model,'office_city'); ?>
+			<?php echo $form->textField($model,'office_city_id'); ?>
+			<?php echo $form->error($model,'office_city_id'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>

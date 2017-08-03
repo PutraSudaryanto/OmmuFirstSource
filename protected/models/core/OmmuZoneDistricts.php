@@ -32,6 +32,7 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  */
 class OmmuZoneDistricts extends CActiveRecord
 {
@@ -77,7 +78,7 @@ class OmmuZoneDistricts extends CActiveRecord
 			array('creation_id, modified_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('district_id, publish, city_id, district_name, mfdonline, checked, creation_date, creation_id, modified_date, modified_id,
+			array('district_id, publish, city_id, district_name, mfdonline, checked, creation_date, creation_id, modified_date, modified_id, updated_date,
 				city_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -113,6 +114,7 @@ class OmmuZoneDistricts extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'city_search' => Yii::t('attribute', 'City'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -183,6 +185,8 @@ class OmmuZoneDistricts extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('city.city_name',strtolower($this->city_search),true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
@@ -227,6 +231,7 @@ class OmmuZoneDistricts extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;

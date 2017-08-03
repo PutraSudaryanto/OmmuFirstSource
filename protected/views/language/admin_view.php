@@ -51,6 +51,10 @@
 				'name'=>'modified_id',
 				'value'=>$model->modified->displayname ? $model->modified->displayname : '-',
 			),
+			array(
+				'name'=>'updated_date',
+				'value'=>!in_array($model->updated_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->updated_date, true) : '-',
+			),
 		),
 	)); ?>
 </div>
