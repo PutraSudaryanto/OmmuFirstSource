@@ -3,24 +3,6 @@ content_menu	:
 	- urlTitle: Core Manual
 		urlRules: {admin, dashboard, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: settings/manual, attr: -, icon: -}
-        
-# controller author
-	- urlTitle: Add Author
-		urlRules: {author, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
-	- urlTitle: Author Contacts
-		urlRules: {author, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: contact/manage, attr: -, icon: -}
-		
-# controller contact
-	- urlTitle: Back to Author
-		urlRules: {contact, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: author/manage, attr: -, icon: -}
-        
-# controller contactcategory
-	- urlTitle: Add Contact Category
-		urlRules: {contactcategory, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
 		
 # controller globaltag
 	- urlTitle: Add Tags
@@ -64,20 +46,6 @@ content_menu	:
 		urlRules: {module, manage, siteType: "0,1", userLevel: 1}
 		urlPath: {url: module/manage, attr: type=all, icon: -}
 		
-# controller option
-	- urlTitle: Add Web Option
-		urlRules: {option, manage, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: add, attr: -, icon: -}
-	- urlTitle: Back to Manage
-		urlRules: {option, "add,edit,view", siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: manage, attr: -, icon: -}
-	- urlTitle: View Option
-		urlRules: {option, edit, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: view, attr: id=$_GET*id, icon: -}
-	- urlTitle: Edit Option
-		urlRules: {option, view, siteType: "0,1", userLevel: "1,2"}
-		urlPath: {url: edit, attr: id=$_GET*id, icon: -}
-		
 # controller page
 	- urlTitle: Add Pages
 		urlRules: {page, manage, siteType: "0,1", userLevel: "1,2"}
@@ -91,11 +59,6 @@ content_menu	:
 	- urlTitle: View Pages
 		urlRules: {page, edit, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: view, attr: id=$_GET*id, icon: -}
-		
-# controller template
-	- urlTitle: Add Template
-		urlRules: {template, manage, siteType: "0,1", userLevel: 1}
-		urlPath: {url: add, attr: -, icon: -}
 		
 # controller theme
 	- urlTitle: Add Theme
