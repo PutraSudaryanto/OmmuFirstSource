@@ -5,8 +5,8 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 4 August 2017, 06:10 WIB
- * @link http://opensource.ommu.co
+ * @created date 4 August 2017, 06:16 WIB
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -27,12 +27,17 @@
  * @property string $view_id
  * @property string $view_date
  * @property string $view_ip
+ *
+ * The followings are the available model relations:
+ * @property CorePageViews $view
  */
 class OmmuPageViewHistory extends CActiveRecord
 {
 	public $defaultColumns = array();
 
 	// Variable Search	
+	public $page_search;
+	public $user_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -68,7 +73,8 @@ class OmmuPageViewHistory extends CActiveRecord
 			array('view_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, view_id, view_date, view_ip', 'safe', 'on'=>'search'),
+			array('id, view_id, view_date, view_ip, 
+				page_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,6 +86,7 @@ class OmmuPageViewHistory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'OmmuPageViews', 'view_id'),
 		);
 	}
 
@@ -93,6 +100,8 @@ class OmmuPageViewHistory extends CActiveRecord
 			'view_id' => Yii::t('attribute', 'View'),
 			'view_date' => Yii::t('attribute', 'View Date'),
 			'view_ip' => Yii::t('attribute', 'View Ip'),
+			'page_search' => Yii::t('attribute', 'Page'),
+			'user_search' => Yii::t('attribute', 'User'),
 		);
 	}
 
@@ -114,11 +123,33 @@ class OmmuPageViewHistory extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		// Custom Search
+		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+				'select'=>'page_id, user_id'
+			),
+			'view.page' => array(
+				'alias'=>'view_page',
+				'select'=>'name'
+			),
+			'view.user' => array(
+				'alias'=>'view_user',
+				'select'=>'displayname'
+			),
+		);
+		
 		$criteria->compare('t.id',strtolower($this->id),true);
-		$criteria->compare('t.view_id',strtolower($this->view_id),true);
+		if(isset($_GET['view']))
+			$criteria->compare('t.view_id',$_GET['view']);
+		else
+			$criteria->compare('t.view_id',$this->view_id);
 		if($this->view_date != null && !in_array($this->view_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.view_date)',date('Y-m-d', strtotime($this->view_date)));
 		$criteria->compare('t.view_ip',strtolower($this->view_ip),true);
+
+		$criteria->compare('view_page.'.$language,strtolower($this->page_search),true);
+		$criteria->compare('view_user.displayname',strtolower($this->user_search),true);
 
 		if(!isset($_GET['OmmuPageViewHistory_sort']))
 			$criteria->order = 't.id DESC';
@@ -163,22 +194,20 @@ class OmmuPageViewHistory extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			/*
-			$this->defaultColumns[] = array(
-				'class' => 'CCheckBoxColumn',
-				'name' => 'id',
-				'selectableRows' => 2,
-				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
-			);
-			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'view_id',
-				'value' => '$data->view_id',
-			);
+			if(!isset($_GET['view'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'page_search',
+					'value' => 'Phrase::trans($data->view->page->name)',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->view->user->displayname ? $data->view->user->displayname : \'-\'',
+				);
+			}
 			$this->defaultColumns[] = array(
 				'name' => 'view_date',
 				'value' => 'Utility::dateFormat($data->view_date)',
@@ -208,6 +237,9 @@ class OmmuPageViewHistory extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'view_ip',
 				'value' => '$data->view_ip',
+				'htmlOptions' => array(
+					//'class' => 'center',
+				),
 			);
 		}
 		parent::afterConstruct();
@@ -228,67 +260,6 @@ class OmmuPageViewHistory extends CActiveRecord
 			$model = self::model()->findByPk($id);
 			return $model;			
 		}
-	}
-
-	/**
-	 * before validate attributes
-	 */
-	protected function beforeValidate() 
-	{
-		if(parent::beforeValidate()) {
-		}
-		return true;
-	}
-
-	/**
-	 * after validate attributes
-	 */
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-		// Create action
-		
-		return true;
-	}
-	
-	/**
-	 * before save attributes
-	 */
-	protected function beforeSave() 
-	{
-		if(parent::beforeSave()) {
-			// Create action
-		}
-		return true;	
-	}
-	
-	/**
-	 * After save attributes
-	 */
-	protected function afterSave() 
-	{
-		parent::afterSave();
-		// Create action
-	}
-
-	/**
-	 * Before delete attributes
-	 */
-	protected function beforeDelete() 
-	{
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-
-	/**
-	 * After delete attributes
-	 */
-	protected function afterDelete() 
-	{
-		parent::afterDelete();
-		// Create action
 	}
 
 }

@@ -8,7 +8,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 4 August 2017, 06:11 WIB
- * @link http://opensource.ommu.co
+ * @link https://github.com/ommu/core
  * @contact (+62)856-299-4114
  *
  */
@@ -66,6 +66,7 @@
 		<?php //begin.Grid Item ?>
 		<?php 
 			$columnData   = $columns;
+			/*
 			array_push($columnData, array(
 				'header' => Yii::t('phrase', 'Options'),
 				'class'=>'CButtonColumn',
@@ -94,6 +95,7 @@
 				),
 				'template' => '{view}|{update}|{delete}',
 			));
+			*/
 
 			$this->widget('application.components.system.OGridView', array(
 				'id'=>'ommu-page-view-history-grid',

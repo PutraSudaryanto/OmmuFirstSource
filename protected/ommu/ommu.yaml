@@ -60,6 +60,19 @@ content_menu	:
 		urlRules: {page, edit, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: view, attr: id=$_GET*id, icon: -}
 		
+# controller view
+	- urlTitle: Back to Pages
+		urlRules: {view, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: page/manage, attr: -, icon: -}
+	- urlTitle: View Page Views Data
+		urlRules: {view, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: history/manage, attr: -, icon: -}
+		
+# controller history
+	- urlTitle: Back to Page Views
+		urlRules: {history, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: view/manage, attr: -, icon: -}
+		
 # controller theme
 	- urlTitle: Add Theme
 		urlRules: {theme, manage, siteType: "0,1", userLevel: 1}

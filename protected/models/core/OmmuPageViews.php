@@ -81,7 +81,8 @@ class OmmuPageViews extends CActiveRecord
 			array('deleted_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('view_id, publish, page_id, user_id, views, view_date, view_ip, deleted_date, page_search, user_search', 'safe', 'on'=>'search'),
+			array('view_id, publish, page_id, user_id, views, view_date, view_ip, deleted_date, 
+				page_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -260,7 +261,7 @@ class OmmuPageViews extends CActiveRecord
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'views',
-				'value' => 'CHtml::link($data->views ? $data->views : 0, Yii::app()->createUrl("o/history/manage",array(\'view\'=>$data->view_id)))',
+				'value' => 'CHtml::link($data->views ? $data->views : 0, Yii::app()->createUrl("history/manage",array(\'view\'=>$data->view_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
