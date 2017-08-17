@@ -27,9 +27,9 @@ class UserIdentity extends CUserIdentity
 	public function authenticate()
 	{
 		if(preg_match('/@/',$this->username)) //$this->username can filled by username or email
-			$record = Users::model()->findByAttributes(array('email' => $this->username));
+			$record = Users::model()->findByAttributes(array('email' => strtolower($this->username)));
 		else 
-			$record = Users::model()->findByAttributes(array('username' => $this->username));
+			$record = Users::model()->findByAttributes(array('username' => strtolower($this->username)));
 			
 		if($record === null)
 			$this->errorCode = self::ERROR_USERNAME_INVALID;

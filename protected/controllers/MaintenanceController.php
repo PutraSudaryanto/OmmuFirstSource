@@ -157,18 +157,16 @@ class MaintenanceController extends Controller
 			} else {
 				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
 					if($model->save()) {
-						if($model->user_id == 0) {
+						if($model->user_id == 0)
 							$get = Yii::app()->controller->createUrl('subscribe', array('name'=>$model->email, 'email'=>$model->email));
-						} else {
+						else
 							$get = Yii::app()->controller->createUrl('subscribe', array('name'=>$model->user->displayname, 'email'=>$model->user->email));
-						}
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => $get,
 						));
-					} else {
+					} else
 						print_r($model->getErrors());
-					}
 				}
 			}
 			Yii::app()->end();
