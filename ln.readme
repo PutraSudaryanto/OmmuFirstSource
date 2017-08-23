@@ -71,7 +71,7 @@ hln "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/asse
 hln "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/components" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/components"
 hln "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/models" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/models"
 --
-ln -f "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/controllers/o" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/controllers/o" 
+hln "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/controllers/o" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/controllers/o" 
 ln -f "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/controllers/AdminController.php" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/controllers/AdminController.php" 
 --
 hln "/Users/putrasudaryanto/htdocs/_project_ommu_module_users/modules/users/views/o" "/Users/putrasudaryanto/htdocs/_project_ommu_1st_source/protected/modules/users/views/o"
