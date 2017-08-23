@@ -30,9 +30,10 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuSupportContactCategory $cat
+ * @property SupportContactCategory $cat
  */
 class SupportContacts extends CActiveRecord
 {
@@ -73,7 +74,7 @@ class SupportContacts extends CActiveRecord
 			array('', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, publish, cat_id, contact_name, creation_date, creation_id, modified_date, modified_id, 
+			array('id, publish, cat_id, contact_name, creation_date, creation_id, modified_date, modified_id, updated_date, 
 				creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -106,6 +107,7 @@ class SupportContacts extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -144,7 +146,12 @@ class SupportContacts extends CActiveRecord
 		$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		// Custom Search
 		$criteria->with = array(
@@ -198,6 +205,7 @@ class SupportContacts extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;
@@ -224,6 +232,36 @@ class SupportContacts extends CActiveRecord
 				'name' => 'contact_name',
 				'value' => '$data->contact_name',
 				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation->displayname',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'creation_date',
+				'value' => 'Utility::dateFormat($data->creation_date)',
+				'htmlOptions' => array(
+					//'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
+					'model'=>$this,
+					'attribute'=>'creation_date',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'creation_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'publish',

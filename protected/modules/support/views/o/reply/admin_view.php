@@ -34,7 +34,8 @@
 			),
 			array(
 				'name'=>'user_i',
-				'value'=>$model->feedback->displayname ? $model->feedback->displayname : '-',
+				'value'=>$model->feedback->user_id || $model->feedback->email || $model->feedback->displayname || $model->feedback->phone ? $this->renderPartial('_view_user', array('model'=>$model), true, false) : '-',
+				'type'=>'raw',
 			),
 			array(
 				'name'=>'subject_search',
@@ -65,6 +66,10 @@
 			array(
 				'name'=>'modified_id',
 				'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
+			),
+			array(
+				'name'=>'updated_date',
+				'value'=>!in_array($model->updated_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->updated_date, true) : '-',
 			),
 		),
 	)); ?>

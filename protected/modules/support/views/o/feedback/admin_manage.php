@@ -88,10 +88,10 @@
 							'class' => 'view'
 						),
 						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
-					'edit' => array(
-						'label' => 'edit',
+					'update' => array(
+						'label' => 'update',
 						'options' => array(
-							'class' => 'edit'
+							'class' => 'update'
 						),
 						'url' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'),
 					'delete' => array(
@@ -102,7 +102,7 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{reply}|{edit}|{delete}',
+				'template' => '{reply}|{view}|{update}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(

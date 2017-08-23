@@ -21,37 +21,62 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('feedback_id'); ?><br/>
-			<?php echo $form->textField($model,'feedback_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'feedback_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('publish'); ?><br/>
+			<?php echo $form->textField($model,'publish'); ?>
 		</li>
 		
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('email'); ?><br/>
-			<?php echo $form->textField($model,'email',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'email'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('displayname'); ?><br/>
-			<?php echo $form->textField($model,'displayname',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'displayname'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('phone'); ?><br/>
+			<?php echo $form->textField($model,'phone'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('subject'); ?><br/>
-			<?php echo $form->textField($model,'subject',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $form->textField($model,'subject'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('message'); ?><br/>
-			<?php echo $form->textArea($model,'message',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'message'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $form->textField($model,'updated_date'); ?>
 		</li>
 
 		<li class="submit">

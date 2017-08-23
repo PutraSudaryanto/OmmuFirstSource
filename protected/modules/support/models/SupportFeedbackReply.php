@@ -31,9 +31,10 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuSupportFeedbacks $mail
+ * @property SupportFeedbacks $mail
  */
 class SupportFeedbackReply extends CActiveRecord
 {
@@ -77,7 +78,7 @@ class SupportFeedbackReply extends CActiveRecord
 			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('reply_id, publish, feedback_id, reply_message, creation_date, creation_id, modified_date, modified_id,
+			array('reply_id, publish, feedback_id, reply_message, creation_date, creation_id, modified_date, modified_id, updated_date,
 				subject_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -110,8 +111,9 @@ class SupportFeedbackReply extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Replied'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'subject_search' => Yii::t('attribute', 'Subject'),
-			'creation_search' => Yii::t('attribute', 'Creation'),
+			'creation_search' => Yii::t('attribute', 'Replied'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 			'user_i' => Yii::t('attribute', 'User'),
 			'message_i' => Yii::t('attribute', 'Message'),
@@ -180,6 +182,8 @@ class SupportFeedbackReply extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('feedback.subject',strtolower($this->subject_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
@@ -222,6 +226,7 @@ class SupportFeedbackReply extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;

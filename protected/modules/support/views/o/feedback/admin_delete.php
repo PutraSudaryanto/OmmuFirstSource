@@ -20,7 +20,7 @@
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'ommu-pages-form',
+	'id'=>'support-feedbacks-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>

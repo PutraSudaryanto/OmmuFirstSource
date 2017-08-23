@@ -28,9 +28,17 @@
 				'value'=>$model->view_id,
 			),
 			array(
-				'name'=>'feedback_id',
-				'value'=>$model->feedback_id,
-				//'value'=>$model->feedback_id != '' ? $model->feedback_id : '-',
+				'name'=>'publish',
+				'value'=>$model->publish == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
+				'type'=>'raw',
+			),
+			array(
+				'name'=>'subject_search',
+				'value'=>$model->feedback->subject ? $model->feedback->subject : '-',
+			),
+			array(
+				'name'=>'message_i',
+				'value'=>$model->feedback->message ? $model->feedback->message : '-',
 			),
 			array(
 				'name'=>'user_id',
@@ -39,6 +47,18 @@
 			array(
 				'name'=>'creation_date',
 				'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',
+			),
+			array(
+				'name'=>'modified_date',
+				'value'=>!in_array($model->modified_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->modified_date, true) : '-',
+			),
+			array(
+				'name'=>'modified_id',
+				'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
+			),
+			array(
+				'name'=>'updated_date',
+				'value'=>!in_array($model->updated_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->updated_date, true) : '-',
 			),
 		),
 	)); ?>

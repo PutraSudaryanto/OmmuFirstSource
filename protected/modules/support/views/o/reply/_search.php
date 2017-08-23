@@ -22,7 +22,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('reply_id'); ?><br/>
-			<?php echo $form->textField($model,'reply_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'reply_id'); ?>
 		</li>
 
 		<li>
@@ -32,12 +32,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('feedback_id'); ?><br/>
-			<?php echo $form->textField($model,'feedback_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'feedback_id'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('reply_message'); ?><br/>
-			<?php echo $form->textArea($model,'reply_message',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'reply_message'); ?>
 		</li>
 
 		<li>
@@ -47,7 +47,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>
@@ -57,7 +57,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $form->textField($model,'updated_date'); ?>
 		</li>
 
 		<li class="submit">

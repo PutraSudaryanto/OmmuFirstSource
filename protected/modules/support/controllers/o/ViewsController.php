@@ -11,7 +11,9 @@
  *	Index
  *	Manage
  *	View
+ *	RunAction
  *	Delete
+ *	Publish
  *
  *	LoadModel
  *	performAjaxValidation
@@ -80,9 +82,9 @@ class ViewsController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','view','delete'),
+				'actions'=>array('manage','view','runaction','delete','publish'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
+				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(),
@@ -139,6 +141,10 @@ class ViewsController extends Controller
 	public function actionView($id) 
 	{
 		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
 
 		$this->pageTitle = Yii::t('phrase', 'View Support Feedback Views');
 		$this->pageDescription = '';
@@ -147,6 +153,42 @@ class ViewsController extends Controller
 			'model'=>$model,
 		));
 	}	
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionRunAction() {
+		$id       = $_POST['trash_id'];
+		$criteria = null;
+		$actions  = $_GET['action'];
+
+		if(count($id) > 0) {
+			$criteria = new CDbCriteria;
+			$criteria->addInCondition('view_id', $id);
+
+			if($actions == 'publish') {
+				SupportFeedbackView::model()->updateAll(array(
+					'publish' => 1,
+				),$criteria);
+			} elseif($actions == 'unpublish') {
+				SupportFeedbackView::model()->updateAll(array(
+					'publish' => 0,
+				),$criteria);
+			} elseif($actions == 'trash') {
+				SupportFeedbackView::model()->updateAll(array(
+					'publish' => 2,
+				),$criteria);
+			} elseif($actions == 'delete') {
+				SupportFeedbackView::model()->deleteAll($criteria);
+			}
+		}
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax'])) {
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
+		}
+	}
 
 	/**
 	 * Deletes a particular model.
@@ -159,15 +201,15 @@ class ViewsController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-support-feedback-view',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success deleted.').'</strong></div>',
-					));
-				}
+			$model->publish = 2;
+			
+			if($model->save()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-support-feedback-view',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success deleted.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -179,6 +221,47 @@ class ViewsController extends Controller
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionPublish($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$title = $model->publish == 1 ? Yii::t('phrase', 'Unpublish') : Yii::t('phrase', 'Publish');
+		$replace = $model->publish == 1 ? 0 : 1;
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			//change value active or publish
+			$model->publish = $replace;
+
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-support-feedback-view',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success updated.').'</strong></div>',
+				));
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = $title;
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_publish',array(
+				'title'=>$title,
+				'model'=>$model,
+			));
 		}
 	}
 

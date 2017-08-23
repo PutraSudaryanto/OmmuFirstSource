@@ -33,7 +33,7 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuSupportContactCategory $cat
+ * @property SupportContactCategory $cat
  */
 class SupportWidget extends CActiveRecord
 {

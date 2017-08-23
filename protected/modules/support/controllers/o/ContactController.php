@@ -12,6 +12,7 @@
  *	Manage
  *	Add
  *	Edit
+ *	View
  *	RunAction
  *	Delete
  *	Publish
@@ -83,7 +84,7 @@ class ContactController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','edit','setting'),
+				'actions'=>array('manage','edit','view','setting'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -173,19 +174,18 @@ class ContactController extends Controller
 				}
 			}
 			Yii::app()->end();
-			
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 600;
-			
-			$this->pageTitle = 'Create Contact';
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_add',array(
-				'model'=>$model,
-			));			
 		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+		
+		$this->pageTitle = 'Create Contact';
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_add',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -223,21 +223,40 @@ class ContactController extends Controller
 				}
 			}
 			Yii::app()->end();
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 600;
-			
-			$this->pageTitle = Yii::t('phrase', 'Update Contact');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_edit',array(
-				'model'=>$model,
-			));
 		}
-	}
 
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+		
+		$this->pageTitle = Yii::t('phrase', 'Update Contact');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_edit',array(
+			'model'=>$model,
+		));
+	}
+	
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'View Contact');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_view',array(
+			'model'=>$model,
+		));
+	}
+ 
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -285,7 +304,9 @@ class ContactController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if($model->delete()) {
+			$model->publish = 2;
+			
+			if($model->save()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
@@ -314,28 +335,22 @@ class ContactController extends Controller
 	public function actionPublish($id) 
 	{
 		$model=$this->loadModel($id);
-		if($model->publish == 1) {
-			$title = Yii::t('phrase', 'Unpublish');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Publish');
-			$replace = 1;
-		}
+		
+		$title = $model->publish == 1 ? Yii::t('phrase', 'Unpublish') : Yii::t('phrase', 'Publish');
+		$replace = $model->publish == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->publish = $replace;
+			//change value active or publish
+			$model->publish = $replace;
 
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-support-contacts',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Contact success updated.').'</strong></div>',
-					));
-				}
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-support-contacts',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Contact success updated.').'</strong></div>',
+				));
 			}
 
 		} else {

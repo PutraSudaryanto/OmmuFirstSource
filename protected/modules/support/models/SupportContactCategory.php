@@ -30,9 +30,10 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuSupportContacts[] $ommuSupportContacts
+ * @property SupportContacts[] $SupportContacts
  */
 class SupportContactCategory extends CActiveRecord
 {
@@ -44,6 +45,21 @@ class SupportContactCategory extends CActiveRecord
 	public $modified_search;
 	public $contact_search;
 	public $widget_search;
+
+	/**
+	 * Behaviors for this model
+	 */
+	public function behaviors() 
+	{
+		return array(
+			'sluggable' => array(
+				'class'=>'ext.yii-behavior-sluggable.SluggableBehavior',
+				'columns' => array('title.en_us'),
+				'unique' => true,
+				'update' => true,
+			),
+		);
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,7 +95,7 @@ class SupportContactCategory extends CActiveRecord
 			array('cat_icon', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id,
+			array('cat_id, publish, name, creation_date, creation_id, modified_date, modified_id, updated_date,
 				title_i, creation_search, modified_search, contact_search, widget_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -114,6 +130,7 @@ class SupportContactCategory extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'title_i' => Yii::t('attribute', 'Category'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'contact_search' => Yii::t('attribute', 'Contact'),
@@ -173,10 +190,18 @@ class SupportContactCategory extends CActiveRecord
 		$criteria->compare('t.cat_icon',strtolower($this->cat_icon), true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		$criteria->compare('t.creation_id',$this->creation_id);
+		if(isset($_GET['creation']))
+			$criteria->compare('t.creation_id',$_GET['creation']);
+		else
+			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		$criteria->compare('t.modified_id',$this->modified_id);
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('title.'.$language,strtolower($this->title_i), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
@@ -221,6 +246,7 @@ class SupportContactCategory extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;
@@ -358,9 +384,8 @@ class SupportContactCategory extends CActiveRecord
 				$items[$val->cat_id] = Phrase::trans($val->name);
 			}
 			return $items;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	/**

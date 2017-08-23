@@ -20,6 +20,9 @@ plugin_menu		:
 	- urlTitle: Views
 		urlRules: {siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/views/manage, attr: -, icon: -}
+	- urlTitle: Users
+		urlRules: {siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/user/manage, attr: -, icon: -}
 	- urlTitle: Support Manual
 		urlRules: {siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/setting/manual, attr: -, icon: -}
@@ -34,8 +37,13 @@ content_menu	:
 	- urlTitle: Back to Feedbacks
 		urlRules: {support, o/views, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/feedback/manage, attr: -, icon: -}
-        
-# controller o/contact		
+		
+# controller o/user
+	- urlTitle: Back to Feedbacks
+		urlRules: {support, o/user, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/feedback/manage, attr: -, icon: -}
+		
+# controller o/contact
 	- urlTitle: Add Contact
 		urlRules: {support, o/contact, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: add, attr: -, icon: -}

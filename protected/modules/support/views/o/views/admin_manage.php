@@ -73,7 +73,7 @@
 					'view' => array(
 						'label' => 'view',
 						'imageUrl' => false,
-						'options' => array(							
+						'options' => array(
 							'class' => 'view',
 						),
 						'url' => 'Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))'),
@@ -92,7 +92,7 @@
 						),
 						'url' => 'Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))')
 				),
-				'template' => '{delete}',
+				'template' => '{view}|{delete}',
 			));
 
 			$this->widget('application.components.system.OGridView', array(
