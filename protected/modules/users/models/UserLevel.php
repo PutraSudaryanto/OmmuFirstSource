@@ -25,7 +25,7 @@
  * @property integer $level_id
  * @property string $name
  * @property string $desc
- * @property integer $defaults
+ * @property integer $default
  * @property integer $signup
  * @property integer $message_allow
  * @property integer $message_limit
@@ -49,7 +49,7 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuUsers[] $ommuUsers
+ * @property Users[] $Users
  */
 class UserLevel extends CActiveRecord
 {
@@ -93,14 +93,14 @@ class UserLevel extends CActiveRecord
 				title_i, description_i', 'required', 'on'=>'info'),
 			array('profile_block, profile_search, profile_privacy, profile_comments, profile_style, profile_style_sample, profile_status, profile_invisible, profile_views, profile_change, profile_delete, photo_allow, photo_size, photo_exts', 'required', 'on'=>'user'),
 			array('message_allow, message_limit', 'required', 'on'=>'message'),
-			array('defaults, signup, message_allow, profile_block, profile_search, profile_style, profile_style_sample, profile_status, profile_invisible, profile_views, profile_change, profile_delete, photo_allow', 'numerical', 'integerOnly'=>true),
+			array('default, signup, message_allow, profile_block, profile_search, profile_style, profile_style_sample, profile_status, profile_invisible, profile_views, profile_change, profile_delete, photo_allow', 'numerical', 'integerOnly'=>true),
 			array('name, desc, creation_id, modified_id', 'length', 'max'=>11),
 			array('
 				title_i', 'length', 'max'=>32),
 			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('level_id, name, desc, defaults, signup, message_allow, message_limit, profile_block, profile_search, profile_privacy, profile_comments, profile_style, profile_style_sample, profile_status, profile_invisible, profile_views, profile_change, profile_delete, photo_allow, photo_size, photo_exts, creation_date, creation_id, modified_date, modified_id,
+			array('level_id, name, desc, default, signup, message_allow, message_limit, profile_block, profile_search, profile_privacy, profile_comments, profile_style, profile_style_sample, profile_status, profile_invisible, profile_views, profile_change, profile_delete, photo_allow, photo_size, photo_exts, creation_date, creation_id, modified_date, modified_id,
 				title_i, description_i, creation_search, modified_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -131,7 +131,7 @@ class UserLevel extends CActiveRecord
 			'level_id' => Yii::t('attribute', 'Level'),
 			'name' => Yii::t('attribute', 'Level'),
 			'desc' => Yii::t('attribute', 'Description'),
-			'defaults' => Yii::t('attribute', 'Defaults'),
+			'default' => Yii::t('attribute', 'Default'),
 			'signup' => Yii::t('attribute', 'Signup'),
 			'message_allow' => Yii::t('attribute', 'Can users block other users?'),
 			'message_limit' => Yii::t('attribute', 'Message Limit'),
@@ -211,7 +211,7 @@ class UserLevel extends CActiveRecord
 		$criteria->compare('t.level_id',$this->level_id);
 		$criteria->compare('t.name',$this->name);
 		$criteria->compare('t.desc',$this->desc);
-		$criteria->compare('t.defaults',$this->defaults);
+		$criteria->compare('t.default',$this->default);
 		$criteria->compare('t.signup',$this->signup);
 		$criteria->compare('t.message_allow',$this->message_allow);
 		$criteria->compare('t.message_limit',strtolower($this->message_limit),true);
@@ -280,7 +280,7 @@ class UserLevel extends CActiveRecord
 			//$this->defaultColumns[] = 'level_id';
 			$this->defaultColumns[] = 'name';
 			$this->defaultColumns[] = 'desc';
-			$this->defaultColumns[] = 'defaults';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'signup';
 			$this->defaultColumns[] = 'message_allow';
 			$this->defaultColumns[] = 'message_limit';
@@ -363,8 +363,8 @@ class UserLevel extends CActiveRecord
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'defaults',
-				'value' => '$data->defaults == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->level_id)), $data->defaults, 6)',
+				'name' => 'default',
+				'value' => '$data->default == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->level_id)), $data->default, 6)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -398,7 +398,7 @@ class UserLevel extends CActiveRecord
 	//get Default
 	public static function getDefault() 
 	{
-		$model = self::model()->findByAttributes(array('defaults' => 1));
+		$model = self::model()->findByAttributes(array('default' => 1));
 		return $model->level_id;
 	}
 
@@ -408,6 +408,8 @@ class UserLevel extends CActiveRecord
 		$criteria=new CDbCriteria;
 		if($type != null && $type == 'member')
 			$criteria->addNotInCondition('t.level_id',array(1));
+		if($type != null && $type == 'admin')
+			$criteria->compare('t.level_id',1);
 		
 		$model = self::model()->findAll($criteria);
 		
@@ -427,6 +429,7 @@ class UserLevel extends CActiveRecord
 	protected function beforeValidate() 
 	{
 		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		
 		if(parent::beforeValidate()) {
 			if($this->isNewRecord)
 				$this->creation_id = Yii::app()->user->id;
@@ -482,11 +485,11 @@ class UserLevel extends CActiveRecord
 			}
 
 			// set to default modules
-			if($this->defaults == 1) {
+			if($this->default == 1) {
 				self::model()->updateAll(array(
-					'defaults' => 0,	
+					'default' => 0,	
 				));
-				$this->defaults = 1;
+				$this->default = 1;
 			}
 				
 			if($currentAction == 'o/level/user') {

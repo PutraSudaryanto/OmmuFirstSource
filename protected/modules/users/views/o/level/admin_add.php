@@ -52,11 +52,11 @@
 		</div>
 
 		<div class="clearfix publish">
-			<label><?php echo $model->getAttributeLabel('defaults');?> <span class="required">*</span></label>
+			<label><?php echo $model->getAttributeLabel('default');?> <span class="required">*</span></label>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'defaults'); ?>
-				<?php echo $form->labelEx($model,'defaults'); ?>
-				<?php echo $form->error($model,'defaults'); ?>
+				<?php echo $form->checkBox($model,'default'); ?>
+				<?php echo $form->labelEx($model,'default'); ?>
+				<?php echo $form->error($model,'default'); ?>
 			</div>
 		</div>
 

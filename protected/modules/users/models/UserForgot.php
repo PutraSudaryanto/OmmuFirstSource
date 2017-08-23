@@ -28,10 +28,13 @@
  * @property string $code
  * @property string $forgot_date
  * @property string $forgot_ip
+ * @property string $expired_date
+ * @property string $modified_date
+ * @property string $modified_id
  * @property string $deleted_date
  *
  * The followings are the available model relations:
- * @property OmmuUsers $user
+ * @property Users $user
  */
 class UserForgot extends CActiveRecord
 {
@@ -41,6 +44,8 @@ class UserForgot extends CActiveRecord
 	// Variable Search
 	public $level_search;
 	public $user_search;
+	public $expired_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -69,9 +74,9 @@ class UserForgot extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('code', 'required'),
-			array('email_i', 'required', 'on'=>'get'),
-			array('publish', 'numerical', 'integerOnly'=>true),
-			array('user_id', 'length', 'max'=>11),
+			array('email_i', 'required', 'on'=>'getForm'),
+			array('publish, modified_id', 'numerical', 'integerOnly'=>true),
+			array('user_id, modified_id', 'length', 'max'=>11),
 			array('
 				email_i', 'length', 'max'=>32),
 			array('code', 'length', 'max'=>64),
@@ -81,8 +86,8 @@ class UserForgot extends CActiveRecord
 				email_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('forgot_id, publish, user_id, code, forgot_date, forgot_ip, deleted_date,
-				level_search, user_search', 'safe', 'on'=>'search'),
+			array('forgot_id, publish, user_id, code, forgot_date, forgot_ip, expired_date, modified_date, modified_id, deleted_date,
+				level_search, user_search, expired_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -94,7 +99,9 @@ class UserForgot extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewUserForgot', 'forgot_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -110,10 +117,15 @@ class UserForgot extends CActiveRecord
 			'code' => Yii::t('attribute', 'Forgot Code'),
 			'forgot_date' => Yii::t('attribute', 'Forgot Date'),
 			'forgot_ip' => Yii::t('attribute', 'Forgot Ip'),
+			'expired_date' => Yii::t('attribute', 'Expired Date'),
+			'modified_date' => Yii::t('attribute', 'Modified Date'),
+			'modified_id' => Yii::t('attribute', 'Modified'),
 			'deleted_date' => Yii::t('attribute', 'Deleted Date'),
 			'email_i' => Yii::t('attribute', 'Email'),
 			'level_search' => Yii::t('attribute', 'level'),
 			'user_search' => Yii::t('attribute', 'User'),
+			'expired_search' => Yii::t('attribute', 'Expired'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 	}
 	
@@ -130,9 +142,16 @@ class UserForgot extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'level_id, displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
 			),
 		);
 
@@ -155,11 +174,21 @@ class UserForgot extends CActiveRecord
 		if($this->forgot_date != null && !in_array($this->forgot_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.forgot_date)',date('Y-m-d', strtotime($this->forgot_date)));
 		$criteria->compare('t.forgot_ip',$this->forgot_ip,true);
+		if($this->expired_date != null && !in_array($this->expired_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.expired_date)',date('Y-m-d', strtotime($this->expired_date)));
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+		if(isset($_GET['modified']))
+			$criteria->compare('t.modified_id',$_GET['modified']);
+		else
+			$criteria->compare('t.modified_id',$this->modified_id);
 		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.deleted_date)',date('Y-m-d', strtotime($this->deleted_date)));
 		
 		$criteria->compare('user.level_id',$this->level_search);
 		$criteria->compare('user.displayname',strtolower($this->user_search),true);
+		$criteria->compare('view.publish',$this->expired_search);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
 
 		if(!isset($_GET['UserForgot_sort']))
 			$criteria->order = 't.forgot_id DESC';
@@ -193,6 +222,9 @@ class UserForgot extends CActiveRecord
 			$this->defaultColumns[] = 'code';
 			$this->defaultColumns[] = 'forgot_date';
 			$this->defaultColumns[] = 'forgot_ip';
+			$this->defaultColumns[] = 'expired_date';
+			$this->defaultColumns[] = 'modified_date';
+			$this->defaultColumns[] = 'modified_id';
 			$this->defaultColumns[] = 'deleted_date';
 		}
 
@@ -220,10 +252,9 @@ class UserForgot extends CActiveRecord
 					'value' => '$data->user->displayname',
 				);
 			}
-			$this->defaultColumns[] = 'code';
 			$this->defaultColumns[] = array(
 				'name' => 'forgot_date',
-				'value' => 'Utility::dateFormat($data->forgot_date)',
+				'value' => 'Utility::dateFormat($data->forgot_date, true)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -247,10 +278,35 @@ class UserForgot extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'forgot_ip';
 			$this->defaultColumns[] = array(
-				'name' => 'publish',
-				'value' => '$data->publish == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'name' => 'expired_date',
+				'value' => 'Utility::dateFormat($data->expired_date, true)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
+					'model'=>$this, 
+					'attribute'=>'expired_date', 
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'deleted_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'expired_search',
+				'value' => '$data->view->publish == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -260,8 +316,39 @@ class UserForgot extends CActiveRecord
 				),
 				'type' => 'raw',
 			);
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\',array(\'id\'=>$data->forgot_id)), $data->publish)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
+	}
+
+	/**
+	 * User get information
+	 */
+	public static function getInfo($id, $column=null)
+	{
+		if($column != null) {
+			$model = self::model()->findByPk($id,array(
+				'select' => $column
+			));
+			return $model->$column;
+			
+		} else {
+			$model = self::model()->findByPk($id);
+			return $model;			
+		}
 	}
 
 	/**
@@ -269,7 +356,7 @@ class UserForgot extends CActiveRecord
 	 */
 	public static function getUniqueCode() {
 		$chars = "abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		srand((double)microtime()*1000000);
+		srand((double)microtime()*time());
 		$i = 0;
 		$code = '' ;
 
@@ -286,23 +373,33 @@ class UserForgot extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	protected function beforeValidate() {
+	protected function beforeValidate() 
+	{
 		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord) {
-				if($currentAction == 'password/forgot' && $this->email_i != '') {
-					$user = Users::model()->findByAttributes(array('email' => $this->email_i), array(
-						'select' => 'user_id, email',
-					));
-					if($user == null) {
-						$this->addError('email_i', 'Incorrect email address');
+				if(in_array($currentAction, array('password/forgot','o/forgot/add')) && $this->email_i != '') {
+					if(preg_match('/@/',$this->email_i)) {
+						$user = Users::model()->findByAttributes(array('email' => strtolower($this->email_i)), array(
+							'select' => 'user_id, email',
+						));
 					} else {
+						$user = Users::model()->findByAttributes(array('username' => strtolower($this->email_i)), array(
+							'select' => 'user_id, email',
+						));
+					}					
+					if($user == null)
+						$this->addError('email_i', Yii::t('phrase', 'Incorrect email address'));
+					else
 						$this->user_id = $user->user_id;
-					}
 				}
+				
 				$this->code = self::getUniqueCode();
 				$this->forgot_ip = $_SERVER['REMOTE_ADDR'];
-			}
+				
+			} else
+				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
@@ -340,8 +437,7 @@ class UserForgot extends CActiveRecord
 			$criteria->compare('publish',1);
 			$criteria->compare('user_id',$this->user_id);
 
-			self::model()->updateAll(array('publish'=>0), $criteria);
-			
+			self::model()->updateAll(array('publish'=>0), $criteria);			
 		}
 	}
 

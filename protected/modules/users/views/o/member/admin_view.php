@@ -46,14 +46,6 @@
 				'value'=>$model->language->name,
 			),
 			array(
-				'name'=>'locale_id',
-				'value'=>$model->locale->title,
-			),
-			array(
-				'name'=>'timezone_id',
-				'value'=>$model->timezone->title.' | '.$model->timezone->timezone_name,
-			),
-			array(
 				'name'=>'email',
 				'value'=>$model->email,
 			),

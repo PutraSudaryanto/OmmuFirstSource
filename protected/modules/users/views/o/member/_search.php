@@ -45,16 +45,6 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('locale_id'); ?><br/>
-			<?php echo $form->textField($model,'locale_id'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('timezone_id'); ?><br/>
-			<?php echo $form->textField($model,'timezone_id'); ?>
-		</li>
-
-		<li>
 			<?php echo $model->getAttributeLabel('email'); ?><br/>
 			<?php echo $form->textField($model,'email'); ?>
 		</li>

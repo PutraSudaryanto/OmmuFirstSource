@@ -28,12 +28,20 @@
  * @property string $token_oauth
  * @property string $emails
  * @property string $email_lastchange_date
+ * @property string $email_lastchange_days
+ * @property string $email_lastchange_hours
  * @property string $usernames
  * @property string $username_lastchange_date
+ * @property string $username_lastchange_days
+ * @property string $username_lastchange_hours
  * @property string $passwords
  * @property string $password_lastchange_date
+ * @property string $password_lastchange_days
+ * @property string $password_lastchange_hours
  * @property string $logins
  * @property string $lastlogin_date
+ * @property string $lastlogin_days
+ * @property string $lastlogin_hours
  * @property string $lastlogin_from
  */
 class ViewUsers extends CActiveRecord
@@ -78,10 +86,10 @@ class ViewUsers extends CActiveRecord
 			array('user_id', 'length', 'max'=>11),
 			array('token_key, token_password, token_oauth, lastlogin_from', 'length', 'max'=>32),
 			array('emails, usernames, passwords, logins', 'length', 'max'=>21),
-			array('email_lastchange_date, username_lastchange_date, password_lastchange_date, lastlogin_date', 'safe'),
+			array('email_lastchange_date, email_lastchange_days, email_lastchange_hours, username_lastchange_date, username_lastchange_days, username_lastchange_hours, password_lastchange_date, password_lastchange_days, password_lastchange_hours, lastlogin_date, lastlogin_days, lastlogin_hours', 'safe'),
 			// The following rule is used by search(). 
 			// @todo Please remove those attributes that should not be searched. 
-			array('user_id, token_key, token_password, token_oauth, emails, email_lastchange_date, usernames, username_lastchange_date, passwords, password_lastchange_date, logins, lastlogin_date, lastlogin_from', 'safe', 'on'=>'search'),
+			array('user_id, token_key, token_password, token_oauth, emails, email_lastchange_date, email_lastchange_days, email_lastchange_hours, usernames, username_lastchange_date, username_lastchange_days, username_lastchange_hours, passwords, password_lastchange_date, password_lastchange_days, password_lastchange_hours, logins, lastlogin_date, lastlogin_days, lastlogin_hours, lastlogin_from', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -109,12 +117,20 @@ class ViewUsers extends CActiveRecord
 			'token_oauth' => Yii::t('attribute', 'Token Oauth'),
 			'emails' => Yii::t('attribute', 'Emails'),
 			'email_lastchange_date' => Yii::t('attribute', 'Email Lastchange Date'),
+			'email_lastchange_days' => Yii::t('attribute', 'Email Lastchange Days'),
+			'email_lastchange_hours' => Yii::t('attribute', 'Email Lastchange Hours'),
 			'usernames' => Yii::t('attribute', 'Usernames'),
 			'username_lastchange_date' => Yii::t('attribute', 'Username Lastchange Date'),
+			'username_lastchange_days' => Yii::t('attribute', 'Username Lastchange Days'),
+			'username_lastchange_hours' => Yii::t('attribute', 'Username Lastchange Hours'),
 			'passwords' => Yii::t('attribute', 'Passwords'),
 			'password_lastchange_date' => Yii::t('attribute', 'Password Lastchange Date'),
+			'password_lastchange_days' => Yii::t('attribute', 'Password Lastchange Days'),
+			'password_lastchange_hours' => Yii::t('attribute', 'Password Lastchange Hours'),
 			'logins' => Yii::t('attribute', 'Logins'),
 			'lastlogin_date' => Yii::t('attribute', 'Lastlogin Date'),
+			'lastlogin_days' => Yii::t('attribute', 'Lastlogin Days'),
+			'lastlogin_hours' => Yii::t('attribute', 'Lastlogin Hours'),
 			'lastlogin_from' => Yii::t('attribute', 'Lastlogin From'),			
 		);
 	}
@@ -143,14 +159,22 @@ class ViewUsers extends CActiveRecord
 		$criteria->compare('t.emails',$this->emails);
 		if($this->email_lastchange_date != null && !in_array($this->email_lastchange_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.email_lastchange_date)',date('Y-m-d', strtotime($this->email_lastchange_date)));
+		$criteria->compare('t.email_lastchange_days',$this->email_lastchange_days);
+		$criteria->compare('t.email_lastchange_hours',$this->email_lastchange_hours);
 		$criteria->compare('t.usernames',$this->usernames);
 		if($this->username_lastchange_date != null && !in_array($this->username_lastchange_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.username_lastchange_date)',date('Y-m-d', strtotime($this->username_lastchange_date)));
+		$criteria->compare('t.passwords',$this->username_lastchange_date);
+		$criteria->compare('t.passwords',$this->username_lastchange_days);
 		$criteria->compare('t.passwords',$this->passwords);
 		if($this->password_lastchange_date != null && !in_array($this->password_lastchange_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.password_lastchange_date)',date('Y-m-d', strtotime($this->password_lastchange_date)));
+		$criteria->compare('t.password_lastchange_days',$this->password_lastchange_days);
+		$criteria->compare('t.password_lastchange_hours',$this->password_lastchange_hours);
 		$criteria->compare('t.logins',$this->logins);
 		if($this->lastlogin_date != null && !in_array($this->lastlogin_date, array('0000-00-00 00:00:00', '0000-00-00')))
+		$criteria->compare('t.lastlogin_days',$this->lastlogin_days);
+		$criteria->compare('t.lastlogin_hours',$this->lastlogin_hours);
 			$criteria->compare('date(t.lastlogin_date)',date('Y-m-d', strtotime($this->lastlogin_date)));
 		$criteria->compare('t.lastlogin_from',strtolower($this->lastlogin_from),true);
 
@@ -189,12 +213,20 @@ class ViewUsers extends CActiveRecord
 			$this->defaultColumns[] = 'token_oauth';
 			$this->defaultColumns[] = 'emails';
 			$this->defaultColumns[] = 'email_lastchange_date';
+			$this->defaultColumns[] = 'email_lastchange_days';
+			$this->defaultColumns[] = 'email_lastchange_hours';
 			$this->defaultColumns[] = 'usernames';
 			$this->defaultColumns[] = 'username_lastchange_date';
+			$this->defaultColumns[] = 'username_lastchange_days';
+			$this->defaultColumns[] = 'username_lastchange_hours';
 			$this->defaultColumns[] = 'passwords';
 			$this->defaultColumns[] = 'password_lastchange_date';
+			$this->defaultColumns[] = 'password_lastchange_days';
+			$this->defaultColumns[] = 'password_lastchange_hours';
 			$this->defaultColumns[] = 'logins';
 			$this->defaultColumns[] = 'lastlogin_date';
+			$this->defaultColumns[] = 'lastlogin_days';
+			$this->defaultColumns[] = 'lastlogin_hours';
 			$this->defaultColumns[] = 'lastlogin_from';
 		}
 
@@ -216,12 +248,20 @@ class ViewUsers extends CActiveRecord
 			$this->defaultColumns[] = 'token_oauth';
 			$this->defaultColumns[] = 'emails';
 			$this->defaultColumns[] = 'email_lastchange_date';
+			$this->defaultColumns[] = 'email_lastchange_days';
+			$this->defaultColumns[] = 'email_lastchange_hours';
 			$this->defaultColumns[] = 'usernames';
 			$this->defaultColumns[] = 'username_lastchange_date';
+			$this->defaultColumns[] = 'username_lastchange_days';
+			$this->defaultColumns[] = 'username_lastchange_hours';
 			$this->defaultColumns[] = 'passwords';
 			$this->defaultColumns[] = 'password_lastchange_date';
+			$this->defaultColumns[] = 'password_lastchange_days';
+			$this->defaultColumns[] = 'password_lastchange_hours';
 			$this->defaultColumns[] = 'logins';
 			$this->defaultColumns[] = 'lastlogin_date';
+			$this->defaultColumns[] = 'lastlogin_days';
+			$this->defaultColumns[] = 'lastlogin_hours';
 			$this->defaultColumns[] = 'lastlogin_from';
 		}
 		parent::afterConstruct();

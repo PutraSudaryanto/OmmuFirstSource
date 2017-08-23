@@ -23,7 +23,7 @@
  *
  * The followings are the available columns in table 'ommu_user_option':
  * @property string $option_id
- * @property integer $ommu_status
+ * @property integer _status
  * @property integer $invite_limit
  * @property integer $invite_success
  * @property string $signup_from
@@ -162,6 +162,23 @@ class UserOption extends CActiveRecord
 			$this->defaultColumns[] = 'signup_from';
 		}
 		parent::afterConstruct();
+	}
+
+	/**
+	 * User get information
+	 */
+	public static function getInfo($id, $column=null)
+	{
+		if($column != null) {
+			$model = self::model()->findByPk($id,array(
+				'select' => $column
+			));
+			return $model->$column;
+			
+		} else {
+			$model = self::model()->findByPk($id);
+			return $model;			
+		}
 	}
 
 }

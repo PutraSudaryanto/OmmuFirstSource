@@ -1,6 +1,6 @@
 <?php
 /**
- * User Setting (user-setting)
+ * User Settings (user-setting)
  * @var $this SettingController
  * @var $model UserSetting
  * version: 1.3.0

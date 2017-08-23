@@ -16,7 +16,7 @@
 	$this->breadcrumbs=array(
 		'User Levels'=>array('manage'),
 		$model->name=>array('view','id'=>$model->level_id),
-		'Update',
+		'User',
 	);
 ?>
 

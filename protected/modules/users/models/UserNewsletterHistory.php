@@ -29,7 +29,7 @@
  * @property string $updated_ip
  *
  * The followings are the available model relations:
- * @property OmmuUserNewsletter $newsletter
+ * @property UserNewsletter $newsletter
  */
 class UserNewsletterHistory extends CActiveRecord
 {

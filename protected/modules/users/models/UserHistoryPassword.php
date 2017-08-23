@@ -28,7 +28,7 @@
  * @property string $update_date
  *
  * The followings are the available model relations:
- * @property OmmuUsers $user
+ * @property Users $user
  */
 class UserHistoryPassword extends CActiveRecord
 {
@@ -129,7 +129,7 @@ class UserHistoryPassword extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',$this->id;
+		$criteria->compare('t.id',$this->id);
 		if(isset($_GET['user']))
 			$criteria->compare('t.user_id',$_GET['user']);
 		else

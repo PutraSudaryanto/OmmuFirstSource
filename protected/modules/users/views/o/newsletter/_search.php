@@ -35,6 +35,11 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('reference_id'); ?><br/>
+			<?php echo $form->textField($model,'reference_id'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('email'); ?><br/>
 			<?php echo $form->textField($model,'email'); ?>
 		</li>

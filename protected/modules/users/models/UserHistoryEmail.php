@@ -28,7 +28,7 @@
  * @property string $update_date
  *
  * The followings are the available model relations:
- * @property OmmuUsers $user
+ * @property Users $user
  */
 class UserHistoryEmail extends CActiveRecord
 {

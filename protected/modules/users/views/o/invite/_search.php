@@ -25,8 +25,13 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('queue_id'); ?><br/>
-			<?php echo $form->textField($model,'queue_id'); ?>
+			<?php echo $model->getAttributeLabel('publish'); ?><br/>
+			<?php echo $form->textField($model,'publish'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('newsletter_id'); ?><br/>
+			<?php echo $form->textField($model,'newsletter_id'); ?>
 		</li>
 
 		<li>
@@ -40,6 +45,11 @@
 		</li>
 
 		<li>
+			<?php echo $model->getAttributeLabel('invites'); ?><br/>
+			<?php echo $form->textField($model,'invites'); ?>
+		</li>
+
+		<li>
 			<?php echo $model->getAttributeLabel('invite_date'); ?><br/>
 			<?php echo $form->textField($model,'invite_date'); ?>
 		</li>
@@ -47,6 +57,21 @@
 		<li>
 			<?php echo $model->getAttributeLabel('invite_ip'); ?><br/>
 			<?php echo $form->textField($model,'invite_ip'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $form->textField($model,'modified_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
+			<?php echo $form->textField($model,'modified_id'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $form->textField($model,'updated_date'); ?>
 		</li>
 
 		<li class="submit">

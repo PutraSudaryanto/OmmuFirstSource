@@ -55,11 +55,11 @@
  * @property integer $timezone_id
  *
  * The followings are the available model relations:
- * @property OmmuUserBlock[] $ommuUserBlocks
- * @property OmmuUserContact[] $ommuUserContacts
- * @property OmmuUserForgot[] $ommuUserForgots
- * @property OmmuUserStatus[] $ommuUserStatuses
- * @property OmmuUserVerify[] $ommuUserVerifies
+ * @property UserBlock[] $UserBlocks
+ * @property UserContact[] $UserContacts
+ * @property UserForgot[] $UserForgots
+ * @property UserStatus[] $UserStatuses
+ * @property UserVerify[] $UserVerifies
  */
 class UsersCopy extends CActiveRecord
 {

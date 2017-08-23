@@ -29,7 +29,7 @@
  * @property string $lastlogin_from
  *
  * The followings are the available model relations:
- * @property OmmuUsers $user
+ * @property Users $user
  */
 class UserHistoryLogin extends CActiveRecord
 {
