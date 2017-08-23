@@ -313,7 +313,7 @@ class UserInvites extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'invites',
-				'value' => 'CHtml::link($data->invites ? $data->invites : 0, Yii::app()->controller->createUrl("o/invitehistory/manage",array("invite"=>$data->invite_id)))',
+				'value' => 'CHtml::link($data->invites ? $data->invites : 0, Yii::app()->controller->createUrl("o/history/invite/manage",array("invite"=>$data->invite_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

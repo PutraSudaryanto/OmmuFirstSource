@@ -1,7 +1,7 @@
 <?php
 /**
- * InvitehistoryController
- * @var $this InvitehistoryController
+ * InviteController
+ * @var $this InviteController
  * @var $model UserInviteHistory
  * @var $form CActiveForm
  * version: 0.0.1
@@ -24,7 +24,7 @@
  *----------------------------------------------------------------------------------------------------------
  */
 
-class InvitehistoryController extends Controller
+class InviteController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -132,7 +132,7 @@ class InvitehistoryController extends Controller
 		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/invite_history/admin_manage',array(
+		$this->render('admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
@@ -170,7 +170,7 @@ class InvitehistoryController extends Controller
 			$this->pageTitle = $pageTitle;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('/o/invite_history/admin_delete');
+			$this->render('admin_delete');
 		}
 	}
 

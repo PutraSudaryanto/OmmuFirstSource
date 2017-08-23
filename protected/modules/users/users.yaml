@@ -120,11 +120,6 @@ content_menu	:
 	- urlTitle: Invite User
 		urlRules: {users, o/invite, "manage", siteType: 1, userLevel: "1,2"}
 		urlPath: {url: add, attr: -, icon: -}
-        
-# controller o/invitehistory
-	- urlTitle: Back to Invites
-		urlRules: {users, o/invitehistory, "manage", siteType: 1, userLevel: "1,2"}
-		urlPath: {url: o/invite/manage, attr: -, icon: -}
 
 # controller o/forgot
 	- urlTitle: Add Forgot
@@ -155,11 +150,16 @@ content_menu	:
 	- urlTitle: Back to Mambers
 		urlRules: {users, o/history/password, manage, siteType: 1, userLevel: 1}
 		urlPath: {url: o/member/manage, attr: -, icon: -}
+        
+# controller o/history/invite
+	- urlTitle: Back to Invites
+		urlRules: {users, o/history/invite, "manage", siteType: 1, userLevel: "1,2"}
+		urlPath: {url: o/invite/manage, attr: -, icon: -}
 
 # controller o/history/subscribe
-	- urlTitle: Back to Mambers
+	- urlTitle: Back to Subscribes
 		urlRules: {users, o/history/subscribe, manage, siteType: 1, userLevel: 1}
-		urlPath: {url: o/member/manage, attr: -, icon: -}
+		urlPath: {url: o/newsletter/manage, attr: -, icon: -}
 		
 # controller o/setting
 	- urlTitle: User Manual Book

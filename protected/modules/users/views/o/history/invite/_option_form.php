@@ -1,7 +1,7 @@
 <?php
 /**
  * User Invite Histories (user-invite-history)
- * @var $this InvitehistoryController
+ * @var $this InviteController
  * @var $model UserInviteHistory
  * @var $form CActiveForm
  * version: 0.0.1

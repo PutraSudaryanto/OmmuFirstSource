@@ -1,7 +1,7 @@
 <?php
 /**
  * User Invite Histories (user-invite-history)
- * @var $this InvitehistoryController
+ * @var $this InviteController
  * @var $model UserInviteHistory
  * version: 0.0.1
  *
@@ -36,7 +36,7 @@
 
 <?php //begin.Search ?>
 <div class="search-form">
-<?php $this->renderPartial('/o/invite_history/_search',array(
+<?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
 </div>
@@ -44,7 +44,7 @@
 
 <?php //begin.Grid Option ?>
 <div class="grid-form">
-<?php $this->renderPartial('/o/invite_history/_option_form',array(
+<?php $this->renderPartial('_option_form',array(
 	'model'=>$model,
 )); ?>
 </div>
