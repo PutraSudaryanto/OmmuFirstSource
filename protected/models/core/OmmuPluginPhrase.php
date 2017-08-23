@@ -28,7 +28,7 @@
  * @property string $en_us
  *
  * The followings are the available model relations:
- * @property OmmuCorePlugins $plugin
+ * @property CorePlugins $plugin
  */
 class OmmuPluginPhrase extends CActiveRecord
 {

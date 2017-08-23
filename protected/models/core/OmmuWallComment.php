@@ -32,8 +32,8 @@
  * @property string $modified_date
  *
  * The followings are the available model relations:
- * @property OmmuWalls $wall
- * @property OmmuWallCommentLike[] $ommuWallCommentLikes
+ * @property Walls $wall
+ * @property WallCommentLike[] WallCommentLikes
  */
 class OmmuWallComment extends CActiveRecord
 {

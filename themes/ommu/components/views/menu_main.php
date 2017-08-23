@@ -4,7 +4,7 @@
 		$menuRender = 1;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('page','module','globaltag','anotherdetail','author','contact','contactcategory','translate','menu'))) {
+	} elseif($module == null && in_array($controller, array('page','view','history','module','globaltag','translate','menu'))) {
 		$menuRender = 2;
 		$title = 'Submenu';
 		
@@ -12,7 +12,7 @@
 		$menuRender = 3;
 		$title = 'Submenu';
 		
-	} elseif($module == null && in_array($controller, array('settings','option','language','theme','locale','meta','template','menucategory','zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) || ($module != null && ($module == 'report' && in_array($controller, array('o/category')) || ($module == 'support' && in_array($controller, array('o/contact','o/contactcategory','o/mailsetting','o/widget')))))) {
+	} elseif($module == null && in_array($controller, array('settings','language','theme','meta','menucategory','zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) || ($module != null && ($module == 'report' && in_array($controller, array('o/category')) || ($module == 'support' && in_array($controller, array('o/contact','o/contactcategory','o/mailsetting','o/widget')))))) {
 		$menuRender = 4;
 		$title = 'Submenu';
 	}
@@ -151,22 +151,11 @@
 		<li><a href="<?php echo Yii::app()->createUrl('users/o/admin/password')?>" title="<?php echo Yii::t('phrase', 'Change Password').': '.Yii::app()->user->displayname;?>"><?php echo Yii::t('phrase', 'Change Password');?></a></li>
 
 	<?php } elseif($menuRender == 2) { //Begin.Content ?>
-		<li <?php echo $controller == 'page' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Yii::t('phrase', 'Pages');?>"><?php echo Yii::t('phrase', 'Pages');?></a></li>
+		<li <?php echo in_array($controller, array('page','view','history')) ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('page/manage');?>" title="<?php echo Yii::t('phrase', 'Pages');?>"><?php echo Yii::t('phrase', 'Pages');?></a></li>
 		<?php if(Yii::app()->user->level == 1) {?>
 			<li <?php echo $controller == 'module' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('module/manage');?>" title="<?php echo Yii::t('phrase', 'Modules');?>"><?php echo Yii::t('phrase', 'Modules');?></a></li>
 		<?php }?>
 		<li <?php echo $controller == 'globaltag' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('globaltag/manage');?>" title="<?php echo Yii::t('phrase', 'Tags');?>"><?php echo Yii::t('phrase', 'Tags');?></a></li>
-		<?php if($setting->site_type == 1) {?>
-			<li <?php echo ($module == null && in_array($controller, array('author','contact','contactcategory'))) ? 'class="submenu-show"' : '';?>>
-				<a href="<?php echo ($module == null && in_array($controller, array('author','contact','contactcategory'))) ? 'javascript:void(0);' : Yii::app()->createUrl('author/manage');?>" title="<?php echo Yii::t('phrase', 'Authors');?>"><?php echo Yii::t('phrase', 'Authors');?></a>
-				<?php if($module == null && in_array($controller, array('author','contact','contactcategory'))) {?>
-				<ul>
-					<li <?php echo $controller == 'author' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('author/manage');?>" title="<?php echo Yii::t('phrase', 'Author');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Author');?></a></li>
-					<li <?php echo $controller == 'contactcategory' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('contactcategory/manage');?>" title="<?php echo Yii::t('phrase', 'Contact Categories');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Contact Categories');?></a></li>
-				</ul>
-				<?php }?>
-			</li>
-		<?php }?>
 		<?php if(Yii::app()->user->level == 1) {?>
 		<li <?php echo $controller == 'menu' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('menu/manage');?>" title="<?php echo Yii::t('phrase', 'Menus');?>"><?php echo Yii::t('phrase', 'Menus');?></a></li>
 		<?php }?>
@@ -390,7 +379,6 @@
 	} elseif($menuRender == 4) { //Begin.Setting ?>
 		<?php if(Yii::app()->user->level == 1) {?>
 			<li <?php echo $currentAction == 'settings/general' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/general');?>" title="<?php echo Yii::t('phrase', 'General Settings');?>"><?php echo Yii::t('phrase', 'General Settings');?></a></li>
-			<li <?php echo $controller == 'option' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('option/manage');?>" title="<?php echo Yii::t('phrase', 'Web Options');?>"><?php echo Yii::t('phrase', 'Web Options');?></a></li>
 			<?php if($setting->site_type == 1) {?>
 				<li <?php echo $currentAction == 'settings/banned' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/banned');?>" title="<?php echo Yii::t('phrase', 'Spam & Banning Tools');?>"><?php echo Yii::t('phrase', 'Spam & Banning Tools');?></a></li>				
 			<?php }?>
@@ -398,8 +386,8 @@
 			<li <?php echo $controller == 'meta' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('meta/edit');?>" title="<?php echo Yii::t('phrase', 'Meta Settings');?>"><?php echo Yii::t('phrase', 'Meta Settings');?></a></li>
 			<li <?php echo $currentAction == 'settings/analytic' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('settings/analytic');?>" title="<?php echo Yii::t('phrase', 'Google Analytics Settings');?>"><?php echo Yii::t('phrase', 'Google Analytics Settings');?></a></li>	
 			<li <?php echo in_array($controller, array('language')) ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('language/manage');?>" title="<?php echo Yii::t('phrase', 'Language Settings');?>"><?php echo Yii::t('phrase', 'Language Settings');?></a></li>
-			<li <?php echo in_array($controller, array('locale','zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) ? 'class="submenu-show"' : '' ?>>
-				<a <?php echo $controller == 'locale' ? 'class="active"' : '' ?> href="<?php echo Yii::app()->createUrl('locale/setting');?>" title="<?php echo Yii::t('phrase', 'Locale Settings');?>"><?php echo Yii::t('phrase', 'Locale Settings');?></a>
+			<li <?php echo $currentAction == 'settings/locale' || in_array($controller, array('zonecountry','zoneprovince','zonecity','zonedistrict','zonevillage')) ? 'class="submenu-show"' : '' ?>>
+				<a <?php echo $currentAction == 'settings/locale' ? 'class="active"' : '' ?> href="<?php echo Yii::app()->createUrl('settings/locale');?>" title="<?php echo Yii::t('phrase', 'Locale Settings');?>"><?php echo Yii::t('phrase', 'Locale Settings');?></a>
 				<ul>
 					<li <?php echo $controller == 'zonecountry' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('zonecountry/manage');?>" title="<?php echo Yii::t('phrase', 'Country');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Country');?></a></li>
 					<li <?php echo $controller == 'zoneprovince' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('zoneprovince/manage');?>" title="<?php echo Yii::t('phrase', 'Province');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Province');?></a></li>
@@ -408,11 +396,8 @@
 					<li <?php echo $controller == 'zonevillage' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('zonevillage/manage');?>" title="<?php echo Yii::t('phrase', 'Village');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Village');?></a></li>
 				</ul>
 			</li>
-			<li <?php echo ($controller == 'o/mailsetting' || $controller == 'template') ? 'class="submenu-show"' : '' ?>>
+			<li <?php echo $controller == 'o/mailsetting' ? 'class="submenu-show"' : '' ?>>
 				<a <?php echo $controller == 'o/mailsetting' ? 'class="active"' : '' ?> href="<?php echo Yii::app()->createUrl('support/o/mailsetting/edit');?>" title="<?php echo Yii::t('phrase', 'Mail Settings');?>"><?php echo Yii::t('phrase', 'Mail Settings');?></a>
-				<ul>
-					<li <?php echo $controller == 'template' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('template/manage');?>" title="<?php echo Yii::t('phrase', 'Template Email');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Template Email');?></a></li>
-				</ul>
 			</li>
 			<li <?php echo in_array($controller, array('o/contact','o/contactcategory','o/widget')) ? 'class="submenu-show"' : '' ?>>
 				<a href="<?php echo Yii::app()->createUrl('support/o/contact/manage');?>" title="<?php echo Yii::t('phrase', 'Contact Settings');?>"><?php echo Yii::t('phrase', 'Contact Settings');?></a>
@@ -433,7 +418,6 @@
 					<li <?php echo $controller == 'o/contactcategory' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('support/o/contactcategory/manage');?>" title="<?php echo Yii::t('phrase', 'Contact Categories');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Contact Categories');?></a></li>
 					<li <?php echo $controller == 'o/contact' && $action == 'setting' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('support/o/contact/setting');?>" title="<?php echo Yii::t('phrase', 'Address Settings');?>"><span class="icons">C</span><?php echo Yii::t('phrase', 'Address Settings');?></a></li>			
 			</li>
-			<li <?php echo $controller == 'template' ? 'class="selected"' : '' ?>><a href="<?php echo Yii::app()->createUrl('template/manage');?>" title="<?php echo Yii::t('phrase', 'Template Email');?>"><?php echo Yii::t('phrase', 'Template Email');?></a></li>
 		<?php }?> 
 	<?php }?>
 	</ul>

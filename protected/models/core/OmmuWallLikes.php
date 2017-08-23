@@ -29,7 +29,7 @@
  * @property string $likes_ip
  *
  * The followings are the available model relations:
- * @property OmmuWalls $wall
+ * @property Walls $wall
  */
 class OmmuWallLikes extends CActiveRecord
 {

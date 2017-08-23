@@ -20,9 +20,9 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_core_menu".
+ * This is the model class for table "ommu_core_menus".
  *
- * The followings are the available columns in table 'ommu_core_menu':
+ * The followings are the available columns in table 'ommu_core_menus':
  * @property string $id
  * @property integer $publish
  * @property integer $cat_id
@@ -37,9 +37,10 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuCoreMenuCategory $cat
+ * @property CoreMenuCategory $cat
  */
 class OmmuMenu extends CActiveRecord
 {
@@ -67,7 +68,7 @@ class OmmuMenu extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_core_menu';
+		return 'ommu_core_menus';
 	}
 
 	/**
@@ -88,7 +89,7 @@ class OmmuMenu extends CActiveRecord
 				title_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, cat_id, parent, orders, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id,
+			array('id, publish, cat_id, parent, orders, name, url, attr, sitetype_access, userlevel_access, creation_date, creation_id, modified_date, modified_id, updated_date,
 				title_i, parent_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -101,7 +102,7 @@ class OmmuMenu extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'view' => array(self::BELONGS_TO, 'ViewMenu', 'id'),
+			'view' => array(self::BELONGS_TO, 'ViewMenus', 'id'),
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'name'),
 			'cat' => array(self::BELONGS_TO, 'OmmuMenuCategory', 'cat_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
@@ -131,6 +132,7 @@ class OmmuMenu extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'title_i' => Yii::t('attribute', 'Menu'),
 			'parent_search' => Yii::t('attribute', 'Parent'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
@@ -220,6 +222,8 @@ class OmmuMenu extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
 		$criteria->compare('parentmenu_title.'.$language,strtolower($this->parent_search),true);
@@ -269,6 +273,7 @@ class OmmuMenu extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;

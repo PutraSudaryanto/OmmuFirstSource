@@ -32,9 +32,10 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuCoreZoneDistricts $district
+ * @property CoreZoneDistricts $district
  */
 class OmmuZoneVillage extends CActiveRecord
 {
@@ -81,7 +82,7 @@ class OmmuZoneVillage extends CActiveRecord
 			array('modified_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('village_id, publish, district_id, village_name, zipcode, mfdonline, creation_date, creation_id, modified_date, modified_id, 
+			array('village_id, publish, district_id, village_name, zipcode, mfdonline, creation_date, creation_id, modified_date, modified_id, updated_date, 
 				district_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,6 +95,7 @@ class OmmuZoneVillage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewZoneVillage', 'village_id'),
 			'district' => array(self::BELONGS_TO, 'OmmuZoneDistricts', 'district_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -116,6 +118,7 @@ class OmmuZoneVillage extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'district_search' => Yii::t('attribute', 'District'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -186,6 +189,8 @@ class OmmuZoneVillage extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('district.district_name',strtolower($this->district_search),true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
@@ -230,6 +235,7 @@ class OmmuZoneVillage extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;
@@ -325,7 +331,7 @@ class OmmuZoneVillage extends CActiveRecord
 	public static function getVillage($district=null) 
 	{
 		$criteria=new CDbCriteria;
-		if($district != null && ($district != '' || $district != 0))
+		if($district != null && $district != '' && $district != 0)
 			$criteria->compare('district_id',$district);
 		
 		$model = self::model()->findAll($criteria);

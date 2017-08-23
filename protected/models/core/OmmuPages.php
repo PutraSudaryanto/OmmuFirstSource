@@ -34,6 +34,7 @@
  * @property string $creation_id
  * @property string $modified_date
  * @property string $modified_id
+ * @property string $updated_date
  */
 class OmmuPages extends CActiveRecord
 {
@@ -46,6 +47,7 @@ class OmmuPages extends CActiveRecord
 	// Variable Search
 	public $creation_search;
 	public $modified_search;
+	public $view_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -83,8 +85,8 @@ class OmmuPages extends CActiveRecord
 				quote_i, old_media_i', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id,
-				title_i, description_i, quote_i, creation_search, modified_search', 'safe', 'on'=>'search'),
+			array('page_id, publish, name, desc, quote, media, media_show, media_type, creation_date, creation_id, modified_date, modified_id, updated_date,
+				title_i, description_i, quote_i, creation_search, modified_search, view_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,12 +125,14 @@ class OmmuPages extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'title_i' => Yii::t('attribute', 'Title'),
 			'description_i' => Yii::t('attribute', 'Page'),
 			'quote_i' => Yii::t('attribute', 'Quote'),
 			'old_media_i' => Yii::t('attribute', 'Old Media'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'view_search' => Yii::t('attribute', 'Views'),
 		);
 	}
 	
@@ -205,12 +209,15 @@ class OmmuPages extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('title.'.$language,strtolower($this->title_i),true);
 		$criteria->compare('description.'.$language,strtolower($this->description_i),true);
 		$criteria->compare('quote.'.$language,strtolower($this->quote_i),true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search),true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
+		$criteria->compare('view.views',$this->view_search);
 		
 		if(!isset($_GET['OmmuPages_sort']))
 			$criteria->order = 't.page_id DESC';
@@ -253,6 +260,7 @@ class OmmuPages extends CActiveRecord
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
+			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;
@@ -308,6 +316,14 @@ class OmmuPages extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'view_search',
+				'value' => 'CHtml::link($data->view->views ? $data->view->views : 0, Yii::app()->createUrl("view/manage",array(\'page\'=>$data->page_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(

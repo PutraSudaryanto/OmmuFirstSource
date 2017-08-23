@@ -43,7 +43,7 @@ class ZonecityController extends Controller
 	public function init() 
 	{
 		if(!Yii::app()->user->isGuest) {
-			if(Yii::app()->user->level == 1) {
+			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
@@ -76,11 +76,11 @@ class ZonecityController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','suggest'),
+				'actions'=>array('index'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
+				'actions'=>array('suggest'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
@@ -111,20 +111,28 @@ class ZonecityController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionSuggest($id=null) 
+	public function actionSuggest($id=null, $limit=10) 
 	{
 		if($id == null) {
 			if(isset($_GET['term'])) {
 				$criteria = new CDbCriteria;
+				$criteria->select = "city_id, province_id, city_name";
 				$criteria->condition = 'city_name LIKE :city';
-				$criteria->select	= "city_id, city_name";
-				$criteria->order = "city_id ASC";
 				$criteria->params = array(':city' => '%' . strtolower($_GET['term']) . '%');
+				$criteria->order = "city_name ASC";
+				$criteria->limit = $limit;
 				$model = OmmuZoneCity::model()->findAll($criteria);
 
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->city_id, 'value' => $items->city_name);
+						$result[] = array(
+							'id' => $items->city_id, 
+							'value' => $items->city_name,
+							'province_id' => $items->province->province_id,
+							'province_name' => $items->province->province_name,
+							'country_id' => $items->province->country->country_id,
+							'country_name' => $items->province->country->country_name,
+						);
 					}
 				}
 			}

@@ -54,6 +54,11 @@
 			<?php echo $form->textField($model,'modified_id'); ?><br/>
 		</li>
 
+		<li>
+			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $form->textField($model,'updated_date'); ?>
+		</li>
+
 		<li class="submit">
 			<?php echo CHtml::submitButton(Yii::t('phrase', 'Search')); ?>
 		</li>

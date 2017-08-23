@@ -1055,14 +1055,15 @@ div.body .content div[id^="partial"]:last-child {
 .body .grid-view table.items td.button-column a.view {
 	background: url('../images/icons/icon_view.png') 50% 50% no-repeat;
 }
-.body .grid-view table.items td.button-column a.update {
+.body .grid-view table.items td.button-column a.update,
+.body .grid-view table.items td.button-column a.edit {
 	background: url('../images/icons/icon_edit.png') 50% 50% no-repeat;
 }
 .body .grid-view table.items td.button-column a.delete {
 	background: url('../images/icons/icon_delete.png') 50% 50% no-repeat;
 }
 .body .grid-view table.items td.button-column a.reply {
-	background: url('../images/icons/icon_edit.png') 50% 50% no-repeat;
+	background: url('../images/icons/icon_printer.png') 50% 50% no-repeat;
 }
 .body .grid-view table.items td.button-column a img {
 	display: none;

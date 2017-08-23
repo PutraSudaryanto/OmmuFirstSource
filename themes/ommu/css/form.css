@@ -536,7 +536,7 @@ fieldset div div.desc span.desc {
 }
 fieldset div div.desc p,
 fieldset div div.desc span.small-px,
-fieldset div div.desc div.small-px {	
+fieldset div div.desc div.small-px {
 	border-top: 1px dotted #e6e6e6;
 	margin: 12px 0 7px 0;
 	padding: 8px 0 0 0;
@@ -557,6 +557,7 @@ fieldset div div.desc div.small-px:first-child {
 	margin: 0 0 7px 0;
 	padding: 0 0 0 0;
 }
+fieldset div div.desc span.small-px.no-border,
 fieldset div div.desc span.small-px:last-child,
 fieldset div div.desc span.small-px:first-child:last-child,
 fieldset div div.desc div.small-px:last-child,
@@ -666,8 +667,13 @@ fieldset.clearfix div.right h5 {
 	background: #333;
 	color: #fff;
 }
+
 fieldset.clearfix div.right div.clearfix {
 	padding: 10px 15px;
+}
+fieldset.clearfix div.right div.clearfix .suggest {
+	padding: 5px 0 0 0;
+	border: none;
 }
 fieldset.clearfix div.right div.clearfix label,
 fieldset.clearfix div.right div.clearfix div.desc {
@@ -687,6 +693,9 @@ fieldset.clearfix div.right div.clearfix div.desc {
 fieldset.clearfix div.right div.clearfix div.desc input,
 fieldset.clearfix div.right div.clearfix div.desc select {
 	margin: 0 3px 0 5px;
+}
+fieldset.clearfix div.right div.clearfix div.desc input[type="text"] {
+	margin: 0 3px 0 0;	
 }
 fieldset.clearfix div.right div.clearfix div.desc input[type="file"],
 fieldset.clearfix div.right div.clearfix div.desc select:first-child {
