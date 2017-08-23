@@ -46,8 +46,13 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
-			<?php echo $form->textField($model,'creation_date'); ?>
+			<?php echo $model->getAttributeLabel('view_date'); ?><br/>
+			<?php echo $form->textField($model,'view_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('view_ip'); ?><br/>
+			<?php echo $form->textField($model,'view_ip'); ?>
 		</li>
 
 		<li>

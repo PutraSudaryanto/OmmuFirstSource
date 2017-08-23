@@ -37,6 +37,14 @@ content_menu	:
 	- urlTitle: Back to Feedbacks
 		urlRules: {support, o/views, manage, siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/feedback/manage, attr: -, icon: -}
+	- urlTitle: View Feedback Views Data
+		urlRules: {support, o/views, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/history/view/manage, attr: -, icon: -}
+
+# controller o/history/view
+	- urlTitle: Back to Feedback Views
+		urlRules: {support, o/history/view, manage, siteType: "0,1", userLevel: "1,2"}
+		urlPath: {url: o/views/manage, attr: -, icon: -}
 		
 # controller o/user
 	- urlTitle: Back to Feedbacks
