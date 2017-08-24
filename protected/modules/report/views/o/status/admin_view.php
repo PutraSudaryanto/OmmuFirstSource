@@ -1,8 +1,8 @@
 <?php
 /**
- * Report Histories (report-history)
- * @var $this HistoryController
- * @var $model ReportHistory
+ * Report Status (report-status)
+ * @var $this StatusController
+ * @var $model ReportStatus
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
@@ -14,8 +14,8 @@
  */
 
 	$this->breadcrumbs=array(
-		'Report Histories'=>array('manage'),
-		$model->id,
+		'Report Status'=>array('manage'),
+		$model->history_id,
 	);
 ?>
 
@@ -24,8 +24,8 @@
 	'data'=>$model,
 	'attributes'=>array(
 		array(
-			'name'=>'id',
-			'value'=>$model->id,
+			'name'=>'history_id',
+			'value'=>$model->history_id,
 		),
 		array(
 			'name'=>'status',
@@ -33,12 +33,9 @@
 			'type'=>'raw',
 		),
 		array(
-			'name'=>'category_search',
-			'value'=>Phrase::trans($model->report->cat->name),
-		),
-		array(
 			'name'=>'report_id',
-			'value'=>$model->report->report_body,
+			'value'=>$model->report->report_url || $model->report->report_url || $model->report->report_date ? $this->renderPartial('_view_report', array('model'=>$model), true, false) : '-',
+			'type'=>'raw',
 		),
 		array(
 			'name'=>'report_message',
@@ -46,16 +43,16 @@
 			'type'=>'raw',
 		),
 		array(
-			'name'=>'report_date',
-			'value'=>!in_array($model->report_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->report_date, true) : '-',
-		),
-		array(
-			'name'=>'report_ip',
-			'value'=>$model->report_ip != '' ? $model->report_ip : '-',
-		),
-		array(
 			'name'=>'user_id',
 			'value'=>$model->user_id != 0 ? $model->user->displayname : '-',
+		),
+		array(
+			'name'=>'updated_date',
+			'value'=>!in_array($model->updated_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->updated_date, true) : '-',
+		),
+		array(
+			'name'=>'updated_ip',
+			'value'=>$model->updated_ip != '' ? $model->updated_ip : '-',
 		),
 		array(
 			'name'=>'modified_date',

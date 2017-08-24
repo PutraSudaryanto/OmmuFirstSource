@@ -1,21 +1,21 @@
 <?php
 /**
- * Report Comments (report-comment)
- * @var $this CommentController
- * @var $model ReportComment
+ * Reports (reports)
+ * @var $this AdminController
+ * @var $model Reports
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:25 WIB
+ * @created date 23 August 2017, 23:39 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Report Comments'=>array('manage'),
-		$model->comment_id,
+		'Reports'=>array('manage'),
+		$model->cat_id,
 	);
 ?>
 
@@ -24,31 +24,43 @@
 		'data'=>$model,
 		'attributes'=>array(
 			array(
-				'name'=>'comment_id',
-				'value'=>$model->comment_id,
-			),
-			array(
-				'name'=>'publish',
-				'value'=>$model->publish == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
-				'type'=>'raw',
-			),
-			array(
 				'name'=>'report_id',
-				'value'=>$model->report->report_url || $model->report->report_url || $model->report->report_date ? $this->renderPartial('_view_report', array('model'=>$model), true, false) : '-',
+				'value'=>$model->report_id,
+			),
+			array(
+				'name'=>'status',
+				'value'=>$model->status == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
 				'type'=>'raw',
 			),
 			array(
-				'name'=>'comment_text',
-				'value'=>$model->comment_text != '' ? $model->comment_text : '-',
-				'type'=>'raw',
+				'name'=>'cat_id',
+				'value'=>$model->cat_id ? Phrase::trans($model->cat->name) : '-',
 			),
 			array(
 				'name'=>'user_id',
 				'value'=>$model->user->displayname ? $model->user->displayname : '-',
 			),
 			array(
-				'name'=>'creation_date',
-				'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',
+				'name'=>'report_url',
+				'value'=>$model->report_url ? $model->report_url : '-',
+			),
+			array(
+				'name'=>'report_body',
+				'value'=>$model->report_body ? $model->report_body : '-',
+				'type'=>'raw',
+			),
+			array(
+				'name'=>'report_message 	',
+				'value'=>$model->report_message ? $model->report_message : '-',
+				'type'=>'raw',
+			),
+			array(
+				'name'=>'report_date',
+				'value'=>!in_array($model->report_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->report_date, true) : '-',
+			),
+			array(
+				'name'=>'report_ip',
+				'value'=>$model->report_ip ? $model->report_ip : '-',
 			),
 			array(
 				'name'=>'modified_date',

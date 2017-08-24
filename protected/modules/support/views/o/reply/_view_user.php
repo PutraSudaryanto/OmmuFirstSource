@@ -1,9 +1,8 @@
 <?php
 /**
- * User Newsletter (user-newsletter)
- * @var $this NewsletterController
- * @var $model UserNewsletter
- * @var $form CActiveForm
+ * Support Feedback Replies (support-feedback-reply)
+ * @var $this ReplyController
+ * @var $model SupportFeedbackReply
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>

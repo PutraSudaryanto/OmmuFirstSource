@@ -1,14 +1,14 @@
 <?php
 /**
- * Report Comments (report-comment)
- * @var $this CommentController
- * @var $model ReportComment
+ * Report Category (report-category)
+ * @var $this CategoryController
+ * @var $model ReportCategory
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:25 WIB
+ * @created date 23 August 2017, 20:40 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
@@ -21,8 +21,8 @@
 )); ?>
 	<ul>
 		<li>
-			<?php echo $model->getAttributeLabel('comment_id'); ?><br/>
-			<?php echo $form->textField($model,'comment_id'); ?>
+			<?php echo $model->getAttributeLabel('cat_id'); ?><br/>
+			<?php echo $form->textField($model,'cat_id'); ?>
 		</li>
 
 		<li>
@@ -31,23 +31,23 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('report_id'); ?><br/>
-			<?php echo $form->textField($model,'report_id'); ?>
+			<?php echo $model->getAttributeLabel('name'); ?><br/>
+			<?php echo $form->textField($model,'name'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('comment_text'); ?><br/>
-			<?php echo $form->textArea($model,'comment_text'); ?>
+			<?php echo $model->getAttributeLabel('desc'); ?><br/>
+			<?php echo $form->textArea($model,'desc'); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
 			<?php echo $form->textField($model,'creation_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
+			<?php echo $form->textField($model,'creation_id'); ?>
 		</li>
 
 		<li>

@@ -10,7 +10,6 @@
  * TOC :
  *	Index
  *	Manage
- *	View
  *	Delete
  *
  *	LoadModel
@@ -18,7 +17,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:25 WIB
+ * @created date 24 August 2017, 14:01 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
@@ -70,19 +69,18 @@ class HistoryController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array(),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
-				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','view','delete'),
+				'actions'=>array('manage','delete'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
+				'expression'=>'isset(Yii::app()->user->level) && (in_array(Yii::app()->user->level, array(1,2)))',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(),
@@ -123,32 +121,12 @@ class HistoryController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Report Histories Manage');
+		$this->pageTitle = Yii::t('phrase', 'Report Histories');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
 			'model'=>$model,
 			'columns' => $columns,
-		));
-	}
-	
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id) 
-	{
-		$model=$this->loadModel($id);
-		
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 600;
-
-		$this->pageTitle = Yii::t('phrase', 'View Report Histories');
-		$this->pageDescription = '';
-		$this->pageMeta = '';
-		$this->render('admin_view',array(
-			'model'=>$model,
 		));
 	}
 
@@ -163,15 +141,13 @@ class HistoryController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-report-history',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportHistory success deleted.').'</strong></div>',
-					));
-				}
+			if($model->delete()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-report-history',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report Histories success deleted.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -179,7 +155,7 @@ class HistoryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'ReportHistory Delete.');
+			$this->pageTitle = Yii::t('phrase', 'Delete Report Histories');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');

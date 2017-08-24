@@ -1,21 +1,21 @@
 <?php
 /**
- * Report Comments (report-comment)
- * @var $this CommentController
- * @var $model ReportComment
+ * Report Category (report-category)
+ * @var $this CategoryController
+ * @var $model ReportCategory
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:25 WIB
+ * @created date 23 August 2017, 20:42 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Report Comments'=>array('manage'),
-		$model->comment_id,
+		'Report Categories'=>array('manage'),
+		$model->cat_id,
 	);
 ?>
 
@@ -24,8 +24,8 @@
 		'data'=>$model,
 		'attributes'=>array(
 			array(
-				'name'=>'comment_id',
-				'value'=>$model->comment_id,
+				'name'=>'cat_id',
+				'value'=>$model->cat_id,
 			),
 			array(
 				'name'=>'publish',
@@ -33,22 +33,20 @@
 				'type'=>'raw',
 			),
 			array(
-				'name'=>'report_id',
-				'value'=>$model->report->report_url || $model->report->report_url || $model->report->report_date ? $this->renderPartial('_view_report', array('model'=>$model), true, false) : '-',
-				'type'=>'raw',
+				'name'=>'name',
+				'value'=>$model->name ? Phrase::trans($model->name) : '-',
 			),
 			array(
-				'name'=>'comment_text',
-				'value'=>$model->comment_text != '' ? $model->comment_text : '-',
-				'type'=>'raw',
-			),
-			array(
-				'name'=>'user_id',
-				'value'=>$model->user->displayname ? $model->user->displayname : '-',
+				'name'=>'desc',
+				'value'=>$model->desc ? Phrase::trans($model->desc) : '-',
 			),
 			array(
 				'name'=>'creation_date',
 				'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',
+			),
+			array(
+				'name'=>'creation_id',
+				'value'=>$model->creation->displayname ? $model->creation->displayname : '-',
 			),
 			array(
 				'name'=>'modified_date',

@@ -1,12 +1,12 @@
 <?php
 /**
- * ReportUser
+ * ReportSetting
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:24 WIB
- * @link https://github.com/ommu/mod-report
+ * @created date 24 August 2017, 14:15 WIB
+ * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -20,36 +20,30 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "ommu_report_user".
+ * This is the model class for table "ommu_report_setting".
  *
- * The followings are the available columns in table 'ommu_report_user':
- * @property string $id
- * @property integer $publish
- * @property string $report_id
- * @property string $user_id
- * @property string $creation_date
+ * The followings are the available columns in table 'ommu_report_setting':
+ * @property integer $id
+ * @property string $license
+ * @property integer $permission
+ * @property string $meta_keyword
+ * @property string $meta_description
+ * @property integer $auto_report_cat_id
  * @property string $modified_date
  * @property string $modified_id
- * @property string $updated_date
- *
- * The followings are the available model relations:
- * @property Reports $report
  */
-class ReportUser extends CActiveRecord
+class ReportSetting extends CActiveRecord
 {
 	public $defaultColumns = array();
-	
-	// Variable Search
-	public $category_search;
-	public $report_search;
-	public $user_search;
+
+	// Variable Search	
 	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ReportUser the static model class
+	 * @return ReportSetting the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -61,7 +55,8 @@ class ReportUser extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_report_user';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.ommu_report_setting';
 	}
 
 	/**
@@ -72,14 +67,15 @@ class ReportUser extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('report_id, user_id', 'required'),
-			array('publish', 'numerical', 'integerOnly'=>true),
-			array('report_id, user_id, modified_id', 'length', 'max'=>11),
+			array('license, meta_keyword, meta_description, auto_report_cat_id', 'required'),
+			array('permission, auto_report_cat_id', 'numerical', 'integerOnly'=>true),
+			array('license', 'length', 'max'=>32),
+			array('modified_id', 'length', 'max'=>11),
 			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, report_id, user_id, creation_date, modified_date, modified_id, updated_date,
-				category_search, report_search, user_search, modified_search', 'safe', 'on'=>'search'),
+			array('id, license, permission, meta_keyword, meta_description, auto_report_cat_id, modified_date, modified_id, 
+				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,8 +87,6 @@ class ReportUser extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'report' => array(self::BELONGS_TO, 'Reports', 'report_id'),
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
@@ -104,16 +98,13 @@ class ReportUser extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('attribute', 'ID'),
-			'publish' => Yii::t('attribute', 'Publish'),
-			'report_id' => Yii::t('attribute', 'Report'),
-			'user_id' => Yii::t('attribute', 'User'),
-			'creation_date' => Yii::t('attribute', 'Creation Date'),
+			'license' => Yii::t('attribute', 'License'),
+			'permission' => Yii::t('attribute', 'Permission'),
+			'meta_keyword' => Yii::t('attribute', 'Meta Keyword'),
+			'meta_description' => Yii::t('attribute', 'Meta Description'),
+			'auto_report_cat_id' => Yii::t('attribute', 'Auto Report Cat'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
-			'updated_date' => Yii::t('attribute', 'Updated Date'),
-			'category_search' => Yii::t('attribute', 'Category'),
-			'report_search' => Yii::t('attribute', 'Report'),
-			'user_search' => Yii::t('attribute', 'User'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 	}
@@ -135,59 +126,31 @@ class ReportUser extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-		
-		// Custom Search		
+
+		// Custom Search
 		$criteria->with = array(
-			'report' => array(
-				'alias'=>'report',
-				'select'=>'cat_id, report_url, report_body'
-			),
-			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname'
-			),
 			'modified' => array(
 				'alias'=>'modified',
-				'select'=>'displayname',
+				'select'=>'displayname'
 			),
 		);
-
+		
 		$criteria->compare('t.id',$this->id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish') {
-			$criteria->compare('t.publish',1);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish') {
-			$criteria->compare('t.publish',0);
-		} elseif(isset($_GET['type']) && $_GET['type'] == 'trash') {
-			$criteria->compare('t.publish',2);
-		} else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
-		}
-		if(isset($_GET['report']))
-			$criteria->compare('t.report_id',$_GET['report']);
-		else
-			$criteria->compare('t.report_id',$this->report_id);
-		if(isset($_GET['user']))
-			$criteria->compare('t.user_id',$_GET['user']);
-		else
-			$criteria->compare('t.user_id',$this->user_id);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+		$criteria->compare('t.license',strtolower($this->license),true);
+		$criteria->compare('t.permission',$this->permission);
+		$criteria->compare('t.meta_keyword',strtolower($this->meta_keyword),true);
+		$criteria->compare('t.meta_description',strtolower($this->meta_description),true);
+		$criteria->compare('t.auto_report_cat_id',$this->auto_report_cat_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		if(isset($_GET['modified']))
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
-		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
-		
-		$criteria->compare('report.cat_id',$this->category_search);
-		$criteria->compare('report.report_body',strtolower($this->report_search), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
-		if(!isset($_GET['ReportUser_sort']))
+		$criteria->compare('modified.displayname',strtolower($this->modified_search),true);
+
+		if(!isset($_GET['ReportSetting_sort']))
 			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -217,13 +180,13 @@ class ReportUser extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'id';
-			$this->defaultColumns[] = 'publish';
-			$this->defaultColumns[] = 'report_id';
-			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'creation_date';
+			$this->defaultColumns[] = 'license';
+			$this->defaultColumns[] = 'permission';
+			$this->defaultColumns[] = 'meta_keyword';
+			$this->defaultColumns[] = 'meta_description';
+			$this->defaultColumns[] = 'auto_report_cat_id';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
-			$this->defaultColumns[] = 'updated_date';
 		}
 
 		return $this->defaultColumns;
@@ -234,48 +197,52 @@ class ReportUser extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			/*
-			$this->defaultColumns[] = array(
-				'class' => 'CCheckBoxColumn',
-				'name' => 'id',
-				'selectableRows' => 2,
-				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
-			);
-			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['report'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'category_search',
-					'value' => 'Phrase::trans($data->report->cat->name)',
-					'filter'=> ReportCategory::getCategory(),
-					'type' => 'raw',
-				);
-				$this->defaultColumns[] = array(
-					'name' => 'report_search',
-					'value' => '$data->report->report_body',
-				);
-			}
 			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user->displayname',
+				'name' => 'license',
+				'value' => '$data->license',
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date, true)',
+				'name' => 'permission',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'permission\',array(\'id\'=>$data->id)), $data->permission)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'meta_keyword',
+				'value' => '$data->meta_keyword',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'meta_description',
+				'value' => '$data->meta_description',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'auto_report_cat_id',
+				'value' => '$data->auto_report_cat_id',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'modified_date',
+				'value' => 'Utility::dateFormat($data->modified_date)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
 				'filter' => Yii::app()->controller->widget('application.components.system.CJuiDatePicker', array(
 					'model'=>$this,
-					'attribute'=>'creation_date',
+					'attribute'=>'modified_date',
 					'language' => 'en',
 					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
-						'id' => 'creation_date_filter',
+						'id' => 'modified_date_filter',
 					),
 					'options'=>array(
 						'showOn' => 'focus',
@@ -288,19 +255,11 @@ class ReportUser extends CActiveRecord
 					),
 				), true),
 			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
+			if(!isset($_GET['modified'])) {
+			$this->defaultColumns[] = array(
+				'name' => 'modified_search',
+				'value' => '$data->modified->displayname',
+			);
 			}
 		}
 		parent::afterConstruct();
@@ -324,13 +283,39 @@ class ReportUser extends CActiveRecord
 	}
 
 	/**
+	 * get Module License
+	 */
+	public static function getLicense($source='1234567890', $length=16, $char=4)
+	{
+		$mod = $length%$char;
+		if($mod == 0)
+			$sep = ($length/$char);
+		else
+			$sep = (int)($length/$char)+1;
+		
+		$sourceLength = strlen($source);
+		$random = '';
+		for ($i = 0; $i < $length; $i++)
+			$random .= $source[rand(0, $sourceLength - 1)];
+		
+		$license = '';
+		for ($i = 0; $i < $sep; $i++) {
+			if($i != $sep-1)
+				$license .= substr($random,($i*$char),$char).'-';
+			else
+				$license .= substr($random,($i*$char),$char);
+		}
+
+		return $license;
+	}
+
+	/**
 	 * before validate attributes
 	 */
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {		
-			if($this->isNewRecord)
-				$this->user_id = Yii::app()->user->id;
-			else
+	protected function beforeValidate() 
+	{
+		if(parent::beforeValidate()) {
+			if(!$this->isNewRecord)
 				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;

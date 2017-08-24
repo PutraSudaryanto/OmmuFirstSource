@@ -1,20 +1,20 @@
 <?php
 /**
- * Report Users (report-user)
- * @var $this UserController
- * @var $model ReportUser
+ * Report Status (report-status)
+ * @var $this StatusController
+ * @var $model ReportStatus
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:26 WIB
+ * @created date 22 February 2017, 12:25 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Report Users'=>array('manage'),
+		'Report Status'=>array('manage'),
 		'Manage',
 	);
 	$this->menu=array(
@@ -50,7 +50,7 @@
 </div>
 <?php //end.Grid Option ?>
 
-<div id="partial-report-user">
+<div id="partial-report-status">
 	<?php //begin.Messages ?>
 	<div id="ajax-message">
 	<?php
@@ -96,7 +96,7 @@
 			));
 
 			$this->widget('application.components.system.OGridView', array(
-				'id'=>'report-user-grid',
+				'id'=>'report-status-grid',
 				'dataProvider'=>$model->search(),
 				'filter'=>$model,
 				'afterAjaxUpdate' => 'reinstallDatePicker',

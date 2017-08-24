@@ -1,27 +1,27 @@
 <?php
 /**
- * Report Histories (report-history)
- * @var $this HistoryController
- * @var $model ReportHistory
+ * Report Status (report-status)
+ * @var $this StatusController
+ * @var $model ReportStatus
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 24 August 2017, 14:01 WIB
+ * @created date 22 February 2017, 12:25 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Report Histories'=>array('manage'),
+		'Report Status'=>array('manage'),
 		'Delete',
 	);
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'report-history-form',
+	'id'=>'report-status-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>

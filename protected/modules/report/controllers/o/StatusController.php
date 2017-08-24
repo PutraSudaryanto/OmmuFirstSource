@@ -1,29 +1,31 @@
 <?php
 /**
- * SettingController
- * @var $this SettingController
- * @var $model ReportSetting
+ * StatusController
+ * @var $this StatusController
+ * @var $model ReportStatus
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
  *
  * TOC :
  *	Index
- *	Edit
- *	Manual
+ *	Manage
+ *	View
+ *	Delete
  *
  *	LoadModel
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 22 February 2017, 12:25 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */
 
-class SettingController extends Controller
+class StatusController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -78,14 +80,9 @@ class SettingController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('edit'),
+				'actions'=>array('manage','view','delete'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manual'),
-				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (in_array(Yii::app()->user->level, array(1,2)))',
+				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array(),
@@ -102,73 +99,90 @@ class SettingController extends Controller
 	 */
 	public function actionIndex() 
 	{
-		$this->redirect(array('edit'));
+		$this->redirect(array('manage'));
 	}
 
 	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * Manages all models.
 	 */
-	public function actionEdit() 
+	public function actionManage() 
 	{
-		if(Yii::app()->user->level != 1)
-			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
-		
-		$model = ReportSetting::model()->findByPk(1);
-		if($model == null)
-			$model=new ReportSetting;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['ReportSetting'])) {
-			$model->attributes=$_POST['ReportSetting'];
-			
-			$jsonError = CActiveForm::validate($model);
-			if(strlen($jsonError) > 2) {
-				echo $jsonError;
-
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($model->save()) {
-						echo CJSON::encode(array(
-							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Report settings success updated.').'</strong></div>',
-						));
-					} else {
-						print_r($model->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
+		$model=new ReportStatus('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['ReportStatus'])) {
+			$model->attributes=$_GET['ReportStatus'];
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Settings');
+		$columnTemp = array();
+		if(isset($_GET['GridColumn'])) {
+			foreach($_GET['GridColumn'] as $key => $val) {
+				if($_GET['GridColumn'][$key] == 1) {
+					$columnTemp[] = $key;
+				}
+			}
+		}
+		$columns = $model->getGridColumn($columnTemp);
+
+		$this->pageTitle = Yii::t('phrase', 'Report Histories Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_edit',array(
+		$this->render('admin_manage',array(
 			'model'=>$model,
+			'columns' => $columns,
 		));
 	}
 	
 	/**
-	 * Lists all models.
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionManual() 
+	public function actionView($id) 
 	{
-		$manual_path = $this->module->basePath.'/assets/manual';
+		$model=$this->loadModel($id);
 		
 		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('o/admin/manage');
-		$this->dialogWidth = 400;
-		
-		$this->pageTitle = Yii::t('phrase', 'Report Manual Book');
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 600;
+
+		$this->pageTitle = Yii::t('phrase', 'View Report Histories');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_manual', array(
-			'manual_path'=>$manual_path,			
+		$this->render('admin_view',array(
+			'model'=>$model,
 		));
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			
+			if($model->delete()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-report-status',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'ReportStatus success deleted.').'</strong></div>',
+				));
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = Yii::t('phrase', 'ReportStatus Delete.');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_delete');
+		}
 	}
 
 	/**
@@ -178,7 +192,7 @@ class SettingController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = ReportSetting::model()->findByPk($id);
+		$model = ReportStatus::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
@@ -190,7 +204,7 @@ class SettingController extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='article-setting-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='report-status-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

@@ -1,36 +1,18 @@
 <?php
 /**
- * Report Histories (report-history)
- * @var $this HistoryController
- * @var $model ReportHistory
+ * Report Category (report-category)
+ * @var $this CategoryController
+ * @var $model ReportCategory
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 24 August 2017, 14:01 WIB
+ * @created date 23 August 2017, 20:40 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
  */
-
-	$cs = Yii::app()->getClientScript();
-$js=<<<EOP
-	$('form[name="gridoption"] :checkbox').click(function(){
-		var url = $('form[name="gridoption"]').attr('action');
-		$.ajax({
-			url: url,
-			data: $('form[name="gridoption"] :checked').serialize(),
-			success: function(response) {
-				$.fn.yiiGridView.update('report-history-grid', {
-					data: $('form[name="gridoption"]').serialize()
-				});
-				return false;
-			}
-		});
-	});
-EOP;
-	$cs->registerScript('grid-option', $js, CClientScript::POS_END);
 ?>
 
 <?php echo CHtml::beginForm(Yii::app()->createUrl($this->route), 'get', array(

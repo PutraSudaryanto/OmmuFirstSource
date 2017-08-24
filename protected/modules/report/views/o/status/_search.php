@@ -1,8 +1,8 @@
 <?php
 /**
- * Report Comments (report-comment)
- * @var $this CommentController
- * @var $model ReportComment
+ * Report Status (report-status)
+ * @var $this StatusController
+ * @var $model ReportStatus
  * @var $form CActiveForm
  * version: 0.0.1
  *
@@ -21,13 +21,13 @@
 )); ?>
 	<ul>
 		<li>
-			<?php echo $model->getAttributeLabel('comment_id'); ?><br/>
-			<?php echo $form->textField($model,'comment_id'); ?>
+			<?php echo $model->getAttributeLabel('history_id'); ?><br/>
+			<?php echo $form->textField($model,'history_id'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('publish'); ?><br/>
-			<?php echo $form->textField($model,'publish'); ?>
+			<?php echo $model->getAttributeLabel('status'); ?><br/>
+			<?php echo $form->textField($model,'status'); ?>
 		</li>
 
 		<li>
@@ -41,13 +41,18 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('comment_text'); ?><br/>
-			<?php echo $form->textArea($model,'comment_text'); ?>
+			<?php echo $model->getAttributeLabel('report_message'); ?><br/>
+			<?php echo $form->textArea($model,'report_message'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
-			<?php echo $form->textField($model,'creation_date'); ?>
+			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $form->textField($model,'updated_date'); ?>
+		</li>
+
+		<li>
+			<?php echo $model->getAttributeLabel('updated_ip'); ?><br/>
+			<?php echo $form->textField($model,'updated_ip'); ?>
 		</li>
 
 		<li>
@@ -58,11 +63,6 @@
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
 			<?php echo $form->textField($model,'modified_id'); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
-			<?php echo $form->textField($model,'updated_date'); ?>
 		</li>
 
 		<li class="submit">

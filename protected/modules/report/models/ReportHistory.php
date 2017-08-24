@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 22 February 2017, 12:24 WIB
+ * @created date 24 August 2017, 13:47 WIB
  * @link https://github.com/ommu/mod-report
  * @contact (+62)856-299-4114
  *
@@ -24,27 +24,23 @@
  *
  * The followings are the available columns in table 'ommu_report_history':
  * @property string $id
- * @property integer $status
  * @property string $report_id
  * @property string $user_id
- * @property string $report_message
  * @property string $report_date
  * @property string $report_ip
- * @property string $modified_date
- * @property string $modified_id
  *
  * The followings are the available model relations:
  * @property Reports $report
+ * @property Users[] $user;
  */
 class ReportHistory extends CActiveRecord
 {
 	public $defaultColumns = array();
-	
-	// Variable Search
+
+	// Variable Search	
 	public $category_search;
 	public $report_search;
 	public $user_search;
-	public $modified_search;	
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -62,7 +58,8 @@ class ReportHistory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_report_history';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.ommu_report_history';
 	}
 
 	/**
@@ -73,15 +70,13 @@ class ReportHistory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, report_id, user_id, report_message', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('report_id, user_id, modified_id', 'length', 'max'=>11),
+			array('report_id, user_id, report_date, report_ip', 'required'),
+			array('report_id, user_id', 'length', 'max'=>11),
 			array('report_ip', 'length', 'max'=>20),
-			array('report_ip', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, status, report_id, user_id, report_message, report_date, report_ip, modified_date, modified_id,
-				category_search, report_search, user_search, modified_search', 'safe', 'on'=>'search'),
+			array('id, report_id, user_id, report_date, report_ip, 
+				category_search, report_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,7 +90,6 @@ class ReportHistory extends CActiveRecord
 		return array(
 			'report' => array(self::BELONGS_TO, 'Reports', 'report_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -106,18 +100,13 @@ class ReportHistory extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('attribute', 'ID'),
-			'status' => Yii::t('attribute', 'Status'),
 			'report_id' => Yii::t('attribute', 'Report'),
 			'user_id' => Yii::t('attribute', 'User'),
-			'report_message' => Yii::t('attribute', 'Report Message'),
 			'report_date' => Yii::t('attribute', 'Report Date'),
 			'report_ip' => Yii::t('attribute', 'Report Ip'),
-			'modified_date' => Yii::t('attribute', 'Modified Date'),
-			'modified_id' => Yii::t('attribute', 'Modified'),
 			'category_search' => Yii::t('attribute', 'Category'),
 			'report_search' => Yii::t('attribute', 'Report'),
 			'user_search' => Yii::t('attribute', 'User'),
-			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 	}
 
@@ -138,28 +127,20 @@ class ReportHistory extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-		
-		// Custom Search		
+
+		// Custom Search
 		$criteria->with = array(
 			'report' => array(
 				'alias'=>'report',
-				'select'=>'cat_id, url, report_body'
+				'select'=>'cat_id, report_url, report_body'
 			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'displayname'
 			),
-			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname',
-			),
 		);
-
-		$criteria->compare('t.id',strtolower($this->id),true);
-		if(isset($_GET['status']))
-			$criteria->compare('t.status',$_GET['status']);
-		else
-			$criteria->compare('t.status',$this->status);
+		
+		$criteria->compare('t.id',$this->id);
 		if(isset($_GET['report']))
 			$criteria->compare('t.report_id',$_GET['report']);
 		else
@@ -168,21 +149,13 @@ class ReportHistory extends CActiveRecord
 			$criteria->compare('t.user_id',$_GET['user']);
 		else
 			$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.report_message',strtolower($this->report_message),true);
 		if($this->report_date != null && !in_array($this->report_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.report_date)',date('Y-m-d', strtotime($this->report_date)));
 		$criteria->compare('t.report_ip',strtolower($this->report_ip),true);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		if(isset($_GET['modified']))
-			$criteria->compare('t.modified_id',$_GET['modified']);
-		else
-			$criteria->compare('t.modified_id',$this->modified_id);
-		
-		$criteria->compare('report.cat_id',strtolower($this->category_search), true);
+
+		$criteria->compare('report.cat_id',$this->category_search);
 		$criteria->compare('report.report_body',strtolower($this->report_search), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['ReportHistory_sort']))
 			$criteria->order = 't.id DESC';
@@ -214,14 +187,10 @@ class ReportHistory extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'id';
-			$this->defaultColumns[] = 'status';
 			$this->defaultColumns[] = 'report_id';
 			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'report_message';
 			$this->defaultColumns[] = 'report_date';
 			$this->defaultColumns[] = 'report_ip';
-			$this->defaultColumns[] = 'modified_date';
-			$this->defaultColumns[] = 'modified_id';
 		}
 
 		return $this->defaultColumns;
@@ -232,14 +201,6 @@ class ReportHistory extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			/*
-			$this->defaultColumns[] = array(
-				'class' => 'CCheckBoxColumn',
-				'name' => 'id',
-				'selectableRows' => 2,
-				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
-			);
-			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
@@ -256,17 +217,15 @@ class ReportHistory extends CActiveRecord
 					'value' => '$data->report->report_body',
 				);
 			}
-			$this->defaultColumns[] = array(
-				'name' => 'report_message',
-				'value' => '$data->report_message',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => '$data->user->displayname',
-			);
+			if(!isset($_GET['user'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user->displayname',
+				);
+			}
 			$this->defaultColumns[] = array(
 				'name' => 'report_date',
-				'value' => 'Utility::dateFormat($data->report_date)',
+				'value' => 'Utility::dateFormat($data->report_date, true)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -293,21 +252,6 @@ class ReportHistory extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'report_ip',
 				'value' => '$data->report_ip',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'status',
-				'value' => '$data->status == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
-				'type' => 'raw',
 			);
 		}
 		parent::afterConstruct();
@@ -328,17 +272,6 @@ class ReportHistory extends CActiveRecord
 			$model = self::model()->findByPk($id);
 			return $model;			
 		}
-	}
-
-	/**
-	 * before validate attributes
-	 */
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {		
-			if(!$this->isNewRecord)
-				$this->modified_id = Yii::app()->user->id;
-		}
-		return true;
 	}
 
 }

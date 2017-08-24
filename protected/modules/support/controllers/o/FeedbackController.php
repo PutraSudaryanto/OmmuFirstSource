@@ -195,6 +195,7 @@ class FeedbackController extends Controller
 	public function actionView($id) 
 	{
 		$model=$this->loadModel($id);
+		SupportFeedbackView::insertView($model->feedback_id);
 		
 		$this->dialogDetail = true;
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');

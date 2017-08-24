@@ -96,6 +96,7 @@ class SiteController extends Controller
 		} else {
 			$this->render('application.webs.site.front_error', $error);
 		}
+		Reports::insertReport($this->pageURL, $error['message']);
 	}
 
 	/**
