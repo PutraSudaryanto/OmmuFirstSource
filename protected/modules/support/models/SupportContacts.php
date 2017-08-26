@@ -303,7 +303,7 @@ class SupportContacts extends CActiveRecord
 		if(parent::beforeValidate()) {
 			if(!$this->isNewRecord) {
 				if($this->cat->publish == 2 && $this->contact_name == '')
-					$this->addError('contact_name', Phrase::trans($this->cat->name).' '.Yii::t('phrase', 'cannot be blank.'));
+					$this->addError('contact_name', Yii::t('phrase', '$contact_name cannot be blank.', array('$contact_name'=>Phrase::trans($this->cat->name))));
 				
 				$this->modified_id = Yii::app()->user->id;
 			} else

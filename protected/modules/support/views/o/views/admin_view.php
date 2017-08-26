@@ -49,7 +49,7 @@
 				'value'=>!in_array($model->view_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->view_date, true) : '-',
 			),
 			array(
-				'name'=>'user_id',
+				'name'=>'view_ip',
 				'value'=>$model->view_ip ? $model->view_ip : '-',
 			),
 			array(

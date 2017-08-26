@@ -109,8 +109,14 @@ class WidgetController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($category=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Widgets Manage');
+		if($category != null) {
+			$data = SupportContactCategory::model()->findByPk($category);
+			$pageTitle = Yii::t('phrase', 'Widgets: Category $category_name', array ('$category_name'=>Phrase::trans($data->name)));
+		}
+		
 		$model=new SupportWidget('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SupportWidget'])) {
@@ -127,7 +133,7 @@ class WidgetController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = 'Support Widgets Manage';
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -161,7 +167,7 @@ class WidgetController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-support-widget',
-							'msg' => '<div class="errorSummary success"><strong>SupportWidget success created.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Widget success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -175,7 +181,7 @@ class WidgetController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 550;
 
-			$this->pageTitle = 'Create Support Widgets';
+			$this->pageTitle = Yii::t('phrase', 'Create Widget');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_add',array(
@@ -210,7 +216,7 @@ class WidgetController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-support-widget',
-							'msg' => '<div class="errorSummary success"><strong>SupportWidget success updated.</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Widget success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -224,7 +230,7 @@ class WidgetController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 550;
 
-			$this->pageTitle = 'Update Support Widgets';
+			$this->pageTitle = Yii::t('phrase', 'Update Widget: $category_name', array('$category_name'=>Phrase::trans($model->cat->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -245,7 +251,7 @@ class WidgetController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'View Support Widgets');
+		$this->pageTitle = Yii::t('phrase', 'View Widget: $category_name', array('$category_name'=>Phrase::trans($model->cat->name)));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -307,7 +313,7 @@ class WidgetController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-support-widget',
-					'msg' => '<div class="errorSummary success"><strong>SupportWidget success deleted.</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Widget success deleted.').'</strong></div>',
 				));
 			}
 
@@ -316,7 +322,7 @@ class WidgetController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = 'SupportWidget Delete.';
+			$this->pageTitle = Yii::t('phrase', 'Delete Widget: $category_name', array('$category_name'=>Phrase::trans($model->cat->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -345,7 +351,7 @@ class WidgetController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-support-widget',
-					'msg' => '<div class="errorSummary success"><strong>SupportWidget success published.</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Widget success published.').'</strong></div>',
 				));
 			}
 
@@ -354,7 +360,7 @@ class WidgetController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = Yii::t('phrase', '$title Widget: $category_name', array('$title'=>$title, '$category_name'=>Phrase::trans($model->cat->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

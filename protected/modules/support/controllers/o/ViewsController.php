@@ -107,8 +107,18 @@ class ViewsController extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage($feedback=null, $user=null) 
 	{
+		$pageTitle = Yii::t('phrase', 'Feedback Views');
+		if($feedback != null) {
+			$data = SupportFeedbacks::model()->findByPk($feedback);
+			$pageTitle = Yii::t('phrase', 'Feedback View: Subject $feedback_subject', array ('$feedback_subject'=>$data->subject));
+		}
+		if($user != null) {
+			$data = Users::model()->findByPk($user);
+			$pageTitle = Yii::t('phrase', 'Feedback View: User $user_displayname', array ('$user_displayname'=>$data->displayname));
+		}
+		
 		$model=new SupportFeedbackView('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SupportFeedbackView'])) {
@@ -125,7 +135,7 @@ class ViewsController extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Support Feedback Views Manage');
+		$this->pageTitle = $pageTitle;
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -146,7 +156,7 @@ class ViewsController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'View Support Feedback Views');
+		$this->pageTitle = Yii::t('phrase', 'View Views: by $user_displayname Feedback $feedback_subject', array('$user_displayname'=>$model->user->displayname, '$feedback_subject'=>$model->feedback->subject));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -208,7 +218,7 @@ class ViewsController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-support-feedback-view',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success deleted.').'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Feedback View success deleted.').'</strong></div>',
 				));
 			}
 
@@ -217,7 +227,7 @@ class ViewsController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'SupportFeedbackView Delete.');
+			$this->pageTitle = Yii::t('phrase', 'Delete View: by $user_displayname Feedback $feedback_subject', array('$user_displayname'=>$model->user->displayname, '$feedback_subject'=>$model->feedback->subject));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -246,7 +256,7 @@ class ViewsController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-support-feedback-view',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'SupportFeedbackView success updated.').'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Feedback View success updated.').'</strong></div>',
 				));
 			}
 
@@ -255,7 +265,7 @@ class ViewsController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $title;
+			$this->pageTitle = Yii::t('phrase', '$title View: by $user_displayname Feedback $feedback_subject', array('$title'=>$title, '$user_displayname'=>$model->user->displayname, '$feedback_subject'=>$model->feedback->subject));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(
