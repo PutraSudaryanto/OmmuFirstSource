@@ -3,7 +3,7 @@
  * Ommu Page View Histories (ommu-page-view-history)
  * @var $this HistoryController
  * @var $model OmmuPageViewHistory
- * version: 0.0.1
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)

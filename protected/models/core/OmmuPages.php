@@ -357,7 +357,7 @@ class OmmuPages extends CActiveRecord
 			if($media->name != '') {
 				$extension = pathinfo($media->name, PATHINFO_EXTENSION);
 				if(!in_array(strtolower($extension), array('bmp','gif','jpg','png')))
-					$this->addError('media', 'The file "'.$media->name.'" cannot be uploaded. Only files with these extensions are allowed: bmp, gif, jpg, png.');
+					$this->addError('media', 'The file $media_name cannot be uploaded. Only files with these extensions are allowed: bmp, gif, jpg, png.', array('$media_name'=>$media->name));
 			}
 		}
 		return true;

@@ -421,23 +421,23 @@ class OmmuMeta extends CActiveRecord
 		if(parent::beforeValidate()) {
 			if($this->office_place == '' || $this->office_district == '' || $this->office_village == '') {
 				$this->addError('office_place', Yii::t('phrase', 'Office Address cannot be blank.'));
-				$this->addError('office_village', Yii::t('phrase', 'Office Village cannot be blank.'));		
-				$this->addError('office_district', Yii::t('phrase', 'Office District cannot be blank.'));		
+				$this->addError('office_village', Yii::t('phrase', 'Office Village cannot be blank.'));
+				$this->addError('office_district', Yii::t('phrase', 'Office District cannot be blank.'));
 			}
 			
 			$meta_image = CUploadedFile::getInstance($this, 'meta_image');	
 			if($meta_image->name != '') {
 				$extension = pathinfo($meta_image->name, PATHINFO_EXTENSION);
 				if(!in_array($extension, array('bmp','gif','jpg','png')))
-					$this->addError('meta_image', 'The file "'.$meta_image->name.'" cannot be uploaded. Only files with these extensions are allowed: bmp, gif, jpg, png.');
+					$this->addError('meta_image', 'The file $image_name cannot be uploaded. Only files with these extensions are allowed: bmp, gif, jpg, png.', array('$image_name'=>$meta_image->name));
 			}
 			
 			if($currentAction == 'meta/twitter') {
 				if($this->twitter_card == 3) {			
 					if($this->twitter_photo_size['width'] == '')
-						$this->addError('twitter_photo_size[width]', Yii::t('phrase', 'Photo Width cannot be blank.'));			
+						$this->addError('twitter_photo_size[width]', Yii::t('phrase', 'Photo Width cannot be blank.'));
 					if($this->twitter_photo_size['height'] == '')
-						$this->addError('twitter_photo_size[height]', Yii::t('phrase', 'Photo Height cannot be blank.'));					
+						$this->addError('twitter_photo_size[height]', Yii::t('phrase', 'Photo Height cannot be blank.'));
 				}
 			}
 			

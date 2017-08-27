@@ -185,7 +185,7 @@ class TranslateController extends Controller
 								'type' => 5,
 								'get' => Yii::app()->controller->createUrl('manage'),
 								'id' => 'partial-ommu-system-phrase',
-								'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '{phrase} Front Phrase success created.', array('{phrase}'=>$model->phrase_id)).'</strong></div>',
+								'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '$phrase Front Phrase success created.', array('$phrase'=>$model->phrase_id)).'</strong></div>',
 								
 							));
 						}
@@ -238,7 +238,7 @@ class TranslateController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-ommu-system-phrase',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '{phrase} Front Phrase success updated.', array('{phrase}'=>$model->phrase_id)).'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', '$phrase Front Phrase success updated.', array('$phrase'=>$model->phrase_id)).'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -273,6 +273,7 @@ class TranslateController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
+			
 			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,

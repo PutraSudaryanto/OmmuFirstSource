@@ -261,7 +261,7 @@ class MenucategoryController extends Controller
 
 		if(count($id) > 0) {
 			$criteria = new CDbCriteria;
-			$criteria->addInCondition('id', $id);
+			$criteria->addInCondition('cat_id', $id);
 
 			if($actions == 'publish') {
 				OmmuMenuCategory::model()->updateAll(array(
@@ -297,15 +297,15 @@ class MenucategoryController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-menu-category',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu category success deleted.').'</strong></div>',
-					));
-				}
+			$model->publish = 2;
+			
+			if($model->save()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-ommu-menu-category',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu category success deleted.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -329,29 +329,21 @@ class MenucategoryController extends Controller
 	{
 		$model=$this->loadModel($id);
 		
-		if($model->publish == 1) {
-			$title = Yii::t('phrase', 'Unpublish');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Publish');
-			$replace = 1;
-		}
-		$pageTitle = Yii::t('phrase', '$title Menu Category: $category_name', array('$title'=>$title, '$category_name'=>Phrase::trans($model->name)));
+		$title = $model->publish == 1 ? Yii::t('phrase', 'Unpublish') : Yii::t('phrase', 'Publish');
+		$replace = $model->publish == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->publish = $replace;
+			//change value active or publish
+			$model->publish = $replace;
 
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-menu-category',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu category success published.').'</strong></div>',
-					));
-				}
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-ommu-menu-category',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Menu category success published.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -359,7 +351,7 @@ class MenucategoryController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $pageTitle;
+			$this->pageTitle = Yii::t('phrase', '$title Menu Category: $category_name', array('$title'=>$title, '$category_name'=>Phrase::trans($model->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/menu_category/admin_publish',array(

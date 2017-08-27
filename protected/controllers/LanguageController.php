@@ -7,13 +7,13 @@
  *
  * TOC :
  *	Index
- *	Settings
  *	Manage
  *	Add
  *	Edit
  *	View
  *	Delete
  *	Actived
+ *	Settings
  *
  *	LoadModel
  *	performAjaxValidation
@@ -100,39 +100,6 @@ class LanguageController extends /*SBaseController*/ Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionSettings() 
-	{
-		$setting = OmmuSettings::model()->findByPk(1);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($setting);
-
-		if(isset($_POST['OmmuSettings'])) {
-			$setting->attributes=$_POST['OmmuSettings'];
-
-			$jsonError = CActiveForm::validate($setting);
-			if(strlen($jsonError) > 2) {
-				echo $jsonError;
-				
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($setting->save()) {
-						echo CJSON::encode(array(
-							'type' => 0,
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Language setting success updated.').'</strong></div>',
-						));
-					} else {
-						print_r($setting->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
-		}
 	}
 
 	/**
@@ -294,6 +261,7 @@ class LanguageController extends /*SBaseController*/ Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
+
 			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,
@@ -323,29 +291,22 @@ class LanguageController extends /*SBaseController*/ Controller
 	public function actionActived($id) 
 	{
 		$model=$this->loadModel($id);
-		if($model->actived == 1) {
-			$title = Yii::t('phrase', 'Deactived');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Actived');
-			$replace = 1;
-		}
-		$pageTitle = Yii::t('phrase', '$title Language: $language_name', array('$language_name'=>$model->name));
+		
+		$title = $model->publish == 1 ? Yii::t('phrase', 'Deactived') : Yii::t('phrase', 'Actived');
+		$replace = $model->publish == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->actived = $replace;
+			//change value active or publish
+			$model->actived = $replace;
 
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-language',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Language success updated.').'</strong></div>',
-					));
-				}
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-language',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Language success updated.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -353,13 +314,46 @@ class LanguageController extends /*SBaseController*/ Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $pageTitle;
+			$this->pageTitle = Yii::t('phrase', '$title Language: $language_name', array('$language_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_active',array(
 				'title'=>$title,
 				'model'=>$model,
 			));
+		}
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionSettings() 
+	{
+		$setting = OmmuSettings::model()->findByPk(1);
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($setting);
+
+		if(isset($_POST['OmmuSettings'])) {
+			$setting->attributes=$_POST['OmmuSettings'];
+
+			$jsonError = CActiveForm::validate($setting);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+				
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($setting->save()) {
+						echo CJSON::encode(array(
+							'type' => 0,
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Language setting success updated.').'</strong></div>',
+						));
+					} else {
+						print_r($setting->getErrors());
+					}
+				}
+			}
+			Yii::app()->end();
 		}
 	}
 

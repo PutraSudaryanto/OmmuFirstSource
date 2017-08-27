@@ -139,7 +139,7 @@ class SearchController extends Controller
 				$query = Zend_Search_Lucene_Search_QueryParser::parse($term);
 		
 				$this->pageTitleShow = true;
-				$this->pageTitle = 'Hasil Pencarian: '.$_GET['keyword'];
+				$this->pageTitle = Yii::t('phrase', 'Hasil Pencarian: $keyword', array('$keyword'=>$_GET['keyword']));
 				$this->pageDescription = '';
 				$this->pageMeta = '';				
 				$this->render('application.webs.search.front_result', compact(

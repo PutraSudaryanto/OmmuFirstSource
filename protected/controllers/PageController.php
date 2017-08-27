@@ -131,7 +131,7 @@ class PageController extends Controller
 				),
 			));
 
-			$this->pageTitle = '';
+			$this->pageTitle = Yii::t('phrase', 'Pages'));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('application.webs.page.front_index',array(
@@ -325,15 +325,15 @@ class PageController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-pages',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success deleted.').'</strong></div>',
-					));
-				}
+			$model->publish = 2;
+			
+			if($model->save()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-pages',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success deleted.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -356,29 +356,22 @@ class PageController extends Controller
 	public function actionPublish($id) 
 	{
 		$model=$this->loadModel($id);
-		if($model->publish == 1) {
-			$title = Yii::t('phrase', 'Unpublish');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Publish');
-			$replace = 1;
-		}
-		$pageTitle = Yii::t('phrase', '$title Page: $page_name', array('$title'=>$title, '$page_name'=>Phrase::trans($model->name)));
+		
+		$title = $model->publish == 1 ? Yii::t('phrase', 'Unpublish') : Yii::t('phrase', 'Publish');
+		$replace = $model->publish == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->publish = $replace;
+			//change value active or publish
+			$model->publish = $replace;
 
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-pages',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success updated.').'</strong></div>',
-					));
-				}
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-pages',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Pages success updated.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -386,7 +379,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $pageTitle;
+			$this->pageTitle = Yii::t('phrase', '$title Page: $page_name', array('$title'=>$title, '$page_name'=>Phrase::trans($model->name)));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(
