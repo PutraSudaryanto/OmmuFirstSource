@@ -4,7 +4,7 @@
  * @var $this HistoryController
  * @var $model OmmuPageViewHistory
  * @var $form CActiveForm
- * version: 0.0.1
+ * version: 1.3.0
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)

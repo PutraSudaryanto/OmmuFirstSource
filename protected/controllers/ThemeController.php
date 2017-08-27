@@ -221,7 +221,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 500;
 			
-			$this->pageTitle = Yii::t('phrase', 'Update Theme: {theme_name}', array('{theme_name}'=>$model->name));
+			$this->pageTitle = Yii::t('phrase', 'Update Theme: $theme_name', array('$theme_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_edit',array(
@@ -241,7 +241,9 @@ class ThemeController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if($model->delete()) {
+			$model->publish = 2;
+			
+			if($model->save()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
@@ -255,7 +257,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Theme: {theme_name}', array('{theme_name}'=>$model->name));
+			$this->pageTitle = Yii::t('phrase', 'Delete Theme: $theme_name', array('$theme_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -273,18 +275,16 @@ class ThemeController extends Controller
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->default_theme = 1;
+			//change value active or publish
+			$model->default_theme = 1;
 
-				if($model->save()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-ommu-themes',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success updated.').'</strong></div>',
-					));
-				}
+			if($model->save()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-ommu-themes',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Theme success updated.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -292,7 +292,7 @@ class ThemeController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Default Theme: {theme_name}', array('{theme_name}'=>$model->name));
+			$this->pageTitle = Yii::t('phrase', 'Default Theme: $theme_name', array('$theme_name'=>$model->name));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_default',array(

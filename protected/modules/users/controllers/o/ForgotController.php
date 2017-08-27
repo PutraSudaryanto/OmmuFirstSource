@@ -166,7 +166,7 @@ class ForgotController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-user-invite',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User Forgots success created.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Forgot Password success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -262,7 +262,7 @@ class ForgotController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-user-forgot',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User Forgots success deleted.').'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Forgot Password success deleted.').'</strong></div>',
 				));
 			}
 
@@ -300,7 +300,7 @@ class ForgotController extends Controller
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
 					'id' => 'partial-user-forgot',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User Forgots success updated.').'</strong></div>',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Forgot Password success updated.').'</strong></div>',
 				));
 			}
 

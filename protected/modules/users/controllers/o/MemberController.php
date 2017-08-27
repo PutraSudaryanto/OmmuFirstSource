@@ -144,7 +144,7 @@ class MemberController extends Controller
 		$pageTitle = Yii::t('phrase', 'Members');
 		if($level != null) {
 			$data = UserLevel::model()->findByPk($level);
-			$pageTitle = Yii::t('phrase', 'Members: category $level_name', array ('$level_name'=>Phrase::trans($data->name)));
+			$pageTitle = Yii::t('phrase', 'Members: level $level_name', array ('$level_name'=>Phrase::trans($data->name)));
 		}
 		
 		$model=new Users('search');
@@ -269,7 +269,7 @@ class MemberController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 600;
 
-		$this->pageTitle = Yii::t('phrase', 'Update Member: {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'Update Member: $displayname', array('$displayname'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -286,7 +286,7 @@ class MemberController extends Controller
 	{
 		$model=$this->loadModel($id);
 
-		$this->pageTitle = Yii::t('phrase', 'View Member: {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'View Member: $displayname', array('$displayname'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -321,7 +321,7 @@ class MemberController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Member: {displayname}', array('{displayname}'=>$model->displayname));
+			$this->pageTitle = Yii::t('phrase', 'Delete Member: $displayname', array('$displayname'=>$model->displayname));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');

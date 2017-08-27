@@ -166,7 +166,7 @@ class VerifyController extends Controller
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
 							'id' => 'partial-user-invite',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Invite Verifies success created.').'</strong></div>',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'User Verify success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());

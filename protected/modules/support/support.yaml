@@ -15,13 +15,13 @@ plugin_menu		:
 		urlRules: {siteType: "0,1", userLevel: "1,2"}
 		urlPath: {url: o/feedback/manage, attr: -, icon: -}
 	- urlTitle: Replies
-		urlRules: {siteType: "0,1", userLevel: "1,2"}
+		urlRules: {siteType: "0,1", userLevel: "1"}
 		urlPath: {url: o/reply/manage, attr: -, icon: -}
 	- urlTitle: Views
-		urlRules: {siteType: "0,1", userLevel: "1,2"}
+		urlRules: {siteType: "0,1", userLevel: "1"}
 		urlPath: {url: o/views/manage, attr: -, icon: -}
 	- urlTitle: Users
-		urlRules: {siteType: "0,1", userLevel: "1,2"}
+		urlRules: {siteType: "0,1", userLevel: "1"}
 		urlPath: {url: o/user/manage, attr: -, icon: -}
 	- urlTitle: Support Manual
 		urlRules: {siteType: "0,1", userLevel: "1,2"}

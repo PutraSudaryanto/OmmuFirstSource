@@ -9,7 +9,6 @@
  *
  * TOC :
  *	Index
- *	Password
  *	Manage
  *	Add
  *	Edit
@@ -17,6 +16,8 @@
  *	Delete
  *	Enable
  *	Verify
+ *	Password
+ *	Photo
  *
  *	LoadModel
  *	performAjaxValidation
@@ -109,123 +110,6 @@ class AdminController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionPassword() 
-	{
-		$model=$this->loadModel(Yii::app()->user->id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Users'])) {
-			$model->attributes=$_POST['Users'];
-			$model->scenario = 'formChangePassword';
-
-			$jsonError = CActiveForm::validate($model);
-			if(strlen($jsonError) > 2) {
-				echo $jsonError;
-			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-					if($model->save()) {
-						echo CJSON::encode(array(
-							'type' => 5,
-							'get' => Yii::app()->controller->createUrl('password',array('type'=>'success')),
-						));
-					} else {
-						print_r($model->getErrors());
-					}
-				}
-			}
-			Yii::app()->end();
-		}
-
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->createUrl('admin/dashboard');
-		$this->dialogWidth = 500;
-		
-		$this->pageTitle = 'Change Password';
-		$this->pageDescription = '';
-		$this->pageMeta = '';
-		$this->render('admin_password',array(
-			'model'=>$model,
-		));
-	}
-
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionPhoto($id=null) 
-	{
-		$condition = 1;
-		if($id == null) {
-			$condition = 0;
-			$id = Yii::app()->user->id;
-		}
-		
-		$model = Users::model()->findByPk($id);
-		$photo_exts = unserialize($model->level->photo_exts);
-		if(empty($photo_exts))
-			$photo_exts = array();
-		
-		if(!$model->getErrors())
-			$photos = $model->photos;
-		
-		if($condition == 0) {
-			$user_path = 'public/users/'.$id;
-			if(!file_exists($user_path)) {
-				mkdir($user_path, 0755, true);
-
-				// Add File in User Folder (index.php)
-				$newFile = $user_path.'/index.php';
-				$FileHandle = fopen($newFile, 'w');
-			} else
-				@chmod($user_path, 0755, true);
-			
-			$userPhoto = CUploadedFile::getInstanceByName('namaFile');
-			$fileName = time().'_'.Utility::getUrlTitle($model->displayname).'.'.strtolower($userPhoto->extensionName);
-			if($userPhoto->saveAs($user_path.'/'.$fileName)) {
-				if(Users::model()->updateByPk($model->user_id, array('photos'=>$fileName,'update_date'=>date('Y-m-d H:i:s')))) {
-					if($photos != '')
-						rename($user_path.'/'.$photos, 'public/users/verwijderen/'.$model->user_id.'_'.$photos);
-					echo CJSON::encode(array(
-						'id' => 'div.account a.photo img',
-						'image' => Utility::getTimThumb(Yii::app()->request->baseUrl.'/public/users/'.$model->user_id.'/'.$fileName, 82, 82, 1),
-					));					
-				}
-			}
-			
-		} else {
-			// Uncomment the following line if AJAX validation is needed
-			$this->performAjaxValidation($model);
-
-			if(isset($_POST['Users'])) {
-				$model->attributes=$_POST['Users'];
-				
-				if($model->save()) {
-					Yii::app()->user->setFlash('success', Yii::t('phrase', 'Users success updated.'));
-					$this->redirect(array('manage'));
-				}
-			}
-			
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = $condition == 1 ? Yii::app()->controller->createUrl('manage') : Yii::app()->createUrl('admin/dashboard');
-			$this->dialogWidth = 600;
-
-			$this->pageTitle = 'Photo Users';
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_photo',array(
-				'model'=>$model,
-				'photo_exts'=>$photo_exts,
-			));
-		}
 	}
 
 	/**
@@ -363,7 +247,7 @@ class AdminController extends Controller
 		$this->dialogGroundUrl = $condition == 1 ? Yii::app()->controller->createUrl('manage') : Yii::app()->createUrl('admin/dashboard');
 		$this->dialogWidth = 600;
 		
-		$this->pageTitle = Yii::t('phrase', 'Update Administrator: {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'Update Administrator: $displayname', array('$displayname'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -380,7 +264,7 @@ class AdminController extends Controller
 	{
 		$model=$this->loadModel($id);
 
-		$this->pageTitle = Yii::t('phrase', 'View Administrator: {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'View Administrator: $displayname', array('$displayname'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_view',array(
@@ -416,7 +300,7 @@ class AdminController extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 350;
 
-		$this->pageTitle = Yii::t('phrase', 'Delete Administrator: {displayname}', array('{displayname}'=>$model->displayname));
+		$this->pageTitle = Yii::t('phrase', 'Delete Administrator: $displayname', array('$displayname'=>$model->displayname));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_delete');
@@ -441,18 +325,16 @@ class AdminController extends Controller
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or publish
-				$model->enabled = $replace;
+			//change value active or publish
+			$model->enabled = $replace;
 
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Administrator success updated.').'</strong></div>',
-					));
-				}
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-users',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Administrator success updated.').'</strong></div>',
+				));
 			}
 
 		} else {
@@ -478,14 +360,9 @@ class AdminController extends Controller
 	public function actionVerify($id) 
 	{
 		$model=$this->loadModel($id);
-		if($model->verified == 1) {
-			$title = Yii::t('phrase', 'Unverified');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Verified');
-			$replace = 1;
-		}
-		$pageTitle = Yii::t('phrase', '$title Administrator: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
+		
+		$title = $model->verified == 1 ? Yii::t('phrase', 'Unverified') : Yii::t('phrase', 'Verified');
+		$replace = $model->verified == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
@@ -508,12 +385,129 @@ class AdminController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = $pageTitle;
+			$this->pageTitle = Yii::t('phrase', '$title Administrator: $displayname', array('$title'=>$title, '$displayname'=>$model->displayname));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_verify',array(
 				'title'=>$title,
 				'model'=>$model,
+			));
+		}
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionPassword() 
+	{
+		$model=$this->loadModel(Yii::app()->user->id);
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['Users'])) {
+			$model->attributes=$_POST['Users'];
+			$model->scenario = 'formChangePassword';
+
+			$jsonError = CActiveForm::validate($model);
+			if(strlen($jsonError) > 2) {
+				echo $jsonError;
+			} else {
+				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+					if($model->save()) {
+						echo CJSON::encode(array(
+							'type' => 5,
+							'get' => Yii::app()->controller->createUrl('password',array('type'=>'success')),
+						));
+					} else {
+						print_r($model->getErrors());
+					}
+				}
+			}
+			Yii::app()->end();
+		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->createUrl('admin/dashboard');
+		$this->dialogWidth = 500;
+		
+		$this->pageTitle = Yii::t('phrase', 'Change Password');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_password',array(
+			'model'=>$model,
+		));
+	}
+
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionPhoto($id=null) 
+	{
+		$condition = 1;
+		if($id == null) {
+			$condition = 0;
+			$id = Yii::app()->user->id;
+		}
+		
+		$model = Users::model()->findByPk($id);
+		$photo_exts = unserialize($model->level->photo_exts);
+		if(empty($photo_exts))
+			$photo_exts = array();
+		
+		if(!$model->getErrors())
+			$photos = $model->photos;
+		
+		if($condition == 0) {
+			$user_path = 'public/users/'.$id;
+			if(!file_exists($user_path)) {
+				mkdir($user_path, 0755, true);
+
+				// Add File in User Folder (index.php)
+				$newFile = $user_path.'/index.php';
+				$FileHandle = fopen($newFile, 'w');
+			} else
+				@chmod($user_path, 0755, true);
+			
+			$userPhoto = CUploadedFile::getInstanceByName('namaFile');
+			$fileName = time().'_'.Utility::getUrlTitle($model->displayname).'.'.strtolower($userPhoto->extensionName);
+			if($userPhoto->saveAs($user_path.'/'.$fileName)) {
+				if(Users::model()->updateByPk($model->user_id, array('photos'=>$fileName,'update_date'=>date('Y-m-d H:i:s')))) {
+					if($photos != '')
+						rename($user_path.'/'.$photos, 'public/users/verwijderen/'.$model->user_id.'_'.$photos);
+					echo CJSON::encode(array(
+						'id' => 'div.account a.photo img',
+						'image' => Utility::getTimThumb(Yii::app()->request->baseUrl.'/public/users/'.$model->user_id.'/'.$fileName, 82, 82, 1),
+					));					
+				}
+			}
+			
+		} else {
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+
+			if(isset($_POST['Users'])) {
+				$model->attributes=$_POST['Users'];
+				
+				if($model->save()) {
+					Yii::app()->user->setFlash('success', Yii::t('phrase', 'Users success updated.'));
+					$this->redirect(array('manage'));
+				}
+			}
+			
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = $condition == 1 ? Yii::app()->controller->createUrl('manage') : Yii::app()->createUrl('admin/dashboard');
+			$this->dialogWidth = 600;
+
+			$this->pageTitle = Yii::t('phrase', 'Photo Users');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_photo',array(
+				'model'=>$model,
+				'photo_exts'=>$photo_exts,
 			));
 		}
 	}

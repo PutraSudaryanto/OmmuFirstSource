@@ -112,7 +112,7 @@ class InviteController extends Controller
 		$pageTitle = Yii::t('phrase', 'User Invites');
 		if($user != null) {
 			$data = Users::model()->findByPk($user);
-			$pageTitle = Yii::t('phrase', 'User Invites: by $user_displayname', array ('$user_displayname'=>$data->displayname));
+			$pageTitle = Yii::t('phrase', 'User Invite: by $user_displayname', array ('$user_displayname'=>$data->displayname));
 		}
 		
 		$model=new UserInvites('search');
@@ -238,7 +238,7 @@ class InviteController extends Controller
 		$this->dialogWidth = 600;
 		
 		$pageTitle = Yii::t('phrase', 'View Invite: $newsletter_email by Guest', array('$newsletter_email'=>$model->newsletter->email));
-		if($model->user->displayname)
+		if($model->user_id)
 			$pageTitle = Yii::t('phrase', 'View Invite: $newsletter_email by $inviter_displayname', array('$newsletter_email'=>$model->newsletter->email, '$inviter_displayname'=>$model->user->displayname));
 
 		$this->pageTitle = $pageTitle;
@@ -295,7 +295,7 @@ class InviteController extends Controller
 		$model=$this->loadModel($id);
 		
 		$pageTitle = Yii::t('phrase', 'Delete Invite: $newsletter_email by Guest', array('$newsletter_email'=>$model->newsletter->email));
-		if($model->user->displayname)
+		if($model->user_id)
 			$pageTitle = Yii::t('phrase', 'Delete Invite: $newsletter_email by $inviter_displayname', array('$newsletter_email'=>$model->newsletter->email, '$inviter_displayname'=>$model->user->displayname));
 		
 		if(Yii::app()->request->isPostRequest) {
@@ -355,7 +355,7 @@ class InviteController extends Controller
 			$this->dialogWidth = 350;
 		
 			$pageTitle = Yii::t('phrase', '$title Invite: $newsletter_email by Guest', array('$title'=>$title, '$newsletter_email'=>$model->newsletter->email));
-			if($model->user->displayname)
+			if($model->user_id)
 				$pageTitle = Yii::t('phrase', '$title Invite: $newsletter_email by $inviter_displayname', array('$title'=>$title, '$newsletter_email'=>$model->newsletter->email, '$inviter_displayname'=>$model->user->displayname));
 
 			$this->pageTitle = $pageTitle;

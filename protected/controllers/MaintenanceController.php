@@ -57,7 +57,7 @@ class MaintenanceController extends Controller
 		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'construction_date, construction_text',
 		));
-		$this->pageTitle = 'Contruction';
+		$this->pageTitle = Yii::t('phrase', 'Contruction');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('application.webs.maintenance.front_index',array(
@@ -74,6 +74,7 @@ class MaintenanceController extends Controller
 		$model = OmmuPages::model()->findByPk($id,array(
 			//'select' => '',
 		));
+
 		$this->pageTitle = Phrase::trans($model->name);
 		$this->pageDescription = Utility::shortText(Utility::hardDecode(Phrase::trans($model->desc)),300);
 		$this->pageMeta = '';
@@ -197,7 +198,7 @@ class MaintenanceController extends Controller
 	 */
 	public function actionSupport()
 	{	
-		$this->pageTitle = 'Support';
+		$this->pageTitle = Yii::t('phrase', 'Support');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('application.webs.maintenance.front_support');

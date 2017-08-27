@@ -343,28 +343,5 @@ class OmmuLanguages extends CActiveRecord
 		}
 		return true;
 	}
-	
-	/**
-	 * After save attributes
-	 */
-	protected function afterSave() {
-		parent::afterSave();
-		if($this->isNewRecord) {
-			// Add column in mysql
-			$conn = Yii::app()->db;
-			$sql .= "ALTER TABLE ommu_core_system_phrase ADD COLUMN `$this->code` text NOT NULL default ''";
-			$conn->createCommand($sql)->execute();
-		}
-	}
-
-	protected function afterDelete() {
-		parent::afterDelete();
-
-		// Delete column in mysql
-		$conn = Yii::app()->db;
-		$sql .= "ALTER TABLE ommu_core_system_phrase DROP COLUMN `$this->code`";
-		$conn->createCommand($sql)->execute();
-
-	}
 
 }
