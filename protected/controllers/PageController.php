@@ -1,4 +1,4 @@
-<?php
+134<?php
 /**
  * PageController
  * Handle PageController
@@ -131,7 +131,7 @@ class PageController extends Controller
 				),
 			));
 
-			$this->pageTitle = Yii::t('phrase', 'Pages'));
+			$this->pageTitle = Yii::t('phrase', 'Pages');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('application.webs.page.front_index',array(
