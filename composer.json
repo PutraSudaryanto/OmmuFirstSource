@@ -1,0 +1,38 @@
+{
+	"name": "ommu/core",
+	"description": "Module Core Ommu Platform",
+	"keywords": [
+		"module",
+		"core",
+		"ommu",
+		"platform",
+		"ommu platform"
+	],
+	"homepage": "https://github.com/ommu/ommu-core",
+	"type": "ommu-module",
+	"license": "Apache-2.0",
+	"support": {
+		"issues": "https://github.com/ommu/ommu-core/issues",
+		"wiki": "https://github.com/ommu/ommu-core/wiki",
+		"source": "https://github.com/ommu/ommu-core"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ommu/ommu-core.git"
+	},
+	"authors": [
+		{
+			"name": "Putra Sudaryanto",
+			"email": "putra@sudaryanto.id",
+			"homepage": "https://putra.sudaryanto.id",
+			"role": "Creator"
+		}
+	],
+	"require": {
+		"php": ">=5.3.2",
+		"oomphinc/composer-installers-extender": "^1.0",
+		"yiisoft/yii": "^1.1.14",
+		"yiiext/imperavi-redactor-widget": "^1.3.10",
+		"mintao/yii-behavior-sluggable": "^1.0"
+	}
+}

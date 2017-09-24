@@ -35,7 +35,7 @@
 			<div class="desc">
 				<?php 
 				//echo $form->textArea($model,$val->code,array('rows'=>6, 'cols'=>50, 'class'=>'span-8 medium'));
-				$this->widget('application.extensions.imperavi.ImperaviRedactorWidget', array(
+				$this->widget('application.vendors.yiiext.imperavi-redactor-widget.ImperaviRedactorWidget', array(
 					'model'=>$model,
 					'attribute'=>$val->code,
 					// Redactor options
