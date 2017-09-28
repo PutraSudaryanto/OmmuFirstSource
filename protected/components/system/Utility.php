@@ -159,10 +159,10 @@ class Utility
 	{
 		define('DS', DIRECTORY_SEPARATOR);		
 		if($module != null) {
-			$YMLPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';
+			$YMLPath = Yii::getPathOfAlias('ommu.'.$module).DS.$module.'.yaml';
 			if($parent != null) {
 				$module = $parent.'-'.$module;
-				$YMLPath = Yii::getPathOfAlias('application.modules.'.$parent).DS.$module.'.yaml';
+				$YMLPath = Yii::getPathOfAlias('ommu.'.$parent).DS.$module.'.yaml';
 			}
 		} else
 			$YMLPath = Yii::getPathOfAlias('application.ommu').DS.'ommu.yaml';

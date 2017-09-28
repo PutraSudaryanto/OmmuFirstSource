@@ -60,7 +60,7 @@ EOP;
 						if(!$model->getErrors())
 							$model->quote_i = Phrase::trans($model->quote);
 						//echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 small'));
-						$this->widget('application.vendors.yiiext.imperavi-redactor-widget.ImperaviRedactorWidget', array(
+						$this->widget('application.vendor.yiiext.imperavi-redactor-widget.ImperaviRedactorWidget', array(
 							'model'=>$model,
 							'attribute'=>quote_i,
 							// Redactor options
@@ -88,7 +88,7 @@ EOP;
 						if(!$model->getErrors())
 							$model->description_i = Phrase::trans($model->desc);
 						//echo $form->textArea($model,'description_i',array('rows'=>6, 'cols'=>50));
-						$this->widget('application.vendors.yiiext.imperavi-redactor-widget.ImperaviRedactorWidget', array(
+						$this->widget('application.vendor.yiiext.imperavi-redactor-widget.ImperaviRedactorWidget', array(
 							'model'=>$model,
 							'attribute'=>description_i,
 							// Redactor options

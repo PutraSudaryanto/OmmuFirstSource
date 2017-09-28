@@ -40,7 +40,7 @@ class SearchController extends Controller
 		$this->layout = $arrThemes['layout'];
 		
 		//load Lucene Library
-		Yii::import('application.vendors.*');
+		Yii::import('application.vendor.*');
 		require_once('Zend/Search/Lucene.php');
 		parent::init();
 	}
