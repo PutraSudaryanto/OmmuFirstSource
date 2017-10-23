@@ -347,7 +347,7 @@ class OmmuPages extends CActiveRecord
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {		
+		if(parent::beforeValidate()) {
 			if($this->isNewRecord)
 				$this->creation_id = Yii::app()->user->id;
 			else
