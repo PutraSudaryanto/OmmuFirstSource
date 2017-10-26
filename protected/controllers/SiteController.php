@@ -53,6 +53,7 @@ class SiteController extends Controller
 		$arrThemes = Utility::getCurrentTemplate('public');
 		Yii::app()->theme = $arrThemes['folder'];
 		$this->layout = $arrThemes['layout'];
+		Utility::applyViewPath(__dir__);
 		//$this->pageGuest = true;
 	}
 

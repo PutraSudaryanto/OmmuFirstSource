@@ -64,8 +64,8 @@ class Ommu extends CApplicationComponent
 		if(!empty($controllerTheme)) {
 			foreach($controllerTheme as $key => $val)
 				$controllerMap[$key] = 'webroot.themes.'.$theme.'.controllers.'.$val;
-			Yii::app()->controllerMap = $controllerMap;	
-		}	
+			Yii::app()->controllerMap = $controllerMap;
+		}
 
 		/**
 		 * set url manager
