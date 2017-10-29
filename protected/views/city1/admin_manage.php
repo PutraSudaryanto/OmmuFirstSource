@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 18:44 WIB
+ * @created date 29 October 2017, 19:54 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -35,18 +35,19 @@
 ?>
 
 <?php //begin.Search ?>
-<div class="search-form">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
+<div class="search-form">
 </div>
 <?php //end.Search ?>
 
 <?php //begin.Grid Option ?>
-<div class="grid-form">
 <?php $this->renderPartial('_option_form',array(
 	'model'=>$model,
+	'gridColumns'=>Utility::getActiveDefaultColumns($columns),
 )); ?>
+<div class="grid-form">
 </div>
 <?php //end.Grid Option ?>
 
@@ -73,7 +74,7 @@
 					'view' => array(
 						'label' => 'view',
 						'imageUrl' => false,
-						'options' => array(							
+						'options' => array(
 							'class' => 'view',
 						),
 						'url' => 'Yii::app()->controller->createUrl(\'view\',array(\'id\'=>$data->primaryKey))'),

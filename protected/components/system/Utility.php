@@ -8,6 +8,8 @@
  *	applyCurrentTheme
  *	applyViewPath
  *	getProtocol
+ *	getActiveDefaultColumns
+ *	getKeyIndex
 
  
  *	getConnected
@@ -105,6 +107,41 @@ class Utility
 		if(Yii::app()->request->isSecureConnection)
 			return 'https';
 		return 'http';
+	}
+
+	/**
+	 * Generates key index defaultColumns in models
+	 * @return array
+	 */
+	public static function getActiveDefaultColumns($columns)
+	{
+		print_r($columns);
+		$column = array();
+
+		foreach($columns as $val) {
+			$keyIndex = self::getKeyIndex($val);
+			if($keyIndex)
+				$column[] = $keyIndex;
+		}
+
+		return $column;
+	}
+
+	/**
+	 * Generates key index defaultColumns in models
+	 * @return array
+	 */
+	public static function getKeyIndex($data)
+	{
+		if(!is_array($data))
+			return $data;
+
+		else {
+			if(array_key_exists('name', $data))
+				return $data['name'];
+		}
+
+		return false;
 	}
 
 

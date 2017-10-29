@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 18:44 WIB
+ * @created date 29 October 2017, 19:54 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -145,7 +145,7 @@ class City1Controller extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage() 
+	public function actionManage()
 	{
 		$model=new CoreZoneCity('search');
 		$model->unsetAttributes();  // clear any default values
@@ -153,12 +153,12 @@ class City1Controller extends Controller
 			$model->attributes=$_GET['CoreZoneCity'];
 		}
 
+		$gridColumn = $_GET['GridColumn'];
 		$columnTemp = array();
-		if(isset($_GET['GridColumn'])) {
-			foreach($_GET['GridColumn'] as $key => $val) {
-				if($_GET['GridColumn'][$key] == 1) {
+		if(isset($gridColumn)) {
+			foreach($gridColumn as $key => $val) {
+				if($gridColumn[$key] == 1)
 					$columnTemp[] = $key;
-				}
 			}
 		}
 		$columns = $model->getGridColumn($columnTemp);
