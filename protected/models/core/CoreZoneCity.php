@@ -5,7 +5,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 10:30 WIB
+ * @created date 29 October 2017, 12:20 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -32,9 +32,9 @@
  */
 class CoreZoneCity extends CActiveRecord
 {
-    public $defaultColumns = array();
-    public $templateColumns = array();
-	public $gridForbiddenColumn = array('modified_date','modified_search','updated_date');
+	public $defaultColumns = array();
+	public $templateColumns = array();
+	public $gridForbiddenColumn = array();
 
 	// Variable Search
 	public $province_search;
@@ -192,59 +192,59 @@ class CoreZoneCity extends CActiveRecord
 		));
 	}
 
-    /**
-     * Get kolom untuk Grid View
-     *
-     * @param array $columns kolom dari view
-     * @return array dari grid yang aktif
-     */
-    public function getGridColumn($columns=null) 
-    {
-        // Jika $columns kosong maka isi defaultColumns dg templateColumns
-        if(empty($columns) || $columns == null) {
-            array_splice($this->defaultColumns, 0);
-            foreach($this->templateColumns as $key => $val) {
-                if(!in_array($key, $this->gridForbiddenColumn) && !in_array($key, $this->defaultColumns))
-                    $this->defaultColumns[] = $val;
-            }
-            return $this->defaultColumns;
-        }
+	/**
+	 * Get kolom untuk Grid View
+	 *
+	 * @param array $columns kolom dari view
+	 * @return array dari grid yang aktif
+	 */
+	public function getGridColumn($columns=null) 
+	{
+		// Jika $columns kosong maka isi defaultColumns dg templateColumns
+		if(empty($columns) || $columns == null) {
+			array_splice($this->defaultColumns, 0);
+			foreach($this->templateColumns as $key => $val) {
+				if(!in_array($key, $this->gridForbiddenColumn) && !in_array($key, $this->defaultColumns))
+					$this->defaultColumns[] = $val;
+			}
+			return $this->defaultColumns;
+		}
 
-        foreach($columns as $val) {
-            if(!in_array($val, $this->gridForbiddenColumn) && !in_array($val, $this->defaultColumns)) {
-                $col = $this->getTemplateColumn($val);
-                if($col != null)
-                    $this->defaultColumns[] = $col;
-            }
-        }
+		foreach($columns as $val) {
+			if(!in_array($val, $this->gridForbiddenColumn) && !in_array($val, $this->defaultColumns)) {
+				$col = $this->getTemplateColumn($val);
+				if($col != null)
+					$this->defaultColumns[] = $col;
+			}
+		}
 
-        array_unshift($this->defaultColumns, [
-            'header' => Yii::t('app', 'No'),
-            'class'  => 'yii\grid\SerialColumn'
-        ]);
+		array_unshift($this->defaultColumns, [
+			'header' => Yii::t('app', 'No'),
+			'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
+		]);
 
-        return $this->defaultColumns;
-    }
+		return $this->defaultColumns;
+	}
 
-    /**
-     * Get kolom template berdasarkan id pengenal
-     *
-     * @param string $name nama pengenal
-     * @return mixed
-     */
-    public function getTemplateColumn($name) 
-    {
-        $data = null;
-        if(trim($name) == '') return $data;
+	/**
+	 * Get kolom template berdasarkan id pengenal
+	 *
+	 * @param string $name nama pengenal
+	 * @return mixed
+	 */
+	public function getTemplateColumn($name) 
+	{
+		$data = null;
+		if(trim($name) == '') return $data;
 
-        foreach($this->templateColumns as $key => $item) {
-            if($name == $key) {
-                $data = $item;
-                break;
-            }
-        }
-        return $data;
-    }
+		foreach($this->templateColumns as $key => $item) {
+			if($name == $key) {
+				$data = $item;
+				break;
+			}
+		}
+		return $data;
+	}
 
 	/**
 	 * Set default columns to display
@@ -261,20 +261,6 @@ class CoreZoneCity extends CActiveRecord
 				'header' => Yii::t('app', 'No'),
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-			$this->templateColumns['publish'] = array(
-				'name' => 'publish',
-				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\',array(\'id\'=>$data->city_id)), $data->publish)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
-				'type' => 'raw',
-			);
-			}
 			if(!isset($_GET['province'])) {
 			$this->templateColumns['province_search'] = array(
 				'name' => 'province_search',
@@ -289,21 +275,9 @@ class CoreZoneCity extends CActiveRecord
 				'name' => 'mfdonline',
 				'value' => '$data->mfdonline',
 			);
-			$this->templateColumns['checked'] = array(
-				'name' => 'checked',
-				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'checked\',array(\'id\'=>$data->city_id)), $data->checked)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
-				'type' => 'raw',
-			);
 			$this->templateColumns['creation_date'] = array(
 				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date)',
+				'value' => '!in_array($data->creation_date, array(\'0000-00-00 00:00:00\', \'1970-01-01 00:00:00\')) ? Utility::dateFormat($data->creation_date) : \'-\'',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -335,7 +309,7 @@ class CoreZoneCity extends CActiveRecord
 			}
 			$this->templateColumns['modified_date'] = array(
 				'name' => 'modified_date',
-				'value' => 'Utility::dateFormat($data->modified_date)',
+				'value' => '!in_array($data->modified_date, array(\'0000-00-00 00:00:00\', \'1970-01-01 00:00:00\')) ? Utility::dateFormat($data->modified_date) : \'-\'',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -367,7 +341,7 @@ class CoreZoneCity extends CActiveRecord
 			}
 			$this->templateColumns['updated_date'] = array(
 				'name' => 'updated_date',
-				'value' => 'Utility::dateFormat($data->updated_date)',
+				'value' => '!in_array($data->updated_date, array(\'0000-00-00 00:00:00\', \'1970-01-01 00:00:00\')) ? Utility::dateFormat($data->updated_date) : \'-\'',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -390,6 +364,32 @@ class CoreZoneCity extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			if(!isset($_GET['type'])) {
+			$this->templateColumns['publish'] = array(
+				'name' => 'publish',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\',array(\'id\'=>$data->city_id)), $data->publish)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			}
+			$this->templateColumns['checked'] = array(
+				'name' => 'checked',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'checked\',array(\'id\'=>$data->city_id)), $data->checked)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
 			);
 		}
 		parent::afterConstruct();
