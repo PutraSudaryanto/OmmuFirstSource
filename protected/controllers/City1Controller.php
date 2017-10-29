@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 10:33 WIB
+ * @created date 29 October 2017, 15:28 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -81,7 +81,7 @@ class City1Controller extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -90,7 +90,7 @@ class City1Controller extends Controller
 				'expression'=>'isset(Yii::app()->user->level)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','runaction','delete','publish','headline'),
+				'actions'=>array('manage','add','edit','view','runaction','delete','publish','headline'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
 				//'expression'=>'isset(Yii::app()->user->level) && (in_array(Yii::app()->user->level, array(1,2)))',
@@ -110,6 +110,35 @@ class City1Controller extends Controller
 	 */
 	public function actionIndex() 
 	{
+		/*
+		$arrThemes = Utility::getCurrentTemplate('public');
+		Yii::app()->theme = $arrThemes['folder'];
+		$this->layout = $arrThemes['layout'];
+		Utility::applyCurrentTheme($this->module);
+		
+		$setting = CoreZoneCity::model()->findByPk(1,array(
+			'select' => 'meta_description, meta_keyword',
+		));
+
+		$criteria=new CDbCriteria;
+		$criteria->condition = 'publish = :publish';
+		$criteria->params = array(':publish'=>1);
+		$criteria->order = 'creation_date DESC';
+
+		$dataProvider = new CActiveDataProvider('CoreZoneCity', array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>10,
+			),
+		));
+
+		$this->pageTitle = Yii::t('phrase', 'Core Zone Cities');
+		$this->pageDescription = $setting->meta_description;
+		$this->pageMeta = $setting->meta_keyword;
+		$this->render('front_index',array(
+			'dataProvider'=>$dataProvider,
+		));
+		*/
 		$this->redirect(array('manage'));
 	}
 
@@ -134,7 +163,7 @@ class City1Controller extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Ommu Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Core Zone Cities');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -180,8 +209,8 @@ class City1Controller extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Zone Cities success created.').'</strong></div>',
+							'id' => 'partial-core-zone-city',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -204,7 +233,7 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage'); 
 		$this->dialogWidth = 600; 
 
-		$this->pageTitle = Yii::t('phrase', 'Create Ommu Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Create Core Zone Cities');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -250,8 +279,8 @@ class City1Controller extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-ommu-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Zone Cities success updated.').'</strong></div>',
+							'id' => 'partial-core-zone-city',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -274,7 +303,7 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage'); 
 		$this->dialogWidth = 600; 
 
-		$this->pageTitle = Yii::t('phrase', 'Update Ommu Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Update Core Zone Cities');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -294,14 +323,14 @@ class City1Controller extends Controller
 		$this->layout = $arrThemes['layout'];
 		Utility::applyCurrentTheme($this->module);
 		
-		$setting = VideoSetting::model()->findByPk(1,array(
+		$setting = CoreZoneCity::model()->findByPk(1,array(
 			'select' => 'meta_keyword',
 		));
 		*/
 
 		$model=$this->loadModel($id);
 
-		$this->pageTitle = Yii::t('phrase', 'View Ommu Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'View Core Zone Cities');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		//$this->pageMeta = $setting->meta_keyword;
@@ -364,8 +393,8 @@ class City1Controller extends Controller
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-ommu-zone-city',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Zone Cities success deleted.').'</strong></div>',
+					'id' => 'partial-core-zone-city',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success deleted.').'</strong></div>',
 				));
 			}
 
@@ -374,7 +403,7 @@ class City1Controller extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Ommu Zone Cities');
+			$this->pageTitle = Yii::t('phrase', 'Delete Core Zone Cities');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -402,8 +431,8 @@ class City1Controller extends Controller
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-ommu-zone-city',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Zone Cities success updated.').'</strong></div>',
+					'id' => 'partial-core-zone-city',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success updated.').'</strong></div>',
 				));
 			}
 			Yii::app()->end();
@@ -413,7 +442,7 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 350;
 
-		$this->pageTitle = Yii::t('phrase', '$title Ommu Zone Cities', array('$title'=>$title));
+		$this->pageTitle = Yii::t('phrase', '$title Core Zone Cities', array('$title'=>$title));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_publish',array(
@@ -441,7 +470,7 @@ class City1Controller extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='ommu-zone-city-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='core-zone-city-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

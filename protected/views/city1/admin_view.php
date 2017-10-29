@@ -1,20 +1,20 @@
 <?php
 /**
- * Ommu Zone Cities (ommu-zone-city)
+ * Core Zone Cities (core-zone-city)
  * @var $this City1Controller
  * @var $model CoreZoneCity
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 10:33 WIB
+ * @created date 29 October 2017, 15:28 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Ommu Zone Cities'=>array('manage'),
+		'Core Zone Cities'=>array('manage'),
 		$model->city_id,
 	);
 ?>
@@ -40,7 +40,7 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'province_id',
-			'value'=>$model->province_id ? $model->province->province_name : '-',
+			'value'=>$model->province_id ? $model->province->column_name_relation : '-',
 		),
 		array(
 			'name'=>'city_name',

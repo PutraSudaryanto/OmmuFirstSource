@@ -1,6 +1,6 @@
 <?php
 /**
- * Ommu Zone Cities (ommu-zone-city)
+ * Core Zone Cities (core-zone-city)
  * @var $this City1Controller
  * @var $model CoreZoneCity
  * @var $form CActiveForm
@@ -8,14 +8,14 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 10:33 WIB
+ * @created date 29 October 2017, 15:28 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Ommu Zone Cities'=>array('manage'),
+		'Core Zone Cities'=>array('manage'),
 		'Create',
 	);
 ?>
