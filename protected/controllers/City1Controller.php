@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 15:28 WIB
+ * @created date 29 October 2017, 18:44 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -220,12 +220,10 @@ class City1Controller extends Controller
 			Yii::app()->end();
 			*/
 
-			if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-				if($model->save()) {
-					Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success created.'));
-					//$this->redirect(array('view','id'=>$model->city_id));
-					$this->redirect(array('manage'));
-				}
+			if($model->save()) {
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success created.'));
+				//$this->redirect(array('view','id'=>$model->city_id));
+				$this->redirect(array('manage'));
 			}
 		}
 		
@@ -289,13 +287,11 @@ class City1Controller extends Controller
 			}
 			Yii::app()->end();
 			*/
-
-			if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
-				if($model->save()) {
-					Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success updated.'));
-					//$this->redirect(array('view','id'=>$model->city_id));
-					$this->redirect(array('manage'));
-				}
+			
+			if($model->save()) {
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success updated.'));
+				//$this->redirect(array('view','id'=>$model->city_id));
+				$this->redirect(array('manage'));
 			}
 		}
 		
