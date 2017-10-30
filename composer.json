@@ -20,6 +20,18 @@
 		"wiki": "https://github.com/PutraSudaryanto/OmmuFirstSource/wiki",
 		"source": "https://github.com/PutraSudaryanto/OmmuFirstSource"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/PutraSudaryanto/OmmuFirstSource.git"
+	},
+	"authors": [
+		{
+			"name": "Putra Sudaryanto",
+			"email": "putra@sudaryanto.id",
+			"homepage": "https://putra.sudaryanto.id",
+			"role": "Creator"
+		}
+	],
 	"require": {
 		"php": ">=5.3.2",
 		"yiisoft/yii": "^1.1.16",
