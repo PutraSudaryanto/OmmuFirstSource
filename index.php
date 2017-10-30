@@ -6,7 +6,7 @@ ini_set('post_max_size', '8M');
 ini_set('upload_max_filesize', '16M');
 
 // change the following paths if necessary
-$yii    = dirname(__FILE__).'/protected/vendors/yiisoft/yii/framework/yii.php';
+$yii    = dirname(__FILE__).'/protected/vendor/yiisoft/yii/framework/yii.php';
 $config = dirname(__FILE__).'/protected/config/common.php';
 
 if($_SERVER["SERVER_ADDR"]=='127.0.0.1' || $_SERVER["HTTP_HOST"]=='localhost') {
@@ -22,6 +22,12 @@ if($_SERVER["SERVER_ADDR"]=='127.0.0.1' || $_SERVER["HTTP_HOST"]=='localhost') {
 	if(!file_exists(dirname(__FILE__).'/cache')) {
 		mkdir('cache');
 		@chmod(dirname(__FILE__).'/cache', 0777);
+	}
+	
+	// generate libraries directory in protected
+	if(!file_exists(dirname(__FILE__).'/protected/libraries')) {
+		mkdir(dirname(__FILE__).'/protected/libraries');
+		@chmod(dirname(__FILE__).'/protected/libraries', 0777);
 	}
 	
 	// generate runtime directory in protected
