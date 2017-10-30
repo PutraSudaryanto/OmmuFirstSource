@@ -22,7 +22,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 19:54 WIB
+ * @created date 30 October 2017, 09:03 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -145,7 +145,7 @@ class City1Controller extends Controller
 	/**
 	 * Manages all models.
 	 */
-	public function actionManage()
+	public function actionManage() 
 	{
 		$model=new CoreZoneCity('search');
 		$model->unsetAttributes();  // clear any default values
@@ -186,7 +186,6 @@ class City1Controller extends Controller
 		if(isset($_POST['CoreZoneCity'])) {
 			$model->attributes=$_POST['CoreZoneCity'];
 
-			/* 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				//echo $jsonError;
@@ -218,13 +217,14 @@ class City1Controller extends Controller
 				}
 			}
 			Yii::app()->end();
-			*/
 
+			/* 
 			if($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success created.'));
 				//$this->redirect(array('view','id'=>$model->city_id));
 				$this->redirect(array('manage'));
 			}
+			*/
 		}
 		
 		$this->dialogDetail = true; 
@@ -254,7 +254,6 @@ class City1Controller extends Controller
 		if(isset($_POST['CoreZoneCity'])) {
 			$model->attributes=$_POST['CoreZoneCity'];
 
-			/* 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
 				//echo $jsonError;
@@ -286,13 +285,14 @@ class City1Controller extends Controller
 				}
 			}
 			Yii::app()->end();
-			*/
-			
+
+			/* 
 			if($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success updated.'));
 				//$this->redirect(array('view','id'=>$model->city_id));
 				$this->redirect(array('manage'));
 			}
+			*/
 		}
 		
 		$this->dialogDetail = true; 
@@ -393,17 +393,17 @@ class City1Controller extends Controller
 					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success deleted.').'</strong></div>',
 				));
 			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = Yii::t('phrase', 'Delete Core Zone Cities');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_delete');
+			Yii::app()->end();
 		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 350;
+
+		$this->pageTitle = Yii::t('phrase', 'Delete Core Zone Cities');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_delete');
 	}
 
 	/**

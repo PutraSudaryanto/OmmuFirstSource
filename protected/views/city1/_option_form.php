@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 19:54 WIB
+ * @created date 30 October 2017, 09:03 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -36,7 +36,6 @@ EOP;
 <?php echo CHtml::beginForm(Yii::app()->createUrl($this->route), 'get', array(
 	'name' => 'gridoption',
 ));
-print_r($gridColumns);
 $columns   = array();
 $exception = array('_option','_no','id');
 foreach($model->templateColumns as $key => $val) {

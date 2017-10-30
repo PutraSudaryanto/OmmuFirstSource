@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 29 October 2017, 19:54 WIB
+ * @created date 30 October 2017, 09:03 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -29,22 +29,12 @@
 
 <fieldset>
 
-	<div class="clearfix publish">
-		<?php echo $form->labelEx($model,'publish'); ?>
-		<div class="desc">
-			<?php echo $form->checkBox($model,'publish'); ?>
-			<?php echo $form->labelEx($model,'publish'); ?>
-			<?php echo $form->error($model,'publish'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
 	<div class="clearfix">
 		<?php echo $form->labelEx($model,'province_id'); ?>
 		<div class="desc">
 			<?php echo $form->textField($model,'province_id'); ?>
 			<?php echo $form->error($model,'province_id'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
+			<div class="small-px silent"><?php echo Yii::t('phrase', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae laoreet metus. Integer eros augue, viverra at lectus vel, dignissim sagittis erat. ');?></div>
 		</div>
 	</div>
 
@@ -53,7 +43,7 @@
 		<div class="desc">
 			<?php echo $form->textField($model,'city_name',array('size'=>60,'maxlength'=>64)); ?>
 			<?php echo $form->error($model,'city_name'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
+			<div class="small-px silent"><?php echo Yii::t('phrase', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae laoreet metus. Integer eros augue, viverra at lectus vel, dignissim sagittis erat. ');?></div>
 		</div>
 	</div>
 
@@ -62,7 +52,16 @@
 		<div class="desc">
 			<?php echo $form->textField($model,'mfdonline',array('size'=>4,'maxlength'=>4)); ?>
 			<?php echo $form->error($model,'mfdonline'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
+			<div class="small-px silent"><?php echo Yii::t('phrase', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae laoreet metus. Integer eros augue, viverra at lectus vel, dignissim sagittis erat. ');?></div>
+		</div>
+	</div>
+
+	<div class="clearfix publish">
+		<?php echo $form->labelEx($model,'publish'); ?>
+		<div class="desc">
+			<?php echo $form->checkBox($model,'publish'); ?>
+			<?php echo $form->labelEx($model,'publish'); ?>
+			<?php echo $form->error($model,'publish'); ?>
 		</div>
 	</div>
 
@@ -72,61 +71,17 @@
 			<?php echo $form->checkBox($model,'checked'); ?>
 			<?php echo $form->labelEx($model,'checked'); ?>
 			<?php echo $form->error($model,'checked'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>
 
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'creation_date'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'creation_date'); ?>
-			<?php echo $form->error($model,'creation_date'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'creation_id'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'creation_id'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'modified_date'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'modified_date'); ?>
-			<?php echo $form->error($model,'modified_date'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'modified_id'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'modified_id'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'updated_date'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'updated_date'); ?>
-			<?php echo $form->error($model,'updated_date'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
+	<?php /*
 	<div class="submit clearfix">
 		<label>&nbsp;</label>
 		<div class="desc">
-			<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save'), array('onclick' => 'setEnableSave()')); ?>
+			<?php echo CHtml::submitButton(\$model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save'), array('onclick' => 'setEnableSave()')); ?>
 		</div>
 	</div>
+	*/?>
 
 </fieldset>
 
@@ -137,5 +92,3 @@
 	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 </div>
 <?php $this->endWidget(); ?>
-
-
