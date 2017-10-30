@@ -115,7 +115,6 @@ class Utility
 	 */
 	public static function getActiveDefaultColumns($columns)
 	{
-		print_r($columns);
 		$column = array();
 
 		foreach($columns as $val) {
