@@ -6,7 +6,12 @@
  * Contains many function that most used :
  *	getCurrentTemplate
  *	applyCurrentTheme
+ *	applyViewPath
  *	getProtocol
+ *	getActiveDefaultColumns
+ *	getKeyIndex
+
+ 
  *	getConnected
  *	isServerAvailible
  *	getContentMenu 
@@ -72,6 +77,28 @@ class Utility
 	}
 
 	/**
+	 * @return string the root directory of view files. Defaults to 'moduleDir/views' where
+	 * moduleDir is the directory containing the module class.
+	 */
+	public function applyViewPath($path)
+	{
+		$module = strtolower(Yii::app()->controller->module->id);
+		$basePath = Yii::app()->basePath;
+		$modulePath = Yii::app()->modulePath;
+		$viewPath = Yii::app()->controller->module->viewPath;
+		if($module == null)
+			$viewPath = Yii::app()->viewPath;
+		
+		$path = preg_replace('(controllers)', 'views', $path);
+		$viewPathSlashes = addcslashes($viewPath, '/');
+		if(!preg_match("/$viewPathSlashes/", $path)) {
+			Yii::app()->controller->module->viewPath = join('/', [$modulePath, $module, 'views']);
+			if($module == null)
+				Yii::app()->viewPath = join('/', [$basePath, 'views']);
+		}
+	}
+
+	/**
 	 * Get the proper http URL prefix depending on if this was a secure page request or not
 	 *
 	 * @return string https or https
@@ -81,6 +108,57 @@ class Utility
 			return 'https';
 		return 'http';
 	}
+
+	/**
+	 * Generates key index defaultColumns in models
+	 * @return array
+	 */
+	public static function getActiveDefaultColumns($columns)
+	{
+		$column = array();
+
+		foreach($columns as $val) {
+			$keyIndex = self::getKeyIndex($val);
+			if($keyIndex)
+				$column[] = $keyIndex;
+		}
+
+		return $column;
+	}
+
+	/**
+	 * Generates key index defaultColumns in models
+	 * @return array
+	 */
+	public static function getKeyIndex($data)
+	{
+		if(!is_array($data))
+			return $data;
+
+		else {
+			if(array_key_exists('name', $data))
+				return $data['name'];
+		}
+
+		return false;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	/**
 	 * get alternatif connected domain for inlis sso server
@@ -159,10 +237,10 @@ class Utility
 	{
 		define('DS', DIRECTORY_SEPARATOR);		
 		if($module != null) {
-			$YMLPath = Yii::getPathOfAlias('application.modules.'.$module).DS.$module.'.yaml';
+			$YMLPath = Yii::getPathOfAlias('ommu.'.$module).DS.$module.'.yaml';
 			if($parent != null) {
 				$module = $parent.'-'.$module;
-				$YMLPath = Yii::getPathOfAlias('application.modules.'.$parent).DS.$module.'.yaml';
+				$YMLPath = Yii::getPathOfAlias('ommu.'.$parent).DS.$module.'.yaml';
 			}
 		} else
 			$YMLPath = Yii::getPathOfAlias('application.ommu').DS.'ommu.yaml';

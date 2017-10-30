@@ -261,7 +261,7 @@ class OmmuThemes extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'default_theme',
-				'value' => '$data->default_theme == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->theme_id)), $data->default_theme, 6)',
+				'value' => '$data->default_theme == 1 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->theme_id)), $data->default_theme, 6)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

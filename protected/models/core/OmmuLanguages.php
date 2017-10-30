@@ -245,7 +245,7 @@ class OmmuLanguages extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name'  => 'default',
-				'value' => '$data->default == 0 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\')',
+				'value' => '$data->default == 0 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\') : CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

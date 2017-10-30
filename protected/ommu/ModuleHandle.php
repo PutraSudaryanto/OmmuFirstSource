@@ -302,6 +302,14 @@ class ModuleHandle extends CApplicationComponent
 	}
 
 	/**
+	 * get module classname
+	 */
+	public function getModuleClassName($module) 
+	{
+		return ucfirst($module).'Module';
+	}
+
+	/**
 	 * Update module from db to file
 	 */
 	public function updateModuleAddon() {
@@ -312,10 +320,20 @@ class ModuleHandle extends CApplicationComponent
 			$config .= "return array(\n\t'modules' => array(\n";
 			$i = 1;
 			foreach($modules as $val) {
+				$module =  $val['folder'];
+				/*
+				$moduleClass =  $this->getModuleClassName($module);
+				$config .= "\t\t'$module'=>array(\n";
+				$config .= "\t\t\t'class'=>'\ommu\\$module\\$moduleClass',\n";
 				if($i !== count($modules))
-					$config .= "\t\t'" . $val['folder'] . "',\n";
+					$config .= "\t\t),\n";
 				else
-					$config .= "\t\t'" . $val['folder'] . "'\n";
+					$config .= "\t\t)\n";
+				*/
+				if($i !== count($modules))
+					$config .= "\t\t'$module',\n";
+				else
+					$config .= "\t\t'$module'\n";
 				$i++;
 			}
 			$config .= "\t),\n);";

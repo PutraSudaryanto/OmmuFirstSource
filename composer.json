@@ -1,0 +1,56 @@
+{
+	"name": "ommu/1st-source",
+	"description": "Ommu Platform First Source",
+	"keywords": [
+		"ommu",
+		"platform",
+		"ommu platform",
+		"module",
+		"users",
+		"report",
+		"support",
+		"backoffice-theme",
+		"cms"
+	],
+	"homepage": "https://github.com/PutraSudaryanto/OmmuFirstSource",
+	"type": "project",
+	"license": "Apache-2.0",
+	"support": {
+		"issues": "https://github.com/PutraSudaryanto/OmmuFirstSource/issues",
+		"wiki": "https://github.com/PutraSudaryanto/OmmuFirstSource/wiki",
+		"source": "https://github.com/PutraSudaryanto/OmmuFirstSource"
+	},
+	"require": {
+		"php": ">=5.3.2",
+		"yiisoft/yii": "^1.1.16",
+		"ommu/gii": "dev-master",
+		"ommu/ommu": "dev-master",
+		"ommu/users": "dev-master",
+		"ommu/support": "dev-master",
+		"ommu/report": "dev-master"
+	},
+	"require-dev": {
+	},
+	"config": {
+		"process-timeout": 1800,
+		"preferred-install": "dist",
+		"vendor-dir": "protected/vendor"
+	},
+	"extra": {
+		"process-timeout": 1800,
+		"installer-types": [
+			"ommu-module",
+			"ommu-library",
+			"ommu-theme",
+			"ommu-extension"
+		],
+		"installer-paths": {
+			"protected/libraries/{$name}/": [
+				"type:ommu-library"
+			],
+			"themes/{$name}/": [
+				"type:ommu-theme"
+			]
+		}
+	}
+}

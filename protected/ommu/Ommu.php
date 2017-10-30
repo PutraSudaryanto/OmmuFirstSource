@@ -33,7 +33,18 @@ class Ommu extends CApplicationComponent
 	 * load some custom components here, for example
 	 * theme, url manager, or config from database Alhamdulillah :)
 	 */
-	public function init() {
+	public function init() 
+	{
+		//register vendor namespace
+		$vendor_path = Yii::getPathOfAlias('application.vendor');
+		foreach (new DirectoryIterator($vendor_path) as $fileInfo) {
+			if($fileInfo->isDot())
+				continue;
+			
+			if($fileInfo->isDir() && !in_array($fileInfo->getFilename(), array('bin','composer')))
+				Yii::setPathOfAlias($fileInfo->getFilename(), $vendor_path.'/'.$fileInfo->getFilename());
+		}
+		
 		/**
 		 * set default themes
 		 */
@@ -53,8 +64,8 @@ class Ommu extends CApplicationComponent
 		if(!empty($controllerTheme)) {
 			foreach($controllerTheme as $key => $val)
 				$controllerMap[$key] = 'webroot.themes.'.$theme.'.controllers.'.$val;
-			Yii::app()->controllerMap = $controllerMap;	
-		}	
+			Yii::app()->controllerMap = $controllerMap;
+		}
 
 		/**
 		 * set url manager

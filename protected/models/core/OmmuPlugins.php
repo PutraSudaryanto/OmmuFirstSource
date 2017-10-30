@@ -300,7 +300,7 @@ class OmmuPlugins extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'actived',
-				'value' => '$data->install == 1 ? ($data->actived == 2 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("active",array("id"=>$data->plugin_id)), $data->actived, \'Actived,Deactived\')) : "-"',
+				'value' => '$data->install == 1 ? ($data->actived == 2 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("active",array("id"=>$data->plugin_id)), $data->actived, \'Actived,Deactived\')) : "-"',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -312,7 +312,7 @@ class OmmuPlugins extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'search',
-				'value' => '$data->search == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'value' => '$data->search == 1 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -324,7 +324,7 @@ class OmmuPlugins extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'default',
-				'value' => '$data->install == 1 ? ($data->default == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->plugin_id)), $data->default, 6)) : "-"',
+				'value' => '$data->install == 1 ? ($data->default == 1 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->plugin_id)), $data->default, 6)) : "-"',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
