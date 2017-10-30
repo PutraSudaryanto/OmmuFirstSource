@@ -24,10 +24,16 @@ if($_SERVER["SERVER_ADDR"]=='127.0.0.1' || $_SERVER["HTTP_HOST"]=='localhost') {
 		@chmod(dirname(__FILE__).'/cache', 0777);
 	}
 	
-	// generate libraries directory in protected
-	if(!file_exists(dirname(__FILE__).'/protected/libraries')) {
-		mkdir(dirname(__FILE__).'/protected/libraries');
-		@chmod(dirname(__FILE__).'/protected/libraries', 0777);
+	// generate themes directory
+	if(!file_exists(dirname(__FILE__).'/themes')) {
+		mkdir('themes');
+		@chmod(dirname(__FILE__).'/themes', 0777);
+	}
+	
+	// generate modules directory in protected
+	if(!file_exists(dirname(__FILE__).'/protected/modules')) {
+		mkdir(dirname(__FILE__).'/protected/modules');
+		@chmod(dirname(__FILE__).'/protected/modules', 0777);
 	}
 	
 	// generate runtime directory in protected
