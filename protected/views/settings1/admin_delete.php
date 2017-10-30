@@ -1,27 +1,27 @@
 <?php
 /**
- * Core Zone Cities (core-zone-city)
- * @var $this City1Controller
- * @var $model CoreZoneCity
+ * Ommu Settings (ommu-settings)
+ * @var $this Settings1Controller
+ * @var $model OmmuSettings
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 15:29 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Core Zone Cities'=>array('manage'),
+		'Ommu Settings'=>array('manage'),
 		'Delete',
 	);
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'core-zone-city-form',
+	'id'=>'ommu-settings-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>

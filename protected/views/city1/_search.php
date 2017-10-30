@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:18 WIB
+ * @created date 30 October 2017, 15:57 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -21,27 +21,22 @@
 )); ?>
 	<ul>
 		<li>
-			<?php echo $model->getAttributeLabel('city_id'); ?><br/>
-			<?php echo $form->textField($model,'city_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('province_search'); ?>
+			<?php echo $form->textField($model,'province_search'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('province_id'); ?><br/>
-			<?php echo $form->textField($model,'province_id'); ?>
+			<?php echo $model->getAttributeLabel('city_name'); ?>
+			<?php echo $form->textField($model,'city_name'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('city_name'); ?><br/>
-			<?php echo $form->textField($model,'city_name',array('size'=>60,'maxlength'=>64)); ?>
+			<?php echo $model->getAttributeLabel('mfdonline'); ?>
+			<?php echo $form->textField($model,'mfdonline'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('mfdonline'); ?><br/>
-			<?php echo $form->textField($model,'mfdonline',array('size'=>4,'maxlength'=>4)); ?>
-		</li>
-
-		<li>
-			<?php echo $model->getAttributeLabel('creation_date'); ?><br/>
+			<?php echo $model->getAttributeLabel('creation_date'); ?>
 			<?php //echo $form->textField($model,'creation_date');
 			$this->widget('application.components.system.CJuiDatePicker',array(
 				'model'=>$model,
@@ -57,12 +52,12 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('creation_search'); ?>
+			<?php echo $form->textField($model,'creation_search'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('modified_date'); ?><br/>
+			<?php echo $model->getAttributeLabel('modified_date'); ?>
 			<?php //echo $form->textField($model,'modified_date');
 			$this->widget('application.components.system.CJuiDatePicker',array(
 				'model'=>$model,
@@ -78,12 +73,12 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $model->getAttributeLabel('modified_search'); ?>
+			<?php echo $form->textField($model,'modified_search'); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('updated_date'); ?><br/>
+			<?php echo $model->getAttributeLabel('updated_date'); ?>
 			<?php //echo $form->textField($model,'updated_date');
 			$this->widget('application.components.system.CJuiDatePicker',array(
 				'model'=>$model,
@@ -99,13 +94,13 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('publish'); ?><br/>
-			<?php echo $form->checkBox($model,'publish'); ?>
+			<?php echo $model->getAttributeLabel('publish'); ?>
+			<?php echo $form->dropDownList($model,'publish', array('0'=>Yii::t('phrase', 'No'), '1'=>Yii::t('phrase', 'Yes'))); ?>
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('checked'); ?><br/>
-			<?php echo $form->checkBox($model,'checked'); ?>
+			<?php echo $model->getAttributeLabel('checked'); ?>
+			<?php echo $form->dropDownList($model,'checked', array('0'=>Yii::t('phrase', 'No'), '1'=>Yii::t('phrase', 'Yes'))); ?>
 		</li>
 
 		<li class="submit">

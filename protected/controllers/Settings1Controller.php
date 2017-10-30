@@ -1,8 +1,8 @@
 <?php
 /**
- * City1Controller
- * @var $this City1Controller
- * @var $model CoreZoneCity
+ * Settings1Controller
+ * @var $this Settings1Controller
+ * @var $model OmmuSettings
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -13,23 +13,21 @@
  *	Add
  *	Edit
  *	View
- *	RunAction
  *	Delete
- *	Publish
  *
  *	LoadModel
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 15:29 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
  */
 
-class City1Controller extends Controller
+class Settings1Controller extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -116,7 +114,7 @@ class City1Controller extends Controller
 		$this->layout = $arrThemes['layout'];
 		Utility::applyCurrentTheme($this->module);
 		
-		$setting = CoreZoneCity::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'meta_description, meta_keyword',
 		));
 
@@ -125,14 +123,14 @@ class City1Controller extends Controller
 		$criteria->params = array(':publish'=>1);
 		$criteria->order = 'creation_date DESC';
 
-		$dataProvider = new CActiveDataProvider('CoreZoneCity', array(
+		$dataProvider = new CActiveDataProvider('OmmuSettings', array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>10,
 			),
 		));
 
-		$this->pageTitle = Yii::t('phrase', 'Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Ommu Settings');
 		$this->pageDescription = $setting->meta_description;
 		$this->pageMeta = $setting->meta_keyword;
 		$this->render('front_index',array(
@@ -147,10 +145,10 @@ class City1Controller extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new CoreZoneCity('search');
+		$model=new OmmuSettings('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['CoreZoneCity'])) {
-			$model->attributes=$_GET['CoreZoneCity'];
+		if(isset($_GET['OmmuSettings'])) {
+			$model->attributes=$_GET['OmmuSettings'];
 		}
 
 		$gridColumn = $_GET['GridColumn'];
@@ -163,7 +161,7 @@ class City1Controller extends Controller
 		}
 		$columns = $model->getGridColumn($columnTemp);
 
-		$this->pageTitle = Yii::t('phrase', 'Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Ommu Settings');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_manage',array(
@@ -178,13 +176,13 @@ class City1Controller extends Controller
 	 */
 	public function actionAdd() 
 	{
-		$model=new CoreZoneCity;
+		$model=new OmmuSettings;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['CoreZoneCity'])) {
-			$model->attributes=$_POST['CoreZoneCity'];
+		if(isset($_POST['OmmuSettings'])) {
+			$model->attributes=$_POST['OmmuSettings'];
 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
@@ -208,8 +206,8 @@ class City1Controller extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-core-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success created.').'</strong></div>',
+							'id' => 'partial-ommu-settings',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Settings success created.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -220,8 +218,8 @@ class City1Controller extends Controller
 
 			/* 
 			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success created.'));
-				//$this->redirect(array('view','id'=>$model->city_id));
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'OmmuSettings success created.'));
+				//$this->redirect(array('view','id'=>$model->id));
 				$this->redirect(array('manage'));
 			}
 			*/
@@ -231,7 +229,7 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage'); 
 		$this->dialogWidth = 600; 
 
-		$this->pageTitle = Yii::t('phrase', 'Create Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Create Ommu Settings');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
@@ -251,8 +249,8 @@ class City1Controller extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['CoreZoneCity'])) {
-			$model->attributes=$_POST['CoreZoneCity'];
+		if(isset($_POST['OmmuSettings'])) {
+			$model->attributes=$_POST['OmmuSettings'];
 
 			$jsonError = CActiveForm::validate($model);
 			if(strlen($jsonError) > 2) {
@@ -276,8 +274,8 @@ class City1Controller extends Controller
 						echo CJSON::encode(array(
 							'type' => 5,
 							'get' => Yii::app()->controller->createUrl('manage'),
-							'id' => 'partial-core-zone-city',
-							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success updated.').'</strong></div>',
+							'id' => 'partial-ommu-settings',
+							'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Settings success updated.').'</strong></div>',
 						));
 					} else {
 						print_r($model->getErrors());
@@ -288,8 +286,8 @@ class City1Controller extends Controller
 
 			/* 
 			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'CoreZoneCity success updated.'));
-				//$this->redirect(array('view','id'=>$model->city_id));
+				Yii::app()->user->setFlash('success', Yii::t('phrase', 'OmmuSettings success updated.'));
+				//$this->redirect(array('view','id'=>$model->id));
 				$this->redirect(array('manage'));
 			}
 			*/
@@ -299,7 +297,7 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage'); 
 		$this->dialogWidth = 600; 
 
-		$this->pageTitle = Yii::t('phrase', 'Update Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Update Ommu Settings');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -319,14 +317,14 @@ class City1Controller extends Controller
 		$this->layout = $arrThemes['layout'];
 		Utility::applyCurrentTheme($this->module);
 		
-		$setting = CoreZoneCity::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'meta_keyword',
 		));
 		*/
 
 		$model=$this->loadModel($id);
 
-		$this->pageTitle = Yii::t('phrase', 'View Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'View Ommu Settings');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		//$this->pageMeta = $setting->meta_keyword;
@@ -335,42 +333,6 @@ class City1Controller extends Controller
 			'model'=>$model,
 		));
 	}	
-
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionRunAction() {
-		$id       = $_POST['trash_id'];
-		$criteria = null;
-		$actions  = $_GET['action'];
-
-		if(count($id) > 0) {
-			$criteria = new CDbCriteria;
-			$criteria->addInCondition('city_id', $id);
-
-			if($actions == 'publish') {
-				CoreZoneCity::model()->updateAll(array(
-					'publish' => 1,
-				),$criteria);
-			} elseif($actions == 'unpublish') {
-				CoreZoneCity::model()->updateAll(array(
-					'publish' => 0,
-				),$criteria);
-			} elseif($actions == 'trash') {
-				CoreZoneCity::model()->updateAll(array(
-					'publish' => 2,
-				),$criteria);
-			} elseif($actions == 'delete') {
-				CoreZoneCity::model()->deleteAll($criteria);
-			}
-		}
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax'])) {
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
-		}
-	}
 
 	/**
 	 * Deletes a particular model.
@@ -383,14 +345,12 @@ class City1Controller extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			$model->publish = 2;
-			
-			if($model->save()) {
+			if($model->delete()) {
 				echo CJSON::encode(array(
 					'type' => 5,
 					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-core-zone-city',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success deleted.').'</strong></div>',
+					'id' => 'partial-ommu-settings',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Ommu Settings success deleted.').'</strong></div>',
 				));
 			}
 			Yii::app()->end();
@@ -400,51 +360,10 @@ class City1Controller extends Controller
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 		$this->dialogWidth = 350;
 
-		$this->pageTitle = Yii::t('phrase', 'Delete Core Zone Cities');
+		$this->pageTitle = Yii::t('phrase', 'Delete Ommu Settings');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_delete');
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionPublish($id) 
-	{
-		$model=$this->loadModel($id);
-		
-		$title = $model->publish == 1 ? Yii::t('phrase', 'Unpublish') : Yii::t('phrase', 'Publish');
-		$replace = $model->publish == 1 ? 0 : 1;
-
-		if(Yii::app()->request->isPostRequest) {
-			// we only allow deletion via POST request
-			//change value active or publish
-			$model->publish = $replace;
-
-			if($model->update()) {
-				echo CJSON::encode(array(
-					'type' => 5,
-					'get' => Yii::app()->controller->createUrl('manage'),
-					'id' => 'partial-core-zone-city',
-					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Core Zone Cities success updated.').'</strong></div>',
-				));
-			}
-			Yii::app()->end();
-		}
-
-		$this->dialogDetail = true;
-		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 350;
-
-		$this->pageTitle = Yii::t('phrase', '$title Core Zone Cities', array('$title'=>$title));
-		$this->pageDescription = '';
-		$this->pageMeta = '';
-		$this->render('admin_publish',array(
-			'title'=>$title,
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -454,7 +373,7 @@ class City1Controller extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = CoreZoneCity::model()->findByPk($id);
+		$model = OmmuSettings::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;
@@ -466,7 +385,7 @@ class City1Controller extends Controller
 	 */
 	protected function performAjaxValidation($model) 
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='core-zone-city-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='ommu-settings-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

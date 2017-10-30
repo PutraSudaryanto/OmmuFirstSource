@@ -1,14 +1,14 @@
 <?php
 /**
- * Core Zone Cities (core-zone-city)
- * @var $this City1Controller
- * @var $model CoreZoneCity
+ * Ommu Settings (ommu-settings)
+ * @var $this Settings1Controller
+ * @var $model OmmuSettings
  * @var $form CActiveForm
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 15:29 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -22,7 +22,7 @@ $js=<<<EOP
 			url: url,
 			data: $('form[name="gridoption"] :checked').serialize(),
 			success: function(response) {
-				$.fn.yiiGridView.update('core-zone-city-grid', {
+				$.fn.yiiGridView.update('ommu-settings-grid', {
 					data: $('form[name="gridoption"]').serialize()
 				});
 				return false;

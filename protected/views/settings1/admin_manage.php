@@ -1,20 +1,20 @@
 <?php
 /**
- * Core Zone Cities (core-zone-city)
- * @var $this City1Controller
- * @var $model CoreZoneCity
+ * Ommu Settings (ommu-settings)
+ * @var $this Settings1Controller
+ * @var $model OmmuSettings
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 15:29 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
  */
 
 	$this->breadcrumbs=array(
-		'Core Zone Cities'=>array('manage'),
+		'Ommu Settings'=>array('manage'),
 		'Manage',
 	);
 	$this->menu=array(
@@ -51,7 +51,7 @@
 </div>
 <?php //end.Grid Option ?>
 
-<div id="partial-core-zone-city">
+<div id="partial-ommu-settings">
 	<?php //begin.Messages ?>
 	<div id="ajax-message">
 	<?php
@@ -97,7 +97,7 @@
 			));
 
 			$this->widget('application.components.system.OGridView', array(
-				'id'=>'core-zone-city-grid',
+				'id'=>'ommu-settings-grid',
 				'dataProvider'=>$model->search(),
 				'filter'=>$model,
 				'afterAjaxUpdate' => 'reinstallDatePicker',
