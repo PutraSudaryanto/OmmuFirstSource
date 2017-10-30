@@ -12,6 +12,9 @@
  * @contact (+62)856-299-4114
  *
  */
+
+Yii::setPathOfAlias('app', dirname(__dir__));
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Ommu Platform',
@@ -29,17 +32,19 @@ return array(
 		// Model
 		'application.models.*',
 		'application.models.core.*',
-		'application.modules.report.models.*',
-		'application.modules.support.models.*',
-		'application.modules.users.models.*',
-		//'application.modules.personal.models.*',
-
 		// Components
 		'application.components.*',
 		'application.components.admin.*',
 		'application.components.public.*',
 		'application.components.system.*',
-		'application.modules.users.components.*',
+		
+		// Module Model
+		'application.vendor.ommu.report.models.*',
+		'application.vendor.ommu.support.models.*',
+		'application.vendor.ommu.users.models.*',
+		'application.vendor.ommu.users.models.Users',
+		// Module Components
+		'application.vendor.ommu.users.components.*',
 	),
 
 	// application components
@@ -71,7 +76,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+            'errorAction'=>'site/error',
         ),
 
 		'log'=>array(
