@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 16:31 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -35,30 +35,30 @@
 ?>
 
 <?php //begin.Search ?>
+<div class="search-form">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
-<div class="search-form">
 </div>
 <?php //end.Search ?>
 
 <?php //begin.Grid Option ?>
-<?php $this->renderPartial('_option_form',array(
-	'model'=>$model,
-	'gridColumns'=>Utility::getActiveDefaultColumns($columns),
-)); ?>
 <div class="grid-form">
+<?php $this->renderPartial('_option_form',array( 
+	'model'=>$model, 
+	'gridColumns'=>Utility::getActiveDefaultColumns($columns), 
+)); ?>
 </div>
 <?php //end.Grid Option ?>
 
 <div id="partial-core-zone-city">
 	<?php //begin.Messages ?>
 	<div id="ajax-message">
-	<?php
-	if(Yii::app()->user->hasFlash('error'))
-		echo Utility::flashError(Yii::app()->user->getFlash('error'));
-	if(Yii::app()->user->hasFlash('success'))
-		echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
+	<?php 
+	if(Yii::app()->user->hasFlash('error')) 
+		echo Utility::flashError(Yii::app()->user->getFlash('error')); 
+	if(Yii::app()->user->hasFlash('success')) 
+		echo Utility::flashSuccess(Yii::app()->user->getFlash('success')); 
 	?>
 	</div>
 	<?php //begin.Messages ?>

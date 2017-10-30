@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 30 October 2017, 15:57 WIB
+ * @created date 30 October 2017, 16:31 WIB
  * @link http://opensource.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -20,9 +20,9 @@
 ?>
 
 <?php //begin.Messages ?>
-<?php
-if(Yii::app()->user->hasFlash('success'))
-	echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
+<?php 
+if(Yii::app()->user->hasFlash('success')) 
+	echo Utility::flashSuccess(Yii::app()->user->getFlash('success')); 
 ?>
 <?php //end.Messages ?>
 
@@ -44,18 +44,16 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'city_name',
-			'value'=>$model->city_name,
-			//'value'=>$model->city_name ? $model->city_name : '-',
+			'value'=>$model->city_name ? $model->city_name : '-',
 		),
 		array(
 			'name'=>'mfdonline',
-			'value'=>$model->mfdonline,
-			//'value'=>$model->mfdonline ? $model->mfdonline : '-',
+			'value'=>$model->mfdonline ? $model->mfdonline : '-',
 		),
 		array(
 			'name'=>'checked',
-			'value'=>$model->checked,
-			//'value'=>$model->checked ? $model->checked : '-',
+			'value'=>$model->checked == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
+			'type'=>'raw',
 		),
 		array(
 			'name'=>'creation_date',
