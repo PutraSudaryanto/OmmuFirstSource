@@ -9,13 +9,13 @@
  *
  * TOC :
  *	Index
- *	Suggest
  *	Manage
  *	Add
  *	Edit
  *	RunAction
  *	Delete
  *	Publish
+ *	Suggest
  *
  *	LoadModel
  *	performAjaxValidation
@@ -76,27 +76,14 @@ class ZonevillageController extends Controller
 	public function accessRules() 
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('suggest'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level)',
-				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','runaction','delete','publish'),
+				'actions'=>array('index','manage','add','edit','runaction','delete','publish'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array(),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
+				'expression'=>'$user->level == 1',
 			),
 		);
 	}
@@ -107,53 +94,6 @@ class ZonevillageController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionSuggest($id=null, $limit=10) 
-	{
-		if($id == null) {
-			if(isset($_GET['term'])) {
-				$criteria = new CDbCriteria;
-				$criteria->select = "village_id, district_id, village_name, zipcode";
-				$criteria->condition = 'village_name LIKE :village';
-				$criteria->params = array(':village' => '%' . strtolower($_GET['term']) . '%');
-				$criteria->order = "village_name ASC";
-				$criteria->limit = $limit;
-				$model = OmmuZoneVillage::model()->findAll($criteria);
-
-				if($model) {
-					foreach($model as $items) {
-						$result[] = array(
-							'id' => $items->village_id, 
-							'value' => $items->village_name,
-							'village_name' => $items->village_name,
-							'zipcode' => $items->zipcode,
-							'district_id' => $items->district->district_id,
-							'district_name' => $items->district->district_name,
-							'city_id' => $items->district->city->city_id,
-							'city_name' => $items->district->city->city_name,
-							'province_id' => $items->district->city->province->province_id,
-							'province_name' => $items->district->city->province->province_name,
-							'country_id' => $items->district->city->province->country->country_id,
-							'country_name' => $items->district->city->province->country->country_name,
-						);
-					}
-				}
-			}
-			echo CJSON::encode($result);
-			Yii::app()->end();
-			
-		} else {
-			$model = OmmuZoneVillage::getVillage($id);
-			$message['data'] = '<option value="">'.Yii::t('phrase', 'Select one').'</option>';
-			foreach($model as $key => $val) {
-				$message['data'] .= '<option value="'.$key.'">'.$val.'</option>';
-			}
-			echo CJSON::encode($message);			
-		}
 	}
 
 	/**
@@ -391,6 +331,53 @@ class ZonevillageController extends Controller
 				'title'=>$title,
 				'model'=>$model,
 			));
+		}
+	}
+
+	/**
+	 * Lists all models.
+	 */
+	public function actionSuggest($id=null, $limit=10) 
+	{
+		if($id == null) {
+			if(isset($_GET['term'])) {
+				$criteria = new CDbCriteria;
+				$criteria->select = "village_id, district_id, village_name, zipcode";
+				$criteria->condition = 'village_name LIKE :village';
+				$criteria->params = array(':village' => '%' . strtolower($_GET['term']) . '%');
+				$criteria->order = "village_name ASC";
+				$criteria->limit = $limit;
+				$model = OmmuZoneVillage::model()->findAll($criteria);
+
+				if($model) {
+					foreach($model as $items) {
+						$result[] = array(
+							'id' => $items->village_id, 
+							'value' => $items->village_name,
+							'village_name' => $items->village_name,
+							'zipcode' => $items->zipcode,
+							'district_id' => $items->district->district_id,
+							'district_name' => $items->district->district_name,
+							'city_id' => $items->district->city->city_id,
+							'city_name' => $items->district->city->city_name,
+							'province_id' => $items->district->city->province->province_id,
+							'province_name' => $items->district->city->province->province_name,
+							'country_id' => $items->district->city->province->country->country_id,
+							'country_name' => $items->district->city->province->country->country_name,
+						);
+					}
+				}
+			}
+			echo CJSON::encode($result);
+			Yii::app()->end();
+			
+		} else {
+			$model = OmmuZoneVillage::getVillage($id);
+			$message['data'] = '<option value="">'.Yii::t('phrase', 'Select one').'</option>';
+			foreach($model as $key => $val) {
+				$message['data'] .= '<option value="'.$key.'">'.$val.'</option>';
+			}
+			echo CJSON::encode($message);			
 		}
 	}
 
