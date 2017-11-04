@@ -51,8 +51,7 @@ class ModuleController extends Controller
 				$this->layout = $arrThemes['layout'];
 				$this->moduleHandle = Yii::app()->moduleHandle;
 				Utility::applyViewPath(__dir__);
-			} else
-				throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+			}
 		} else
 			$this->redirect(Yii::app()->createUrl('site/login'));
 	}

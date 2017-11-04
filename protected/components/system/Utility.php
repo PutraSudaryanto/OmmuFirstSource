@@ -10,6 +10,8 @@
  *	getProtocol
  *	getActiveDefaultColumns
  *	getKeyIndex
+ *	getUrlTitle
+ *	deleteFolder
 
  
  *	getConnected
@@ -23,8 +25,6 @@
  *	dateFormat
  *	getTimThumb
  *	replaceSpaceWithUnderscore
- *	getUrlTitle
- *	deleteFolder
  *	getPublish
  *	shortText
  *	convert_smart_quotes
@@ -141,6 +141,66 @@ class Utility
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Create URL Title
+	 *
+	 * Takes a "title" string as input and creates a
+	 * human-friendly URL string with a "separator" string
+	 * as the word separator.
+	 *
+	 * @todo    Remove old 'dash' and 'underscore' usage in 3.1+.
+	 * @param   string  $str        Input string
+	 * @param   string  $separator  Word separator
+	 *          (usually '-' or '_')
+	 * @param   bool    $lowercase  Wether to transform the output string to lowercase
+	 * @return  string
+	 */
+	public static function getUrlTitle($str, $separator = '-', $lowercase = true) {
+		if($separator === 'dash') {
+			$separator = '-';
+		}
+		elseif($separator === 'underscore') {
+			$separator = '_';
+		}
+
+		$qSeparator = preg_quote($separator, '#');
+		$trans = array(
+				'&.+?:;'         => '',
+				'[^a-z0-9 _-]'      => '',
+				'\s+'           => $separator,
+				'('.$qSeparator.')+'   => $separator
+			);
+
+		$str = strip_tags($str);
+		foreach ($trans as $key => $val) {
+			$str = preg_replace('#'.$key.'#i', $val, $str);
+		}
+
+		if ($lowercase === true) {
+			$str = strtolower($str);
+		}
+
+		return trim(trim($str, $separator));
+	}
+
+	/**
+	 * remove folder and file
+	 */
+	public static function deleteFolder($path) {
+		if(file_exists($path)) {
+			$fh = dir($path);
+			while (false !== ($files = $fh->read())) {
+				@unlink($fh->path.'/'.$files);
+			}
+			$fh->close();
+			@rmdir($path);
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 
@@ -478,66 +538,6 @@ class Utility
 	 */
 	public static function replaceSpaceWithUnderscore($fileName) {
 		return str_ireplace(' ', '_', strtolower(trim($fileName)));
-	}
-	
-	/**
-	 * Create URL Title
-	 *
-	 * Takes a "title" string as input and creates a
-	 * human-friendly URL string with a "separator" string
-	 * as the word separator.
-	 *
-	 * @todo    Remove old 'dash' and 'underscore' usage in 3.1+.
-	 * @param   string  $str        Input string
-	 * @param   string  $separator  Word separator
-	 *          (usually '-' or '_')
-	 * @param   bool    $lowercase  Wether to transform the output string to lowercase
-	 * @return  string
-	 */
-	public static function getUrlTitle($str, $separator = '-', $lowercase = true) {
-		if($separator === 'dash') {
-			$separator = '-';
-		}
-		elseif($separator === 'underscore') {
-			$separator = '_';
-		}
-
-		$qSeparator = preg_quote($separator, '#');
-		$trans = array(
-				'&.+?:;'         => '',
-				'[^a-z0-9 _-]'      => '',
-				'\s+'           => $separator,
-				'('.$qSeparator.')+'   => $separator
-			);
-
-		$str = strip_tags($str);
-		foreach ($trans as $key => $val) {
-			$str = preg_replace('#'.$key.'#i', $val, $str);
-		}
-
-		if ($lowercase === true) {
-			$str = strtolower($str);
-		}
-
-		return trim(trim($str, $separator));
-	}
-
-	/**
-	 * remove folder and file
-	 */
-	public static function deleteFolder($path) {
-		if(file_exists($path)) {
-			$fh = dir($path);
-			while (false !== ($files = $fh->read())) {
-				@unlink($fh->path.'/'.$files);
-			}
-			$fh->close();
-			@rmdir($path);
-			return true;
-
-		} else {
-			return false;
-		}
 	}
 
 	/**
