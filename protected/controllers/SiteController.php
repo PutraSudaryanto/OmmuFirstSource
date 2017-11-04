@@ -69,12 +69,6 @@ class SiteController extends Controller
 				'actions'=>array('error','index','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
-				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level)',
-				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
-			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),

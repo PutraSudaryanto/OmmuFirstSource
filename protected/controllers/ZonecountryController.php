@@ -9,11 +9,11 @@
  *
  * TOC :
  *	Index
- *	Suggest
  *	Manage
  *	Add
  *	Edit
  *	Delete
+ *	Suggest
  *
  *	LoadModel
  *	performAjaxValidation
@@ -74,24 +74,14 @@ class ZonecountryController extends Controller
 	public function accessRules() 
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('suggest'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level)',
-				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','delete'),
+				'actions'=>array('index','manage','add','edit','delete'),
 				'users'=>array('@'),
-				'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level == 1)',
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array(),
-				'users'=>array('admin'),
+				'expression'=>'$user->level == 1',
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -105,40 +95,6 @@ class ZonecountryController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionSuggest($id=null, $limit=10) 
-	{
-		if($id == null) {
-			if(isset($_GET['term'])) {
-				$criteria = new CDbCriteria;
-				$criteria->select = "country_id, country_name";
-				$criteria->condition = 'country_name LIKE :country';
-				$criteria->params = array(':country' => '%' . strtolower($_GET['term']) . '%');
-				$criteria->order = "country_id ASC";
-				$criteria->limit = $limit;
-				$model = OmmuZoneCountry::model()->findAll($criteria);
-
-				if($model) {
-					foreach($model as $items) {
-						$result[] = array('id' => $items->country_id, 'value' => $items->country_name);
-					}
-				}
-			}
-			echo CJSON::encode($result);
-			Yii::app()->end();
-			
-		} else {
-			$model = OmmuZoneCountry::getCountry();
-			$message['data'] = '<option value="">'.Yii::t('phrase', 'Select one').'</option>';
-			foreach($model as $key => $val) {
-				$message['data'] .= '<option value="'.$key.'">'.$val.'</option>';
-			}
-			echo CJSON::encode($message);			
-		}
 	}
 
 	/**
@@ -299,6 +255,40 @@ class ZonecountryController extends Controller
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('/zone_country/admin_delete');
+		}
+	}
+
+	/**
+	 * Lists all models.
+	 */
+	public function actionSuggest($id=null, $limit=10) 
+	{
+		if($id == null) {
+			if(isset($_GET['term'])) {
+				$criteria = new CDbCriteria;
+				$criteria->select = "country_id, country_name";
+				$criteria->condition = 'country_name LIKE :country';
+				$criteria->params = array(':country' => '%' . strtolower($_GET['term']) . '%');
+				$criteria->order = "country_id ASC";
+				$criteria->limit = $limit;
+				$model = OmmuZoneCountry::model()->findAll($criteria);
+
+				if($model) {
+					foreach($model as $items) {
+						$result[] = array('id' => $items->country_id, 'value' => $items->country_name);
+					}
+				}
+			}
+			echo CJSON::encode($result);
+			Yii::app()->end();
+			
+		} else {
+			$model = OmmuZoneCountry::getCountry();
+			$message['data'] = '<option value="">'.Yii::t('phrase', 'Select one').'</option>';
+			foreach($model as $key => $val) {
+				$message['data'] .= '<option value="'.$key.'">'.$val.'</option>';
+			}
+			echo CJSON::encode($message);			
 		}
 	}
 
