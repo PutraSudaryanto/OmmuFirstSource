@@ -85,6 +85,9 @@ class ZonecityController extends Controller
 				'users'=>array('@'),
 				'expression'=>'$user->level == 1',
 			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 	

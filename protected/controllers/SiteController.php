@@ -69,6 +69,9 @@ class SiteController extends Controller
 				'actions'=>array('error','index','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 

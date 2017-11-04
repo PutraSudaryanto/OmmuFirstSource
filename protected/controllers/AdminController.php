@@ -70,6 +70,9 @@ class AdminController extends Controller
 				'users'=>array('@'),
 				'expression'=>'in_array($user->level, array(1,2))',
 			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 	
