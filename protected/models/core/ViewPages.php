@@ -23,6 +23,7 @@
  *
  * The followings are the available columns in table '_view_core_pages':
  * @property integer $page_id
+ * @property integer $media
  * @property string $views
  * @property string $view_all
  */
@@ -65,11 +66,11 @@ class ViewPages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id', 'numerical', 'integerOnly'=>true),
+			array('page_id, media', 'numerical', 'integerOnly'=>true),
 			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('page_id, views, view_all', 'safe', 'on'=>'search'),
+			array('page_id, media, views, view_all', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,6 +92,7 @@ class ViewPages extends CActiveRecord
 	{
 		return array(
 			'page_id' => Yii::t('attribute', 'Page'),
+			'media' => Yii::t('attribute', 'Media'),
 			'views' => Yii::t('attribute', 'Views'),
 			'view_all' => Yii::t('attribute', 'View All'),
 		);
@@ -115,6 +117,7 @@ class ViewPages extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.page_id',$this->page_id);
+		$criteria->compare('t.media',$this->media);
 		$criteria->compare('t.views',$this->views);
 		$criteria->compare('t.view_all',$this->view_all);
 
@@ -148,6 +151,7 @@ class ViewPages extends CActiveRecord
 			}
 		} else {
 			$this->defaultColumns[] = 'page_id';
+			$this->defaultColumns[] = 'media';
 			$this->defaultColumns[] = 'views';
 			$this->defaultColumns[] = 'view_all';
 		}
@@ -165,6 +169,7 @@ class ViewPages extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			//$this->defaultColumns[] = 'page_id';
+			$this->defaultColumns[] = 'media';
 			$this->defaultColumns[] = 'views';
 			$this->defaultColumns[] = 'view_all';
 		}
