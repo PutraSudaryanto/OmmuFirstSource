@@ -1,5 +1,2 @@
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/LICENSE"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/ommu/LICENSE" 
-
-hln "/Users/putrasudaryanto/htdocs/project_ommu_module/extension_gapi/gapi" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/extensions/gapi-google-analytics/gapi"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_module/extension_gapi/OGapi.php" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/extensions/gapi-google-analytics/OGapi.php"
+ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/ommu/LICENSE"
