@@ -4,10 +4,6 @@ install
 =======
 hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/install" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/install"
 -------
-libraries
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/libraries" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/libraries"
--------
 protected
 =======
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/.htaccess" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/.htaccess"
