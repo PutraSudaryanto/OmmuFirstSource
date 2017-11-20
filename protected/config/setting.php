@@ -19,7 +19,7 @@ return array(
 		'adminEmail'=>'support@ommu.co',
 		'primaryLang' => 'id',
 		'translateLangs' => array(
-			'en_us' => 'en_us',
+			'en' => 'en',
 			'id' => 'id',
 		),
 		

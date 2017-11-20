@@ -7,19 +7,22 @@
 		"platform",
 		"ommu platform",
 		"backoffice-theme",
-		"cms"
+		"cms",
+		"gii",
+		"module",
+		"core"
 	],
-	"homepage": "https://github.com/ommu/ommu-core",
-	"type": "ommu-module",
+	"homepage": "https://github.com/ommu/ommu",
+	"type": "project",
 	"license": "Apache-2.0",
 	"support": {
-		"issues": "https://github.com/ommu/ommu-core/issues",
-		"wiki": "https://github.com/ommu/ommu-core/wiki",
-		"source": "https://github.com/ommu/ommu-core"
+		"issues": "https://github.com/ommu/ommu/issues",
+		"wiki": "https://github.com/ommu/ommu/wiki",
+		"source": "https://github.com/ommu/ommu"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ommu/ommu-core.git"
+		"url": "https://github.com/ommu/ommu.git"
 	},
 	"authors": [
 		{

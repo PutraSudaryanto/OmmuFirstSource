@@ -12,6 +12,7 @@
  * @contact (+62)856-299-4114
  *
  */
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Ommu Platform',
@@ -28,18 +29,9 @@ return array(
 	'import'=>array(
 		// Model
 		'application.models.*',
-		'application.models.core.*',
-		'application.modules.report.models.*',
-		'application.modules.support.models.*',
-		'application.modules.users.models.*',
-		//'application.modules.personal.models.*',
 
 		// Components
 		'application.components.*',
-		'application.components.admin.*',
-		'application.components.public.*',
-		'application.components.system.*',
-		'application.modules.users.components.*',
 	),
 
 	// application components
