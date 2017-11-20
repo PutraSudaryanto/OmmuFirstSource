@@ -336,7 +336,7 @@ class Utility
 				}
 			}
 			
-			$contentMenuData = array_filter($contentMenu, function($a) {					
+			$contentMenuData = array_filter($contentMenu, function($a) {
 				$siteType = explode(',', $a['urlRules']['siteType']);
 				$userLevel = explode(',', $a['urlRules']['userLevel']);
 				
