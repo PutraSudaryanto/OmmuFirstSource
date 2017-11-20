@@ -1,1 +1,0 @@
-<a class="googleplus" target="_blank" href="https://plus.google.com/116229493253420579165" title="Ingress Indonesia Resistance (Official Google Plus)"><img src="<?php echo Yii::app()->request->baseUrl?>/public/logo_resistance_indonesia.png" alt="Ingress Indonesia Resistance"></a>
