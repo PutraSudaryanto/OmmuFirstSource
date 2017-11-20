@@ -21,7 +21,7 @@
 
 <?php if(!isset($_GET['email'])) {?>
 	<div class="boxed" name="post-on">
-		<?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
+		<?php $form=$this->beginWidget('application.libraries.core.components.system.OActiveForm', array(
 			'id'=>'support-contacts-form',
 			'enableAjaxValidation'=>true,
 			'htmlOptions' => array(
