@@ -76,7 +76,7 @@ class ModuleHandle extends CApplicationComponent
 	 * @return array
 	 */
 	public function getModuleConfig($moduleName) {
-		Yii::import('application.components.plugin.Spyc');
+		Yii::import('application.libraries.core.components.plugin.Spyc');
 		define('DS', DIRECTORY_SEPARATOR);
 		
 		$configPath = Yii::getPathOfAlias('application.modules.'.$moduleName).DS.$moduleName.'.yaml';

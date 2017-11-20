@@ -143,7 +143,7 @@ class SearchController extends Controller
 				$this->pageTitle = Yii::t('phrase', 'Hasil Pencarian: $keyword', array('$keyword'=>$_GET['keyword']));
 				$this->pageDescription = '';
 				$this->pageMeta = '';				
-				$this->render('application.webs.search.front_result', compact(
+				$this->render('front_result', compact(
 					'results', 
 					'term', 
 					'query'

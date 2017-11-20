@@ -22,7 +22,7 @@
  *----------------------------------------------------------------------------------------------------------
  */
 
-Yii::import('application.components.plugin.Spyc');
+Yii::import('application.libraries.core.components.plugin.Spyc');
 define('DS', DIRECTORY_SEPARATOR);
 
 class Ommu extends CApplicationComponent
@@ -249,7 +249,7 @@ $moduleRules[$val->folder.'/<controller:[a-zA-Z\/]+>/<action:\w+>/<category:\d+>
 		 */ 
 		Yii::app()->setComponents(array(
 			'meta'=>array(
-				'class' => 'application.components.plugin.MetaTags',
+				'class' => 'application.libraries.core.components.plugin.MetaTags',
 				'googleOwnerTags'=>array(	// set default OG tags
 					'place:location:latitude'=>$point[0],
 					'place:location:longitude'=>$point[1],

@@ -125,7 +125,7 @@ class PageController extends Controller
 			$this->pageTitle = Yii::t('phrase', 'Pages');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('application.webs.page.front_index',array(
+			$this->render('front_index',array(
 				'dataProvider'=>$dataProvider,
 			));
 			
@@ -173,7 +173,7 @@ class PageController extends Controller
 			$this->pageDescription = Utility::shortText(Utility::hardDecode($description), 200);
 			$this->pageMeta = '';
 			$this->pageImage = $image;
-			$this->render('application.webs.page.front_view',array(
+			$this->render('front_view',array(
 				'model'=>$model,
 				'static'=>$static,
 				'picture'=>$picture,
