@@ -29,9 +29,12 @@ return array(
 	'import'=>array(
 		// Model
 		'application.models.*',
+		'application.libraries.core.models.*',
 
 		// Components
 		'application.components.*',
+		'application.libraries.core.components.public.*',
+		'application.libraries.core.components.system.*',
 	),
 
 	// application components
@@ -43,7 +46,7 @@ return array(
 		
 		//Ommu module/plugin handle
 		'moduleHandle' => array(
-			'class' => 'application.ommu.ModuleHandle'
+			'class' => 'application.libraries.core.ommu.ModuleHandle'
 		),
 
 		//move core message yii to protected
