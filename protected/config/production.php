@@ -41,7 +41,7 @@ return array(
 	'components'=>array(
 		//Ommu custom components
 		'ommu' => array(
-			'class' => 'application.ommu.Ommu',
+			'class' => 'application.libraries.core.ommu.Ommu',
 		),
 		
 		//Ommu module/plugin handle
