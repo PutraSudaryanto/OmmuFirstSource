@@ -1,48 +1,10 @@
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/timthumb.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/timthumb.php"
 -------
-install
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/install" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/install"
--------
-protected
-=======
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/.htaccess" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/.htaccess"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/yiic" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/yiic"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/yiic.bat" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/yiic.bat"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/yiic.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/yiic.php"
--------
 protected/components
 =======
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/Controller.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/Controller.php"
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/ControllerApi.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/ControllerApi.php"
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/UserIdentity.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/UserIdentity.php"
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/admin" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/admin"
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/plugin" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/plugin"
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/system" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/system"
--------
-protected/controllers
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/controllers" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/controllers"
--------
-protected/extensions
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/extensions" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/extensions"
--------
-protected/messages
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/messages" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/messages"
--------
-protected/models
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/models/core" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/models/core"
--------
-protected/ommu
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/ommu" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/ommu"
--------
-protected/views
-=======
-hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/views" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/views"
 -------
 
 
