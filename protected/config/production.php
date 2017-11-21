@@ -35,7 +35,7 @@ return array(
 		'application.components.*',
 		'application.libraries.core.components.public.*',
 		'application.libraries.core.components.system.*',
-		
+
 		// Module Model
 		'application.vendor.ommu.report.models.*',
 		'application.vendor.ommu.support.models.*',
