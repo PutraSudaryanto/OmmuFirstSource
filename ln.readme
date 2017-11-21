@@ -50,16 +50,19 @@ hln "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/views" "/User
 protected\modules
 =======
 ///gii///
-hln "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/gii" 
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/gii" 
+
+///core///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/core" 
 
 ///themes///
-hln "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/ommu"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/ommu"
 
 ///users///
-hln "/Users/putrasudaryanto/htdocs/project_ommu_module/module_users" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/users" 
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_users" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/users" 
 
 ///report///
-hln "/Users/putrasudaryanto/htdocs/project_ommu_module/module_report" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/report"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_report" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/report"
 
 ///support///
-hln "/Users/putrasudaryanto/htdocs/project_ommu_module/module_support" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/support"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_support" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/support"

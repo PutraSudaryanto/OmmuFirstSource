@@ -13,8 +13,6 @@
  *
  */
 
-Yii::setPathOfAlias('app', dirname(__dir__));
-
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Ommu Platform',
@@ -31,18 +29,19 @@ return array(
 	'import'=>array(
 		// Model
 		'application.models.*',
-		'application.models.core.*',
+		'application.libraries.core.models.*',
+
 		// Components
 		'application.components.*',
-		'application.components.admin.*',
-		'application.components.public.*',
-		'application.components.system.*',
+		'application.libraries.core.components.public.*',
+		'application.libraries.core.components.system.*',
 		
 		// Module Model
 		'application.vendor.ommu.report.models.*',
 		'application.vendor.ommu.support.models.*',
 		'application.vendor.ommu.users.models.*',
 		'application.vendor.ommu.users.models.Users',
+
 		// Module Components
 		'application.vendor.ommu.users.components.*',
 	),
@@ -51,12 +50,12 @@ return array(
 	'components'=>array(
 		//Ommu custom components
 		'ommu' => array(
-			'class' => 'application.ommu.Ommu',
+			'class' => 'application.libraries.core.ommu.Ommu',
 		),
 		
 		//Ommu module/plugin handle
 		'moduleHandle' => array(
-			'class' => 'application.ommu.ModuleHandle'
+			'class' => 'application.libraries.core.ommu.ModuleHandle'
 		),
 
 		//move core message yii to protected
@@ -76,7 +75,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
+			'errorAction'=>'site/error',
         ),
 
 		'log'=>array(

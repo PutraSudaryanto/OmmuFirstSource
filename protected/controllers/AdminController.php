@@ -122,7 +122,7 @@ class AdminController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Welcome, $displayname', array('$displayname'=>Yii::app()->user->displayname));
 		$this->pageDescription = Yii::t('phrase', 'Welcome to your social network control panel. Here you can manage and modify every aspect of your social network. Directly below, you will find a quick snapshot of your social network including some useful statistics.');
 		$this->pageMeta = '';
-		$this->render('application.webs.admin.admin_dashboard', array(
+		$this->render('admin_dashboard', array(
 			'model'=>$model,			
 			'data'=>$data,
 			'pager'=>$pager,

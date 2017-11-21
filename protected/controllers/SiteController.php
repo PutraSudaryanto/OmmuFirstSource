@@ -87,9 +87,9 @@ class SiteController extends Controller
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
 			else
-				$this->render('application.webs.site.front_error', $error);
+				$this->render('front_error', $error);
 		} else {
-			$this->render('application.webs.site.front_error', $error);
+			$this->render('front_error', $error);
 		}
 		Reports::insertReport($this->pageURL, $error['message']);
 	}
@@ -115,14 +115,14 @@ class SiteController extends Controller
 			/* if(!Yii::app()->user->isGuest) {
 				$this->redirect(Yii::app()->createUrl('pose/site/index'));
 			} else {
-				$render = 'application.webs.site.front_index';
+				$render = 'front_index';
 			} */
 			
 			$this->sidebarShow = false;
 			$this->pageTitle = Yii::t('phrase', 'Home');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('application.webs.site.front_index', array(
+			$this->render('front_index', array(
 				'setting'=>$setting,
 			));
 			
@@ -172,7 +172,7 @@ class SiteController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Statistic');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('application.webs.site.front_analytics', array(
+		$this->render('front_analytics', array(
 			'model'=>$model,
 		));
 	}

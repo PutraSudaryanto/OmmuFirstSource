@@ -60,7 +60,7 @@ class MaintenanceController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Contruction');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('application.webs.maintenance.front_index',array(
+		$this->render('front_index',array(
 			'setting'=>$setting,
 		));
 	}
@@ -79,7 +79,7 @@ class MaintenanceController extends Controller
 		$this->pageDescription = Utility::shortText(Utility::hardDecode(Phrase::trans($model->desc)),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
-		$this->render('application.webs.maintenance.front_page',array(
+		$this->render('front_page',array(
 			'model'=>$model,
 		));
 	}
@@ -130,7 +130,7 @@ class MaintenanceController extends Controller
 			$this->pageTitle = isset($_GET['email']) ? Yii::t('phrase', 'Feedback Success') : Yii::t('phrase', 'Feedback');
 			$this->pageDescription = isset($_GET['email']) ? (isset($_GET['name']) ? Yii::t('phrase', 'Hi <strong>{name} ({email})</strong>, terimakasih telah menghubungi support kami.', array('{name}'=>$_GET['name'], '{email}'=>$_GET['email'])) : Yii::t('phrase', 'Hi <strong>{email}</strong>, terimakasih telah menghubungi support kami.', array('{email}'=>$_GET['email']))) : '';
 			$this->pageMeta = '';
-			$this->render('application.webs.maintenance.front_feedback',array(
+			$this->render('front_feedback',array(
 				'model'=>$model,
 				'user'=>$user,
 			));			
@@ -185,7 +185,7 @@ class MaintenanceController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = $desc;
 			$this->pageMeta = '';
-			$this->render('application.webs.maintenance.front_subscribe',array(
+			$this->render('front_subscribe',array(
 				'model'=>$model,
 				'launch'=>$launch,
 			));
@@ -201,7 +201,7 @@ class MaintenanceController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Support');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('application.webs.maintenance.front_support');
+		$this->render('front_support');
 	}
 
 	
