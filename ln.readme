@@ -28,3 +28,12 @@ ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_report" "/Users
 
 ///support///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_support" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/vendor/ommu/support"
+
+///themes///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/boucle" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/boucle"
+
+///themes///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/bracketplus" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/bracketplus"
+
+///themes///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/rexo" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/rexo"
