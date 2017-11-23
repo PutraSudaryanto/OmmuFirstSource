@@ -1,7 +1,8 @@
 <?php 
 return array(
 	'modules' => array(
-		'assessment',
+		'article',
+		'banner',
 		'report',
 		'support',
 		'users'
