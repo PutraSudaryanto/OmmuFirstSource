@@ -75,8 +75,8 @@ class MaintenanceController extends Controller
 			//'select' => '',
 		));
 
-		$this->pageTitle = Phrase::trans($model->name);
-		$this->pageDescription = Utility::shortText(Utility::hardDecode(Phrase::trans($model->desc)),300);
+		$this->pageTitle = $model->title->message;
+		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
 		$this->render('front_page',array(
