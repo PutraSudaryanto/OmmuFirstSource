@@ -133,8 +133,8 @@ class PageController extends Controller
 			if($static == null) {
 				$model=$this->loadModel($id);
 				
-				$title = Phrase::trans($model->name);
-				$description = Phrase::trans($model->desc);				
+				$title = $model->title->message;
+				$description = $model->description->message;
 				$image = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
 				
 			} else {
@@ -261,7 +261,7 @@ class PageController extends Controller
 			}
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Update Page: $page_name', array('$page_name'=>Phrase::trans($model->name)));
+		$this->pageTitle = Yii::t('phrase', 'Update Page: $page_name', array('$page_name'=>$model->title->message));
 		$this->pageDescription = '';
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
@@ -332,7 +332,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', 'Delete Page: $page_name', array('$page_name'=>Phrase::trans($model->name)));
+			$this->pageTitle = Yii::t('phrase', 'Delete Page: $page_name', array('$page_name'=>$model->title->message));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_delete');
@@ -370,7 +370,7 @@ class PageController extends Controller
 			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
 			$this->dialogWidth = 350;
 
-			$this->pageTitle = Yii::t('phrase', '$title Page: $page_name', array('$title'=>$title, '$page_name'=>Phrase::trans($model->name)));
+			$this->pageTitle = Yii::t('phrase', '$title Page: $page_name', array('$title'=>$title, '$page_name'=>$model->title->message));
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(

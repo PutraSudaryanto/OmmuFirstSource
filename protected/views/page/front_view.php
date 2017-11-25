@@ -38,6 +38,6 @@
 }?>
 
 <?php if($a == null)
-	echo Phrase::trans($model->name) != Utility::hardDecode(Phrase::trans($model->desc)) ? Utility::cleanImageContent(Phrase::trans($model->desc)) : '';
+	echo $model->title->message != Utility::hardDecode($model->description->message) ? Utility::cleanImageContent($model->description->message) : '';
 else 
 	echo $model->description;?>
