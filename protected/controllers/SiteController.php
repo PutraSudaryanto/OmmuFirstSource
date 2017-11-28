@@ -102,11 +102,14 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php'
 		
 		$setting = OmmuSettings::model()->findByPk(1,array(
-			'select' => 'id',
+			'select' => 'id, online',
 		));
 
 		if($setting->view->online == 0 && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && in_array(!Yii::app()->user->level, array(1,2))))) {
-			$this->redirect(Yii::app()->createUrl('maintenance/index'));
+			if($setting->online == 0)
+				$this->redirect(Yii::app()->createUrl('maintenance/index'));
+			else if($setting->online == 2)
+				$this->redirect(Yii::app()->createUrl('comingsoon/index'));
 
 		} else {
 			$this->sidebarShow = false;
