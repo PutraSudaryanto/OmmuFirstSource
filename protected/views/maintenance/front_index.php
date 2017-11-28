@@ -13,8 +13,7 @@
  */
  
 	$this->breadcrumbs=array(
-		'User Verifies'=>array('manage'),
-		'Create',
+		'Maintenance',
 	);
 	
 	$date = date('Y/m/d', strtotime($setting->construction_date));

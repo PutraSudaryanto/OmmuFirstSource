@@ -35,17 +35,34 @@ class MaintenanceController extends Controller
 	public function init() 
 	{
 		$setting = OmmuSettings::model()->findByPk(1,array(
-			'select' => 'online, construction_date',
+			'select' => 'id',
 		));
 
-		if($setting->online == 0 && date('Y-m-d', strtotime($setting->construction_date)) > date('Y-m-d')) {
-			$arrThemes = Utility::getCurrentTemplate('underconstruction');
+		if($setting->view->online == 0) {
+			$arrThemes = Utility::getCurrentTemplate('maintenance');
 			Yii::app()->theme = $arrThemes['folder'];
 			$this->layout = $arrThemes['layout'];
 
-		} else {
+		} else
 			$this->redirect(Yii::app()->createUrl('site/index'));
-		}
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules() 
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','page','feedback','subscribe','support'),
+				'users'=>array('*'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
 	}
 
 	/**
@@ -57,6 +74,7 @@ class MaintenanceController extends Controller
 		$setting = OmmuSettings::model()->findByPk(1,array(
 			'select' => 'construction_date, construction_text',
 		));
+
 		$this->pageTitle = Yii::t('phrase', 'Contruction');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
