@@ -10,8 +10,8 @@
  *	Index
  *	Login
  *	Logout
- *	SendEmail
  *	Analytics
+ *	SendEmail
  *
  *	LoadModel
  *	performAjaxValidation
@@ -64,7 +64,7 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('error','index','signup','login','logout','analytics','sendemail'),
+				'actions'=>array('error','index','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -117,28 +117,6 @@ class SiteController extends Controller
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('front_index');
-		}
-	}
-	
-	/**
-	 * Displays the login page
-	 */
-	public function actionSignup()
-	{
-		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
-		));
-		
-		if(!Yii::app()->user->isGuest)
-			$this->redirect(array('site/index'));
-
-		else {
-			$this->pageTitle = Yii::t('phrase', 'Sign Up');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_signup', array(
-				'setting'=>$setting,
-			));
 		}
 	}
 	
