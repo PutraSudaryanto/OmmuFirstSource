@@ -1,7 +1,7 @@
 <?php
 /**
  * Ommu Settings (ommu-settings)
- * @var $this MaintenanceController
+ * @var $this ComingsoonController
  * @var $model OmmuSettings
  * version: 1.3.0
  *
@@ -13,7 +13,7 @@
  */
  
 	$this->breadcrumbs=array(
-		'Maintenance',
+		'Coming Soon',
 	);
 	
 	$date = date('Y/m/d', strtotime($setting->construction_date));

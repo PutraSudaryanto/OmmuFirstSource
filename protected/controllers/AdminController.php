@@ -34,6 +34,10 @@ class AdminController extends Controller
 	 */
 	public function init() 
 	{
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'site_type',
+		));
+		
 		if(!Yii::app()->user->isGuest) {
 			if(in_array(Yii::app()->user->level, array(1,2))) {
 				$arrThemes = Utility::getCurrentTemplate('admin');
@@ -41,8 +45,12 @@ class AdminController extends Controller
 				$this->layout = $arrThemes['layout'];
 				Utility::applyViewPath(__dir__);
 			}
-		} else
-			$this->redirect(Yii::app()->createUrl('site/login'));
+		} else {
+			if($setting->site_type == 1)
+				$this->redirect(Yii::app()->createUrl('site/login'));
+			else
+				$this->redirect(Yii::app()->createUrl('users/admin'));
+		}
 	}
 
 	/**

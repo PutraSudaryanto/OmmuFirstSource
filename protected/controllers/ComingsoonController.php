@@ -1,7 +1,7 @@
 <?php
 /**
- * MaintenanceController
- * Handle MaintenanceController
+ * ComingsoonController
+ * Handle ComingsoonController
  * version: 1.3.0
  * Reference start
  *
@@ -20,7 +20,7 @@
  *----------------------------------------------------------------------------------------------------------
  */
 
-class MaintenanceController extends Controller
+class ComingsoonController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -97,7 +97,7 @@ class MaintenanceController extends Controller
 		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
-		$this->render('front_page',array(
+		$this->render('/maintenance/front_page',array(
 			'model'=>$model,
 		));
 	}
@@ -148,7 +148,7 @@ class MaintenanceController extends Controller
 			$this->pageTitle = isset($_GET['email']) ? Yii::t('phrase', 'Feedback Success') : Yii::t('phrase', 'Feedback');
 			$this->pageDescription = isset($_GET['email']) ? (isset($_GET['name']) ? Yii::t('phrase', 'Hi <strong>{name} ({email})</strong>, terimakasih telah menghubungi support kami.', array('{name}'=>$_GET['name'], '{email}'=>$_GET['email'])) : Yii::t('phrase', 'Hi <strong>{email}</strong>, terimakasih telah menghubungi support kami.', array('{email}'=>$_GET['email']))) : '';
 			$this->pageMeta = '';
-			$this->render('front_feedback',array(
+			$this->render('/maintenance/front_feedback',array(
 				'model'=>$model,
 				'user'=>$user,
 			));			
@@ -203,7 +203,7 @@ class MaintenanceController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = $desc;
 			$this->pageMeta = '';
-			$this->render('front_subscribe',array(
+			$this->render('/maintenance/front_subscribe',array(
 				'model'=>$model,
 				'launch'=>$launch,
 			));
@@ -219,7 +219,7 @@ class MaintenanceController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Support');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('front_support');
+		$this->render('/maintenance/front_support');
 	}
 
 	

@@ -53,8 +53,6 @@ class SiteController extends Controller
 		$arrThemes = Utility::getCurrentTemplate('public');
 		Yii::app()->theme = $arrThemes['folder'];
 		$this->layout = $arrThemes['layout'];
-		Utility::applyViewPath(__dir__);
-		//$this->pageGuest = true;
 	}
 
 	/**
@@ -66,7 +64,7 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('error','index','login','logout','analytics','sendemail'),
+				'actions'=>array('error','index','signup','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -104,28 +102,43 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php'
 		
 		$setting = OmmuSettings::model()->findByPk(1,array(
-			'select' => 'online, construction_date',
+			'select' => 'id, online',
 		));
-		//$this->redirect(Yii::app()->createUrl('project/site/index'));
 
-		if(($setting->online == 0 && date('Y-m-d', strtotime($setting->construction_date)) > date('Y-m-d')) && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && in_array(!Yii::app()->user->level, array(1,2))))) {
-			$this->redirect(Yii::app()->createUrl('maintenance/index'));
+		if($setting->view->online == 0 && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && in_array(!Yii::app()->user->level, array(1,2))))) {
+			if($setting->online == 0)
+				$this->redirect(Yii::app()->createUrl('maintenance/index'));
+			else if($setting->online == 2)
+				$this->redirect(Yii::app()->createUrl('comingsoon/index'));
 
 		} else {
-			/* if(!Yii::app()->user->isGuest) {
-				$this->redirect(Yii::app()->createUrl('pose/site/index'));
-			} else {
-				$render = 'front_index';
-			} */
-			
 			$this->sidebarShow = false;
 			$this->pageTitle = Yii::t('phrase', 'Home');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('front_index', array(
+			$this->render('front_index');
+		}
+	}
+	
+	/**
+	 * Displays the login page
+	 */
+	public function actionSignup()
+	{
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'site_type',
+		));
+		
+		if(!Yii::app()->user->isGuest)
+			$this->redirect(array('site/index'));
+
+		else {
+			$this->pageTitle = Yii::t('phrase', 'Sign Up');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('front_signup', array(
 				'setting'=>$setting,
 			));
-			
 		}
 	}
 	
@@ -142,10 +155,12 @@ class SiteController extends Controller
 			$this->redirect(array('site/index'));
 
 		else {
-			if($setting->site_type == 1)
-				$this->redirect(Yii::app()->createUrl('users/account'));
-			else
-				$this->redirect(Yii::app()->createUrl('users/admin'));
+			$this->pageTitle = Yii::t('phrase', 'Login');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('front_login', array(
+				'setting'=>$setting,
+			));
 		}
 	}
 
