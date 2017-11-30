@@ -43,7 +43,6 @@ class AdminController extends Controller
 				$arrThemes = Utility::getCurrentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
-				Utility::applyViewPath(__dir__);
 			}
 		} else {
 			if($setting->site_type == 1)

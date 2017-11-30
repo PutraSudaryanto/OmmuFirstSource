@@ -42,7 +42,6 @@ class MaintenanceController extends Controller
 			$arrThemes = Utility::getCurrentTemplate('maintenance');
 			Yii::app()->theme = $arrThemes['folder'];
 			$this->layout = $arrThemes['layout'];
-
 		} else
 			$this->redirect(Yii::app()->createUrl('site/index'));
 	}

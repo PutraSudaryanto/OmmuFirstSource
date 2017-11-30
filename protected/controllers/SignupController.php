@@ -71,22 +71,40 @@ class SignupController extends Controller
 	/**
 	 * Displays the login page
 	 */
-	public function actionIndex()
+	public function actionIndex($token=null)
 	{
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
+			'select'=>'signup_random',
 		));
 		
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(array('site/index'));
+		
+		$model=new Users;
 
-		else {
-			$this->pageTitle = Yii::t('phrase', 'Sign Up');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_index', array(
-				'setting'=>$setting,
-			));
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
 		}
+
+		// collect user input data
+		if(isset($_POST['Users']))
+		{
+			$model->attributes=$_POST['Users'];
+			$model->scenario = 'formAdd';
+
+			if($model->save()) {
+				$this->redirect(Yii::app()->createUrl('signup/index', array('token'=>$model->view->token_oauth)));
+			}
+		}
+
+		$this->pageTitle = Yii::t('phrase', 'Sign Up');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('front_index', array(
+			'model'=>$model,
+			'setting'=>$setting,
+		));
 	}
 }
