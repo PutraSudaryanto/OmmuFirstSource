@@ -10,15 +10,15 @@
  *	Index
  *	Login
  *	Logout
- *	SendEmail
  *	Analytics
+ *	SendEmail
  *
  *	LoadModel
  *	performAjaxValidation
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/ommu-core
+ * @link https://github.com/ommu/ommu
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('error','index','signup','login','logout','analytics','sendemail'),
+				'actions'=>array('error','index','login','logout','analytics','sendemail'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -123,45 +123,97 @@ class SiteController extends Controller
 	/**
 	 * Displays the login page
 	 */
-	public function actionSignup()
+	public function actionLogin($token=null)
 	{
+		Yii::import('application.vendor.ommu.users.models.*');
+		Yii::import('application.vendor.ommu.users.models.view.*');
+		
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
+			'select'=>'site_oauth, site_type',
 		));
 		
 		if(!Yii::app()->user->isGuest)
 			$this->redirect(array('site/index'));
 
-		else {
-			$this->pageTitle = Yii::t('phrase', 'Sign Up');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_signup', array(
-				'setting'=>$setting,
-			));
+		$condition = true;
+		$model=new LoginForm;
+		$modelForm = 'LoginForm';
+		if($setting->site_type == 0 || $setting->site_oauth == 1) {
+			$condition = false;
+			$model=new LoginFormAdmin;
+			$modelForm = 'LoginFormAdmin';
+			if($setting->site_oauth == 1) {
+				$model=new LoginFormOauth;
+				$modelForm = 'LoginFormOauth';
+			}
 		}
-	}
+
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		// collect user input data
+		if(isset($_POST[$modelForm]))
+		{
+			$model->attributes=$_POST[$modelForm];
+
+			if($condition == true) {
+				if($token == null) {
+					$model->scenario = 'loginemail';
+
+					if($model->email != '') {
+						if(preg_match('/@/',$model->email)) //$this->username can filled by username or email
+							$user = Users::model()->findByAttributes(array('email' => strtolower($model->email)));
+						else 
+							$user = Users::model()->findByAttributes(array('username' => strtolower($model->email)));
+
+						if($user == null)
+							$this->redirect(Yii::app()->createUrl('signup/index', array('email'=>$model->email)));
+						else
+							$this->redirect(Yii::app()->controller->createUrl('login', array('token'=>$user->view->token_oauth)));
+					} else
+						$model->addError('email', Yii::t('phrase', 'Email cannot be blank.'));
+
+				} else {
+					$model->scenario = 'loginpassword';
+
+					// validate user input and redirect to the previous page if valid
+					if($model->validate() && $model->login()) {
+						Users::model()->updateByPk(Yii::app()->user->id, array(
+							'lastlogin_date'=>date('Y-m-d H:i:s'), 
+							'lastlogin_ip'=>$_SERVER['REMOTE_ADDR'],
+							'lastlogin_from'=>Yii::app()->params['product_access_system'],
+						));
+		
+						$this->redirect(Yii::app()->user->returnUrl);
+					}
+				}
+
+			} else {
+				// validate user input and redirect to the previous page if valid
+				if($model->validate() && $model->login()) {
+					Users::model()->updateByPk(Yii::app()->user->id, array(
+						'lastlogin_date'=>date('Y-m-d H:i:s'), 
+						'lastlogin_ip'=>$_SERVER['REMOTE_ADDR'],
+						'lastlogin_from'=>Yii::app()->params['product_access_system'],
+					));
 	
-	/**
-	 * Displays the login page
-	 */
-	public function actionLogin()
-	{
-		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
-		));
-		
-		if(!Yii::app()->user->isGuest)
-			$this->redirect(array('site/index'));
-
-		else {
-			$this->pageTitle = Yii::t('phrase', 'Login');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_login', array(
-				'setting'=>$setting,
-			));
+					$this->redirect(Yii::app()->user->returnUrl);
+				}
+			}
 		}
+		
+		$this->pageTitle = Yii::t('phrase', 'Login');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('front_login', array(
+			'model'=>$model,
+			'condition'=>$condition,
+			'setting'=>$setting,
+			'token'=>$token,
+		));
 	}
 
 	/**

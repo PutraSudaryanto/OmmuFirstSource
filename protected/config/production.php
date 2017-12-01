@@ -8,7 +8,7 @@
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/ommu-core
+ * @link https://github.com/ommu/ommu
  * @contact (+62)856-299-4114
  *
  */
@@ -35,15 +35,6 @@ return array(
 		'application.components.*',
 		'application.libraries.core.components.public.*',
 		'application.libraries.core.components.system.*',
-
-		// Module Model
-		'application.vendor.ommu.report.models.*',
-		'application.vendor.ommu.support.models.*',
-		'application.vendor.ommu.users.models.*',
-		'application.vendor.ommu.users.models.Users',
-
-		// Module Components
-		'application.vendor.ommu.users.components.*',
 	),
 
 	// application components
