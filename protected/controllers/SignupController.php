@@ -13,7 +13,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/core
+ * @link https://github.com/ommu/ommu
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -45,6 +45,9 @@ class SignupController extends Controller
 	 */
 	public function init() 
 	{
+		Yii::import('application.vendor.ommu.users.models.*');
+		Yii::import('application.vendor.ommu.users.models.view.*');
+		
 		$arrThemes = Utility::getCurrentTemplate('public');
 		Yii::app()->theme = $arrThemes['folder'];
 		$this->layout = $arrThemes['layout'];
@@ -71,10 +74,10 @@ class SignupController extends Controller
 	/**
 	 * Displays the login page
 	 */
-	public function actionIndex($token=null)
+	public function actionIndex($email=null, $token=null)
 	{
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'signup_random',
+			'select'=>'site_title, signup_approve, signup_verifyemail, signup_random',
 		));
 		
 		if(!Yii::app()->user->isGuest)
@@ -83,7 +86,7 @@ class SignupController extends Controller
 		$model=new Users;
 
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
+		if(isset($_POST['ajax']) && $_POST['ajax']==='signup-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
@@ -95,16 +98,38 @@ class SignupController extends Controller
 			$model->scenario = 'formAdd';
 
 			if($model->save()) {
-				$this->redirect(Yii::app()->createUrl('signup/index', array('token'=>$model->view->token_oauth)));
+				$this->redirect(Yii::app()->controller->createUrl('index', array('token'=>$model->view->token_oauth)));
 			}
 		}
 
-		$this->pageTitle = Yii::t('phrase', 'Sign Up');
-		$this->pageDescription = '';
+		if($token == null) {
+			$pageTitle = Yii::t('phrase', 'Sign Up');
+			$pageDescription = Yii::t('phrase', 'Register a new membership');
+			
+		} else {
+			$user = ViewUsers::model()->findByAttributes(array('token_oauth' => $token));
+			$pageTitle = Yii::t('phrase', 'Sign Up Success');
+			$pageDescription = Yii::t('phrase', 'Hi, <strong>{displayname}</strong> terimakasih sudah mendaftar akun {site_title}.<br/>Informasi akun sudah dikirimkan ke email <strong>{email}</strong>.', array(
+				'{site_title}' => $setting->site_title,
+				'{displayname}' => $user->user->displayname,
+				'{email}' => $user->user->email,
+			));
+			if($setting->signup_verifyemail == 1 && $setting->signup_random != 1) {
+				$pageDescription = Yii::t('phrase', 'Hi, <strong>{displayname}</strong> terimakasih sudah mendaftar akun {site_title}.<br/>Email verifikasi sudah dikirimkan ke email <strong>{email}</strong>', array(
+					'{site_title}' => $setting->site_title,
+					'{displayname}' => $user->user->displayname,
+					'{email}' => $user->user->email,
+				));
+			}
+		}
+		$this->pageTitle = $pageTitle;
+		$this->pageDescription = $pageDescription;
 		$this->pageMeta = '';
 		$this->render('front_index', array(
 			'model'=>$model,
 			'setting'=>$setting,
+			'email'=>$email,
+			'token'=>$token,
 		));
 	}
 }

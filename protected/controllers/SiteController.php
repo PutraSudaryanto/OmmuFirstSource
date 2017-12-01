@@ -18,7 +18,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/core
+ * @link https://github.com/ommu/ommu
  * @contact (+62)856-299-4114
  *
  *----------------------------------------------------------------------------------------------------------
@@ -125,6 +125,9 @@ class SiteController extends Controller
 	 */
 	public function actionLogin($token=null)
 	{
+		Yii::import('application.vendor.ommu.users.models.*');
+		Yii::import('application.vendor.ommu.users.models.view.*');
+		
 		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select'=>'site_oauth, site_type',
 		));
@@ -169,7 +172,7 @@ class SiteController extends Controller
 						if($user == null)
 							$this->redirect(Yii::app()->createUrl('signup/index', array('email'=>$model->email)));
 						else
-							$this->redirect(Yii::app()->createUrl('site/login', array('token'=>$user->view->token_oauth)));
+							$this->redirect(Yii::app()->controller->createUrl('login', array('token'=>$user->view->token_oauth)));
 					} else
 						$model->addError('email', Yii::t('phrase', 'Email cannot be blank.'));
 
@@ -201,7 +204,7 @@ class SiteController extends Controller
 				}
 			}
 		}
-			
+		
 		$this->pageTitle = Yii::t('phrase', 'Login');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
