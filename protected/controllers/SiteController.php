@@ -170,7 +170,7 @@ class SiteController extends Controller
 							$user = Users::model()->findByAttributes(array('username' => strtolower($model->email)));
 
 						if($user == null)
-							$this->redirect(Yii::app()->createUrl('signup/index', array('email'=>$model->email)));
+							$this->redirect(Yii::app()->createUrl('account/signup', array('email'=>$model->email)));
 						else
 							$this->redirect(Yii::app()->controller->createUrl('login', array('token'=>$user->view->token_oauth)));
 					} else
