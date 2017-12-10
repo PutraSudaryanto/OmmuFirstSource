@@ -68,8 +68,12 @@ class AccountController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','signup','forgot','reset','verify','email','username'),
+				'actions'=>array('signup','forgot','reset','verify','email','username'),
 				'users'=>array('*'),
+			),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
