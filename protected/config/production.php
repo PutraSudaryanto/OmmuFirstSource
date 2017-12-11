@@ -35,6 +35,16 @@ return array(
 		'application.components.*',
 		'application.libraries.core.components.public.*',
 		'application.libraries.core.components.system.*',
+
+		// Module Model
+		'application.vendor.ommu.report.models.*',
+		'application.vendor.ommu.support.models.*',
+		'application.vendor.ommu.users.models.Users',
+		'application.vendor.ommu.users.models.UserLevel',
+		'application.vendor.ommu.users.models.view.ViewUsers',
+
+		// Module Components
+		'application.vendor.ommu.users.components.*',
 	),
 
 	// application components
