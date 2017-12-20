@@ -156,7 +156,7 @@ class Controller extends CController
 				Yii::app()->session['theme_active'] = Yii::app()->theme->name;
 				if($this->dialogDetail == true)
 					Yii::app()->session['current_url'] = $this->dialogGroundUrl;
-			} */			
+			} */
 			
 			parent::render($view, $data, $return);
 		}
@@ -218,7 +218,7 @@ class Controller extends CController
 			
 		} else {
 			$this->pageDescription = $pageDescription;
-			$this->pageMeta = $pageMeta;			
+			$this->pageMeta = $pageMeta;
 		}
 		$this->pageTitle = $this->pageTitle ? $this->pageTitle : 'Titlenya Lupa..';
 				
@@ -236,8 +236,10 @@ class Controller extends CController
 		// set theme settings
 		if($this->theme == null)
 			$theme = $this->theme = Yii::app()->theme->name;
-		$themeInfo = Utility::getArrayFromYML(Yii::getPathOfAlias('webroot.themes.'.$theme).'/'.$theme.'.yaml');
+		$themeInfo = Utility::getThemeInfo($theme);
+		//print_r($themeInfo);
 		$themeSetting = $themeInfo['settings'];
+		//print_r($themeSetting);
 		$this->themeSetting = $themeSetting;
 		
 		return true;
