@@ -1,2 +1,13 @@
 ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/LICENSE"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/ommu/LICENSE"
+
+-------
+protected\modules
+=======
+///gii///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/libraries/gii" 
+
+///core///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/libraries/core" 
+
+///themes///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_platform/themes/ommu"
