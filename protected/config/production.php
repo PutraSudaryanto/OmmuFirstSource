@@ -38,12 +38,15 @@ return array(
 
 		// Module Model
 		'application.vendor.ommu.report.models.*',
+		'application.vendor.ommu.report.models.view.*',
 		'application.vendor.ommu.support.models.*',
-		'application.vendor.ommu.users.models.Users',
-		'application.vendor.ommu.users.models.UserLevel',
-		'application.vendor.ommu.users.models.view.ViewUsers',
+		'application.vendor.ommu.support.models.view.*',
+		'application.vendor.ommu.users.models.*',
+		'application.vendor.ommu.users.models.view.*',
 
 		// Module Components
+		'application.vendor.ommu.report.components.*',
+		'application.vendor.ommu.support.components.*',
 		'application.vendor.ommu.users.components.*',
 	),
 
