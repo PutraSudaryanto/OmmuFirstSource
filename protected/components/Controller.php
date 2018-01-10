@@ -256,9 +256,9 @@ class Controller extends CController
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
 			else
-				$this->render('application.webs.site.front_error', $error);
+				$this->render('front_error', $error);
 		} else {
-			$this->render('application.webs.site.front_error', $error);
+			$this->render('front_error', $error);
 		}
 	}
  

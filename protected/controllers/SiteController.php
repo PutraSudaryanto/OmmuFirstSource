@@ -124,9 +124,6 @@ class SiteController extends Controller
 	 */
 	public function actionLogin($token=null)
 	{
-		Yii::import('application.vendor.ommu.users.models.*');
-		Yii::import('application.vendor.ommu.users.models.view.*');
-		
 		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select'=>'site_oauth, site_type',
 		));
