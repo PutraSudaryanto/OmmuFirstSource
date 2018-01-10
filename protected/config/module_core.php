@@ -16,7 +16,7 @@ return array(
 		// uncomment the following to enable the Gii tool
 		'gii'=>array(
 			'class' => 'system.gii.GiiModule',
-			'generatorPaths'=>array(
+			'generatorPaths' => array(
 				'application.libraries.gii',
 			),
 			'password' => '0o9i8u7y',

@@ -61,6 +61,11 @@ return array(
 		'moduleHandle' => array(
 			'class' => 'application.libraries.core.ommu.ModuleHandle'
 		),
+		
+		//Ommu theme handle
+		'themeHandle' => array(
+			'class' => 'application.libraries.core.ommu.ThemeHandle'
+		),
 
 		//move core message yii to protected
 		'coreMessages' => array(

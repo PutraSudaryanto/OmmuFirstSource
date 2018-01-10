@@ -27,32 +27,17 @@
 class AccountController extends Controller
 {
 	/**
-	 * Declares class-based actions.
+	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public function actions()
-	{
-		return array(
-			// captcha action renders the CAPTCHA image displayed on the contact page
-			'captcha'=>array(
-				'class'=>'CCaptchaAction',
-				'backColor'=>0xFFFFFF,
-			),
-			// page action renders "static" pages stored under 'protected/views/site/pages'
-			// They can be accessed via: index.php?r=site/page&view=FileName
-			'page'=>array(
-				'class'=>'CViewAction',
-			),
-		);
-	}
+	//public $layout='//layouts/column2';
+	public $defaultAction = 'index';
 
 	/**
 	 * Initialize public template
 	 */
 	public function init() 
 	{
-		Yii::import('application.vendor.ommu.users.models.*');
-		Yii::import('application.vendor.ommu.users.models.view.*');
-
 		$arrThemes = Utility::getCurrentTemplate('public');
 		Yii::app()->theme = $arrThemes['folder'];
 		$this->layout = $arrThemes['layout'];
