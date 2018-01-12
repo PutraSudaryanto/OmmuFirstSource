@@ -245,7 +245,9 @@ class SiteController extends Controller
 	 */
 	public function actionSendEmail($email='putra.sudaryanto@gmail.com', $name='Putra Sudaryanto', $subject='testing', $message='testing')
 	{
-		if(SupportMailSetting::sendEmail($email, $name, $subject, $message))
+		Yii::import('ext.phpmailer.Mailer');
+
+		if(Mailer::send($email, $name, $subject, $message))
 			echo 'send';
 		else 
 			echo 'notsend';

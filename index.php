@@ -6,8 +6,8 @@ ini_set('post_max_size', '8M');
 ini_set('upload_max_filesize', '16M');
 
 // change the following paths if necessary
-$yii    = dirname(__FILE__).'/protected/vendor/yiisoft/yii/framework/yii.php';
-$config = dirname(__FILE__).'/protected/config/common.php';
+$yii		= dirname(__FILE__).'/protected/vendor/yiisoft/yii/framework/yii.php';
+$config		= dirname(__FILE__).'/protected/config/common.php';
 
 if($_SERVER["SERVER_ADDR"]=='127.0.0.1' || $_SERVER["HTTP_HOST"]=='localhost') {
 	$config = dirname(__FILE__).'/protected/config/common-dev.php';
