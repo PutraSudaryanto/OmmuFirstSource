@@ -307,10 +307,10 @@ class AccountController extends Controller
 		
 		if($success == null) {
 			if($verify != null) {
-				if($verify->view->expired == 0) {
-					$model = Users::model()->findByPk($verify->user_id, array(
-						'select' => 'user_id, email, displayname',
-					));
+				$model = Users::model()->findByPk($verify->user_id, array(
+					'select' => 'user_id, email, displayname',
+				));
+				if($verify->view->expired == 0 && $model->verified == 0) {
 					$model->verified = 1;
 					
 					if($model->update()) {
@@ -320,10 +320,6 @@ class AccountController extends Controller
 						if($verify->update())
 							$this->redirect(Yii::app()->controller->createUrl('email',array('success'=>'true')));
 					}
-
-					$condition = 'available';
-					$pageTitle = Yii::t('phrase', 'Reset Password');
-					$pageDescription = Yii::t('phrase', 'Create a new password which you will easily remember!');
 	
 				} else {
 					$condition = 'expired';
