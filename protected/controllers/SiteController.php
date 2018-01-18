@@ -128,7 +128,7 @@ class SiteController extends Controller
 			'select'=>'site_oauth, site_type',
 		));
 		
-		if(!Yii::app()->user->isGuest)
+		if(!Yii::app()->user->isGuest || ($setting->site_type == 0 && $setting->site_oauth == 0))
 			$this->redirect(array('site/index'));
 
 		$condition = true;

@@ -28,6 +28,11 @@ return array(
 		'timthumb_url_replace_website' => 'http://ommu.co',	//default http
 		// access system *from product
 		'product_access_system' => 'ommu.co',
+
+		// grid-view setting
+		'grid-view' => array(
+			'pageSize' => 50,
+		),
 	
 		// debug parameter
 		'debug' => array(
