@@ -27,6 +27,8 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
+		'system.vendors.zend-escaper.*',
+
 		// Model
 		'application.models.*',
 		'application.libraries.core.models.*',
