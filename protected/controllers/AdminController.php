@@ -124,5 +124,5 @@ class AdminController extends Controller
 			'summaryPager'=>$summaryPager,
 			'nextPager'=>$nextPager,
 		));
-	}	
+	}
 }
