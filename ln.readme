@@ -9,5 +9,7 @@ ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/
 ///core///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/libraries/core" 
 
-///themes///
+=======
+
+///ommu-backoffice///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_platform/themes/ommu"
