@@ -47,7 +47,8 @@
         "yiisoft/yii2-gii": "~2.0"
 	},
 	"require-dev": {
-        "yiisoft/yii2-debug": "~2.0.13"
+        "yiisoft/yii2-debug": "~2.0.13",
+        "phpunit/phpunit": "~5.7"
 	},
 	"config": {
 		"process-timeout": 1800,
