@@ -23,7 +23,7 @@
 	else
 		$images = $model->media_image;
 		
-	if($this->adsSidebar == true) {
+	if($this->sidebarShow == true) {
 		if(($a == null && $model->media_type == 1) || ($a != null && $model->media_type == 'large'))
 			echo '<img class="largemag" src="'.Utility::getTimThumb($images, 600, 900, 3).'" alt="">';
 		else
