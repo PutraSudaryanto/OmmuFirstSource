@@ -257,9 +257,8 @@ class Controller extends CController
 				echo $error['message'];
 			else
 				$this->render('front_error', $error);
-		} else {
+		} else
 			$this->render('front_error', $error);
-		}
 	}
  
 	public function getAssetsUrl()
