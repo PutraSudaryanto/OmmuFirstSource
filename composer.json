@@ -3,14 +3,13 @@
 	"description": "Ommu Platform",
 	"keywords": [
 		"yii",
-		"ommu",
-		"platform",
-		"ommu platform",
 		"backoffice-theme",
 		"cms",
 		"module",
 		"gii",
-		"core"
+		"core",
+		"ommu",
+		"ommu platform"
 	],
 	"homepage": "https://github.com/ommu/ommu",
 	"type": "project",
