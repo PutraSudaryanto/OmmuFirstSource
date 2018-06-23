@@ -9,7 +9,7 @@
 		"gii",
 		"core",
 		"ommu",
-		"ommu platform"
+		"ommu-platform"
 	],
 	"homepage": "https://github.com/ommu/ommu",
 	"type": "project",
@@ -37,17 +37,7 @@
 		"yiisoft/yii": ">=1.1.14",
 		"ommu/core": "~1.3",
 		"ommu/gii": "~1.1",
-		"ommu/ommu": "~1.0",
-
-		"yiisoft/yii2": "~2.0.13",
-		"yidas/yii2-bower-asset": "~2.0",
-		"yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "yiisoft/yii2-gii": "~2.0"
-	},
-	"require-dev": {
-        "yiisoft/yii2-debug": "~2.0.13",
-        "phpunit/phpunit": "~5.7"
+		"ommu/ommu": "~1.0"
 	},
 	"config": {
 		"process-timeout": 1800,
