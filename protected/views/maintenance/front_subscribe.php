@@ -36,7 +36,7 @@ if(!isset($_GET['name']) && !isset($_GET['email'])) {?>
 				</div>
 
 			</fieldset>
-		<?php $this->endWidget();?>	
+		<?php $this->endWidget();?>
 	</div>
 
 <?php } else {?>

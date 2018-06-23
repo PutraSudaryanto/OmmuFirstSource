@@ -210,7 +210,7 @@ class AccountController extends Controller
 						
 						if($model->save()) {
 							$forgot->publish = 0;
-							$forgot->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : 0;
+							$forgot->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : null;
 
 							if($forgot->update())
 								$this->redirect(Yii::app()->controller->createUrl('reset',array('success'=>'true'))); 
@@ -315,7 +315,7 @@ class AccountController extends Controller
 					
 					if($model->update()) {
 						$verify->publish = 0;
-						$verify->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : 0;
+						$verify->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : null;
 
 						if($verify->update())
 							$this->redirect(Yii::app()->controller->createUrl('email',array('success'=>'true')));

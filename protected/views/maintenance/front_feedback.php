@@ -41,7 +41,7 @@
 				echo $form->hiddenField($model,'user_id');
 				?>
 				
-				<?php if(Yii::app()->user->isGuest) {?>	
+				<?php if(Yii::app()->user->isGuest) {?>
 					<div class="clearfix">
 						<?php echo $form->textField($model,'displayname',array('maxlength'=>64, 'placeholder'=>$model->getAttributeLabel('displayname'))); ?>
 						<?php echo $form->error($model,'displayname'); ?>
@@ -78,7 +78,7 @@
 				</div>
 
 			</fieldset>
-		<?php $this->endWidget();?>	
+		<?php $this->endWidget();?>
 	</div>
 
 <?php } else {?>

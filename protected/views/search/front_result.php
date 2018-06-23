@@ -46,5 +46,5 @@
 		<div class="notifier-summary">
 		<?php echo $_GET['keyword'];?> tidak ditemukan dalam pencarian
 		</div>
-	<?php }?>	
+	<?php }?>
 </div>
