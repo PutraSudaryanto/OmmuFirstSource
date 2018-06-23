@@ -83,10 +83,8 @@ class AdminController extends Controller
 	 */
 	public function actionDashboard() 
 	{
-		/* Wall Post */
+		/* Wall Post 
 		$model=new OmmuWalls;
-
-		/* Get Walll */
 		$criteria=new CDbCriteria; 
 		$criteria->condition = 'publish = :publish'; 
 		$criteria->params = array(':publish'=>1); 
@@ -113,16 +111,17 @@ class AdminController extends Controller
 			$summaryPager = 'Displaying 1-'.$pager[itemCount].' of '.$pager[itemCount].' results.';
 		}
 		$nextPager = $pager['nextPage'] != 0 ? Yii::app()->createUrl('wall/get', array($pager['pageVar']=>$pager['nextPage'])) : 0;
+		*/
 		
 		$this->pageTitle = Yii::t('phrase', 'Welcome, $displayname', array('$displayname'=>Yii::app()->user->displayname));
 		$this->pageDescription = Yii::t('phrase', 'Welcome to your social network control panel. Here you can manage and modify every aspect of your social network. Directly below, you will find a quick snapshot of your social network including some useful statistics.');
 		$this->pageMeta = '';
 		$this->render('admin_dashboard', array(
-			'model'=>$model,			
-			'data'=>$data,
-			'pager'=>$pager,
-			'summaryPager'=>$summaryPager,
-			'nextPager'=>$nextPager,
+			//'model'=>$model,
+			//'data'=>$data,
+			//'pager'=>$pager,
+			//'summaryPager'=>$summaryPager,
+			//'nextPager'=>$nextPager,
 		));
 	}
 }

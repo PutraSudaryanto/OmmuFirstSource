@@ -3,9 +3,6 @@
 	"description": "Ommu Platform First Source",
 	"keywords": [
 		"yii",
-		"ommu",
-		"platform",
-		"ommu-platform",
 		"backoffice-theme",
 		"cms",
 		"module",
@@ -14,6 +11,8 @@
 		"users",
 		"report",
 		"support"
+		"ommu",
+		"ommu-platform"
 	],
 	"homepage": "https://github.com/PutraSudaryanto/OmmuFirstSource",
 	"type": "project",
@@ -42,20 +41,10 @@
 		"ommu/core": "~1.3",
 		"ommu/gii": "~1.1",
 		"ommu/ommu": "~1.0",
-		"ommu/dora": "~0.2",
 		"ommu/users":"~1.0",
 		"ommu/support": "~1.0",
 		"ommu/report": "~1.1",
-
-		"yiisoft/yii2": "~2.0.13",
-		"yidas/yii2-bower-asset": "~2.0",
-		"yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "yiisoft/yii2-gii": "~2.0"
-	},
-	"require-dev": {
-        "yiisoft/yii2-debug": "~2.0.13",
-        "phpunit/phpunit": "~5.7"
+		"ommu/dora": "~0.2"
 	},
 	"config": {
 		"process-timeout": 1800,

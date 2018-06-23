@@ -100,6 +100,7 @@ class PageController extends Controller
 		} else {
 			if($static == null) {
 				$model=$this->loadModel($id);
+				OmmuPageViews::insertView($model->page_id);
 				
 				$title = $model->title->message;
 				$description = $model->description->message;
