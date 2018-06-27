@@ -13,4 +13,4 @@ ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/yii-traits" "/Users/pu
 =======
 
 ///ommu-backoffice///
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu-platform/themes/ommu"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/backoffice" "/Users/putrasudaryanto/htdocs/project_ommu-platform/themes/backoffice"
