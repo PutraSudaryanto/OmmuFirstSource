@@ -16,7 +16,7 @@
 		'Create',
 	);
 
-if(!isset($_GET['name']) && !isset($_GET['email'])) {?>
+if(!Yii::app()->getRequest()->getParam('name') && !Yii::app()->getRequest()->getParam('email')) {?>
 	<div class="boxed" name="post-on">
 		<?php $form=$this->beginWidget('application.libraries.core.components.system.OActiveForm', array( 
 			'id'=>'support-newsletter-form', 

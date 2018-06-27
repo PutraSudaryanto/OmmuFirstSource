@@ -9,8 +9,6 @@
  *	Index
  *	Login
  *	Logout
- *	Analytics
- *	SendEmail
  *
  *	LoadModel
  *	performAjaxValidation
@@ -55,24 +53,6 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules() 
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('error','index','login','logout','analytics','sendemail'),
-				'users'=>array('*'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
-
-	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError()
@@ -88,7 +68,6 @@ class SiteController extends Controller
 		} else {
 			$this->render('front_error', $error);
 		}
-		Reports::insertReport($this->pageURL, $error['message']);
 	}
 
 	/**
@@ -219,37 +198,5 @@ class SiteController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
-	}
-	
-	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
-	 */
-	public function actionAnalytics()
-	{
-		$model = OmmuSettings::model()->findByPk(1,array(
-			'select' => 'site_url, analytic, analytic_id, analytic_profile_id',
-		));
-		
-		$this->pageTitleShow = true;		
-		$this->pageTitle = Yii::t('phrase', 'Statistic');
-		$this->pageDescription = '';
-		$this->pageMeta = '';
-		$this->render('front_analytics', array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionSendEmail($email='putra.sudaryanto@gmail.com', $name='Putra Sudaryanto', $subject='testing', $message='testing')
-	{
-		Yii::import('ext.phpmailer.Mailer');
-
-		if(Mailer::send($email, $name, $subject, $message))
-			echo 'send';
-		else 
-			echo 'notsend';
 	}
 }

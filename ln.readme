@@ -1,15 +1,16 @@
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_platform/LICENSE" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/LICENSE"
-
 -------
 protected\modules
 =======
 ///gii///
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/libraries/gii" 
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu-platform/protected/libraries/gii" 
 
 ///core///
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/libraries/core" 
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu-platform/protected/libraries/core" 
+
+///traits///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/yii-traits" "/Users/putrasudaryanto/htdocs/project_ommu-platform/protected/libraries/yii-traits" 
 
 =======
 
 ///ommu-backoffice///
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_platform/themes/ommu"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu-platform/themes/ommu"

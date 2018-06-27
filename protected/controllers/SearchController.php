@@ -59,7 +59,7 @@ class SearchController extends Controller
 	public function actionIndexing()
 	{
 		ini_set('max_execution_time', 0);
-		ob_start();		
+		ob_start();
 		
 		$index = new Zend_Search_Lucene(Yii::getPathOfAlias($this->_indexFilesPath), true);
 		
@@ -86,15 +86,15 @@ class SearchController extends Controller
 		$index->commit();
 		$this->redirect(Yii::app()->createUrl('site/index'));
 		
-		ob_end_flush();		
+		ob_end_flush();
 	}
  
 	public function actionResult()
 	{
 		if(isset($_GET)) {
-			$term = $_GET['keyword'];
+			$term = Yii::app()->getRequest()->getParam('keyword');
 			$index = new Zend_Search_Lucene(Yii::getPathOfAlias($this->_indexFilesPath));
-			$results = $index->find($term);			
+			$results = $index->find($term);
 			//print_r($results);
 			//exit();
 			
@@ -106,7 +106,7 @@ class SearchController extends Controller
 				$pager = OFunction::getDataProviderPager($dataProvider, false);
 				$get = array_merge($_GET, array($pager['pageVar']=>$pager['nextPage']));
 				$nextPager = $pager['nextPage'] != 0 ? OFunction::validHostURL(Yii::app()->controller->createUrl('result', $get)) : '-';
-				//print_r($pager);	
+				//print_r($pager);
 				
 				$data = '';
 				if(!empty($results)) {
@@ -122,7 +122,7 @@ class SearchController extends Controller
 							'body'=>CHtml::encode($results[$i]->body),
 							'date'=>CHtml::encode($results[$i]->date),
 							'view'=>CHtml::encode($results[$i]->view),
-						);			
+						);
 					}
 				} else
 					$data = array();
@@ -138,9 +138,9 @@ class SearchController extends Controller
 				$query = Zend_Search_Lucene_Search_QueryParser::parse($term);
 		
 				$this->pageTitleShow = true;
-				$this->pageTitle = Yii::t('phrase', 'Hasil Pencarian: $keyword', array('$keyword'=>$_GET['keyword']));
+				$this->pageTitle = Yii::t('phrase', 'Hasil Pencarian: $keyword', array('$keyword'=>Yii::app()->getRequest()->getParam('keyword')));
 				$this->pageDescription = '';
-				$this->pageMeta = '';				
+				$this->pageMeta = '';
 				$this->render('front_result', compact(
 					'results', 
 					'term', 

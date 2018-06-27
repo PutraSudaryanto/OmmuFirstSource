@@ -23,7 +23,7 @@
 $js=<<<EOP
 	var startDate = '$date';
 EOP;
-	$cs->registerScript('countdown', $js, CClientScript::POS_END);	
+	$cs->registerScript('countdown', $js, CClientScript::POS_END);
 ?>
 
 <div class="countdown hide">
