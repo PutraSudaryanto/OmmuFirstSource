@@ -2,7 +2,6 @@
 	"name": "ommu/1st-source",
 	"description": "Ommu Platform First Source",
 	"keywords": [
-		"yii",
 		"backoffice-theme",
 		"cms",
 		"module",
@@ -10,9 +9,10 @@
 		"core",
 		"users",
 		"report",
-		"support"
+		"support",
 		"ommu",
-		"ommu-platform"
+		"ommu-platform",
+		"yii"
 	],
 	"homepage": "https://github.com/PutraSudaryanto/OmmuFirstSource",
 	"type": "project",
