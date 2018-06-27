@@ -44,7 +44,7 @@
 		
 	<?php } else {?>
 		<div class="notifier-summary">
-		<?php echo $_GET['keyword'];?> tidak ditemukan dalam pencarian
+		<?php echo Yii::app()->getRequest()->getParam('keyword');?> tidak ditemukan dalam pencarian
 		</div>
 	<?php }?>
 </div>

@@ -6,7 +6,10 @@
  * Reference start
  * TOC :
  *	Index
+ *	Page
  *	Feedback
+ *	Subscribe
+ *	Support
  *
  *	LoadModel
  *	performAjaxValidation
@@ -47,24 +50,6 @@ class ComingsoonController extends Controller
 	}
 
 	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules() 
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','page','feedback','subscribe','support'),
-				'users'=>array('*'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
-
-	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
@@ -88,9 +73,7 @@ class ComingsoonController extends Controller
 	 */
 	public function actionPage($id)
 	{
-		$model = OmmuPages::model()->findByPk($id,array(
-			//'select' => '',
-		));
+		$model = OmmuPages::model()->findByPk($id);
 
 		$this->pageTitle = $model->title->message;
 		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
@@ -220,6 +203,4 @@ class ComingsoonController extends Controller
 		$this->pageMeta = '';
 		$this->render('/maintenance/front_support');
 	}
-
-	
 }

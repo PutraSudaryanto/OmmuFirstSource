@@ -7,7 +7,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/ommu
+ * @link https://github.com/PutraSudaryanto/OmmuFirstSource
  *
  */
  
@@ -16,7 +16,7 @@
 		'Create',
 	);
 
-if(!isset($_GET['name']) && !isset($_GET['email'])) {?>
+if(!Yii::app()->getRequest()->getParam('name') && !Yii::app()->getRequest()->getParam('email')) {?>
 	<div class="boxed" name="post-on">
 		<?php $form=$this->beginWidget('application.libraries.core.components.system.OActiveForm', array( 
 			'id'=>'support-newsletter-form', 

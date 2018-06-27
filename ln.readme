@@ -1,13 +1,3 @@
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/timthumb.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/timthumb.php"
--------
-protected/components
-=======
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/Controller.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/Controller.php"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/ControllerApi.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/ControllerApi.php"
-ln -f "/Users/putrasudaryanto/htdocs/project_ommu_platform/protected/components/UserIdentity.php" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/components/UserIdentity.php"
--------
-
-
 -------
 protected\modules
 =======
@@ -16,6 +6,9 @@ ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/
 
 ///core///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_core" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/core" 
+
+///traits///
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/yii-traits" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/yii-traits" 
 
 =======
 

@@ -6,7 +6,10 @@
  * Reference start
  * TOC :
  *	Index
+ *	Page
  *	Feedback
+ *	Subscribe
+ *	Support
  *
  *	LoadModel
  *	performAjaxValidation
@@ -41,26 +44,9 @@ class MaintenanceController extends Controller
 			$arrThemes = Utility::getCurrentTemplate('maintenance');
 			Yii::app()->theme = $arrThemes['folder'];
 			$this->layout = $arrThemes['layout'];
+
 		} else
 			$this->redirect(Yii::app()->createUrl('site/index'));
-	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules() 
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','page','feedback','subscribe','support'),
-				'users'=>array('*'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
 	}
 
 	/**
@@ -87,9 +73,7 @@ class MaintenanceController extends Controller
 	 */
 	public function actionPage($id)
 	{
-		$model = OmmuPages::model()->findByPk($id,array(
-			//'select' => '',
-		));
+		$model = OmmuPages::model()->findByPk($id);
 
 		$this->pageTitle = $model->title->message;
 		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
@@ -220,5 +204,4 @@ class MaintenanceController extends Controller
 		$this->render('front_support');
 	}
 
-	
 }

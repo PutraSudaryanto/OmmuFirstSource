@@ -10,13 +10,6 @@
  *
  */
 
-$module = strtolower(Yii::app()->controller->module->id);
-$controller = strtolower(Yii::app()->controller->id);
-$action = strtolower(Yii::app()->controller->action->id);
-$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
-$currentModuleAction = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-
 class Controller extends CController
 {	
 	// getAssetsUrl()
@@ -109,8 +102,13 @@ class Controller extends CController
 	public $dialogFixed = false;
 	public $dialogFixedClosed = array();
 
-	public function render($view, $data = null, $return = false) {
-		if ($this->beforeRender($view)) {
+	public function render($view, $data = null, $return = false)
+	{
+		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+		$currentModuleAction = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+
+		if($this->beforeRender($view))
+		{
 			/**
 			 * Custom condition
 			 ** 
@@ -124,8 +122,8 @@ class Controller extends CController
 			 */
 			 
 			// set language sessions
-			if(isset($_GET['lang']) && $_GET['lang'] != '')
-				Yii::app()->session['language'] = $_GET['lang'];
+			if(Yii::app()->getRequest()->getParam('lang') != '')
+				Yii::app()->session['language'] = Yii::app()->getRequest()->getParam('lang');
 	
 			// guest page
 			if($this->dialogFixed == true)
@@ -182,8 +180,10 @@ class Controller extends CController
 		} else
 			$pageMeta = $model->site_keywords;
 		
-		if(!Yii::app()->request->isAjaxRequest) {
-			if(parent::beforeRender($view)) {
+		if(!Yii::app()->request->isAjaxRequest)
+		{
+			if(parent::beforeRender($view))
+			{
 				Yii::app()->clientScript->registerMetaTag(Utility::hardDecode($pageDescription), 'description');
 				Yii::app()->clientScript->registerMetaTag(Utility::hardDecode(strtolower($pageMeta)), 'keywords');
 				
@@ -222,7 +222,7 @@ class Controller extends CController
 		$this->pageTitle = $this->pageTitle ? $this->pageTitle : 'Titlenya Lupa..';
 				
 		// set page URL information
-		$this->pageURL = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->url;	
+		$this->pageURL = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->url;
 			
 		// set page Image information
 		if($this->pageImage == null) {
@@ -236,9 +236,7 @@ class Controller extends CController
 		if($this->theme == null)
 			$theme = $this->theme = Yii::app()->theme->name;
 		$themeInfo = Utility::getThemeInfo($theme);
-		//print_r($themeInfo);
 		$themeSetting = $themeInfo['settings'];
-		//print_r($themeSetting);
 		$this->themeSetting = $themeSetting;
 		
 		return true;

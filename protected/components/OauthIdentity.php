@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OauthIdentity represents the data needed to identity a user.
  * It contains the authentication method that checks if the provided
@@ -67,7 +66,7 @@ class OauthIdentity extends OUserIdentity
 					$model->displayname = $object->displayname;
 					if($model->save()) {
 						$user = Users::model()->findByAttributes(array('email'=>$object->email));
-						$this->setUserSession($user);				
+						$this->setUserSession($user);
 					}
 				}
 				$this->errorCode = self::ERROR_NONE;
