@@ -41,7 +41,7 @@
 		"ommu/yii-traits": "~1.0",
 		"ommu/core": "~1.3",
 		"ommu/gii": "~1.1",
-		"ommu/ommu": "~1.0",
+		"ommu/backoffice": "~1.0",
 		"ommu/users":"~1.0",
 		"ommu/support": "~1.0",
 		"ommu/report": "~1.1",

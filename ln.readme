@@ -24,7 +24,7 @@ ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/module_support" "/User
 =======
 
 ///ommu-backoffice///
-ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/ommu_backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/ommu"
+ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/backoffice" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/backoffice"
 
 ///dora///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_theme/Dora" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/themes/dora"
