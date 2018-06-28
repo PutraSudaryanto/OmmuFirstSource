@@ -1,6 +1,5 @@
--------
-protected\modules
 =======
+
 ///gii///
 ln -sf "/Users/putrasudaryanto/htdocs/project_ommu_module/gii_template" "/Users/putrasudaryanto/htdocs/project_ommu_module/1st_source/protected/libraries/gii" 
 
