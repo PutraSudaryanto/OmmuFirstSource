@@ -13,7 +13,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (www.ommu.co)
  * @link https://github.com/ommu/ommu
  *
  *----------------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ class SearchController extends Controller
 			//print_r($results);
 			//exit();
 			
-			if(isset($_GET['type'])) {
+			if(Yii::app()->getRequest()->getParam('type')) {
 				$dataProvider = new CPagination(count($results));
 				$currentPage = Yii::app()->getRequest()->getQuery('page', 1);
 				$dataProvider->pageSize = 10;

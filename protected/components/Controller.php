@@ -5,7 +5,7 @@
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/ommu/ommu
  *
  */
@@ -131,7 +131,7 @@ class Controller extends CController
 		
 			// registers all meta tags
 			if(!Yii::app()->request->isAjaxRequest) {
-				$meta = OmmuMeta::model()->findByPk(1,array(
+				$meta = OmmuMeta::model()->findByPk(1, array(
 					'select' => 'office_on, google_on, twitter_on, facebook_on'
 				));
 				if($meta->office_on == 1)
@@ -164,7 +164,7 @@ class Controller extends CController
 	 */
 	protected function beforeRender($view)
 	{
-		$model = OmmuSettings::model()->findByPk(1,array(
+		$model = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'site_title, site_keywords, site_description'
 		));
 		

@@ -18,7 +18,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/PutraSudaryanto/OmmuFirstSource
  *
  *----------------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ class AccountController extends Controller
 							$forgot->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : null;
 
 							if($forgot->update())
-								$this->redirect(Yii::app()->controller->createUrl('reset',array('success'=>'true'))); 
+								$this->redirect(Yii::app()->controller->createUrl('reset', array('success'=>'true'))); 
 						}
 					}
 
@@ -296,7 +296,7 @@ class AccountController extends Controller
 						$verify->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : null;
 
 						if($verify->update())
-							$this->redirect(Yii::app()->controller->createUrl('email',array('success'=>'true')));
+							$this->redirect(Yii::app()->controller->createUrl('email', array('success'=>'true')));
 					}
 	
 				} else {

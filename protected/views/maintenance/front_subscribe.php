@@ -6,7 +6,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/PutraSudaryanto/OmmuFirstSource
  *
  */
@@ -30,7 +30,7 @@ if(!Yii::app()->getRequest()->getParam('name') && !Yii::app()->getRequest()->get
 					echo $form->hiddenField($model,'unsubscribe');
 					?>
 					<div class="table">
-						<?php echo $form->textField($model,'email',array('maxlength'=>32, 'placeholder'=>$model->getAttributeLabel('email'))); ?><?php echo CHtml::submitButton($launch != 0 ? Yii::t('phrase', 'Notify Me!') : Yii::t('phrase', 'Subscribe'), array('onclick' => 'setEnableSave()')); ?>
+						<?php echo $form->textField($model,'email', array('maxlength'=>32, 'placeholder'=>$model->getAttributeLabel('email'))); ?><?php echo CHtml::submitButton($launch != 0 ? Yii::t('phrase', 'Notify Me!') : Yii::t('phrase', 'Subscribe'), array('onclick' => 'setEnableSave()')); ?>
 					</div>
 					<?php echo $form->error($model,'email'); ?>
 				</div>

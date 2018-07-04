@@ -16,7 +16,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/ommu/ommu
  *
  *----------------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class ComingsoonController extends Controller
 	 */
 	public function init() 
 	{
-		$setting = OmmuSettings::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'id',
 		));
 
@@ -55,14 +55,14 @@ class ComingsoonController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$setting = OmmuSettings::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'construction_date, construction_text',
 		));
 
 		$this->pageTitle = Yii::t('phrase', 'Contruction');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('front_index',array(
+		$this->render('front_index', array(
 			'setting'=>$setting,
 		));
 	}
@@ -79,7 +79,7 @@ class ComingsoonController extends Controller
 		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
-		$this->render('/maintenance/front_page',array(
+		$this->render('/maintenance/front_page', array(
 			'model'=>$model,
 		));
 	}
@@ -109,7 +109,7 @@ class ComingsoonController extends Controller
 				echo $jsonError;
 				
 			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+				if(Yii::app()->getRequest()->getParam('enablesave') == 1) {
 					if($model->save()) {
 						if($model->user_id != 0)
 							$url = Yii::app()->controller->createUrl('feedback', array('email'=>$model->email, 'name'=>$model->displayname));
@@ -130,7 +130,7 @@ class ComingsoonController extends Controller
 			$this->pageTitle = isset($_GET['email']) ? Yii::t('phrase', 'Feedback Success') : Yii::t('phrase', 'Feedback');
 			$this->pageDescription = isset($_GET['email']) ? (isset($_GET['name']) ? Yii::t('phrase', 'Hi <strong>{name} ({email})</strong>, terimakasih telah menghubungi support kami.', array('{name}'=>$_GET['name'], '{email}'=>$_GET['email'])) : Yii::t('phrase', 'Hi <strong>{email}</strong>, terimakasih telah menghubungi support kami.', array('{email}'=>$_GET['email']))) : '';
 			$this->pageMeta = '';
-			$this->render('/maintenance/front_feedback',array(
+			$this->render('/maintenance/front_feedback', array(
 				'model'=>$model,
 				'user'=>$user,
 			));			
@@ -156,7 +156,7 @@ class ComingsoonController extends Controller
 				echo $jsonError;
 				
 			} else {
-				if(isset($_GET['enablesave']) && $_GET['enablesave'] == 1) {
+				if(Yii::app()->getRequest()->getParam('enablesave') == 1) {
 					if($model->save()) {
 						if($model->user_id == 0)
 							$get = Yii::app()->controller->createUrl('subscribe', array('name'=>$model->email, 'email'=>$model->email));
@@ -185,7 +185,7 @@ class ComingsoonController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = $desc;
 			$this->pageMeta = '';
-			$this->render('/maintenance/front_subscribe',array(
+			$this->render('/maintenance/front_subscribe', array(
 				'model'=>$model,
 				'launch'=>$launch,
 			));

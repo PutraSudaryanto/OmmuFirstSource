@@ -13,7 +13,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/ommu/ommu
  *
  *----------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ class PageController extends Controller
 			$this->pageTitle = Yii::t('phrase', 'Pages');
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('front_index',array(
+			$this->render('front_index', array(
 				'dataProvider'=>$dataProvider,
 			));
 			
@@ -119,7 +119,7 @@ class PageController extends Controller
 			$this->pageDescription = Utility::shortText(Utility::hardDecode($description), 200);
 			$this->pageMeta = '';
 			$this->pageImage = $image;
-			$this->render('front_view',array(
+			$this->render('front_view', array(
 				'model'=>$model,
 				'static'=>$static,
 				'picture'=>$picture,
