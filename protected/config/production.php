@@ -35,14 +35,12 @@ return array(
 		'application.components.*',
 		'application.libraries.core.components.public.*',
 		'application.libraries.core.components.system.*',
+		'application.libraries.yii-traits.*',
 
 		// Module Model
 		'application.vendor.ommu.report.models.*',
-		'application.vendor.ommu.report.models.view.*',
 		'application.vendor.ommu.support.models.*',
-		'application.vendor.ommu.support.models.view.*',
 		'application.vendor.ommu.users.models.*',
-		'application.vendor.ommu.users.models.view.*',
 
 		// Module Components
 		'application.vendor.ommu.report.components.*',
