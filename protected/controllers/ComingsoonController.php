@@ -13,7 +13,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2012 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2012 Ommu Platform (www.ommu.co)
  * @link https://github.com/ommu/ommu
  *
  *----------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ class ComingsoonController extends Controller
 	 */
 	public function init() 
 	{
-		$setting = OmmuSettings::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1, array((
 			'select' => 'id',
 		));
 
@@ -52,14 +52,14 @@ class ComingsoonController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$setting = OmmuSettings::model()->findByPk(1,array(
+		$setting = OmmuSettings::model()->findByPk(1, array((
 			'select' => 'construction_date, construction_text',
 		));
 
 		$this->pageTitle = Yii::t('phrase', 'Contruction');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('front_index',array(
+		$this->render('front_index', array((
 			'setting'=>$setting,
 		));
 	}
@@ -76,7 +76,7 @@ class ComingsoonController extends Controller
 		$this->pageDescription = Utility::shortText(Utility::hardDecode($model->description->message),300);
 		$this->pageMeta = '';
 		$this->pageImage = ($model->media != '' && $model->media_show == 1) ? Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->request->baseUrl.'/public/page/'.$model->media : '';
-		$this->render('/maintenance/front_page',array(
+		$this->render('/maintenance/front_page', array((
 			'model'=>$model,
 		));
 	}
