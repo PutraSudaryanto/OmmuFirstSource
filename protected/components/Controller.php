@@ -11,7 +11,9 @@
  */
 
 class Controller extends CController
-{	
+{
+	use UtilityTrait;
+
 	// getAssetsUrl()
 	//	return the URL for this core's assets, performing the publish operation
 	//	the first time, and caching the result for subsequent use.
