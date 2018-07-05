@@ -13,6 +13,7 @@
 class Controller extends CController
 {
 	use UtilityTrait;
+	use ThemeTrait;
 
 	// getAssetsUrl()
 	//	return the URL for this core's assets, performing the publish operation
