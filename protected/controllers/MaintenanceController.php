@@ -41,7 +41,7 @@ class MaintenanceController extends Controller
 		));
 
 		if($setting->view->online == 0) {
-			$arrThemes = Utility::getCurrentTemplate('maintenance');
+			$arrThemes = $this->currentTemplate('maintenance');
 			Yii::app()->theme = $arrThemes['folder'];
 			$this->layout = $arrThemes['layout'];
 
