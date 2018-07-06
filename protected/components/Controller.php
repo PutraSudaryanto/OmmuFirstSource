@@ -12,8 +12,9 @@
 
 class Controller extends CController
 {
-	use UtilityTrait;
 	use ThemeTrait;
+	use UtilityTrait;
+	use GridViewTrait;
 
 	// getAssetsUrl()
 	//	return the URL for this core's assets, performing the publish operation
