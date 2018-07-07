@@ -31,6 +31,9 @@ return array(
 
 		// grid-view setting
 		'grid-view' => array(
+			'buttonImageUrl' => false,
+			'JsDeleteConfirmation' => true,
+			'gridTemplate' => '{summary}{items}{pager}',
 			'pageSize' => 50,
 		),
 	
