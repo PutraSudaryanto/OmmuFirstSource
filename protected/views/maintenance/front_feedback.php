@@ -20,7 +20,7 @@
 
 <?php if(!Yii::app()->getRequest()->getParam('email')) {?>
 	<div class="boxed" name="post-on">
-		<?php $form=$this->beginWidget('application.libraries.core.components.system.OActiveForm', array(
+		<?php $form=$this->beginWidget('application.libraries.yii-traits.system.OActiveForm', array(
 			'id'=>'support-contacts-form',
 			'enableAjaxValidation'=>true,
 			'htmlOptions' => array(
