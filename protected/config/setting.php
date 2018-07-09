@@ -33,6 +33,7 @@ return array(
 		'grid-view' => array(
 			'buttonImageUrl' => false,
 			'JsDeleteConfirmation' => true,
+			'JuiDatepicker' => true,
 			'gridTemplate' => '{summary}{items}{pager}',
 			'pageSize' => 50,
 		),
