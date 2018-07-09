@@ -36,6 +36,7 @@ return array(
 		'application.libraries.core.components.public.*',
 		'application.libraries.core.components.system.*',
 		'application.libraries.yii-traits.*',
+		'application.libraries.yii-traits.system.*',
 
 		// Module Model
 		'application.vendor.ommu.report.models.*',
