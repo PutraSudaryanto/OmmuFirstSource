@@ -21,9 +21,9 @@
 	<?php echo $model->description->message?>
 	<div class="date">
 		<?php if($model->modified_date != '0000-00-00 00:00:00') {
-			echo 'Edited: '.$this->dateFormat($model->modified_date, true).' by '.$model->modified->displayname;
+			echo 'Edited: '.$this->dateFormat($model->modified_date).' by '.$model->modified->displayname;
 		} else {
-			echo $this->dateFormat($model->creation_date, true).' by '.$model->user->displayname;
+			echo $this->dateFormat($model->creation_date).' by '.$model->user->displayname;
 		}?>
 	<?php ;?>
 	</div>
