@@ -55,12 +55,12 @@ return array(
 		'ommu' => array(
 			'class' => 'application.libraries.core.ommu.Ommu',
 		),
-		
+
 		//Ommu module/plugin handle
 		'moduleHandle' => array(
 			'class' => 'application.libraries.core.ommu.ModuleHandle'
 		),
-		
+
 		//Ommu theme handle
 		'themeHandle' => array(
 			'class' => 'application.libraries.core.ommu.ThemeHandle'
@@ -84,6 +84,10 @@ return array(
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
+		),
+
+		'format' => array(
+			'class' => 'CLocalizedFormatter',
 		),
 
 		'log'=>array(
