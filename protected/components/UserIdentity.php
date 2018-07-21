@@ -41,8 +41,8 @@ class UserIdentity extends CUserIdentity
 			$this->email = $record->email;
 			$this->setState('username', $record->username);
 			$this->setState('displayname', $record->displayname);
-			$this->setState('creation_date', $record->creation_date);
-			$this->setState('lastlogin_date', $record->lastlogin_date);
+			$this->setState('creationDate', $record->creation_date);
+			$this->setState('lastloginDate', $record->lastlogin_date);
 			$this->errorCode = self::ERROR_NONE;
 		}
 		return !$this->errorCode;
