@@ -34,7 +34,7 @@ class AdminController extends Controller
 	public function init() 
 	{
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_type',
+			'select' => 'site_type',
 		));
 		
 		if(!Yii::app()->user->isGuest) {
