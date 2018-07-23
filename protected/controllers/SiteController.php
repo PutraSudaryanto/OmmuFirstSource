@@ -107,7 +107,7 @@ class SiteController extends Controller
 	public function actionLogin($token=null)
 	{
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_oauth, site_type',
+			'select' => 'site_oauth, site_type',
 		));
 		
 		if(!Yii::app()->user->isGuest || ($setting->site_type == 0 && $setting->site_oauth == 0))

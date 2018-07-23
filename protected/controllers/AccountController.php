@@ -57,7 +57,7 @@ class AccountController extends Controller
 	public function actionSignup($email=null, $token=null)
 	{
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'site_title, signup_approve, signup_verifyemail, signup_random',
+			'select' => 'site_title, signup_approve, signup_verifyemail, signup_random',
 		));
 		
 		if(!Yii::app()->user->isGuest)
