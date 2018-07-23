@@ -103,8 +103,8 @@ class OauthIdentity extends OUserIdentity
 		$this->email = $user->email;
 		$this->setState('username', $user->username);
 		$this->setState('displayname', $user->displayname);
-		$this->setState('creation_date', $user->creation_date);
-		$this->setState('lastlogin_date', date('Y-m-d H:i:s'));
+		$this->setState('creationDate', $user->creation_date);
+		$this->setState('lastloginDate', date('Y-m-d H:i:s'));
 		
 		return true;
 	}
