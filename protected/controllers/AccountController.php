@@ -286,7 +286,7 @@ class AccountController extends Controller
 		if($success == null) {
 			if($verify != null) {
 				$model = Users::model()->findByPk($verify->user_id, array(
-					'select' => 'user_id, email, displayname',
+					'select' => 'verified, enabled, email, username, displayname, photos',
 				));
 				if($verify->view->expired == 0 && $model->verified == 0) {
 					$model->verified = 1;
