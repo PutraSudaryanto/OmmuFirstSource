@@ -44,7 +44,7 @@
 		"ommu/backoffice": "~1.0",
 		"ommu/users":"~1.0",
 		"ommu/support": "~1.0",
-		"ommu/report": "~1.1",
+		"ommu/report": "~1.0",
 		"ommu/dora": "~0.2"
 	},
 	"config": {
