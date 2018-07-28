@@ -12,8 +12,8 @@
 
 class Controller extends CController
 {
-	use ThemeTrait;
 	use UtilityTrait;
+	use ThemeTrait;
 	use GridViewTrait;
 
 	// getAssetsUrl()
