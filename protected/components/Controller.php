@@ -12,8 +12,8 @@
 
 class Controller extends CController
 {
-	use ThemeTrait;
 	use UtilityTrait;
+	use ThemeTrait;
 	use GridViewTrait;
 
 	// getAssetsUrl()
@@ -239,7 +239,7 @@ class Controller extends CController
 		// set theme settings
 		if($this->theme == null)
 			$theme = $this->theme = Yii::app()->theme->name;
-		$themeInfo = Utility::getThemeInfo($theme);
+		$themeInfo = $this->themeInfo($theme);
 		$themeSetting = $themeInfo['settings'];
 		$this->themeSetting = $themeSetting;
 		
