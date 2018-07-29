@@ -135,7 +135,7 @@ class Controller extends CController
 		
 			// registers all meta tags
 			if(!Yii::app()->request->isAjaxRequest) {
-				$meta = OmmuMeta::model()->findByPk(1, array((
+				$meta = OmmuMeta::model()->findByPk(1, array(
 					'select' => 'office_on, google_on, twitter_on, facebook_on'
 				));
 				if($meta->office_on == 1)
@@ -168,7 +168,7 @@ class Controller extends CController
 	 */
 	protected function beforeRender($view)
 	{
-		$model = OmmuSettings::model()->findByPk(1, array((
+		$model = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'site_title, site_keywords, site_description'
 		));
 		
@@ -240,8 +240,16 @@ class Controller extends CController
 		if($this->theme == null)
 			$theme = $this->theme = Yii::app()->theme->name;
 		$themeInfo = $this->themeInfo($theme);
-		$themeSetting = $themeInfo['settings'];
-		$this->themeSetting = $themeSetting;
+		$themeSetting['theme-setting'] = $themeInfo['settings'];
+		if($themeInfo['settings'] != null)
+			$this->themeSetting = array_merge($this->themeSetting, $themeSetting);
+		
+		$theme = OmmuThemes::model()->findByAttributes(array(
+			'folder'=>Yii::app()->theme->name,
+		));
+		$configTheme = unserialize($theme->config);
+		if($configTheme != null)
+			$this->themeSetting = array_merge($this->themeSetting, $configTheme);
 		
 		return true;
 	}
