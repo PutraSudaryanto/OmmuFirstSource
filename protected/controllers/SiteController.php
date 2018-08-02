@@ -91,14 +91,13 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->createUrl('maintenance/index'));
 			else if($setting->online == 2)
 				$this->redirect(Yii::app()->createUrl('comingsoon/index'));
-
-		} else {
-			$this->sidebarShow = false;
-			$this->pageTitle = Yii::t('phrase', 'Home');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_index');
 		}
+
+		$this->sidebarShow = false;
+		$this->pageTitle = Yii::t('phrase', 'Home');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('front_index');
 	}
 	
 	/**
