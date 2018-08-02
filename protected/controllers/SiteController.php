@@ -79,7 +79,7 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		
-		$setting = OmmuSettings::model()->findByPk(1, array((
+		$setting = OmmuSettings::model()->findByPk(1, array(
 			'select' => 'id, online',
 		));
 
@@ -88,14 +88,13 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->createUrl('maintenance/index'));
 			else if($setting->online == 2)
 				$this->redirect(Yii::app()->createUrl('comingsoon/index'));
-
-		} else {
-			$this->sidebarShow = false;
-			$this->pageTitle = Yii::t('phrase', 'Home');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('front_index');
 		}
+
+		$this->sidebarShow = false;
+		$this->pageTitle = Yii::t('phrase', 'Home');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('front_index');
 	}
 	
 	/**
