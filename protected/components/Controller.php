@@ -240,6 +240,9 @@ class Controller extends CController
 		if($this->theme == null)
 			$theme = $this->theme = Yii::app()->theme->name;
 		$themeInfo = $this->themeInfo($theme);
+		$themeSetting['web-title'] = $model->site_title ? $model->site_title : Yii::app()->name;
+		$themeSetting['web-description'] = $model->site_description ? $model->site_description : '';
+		$themeSetting['web-keywords'] = $model->site_keywords ? $model->site_keywords : '';
 		$themeSetting['theme-setting'] = $themeInfo['settings'];
 		if($themeInfo['settings'] != null)
 			$this->themeSetting = array_merge($this->themeSetting, $themeSetting);
