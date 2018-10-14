@@ -21,7 +21,6 @@ if(!Yii::app()->getRequest()->getParam('name') && !Yii::app()->getRequest()->get
 		<?php $form=$this->beginWidget('application.libraries.yii-traits.system.OActiveForm', array( 
 			'id'=>'support-newsletter-form', 
 			'enableAjaxValidation'=>true, 
-			//'htmlOptions' => array('enctype' => 'multipart/form-data') 
 		)); ?>
 			<fieldset>
 				<div class="clearfix">
